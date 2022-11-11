@@ -1,0 +1,26 @@
+{
+  "name": "daggerbot-ts",
+  "version": "1.0.0",
+  "description": "TypeScript version of the original JavaScript-based bot for Official Daggerwin Discord.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS.git"
+  },
+  "author": "Toast",
+  "license": "ISC",
+  "os": [
+    "!darwin",
+    "win32",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "!arm",
+    "!mips",
+    "!ia32"
+  ],
+  "engines": {
+    "node": ">=17.0.0"
+  }
+}
