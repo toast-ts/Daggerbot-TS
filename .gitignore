@@ -2,5 +2,8 @@
 node_modules/
 package-lock.json
 .ncurc.json
+# TypeScript stuff
+dist/
+typings/
 # Bot stuff
-database/
+database/MPDB.dat
