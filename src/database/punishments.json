@@ -1,1 +1,98 @@
-{}
+[
+  {
+    "type": "kick",
+    "id": 1,
+    "member": "1009270415241252864",
+    "moderator": "141304507249197057",
+    "time": 1662289354828,
+    "reason": "failing to change inappropriate \"about me\" section on multiple occasions"
+  },
+  {
+    "type": "ban",
+    "id": 2,
+    "member": "991510617997443152",
+    "moderator": "190407856527376384",
+    "time": 1662485667322,
+    "reason": "compromised acc"
+  },
+  {
+    "type": "warn",
+    "id": 3,
+    "member": "598995859388104784",
+    "moderator": "532662366354276352",
+    "time": 1662900975329,
+    "reason": "being rude to a moderator"
+  },
+  {
+    "type": "ban",
+    "id": 4,
+    "member": "542134892327338035",
+    "moderator": "301350210926280704",
+    "time": 1663485351678,
+    "reason": "trying to post a discord link in multiple channels"
+  },
+  {
+    "type": "warn",
+    "id": 5,
+    "member": "870330666187907132",
+    "moderator": "141304507249197057",
+    "time": 1663594515726,
+    "reason": "inappropriate reactions"
+  },
+  {
+    "type": "ban",
+    "id": 6,
+    "member": "1030414094265761802",
+    "moderator": "141304507249197057",
+    "time": 1665779240168,
+    "reason": "cryptoscammer"
+  },
+  {
+    "type": "warn",
+    "id": 7,
+    "member": "934366726282416168",
+    "moderator": "593696856165449749",
+    "time": 1667146446817,
+    "reason": "Trying to put DC invite links everywhere (PG Server)"
+  },
+  {
+    "type": "kick",
+    "id": 8,
+    "member": "248226483967885312",
+    "moderator": "532662366354276352",
+    "time": 1667505431215,
+    "reason": "innapropiate pfp"
+  },
+  {
+    "type": "kick",
+    "id": 9,
+    "member": "872074877039947778",
+    "moderator": "301350210926280704",
+    "time": 1667505683756,
+    "reason": "inappropriate name and pfp"
+  },
+  {
+    "type": "ban",
+    "id": 10,
+    "member": "138377490132500480",
+    "moderator": "532662366354276352",
+    "time": 1668120578282,
+    "reason": "very innapropiate pfp"
+  },
+  {
+    "type": "kick",
+    "id": 11,
+    "member": "502208091002109953",
+    "moderator": "301350210926280704",
+    "time": 1668123798741,
+    "reason": "inappropriate status and about me"
+  },
+  {
+    "type": "kick",
+    "id": 12,
+    "member": "846431793715871749",
+    "moderator": "532662366354276352",
+    "time": 1668331244780,
+    "reason": "innapropiate profile picture"
+  }
+]
