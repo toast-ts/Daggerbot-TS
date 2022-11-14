@@ -1,5 +1,5 @@
 import Discord = require('discord.js');
-const TClient = require('./client');
+import { TClient } from './client';
 const client = new TClient;
 client.init();
 import fs = require('node:fs');
@@ -12,15 +12,16 @@ client.on('ready', async()=>{
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
     setInterval(()=>{
-        client.guilds.cache.get(client.config.mainServer.id).invites.fetch().then((invs: any[])=>{
-            invs.forEach(async(inv: { code: any; uses: any; inviter: { id: any; }; })=>{
-                client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviter.id})
+        const guild = client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild;
+        guild.invites.fetch().then((invs)=>{
+            invs.forEach(async(inv)=>{
+                client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId})
             })
         })
     }, 500000);
-    console.log(`${client.user.tag} has logged into Discord API and now ready for operation`)
-    console.log(client.config.botSwitches)
-    client.channels.resolve(client.config.mainServer.channels.bot_status).send(`${client.user.username} is active`);
+    console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
+    console.log(client.config.botSwitches);
+    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active`);
 
     // Event handler
     const eventFiles = fs.readdirSync('./events').filter(file=>file.endsWith('.js'));
@@ -32,16 +33,16 @@ client.on('ready', async()=>{
 
 // Handle errors
 process.on('unhandledRejection', async(error: Error)=>{
-    console.log(error)
-    client.channels.resolve(client.config.mainServer.channels.errors).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    console.log(error);
+    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 process.on('uncaughtException', async(error: Error)=>{
-    console.log(error)
-    client.channels.resolve(client.config.mainServer.channels.errors).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    console.log(error);
+    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 process.on('error', async(error: Error)=>{
-    console.log(error)
-    client.channels.resolve(client.config.mainServer.channels.errors).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    console.log(error);
+    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 
 // Command handler
