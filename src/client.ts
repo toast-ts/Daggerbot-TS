@@ -7,6 +7,16 @@ interface formatTimeOpt {
     longNames: boolean,
     commas: boolean
 }
+interface CommandInfoOpt {
+    insertNewline: boolean,
+    parts: string[], //idfk
+    titles: string[]
+}
+interface punOpt {
+    time?: string,
+    reason?: string;
+    interaction?: any
+}
 interface Punishment {
     id: number;
     type: string;
@@ -19,25 +29,33 @@ interface Punishment {
     cancels?: number;
     duration?: number;
 }
-interface CommandInfoOpt {
-    insertNewline: boolean,
-    parts: string[], //idfk
-    titles: string[]
+interface punData {
+    id: number;
+    type: string;
+    member: string;
+    moderator: string;
+    expired?: boolean;
+    time?: number;
+    reason: string;
+    endTime?: number;
+    cancels?: number;
+    duration?: number;
 }
 import Discord, { Client, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import { Database } from './database';
 import timeNames from './timeNames';
 export class TClient extends Client {
-    invites: any;
-    commands: any;
+    invites: Map<any, any>;
+    commands: Discord.Collection<string, any>;
+    registry: Array<Discord.ApplicationCommandDataResolvable>;
     config: any;
     tokens: any;
     categoryNames: any;
     commandPages: any;
     helpDefaultOptions: any;
     YTCache: any;
-    embed: any;
+    embed: typeof Discord.EmbedBuilder;
     collection: any;
     messageCollector: any;
     attachmentBuilder: any;
@@ -45,12 +63,11 @@ export class TClient extends Client {
     xjs: any;
     axios: any;
     memberCount_LastGuildFetchTimestamp: any;
-    userLevels: Database;
-    punishments: Database;
-    bonkCount: Database;
-    bannedWords: Database;
+    userLevels: userLevels;
+    punishments: punishments;
+    bonkCount: bonkCount;
+    bannedWords: bannedWords;
     repeatedMessages: any;
-    setMaxListeners: any;
 
     constructor(){
         super({
@@ -69,6 +86,7 @@ export class TClient extends Client {
         })
         this.invites = new Map();
         this.commands = new Discord.Collection();
+        this.registry = [];
         this.config = require('./config.json');
         this.tokens = require('./tokens.json');
         this.categoryNames;
@@ -89,10 +107,10 @@ export class TClient extends Client {
         this.xjs = import('xml-js');
         this.axios = import('axios');
         this.memberCount_LastGuildFetchTimestamp = 0;
-        this.userLevels = new Database('./database/userLevels.json', 'object');
-        this.bonkCount = new Database('./database/bonkCount.json', 'object');
-        this.punishments = new Database('./database/punishments.json', 'array');
-        this.bannedWords = new Database('./database/bannedWords.json', 'array');
+        this.userLevels(this);
+        this.bonkCount(this);
+        this.punishments(this);
+        this.bannedWords(this);
         this.repeatedMessages = {};
         this.setMaxListeners(80)
     }
@@ -102,6 +120,12 @@ export class TClient extends Client {
         this.bannedWords.initLoad();
         this.bonkCount.initLoad();
         this.userLevels.initLoad().intervalSave(15000).disableSaveNotifs();
+        const commandFiles = fs.readdirSync('./commands/slash').filter(file=>file.endsWith('.ts'));
+        for (const file of commandFiles){
+            const command = require(`./commands/slash/${file}`);
+            this.commands.set(command.data.name, command)
+            this.registry.push(command.data.toJSON())
+        }
     }
     commandInfo(client: TClient, command: any, options?: CommandInfoOpt){
         let text = ':small_orange_diamond: ';
@@ -367,5 +391,74 @@ export class TClient extends Client {
             this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text
             (this.channels.resolve(DCChannelID) as Discord.TextChannel).send(`**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`)
         }
+    }
+}
+
+
+//class
+class bannedWords extends Database {
+    client: TClient;
+    constructor(client: TClient){
+        super('./database/bannedWords.json', 'array');
+        this.client = client;
+    }
+}
+class punishments extends Database {
+    client: TClient;
+    constructor(client: TClient){
+        super('./database/punishments.json', 'array');
+        this.client = client;
+    }
+    createId(){
+        return Math.max(...this.client.punishments._content.map((x:punData)=>x.id), 0)+1;
+    }
+    async addPunishment(type: string, member: any, options: punOpt, moderator: string){
+        const now = Date.now();
+        const {time, reason, interaction}=options;
+        const ms = require('ms');
+        let timeInMillis;
+        if(type !== 'mute'){
+            timeInMillis = time ? ms(time) : null;
+        } else {
+            timeInMillis = time ? ms(time) : 2419200000;
+        }
+        switch (type) {
+            case 'ban':
+                const banData: punData={type, id: this.createId(), member: member.id, moderator, time: now};
+                const dm1: Discord.Message = await member.send(`You've been banned from ${interaction.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'} for reason \`${reason || 'Unspecified'}\` (Case #${banData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
+                const banResult = await interaction.guild.bans.create(member.id, {reason: `${reason || 'Unspecified'} | Case #${banData.id}`}).catch((err:Error)=>err.message);
+            case 'softban':
+            case 'kick':
+            case 'warn':
+            case 'mute':
+        }
+    }
+}
+class userLevels extends Database {
+    client: TClient;
+    constructor(client: TClient){
+        super('./database/userLevels.json', 'object');
+        this.client = client
+    }
+    incrementUser(userid: string){
+        const data = this._content[userid];
+
+        if (data) {
+            this._content[userid].messages++;
+            if (data.messages >= this.algorithm(data.level+2)){
+                while (data.messages > this.algorithm(data.level+1)){
+                    this._content[userid].level++;
+                    console.log(`${userid} EXTENDED LEVELUP ${this._content[userid].level}`)
+                }
+            } else if (data.messages >= this.algorithm(data.level+1)){
+                this._content[userid].level++;
+                (this.client.channels.resolve(this.client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({content: `<@${userid}> has reached level **${data.level}**. GG!`})
+            }
+        } else {
+            this._content[userid] = {messages: 1, level: 0};
+        }
+    }
+    algorithm(level: number){
+        return level*level*15;
     }
 }
