@@ -27,7 +27,7 @@ interface CommandInfoOpt {
 import Discord, { Client, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import { Database } from './database';
-import timeNames from './timeNames.js';
+import timeNames from './timeNames';
 export class TClient extends Client {
     invites: any;
     commands: any;

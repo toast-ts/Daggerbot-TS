@@ -1,7 +1,7 @@
 import { TClient } from "src/client";
 import Discord from 'discord.js';
 export default {
-    async run(client: TClient, message: Discord.Message, args: any){
+    async run(client: TClient, message: Discord.Message){
         const msg = await message.reply(`Pinging...`)
         const time = msg.createdTimestamp - message.createdTimestamp;
         msg.edit(`Websocket: \`${client.ws.ping}\`ms\nBot: \`${time}\``)
