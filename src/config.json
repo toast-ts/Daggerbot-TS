@@ -7,6 +7,7 @@
     "embedColorBCA": "#ff69b4",
     "LRSstart": 1661236321433,
     "botSwitches": {
+        "registerCommands": false,
         "commands": false,
         "logs": false,
         "automod": false,
@@ -47,6 +48,7 @@
             "console": "904192878140608563",
             "errors": "904192878140608563",
             "bot_status": "904192878140608563",
+            "thismeanswar": "904192878140608563",
             "logs": "904192878140608563",
             "welcome": "904192878140608563",
             "botcommands": "904192878140608563"

@@ -11,6 +11,7 @@ client.on('ready', async()=>{
         client.user.setPresence({activities: [{ name: 'Running under TS', type: 0 }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
+    if (client.config.botSwitches.registerCommands) (client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild).commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
     setInterval(()=>{
         const guild = client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild;
         guild.invites.fetch().then((invs)=>{
@@ -51,7 +52,6 @@ for (const file of commandFiles){
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command)
 }
-// Slash command handler todo
 
 // Daggerwin MP loop
 setInterval(async()=>{
