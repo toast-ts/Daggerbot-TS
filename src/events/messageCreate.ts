@@ -1,35 +1,13 @@
-import Discord, { Channel, ChannelType, TextChannel } from 'discord.js';
+import Discord, { ChannelType } from 'discord.js';
 import { TClient } from '../client';
-
 export default {
     name: 'messageCreate',
-    execute: async (client: TClient, message: Discord.Message)=>{
+    execute: async(client:TClient, message:Discord.Message)=>{
         if (!client.config.botSwitches.commands && !client.config.eval.whitelist.includes(message.author.id)) return
             if (message.author.bot) return;
             if (message.channel.type === ChannelType.DM) return;
             const msgarr = message.content.toLowerCase().split(' ');
             let automodded: any;
-
-            // Command handler
-            if (message.content.startsWith(client.config.prefix)){
-                const args = message.content.slice(client.config.prefix.length).replace(/\n/g, " ").split(" ");
-                const commandFile = client.commands.find((x: any)=>x.name === args[0].toLowerCase() || x.alias?.includes(args[0].toLowerCase()));
-                if (commandFile){
-                    console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ${message.author.tag} used ${client.config.prefix}${commandFile.name} in #${message.channelId}`);
-                    // do the cmd
-                    try {
-                        commandFile.run(client, message, args);
-                        commandFile.uses ? commandFile.uses++ : commandFile.uses = 1;
-                        return
-                    } catch (error){
-                        console.log(error)
-                        client.channels.fetch(client.config.mainServer.channels.errors).then((channel: TextChannel)=>{
-                            channel.send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
-                        })
-                        return message.reply('An error occured while executing that command.')
-                    }
-                }
-            }
 
             function onTimeout(){
                 delete client.repeatedMessages[message.author.id]
@@ -59,7 +37,7 @@ export default {
 
                     // a spammed message is one that has been sent atleast 4 times in the last threshold milliseconds
                     const spammedMessage = client.repeatedMessages[message.author.id]?.find((x:any)=>{
-                        return client.repeatedMessages[message.author.id].filter((y:any)=>x.cont === y.cont).size >= 4;
+                        return client.repeatedMessages[message.author.id].size >= 4;
                     });
 
                     // if a spammed message exists;
@@ -90,10 +68,11 @@ export default {
                 '742324777934520350', // #discord-moderators
             ]
             if (message.content.toLowerCase().includes('tenor.com/view') || message.content.toLowerCase().includes('giphy.com/gifs/') || message.content.toLowerCase().includes('giphy.com/media/') && bannedChannels.includes(message.channelId)) {
-                message.reply('Gifs are disabled in this channel.').then((msg: any)=>message.delete())
+                message.reply('Gifs are not allowed in this channel.').then((msg: any)=>message.delete())
             }
 
             // Autoresponse:tm:
+        if (!client.config.botSwitches.autores && !automodded) {
             if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member) && message.type != 19){
                 message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>')
             }
@@ -128,5 +107,6 @@ export default {
             if (message.content.toLowerCase().startsWith('night all') || message.content.toLowerCase().startsWith('night everyone')){
                 message.reply(`Night ${message.author.username}`)
             }
+        }
     }
 }

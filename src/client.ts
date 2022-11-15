@@ -1,46 +1,3 @@
-interface createTableOpt {
-    columnAlign: any,
-    columnSeparator: any,
-    columnEmptyChar: any
-}
-interface formatTimeOpt {
-    longNames: boolean,
-    commas: boolean
-}
-interface CommandInfoOpt {
-    insertNewline: boolean,
-    parts: string[], //idfk
-    titles: string[]
-}
-interface punOpt {
-    time?: string,
-    reason?: string;
-    interaction?: any
-}
-interface Punishment {
-    id: number;
-    type: string;
-    member: string;
-    moderator: string;
-    expired?: boolean;
-    time?: number;
-    reason: string;
-    endTime?: number;
-    cancels?: number;
-    duration?: number;
-}
-interface punData {
-    id: number;
-    type: string;
-    member: string;
-    moderator: string;
-    expired?: boolean;
-    time?: number;
-    reason: string;
-    endTime?: number;
-    cancels?: number;
-    duration?: number;
-}
 import Discord, { Client, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import { Database } from './database';
@@ -51,9 +8,6 @@ export class TClient extends Client {
     registry: Array<Discord.ApplicationCommandDataResolvable>;
     config: any;
     tokens: any;
-    categoryNames: any;
-    commandPages: any;
-    helpDefaultOptions: any;
     YTCache: any;
     embed: typeof Discord.EmbedBuilder;
     collection: any;
@@ -62,6 +16,7 @@ export class TClient extends Client {
     moment: any;
     xjs: any;
     axios: any;
+    ms: any;
     memberCount_LastGuildFetchTimestamp: any;
     userLevels: userLevels;
     punishments: punishments;
@@ -89,12 +44,6 @@ export class TClient extends Client {
         this.registry = [];
         this.config = require('./config.json');
         this.tokens = require('./tokens.json');
-        this.categoryNames;
-        this.commandPages = [];
-        this.helpDefaultOptions = {
-            parts: ['name', 'usage', 'shortDescription', 'alias'],
-            titles: ['alias']
-        }
         this.YTCache = {
             'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
             'UCguI73--UraJpso4NizXNzA': undefined // Machinery Restorer
@@ -106,11 +55,12 @@ export class TClient extends Client {
         this.moment = import('moment');
         this.xjs = import('xml-js');
         this.axios = import('axios');
+        this.ms = import('ms');
         this.memberCount_LastGuildFetchTimestamp = 0;
-        this.userLevels(this);
-        this.bonkCount(this);
-        this.punishments(this);
-        this.bannedWords(this);
+        this.userLevels = new userLevels(this);
+        this.bonkCount = new bonkCount(this);
+        this.punishments = new punishments(this);
+        this.bannedWords = new bannedWords(this);
         this.repeatedMessages = {};
         this.setMaxListeners(80)
     }
@@ -127,65 +77,6 @@ export class TClient extends Client {
             this.registry.push(command.data.toJSON())
         }
     }
-    commandInfo(client: TClient, command: any, options?: CommandInfoOpt){
-        let text = ':small_orange_diamond: ';
-        if (!options.titles) options.titles = [];
-        function e(){
-            text += '\n';
-            if (options.insertNewline){
-                text += '\n';
-            } return;
-        }
-        if (options.parts.includes('name') && command.name){
-            if (options.titles.includes('name') && options.titles.includes('usage')){
-                text += 'Name & Usage: ';
-            } else if (options.titles.includes('name')){
-                text += 'Name: ';
-            }
-            text += '`' + client.config.prefix + command.name;
-            if (options.parts.includes('usage') && command.usage){
-                text += ' ' + command.usage.map((x:string)=>x.startsWith('?') ? '?['+x.slice(1)+']' : '['+x+']').join(' ');
-            }
-            text += '`';
-            e();
-        } else if (options.parts.includes('usage') && command.usage){
-            if (options.titles.includes('usage')) text += 'Usage: ';
-            text += '`'+command.usage.map((x:string)=>x.startsWith('?') ? '?['+x+']' : '['+x+']').join(' ') + '`';
-            e();
-        }
-        if (options.parts.includes('description') && command.description){
-            if (options.titles.includes('description')) text += 'Description: ';
-            text += command.description;
-            e();
-        }
-        if (options.parts.includes('shortDescription')){
-            if (command.shortDescription){
-                if (options.titles.includes('shortDescription')) text += 'Shorter description: ';
-                text += command.shortDescription;
-                e();
-            } else if (!options.titles.includes('shortDescription') && command.description){
-                text += command.description;
-                e();
-            }
-        }
-        if (options.parts.includes('alias') && command.alias){
-            if (options.titles.includes('alias')) text += 'Aliases: ';
-            text += command.alias.map((x:any)=>'`'+x+'`').join(', ');
-            e();
-        }
-        if (options.parts.includes('category') && command.category){
-            if (options.titles.includes('category')) text += 'Category: ';
-            text += command.category;
-            e();
-        }
-        if (options.parts.includes('autores') && command.autores){
-            if (options.titles.includes('autores')) text += 'AutoResponse:tm: Requirements: ';
-            text += '`['+command.autores.join('] [')+']`';
-            e();
-        }
-        e();
-        return text;
-    }
     formatPunishmentType(punishment: Punishment, client: TClient, cancels: Punishment){
         if (punishment.type == 'removeOtherPunishment'){
             cancels ||= this.punishments._content.find((x: Punishment)=>x.id === punishment.cancels)
@@ -194,7 +85,7 @@ export class TClient extends Client {
     }
     formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
         let achievedAccuracy = 0;
-        let text = '';
+        let text:any = '';
         const { longNames, commas } = options
         for (const timeName of timeNames){
             if (achievedAccuracy < accuracy){
@@ -219,6 +110,9 @@ export class TClient extends Client {
     }
     isStaff(guildMember: Discord.GuildMember){
         return this.config.mainServer.staffRoles.map((x: string)=>this.config.mainServer.roles[x]).some((x: string)=>guildMember.roles.cache.has(x))
+    }
+    youNeedRole(interaction: Discord.CommandInteraction, role:string){
+        return interaction.reply(`This command is restricted to <@&${this.config.mainServer.roles[role]}>`)
     }
     alignText(text: string, length: number, alignment: string, emptyChar = ' '){
         if (alignment == 'right'){
@@ -272,7 +166,7 @@ export class TClient extends Client {
                 {name: '🔹 User', value: `<@${data.member}> \`${data.member}\``, inline: true},
                 {name: '🔹 Moderator', value: `<@${data.moderator}> \`${data.moderator}\``, inline: true},
                 {name: '\u200b', value: `\u200b`, inline: true},
-                {name: '🔹 Reason', value: `\`${data.reason || 'Unspecified'}\``, inline: true},
+                {name: '🔹 Reason', value: `\`${data.reason || 'Reason unspecified'}\``, inline: true},
             )
         if (data.duration) {
             embed.addFields(
@@ -280,106 +174,39 @@ export class TClient extends Client {
                 {name: '\u200b', value: '\u200b', inline: true}
             )
         }
-        if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} \`${cancels.reason}\``})
+        if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} \`${cancels.reason}\``});
         // send embed to log channel
         (client.channels.cache.get(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]})
     }
-    async punish(client: TClient, message: Discord.Message, args: string, type: string){
-        let member: any;
-        if (message.guildId !== client.config.mainServer.id) return message.channel.send('This command doesn\'t work in this server');
-        if (!message.member.roles.cache.has(client.config.mainServer.roles.dcmod)) return message.reply(`You need the <@&${client.config.mainServer.roles.dcmod}> role to use this command.`)
-        if (type == 'ban' && args[1]){
-            member = message.mentions.users?.first() || (await client.users.fetch(args[1]).catch(()=>undefined));
-        } else if (args[1]){
-            member = message.mentions.members?.first() || (await message.guild.members.fetch(args[1]).catch(()=>undefined));
-        }
-        let memberAsked = false;
-        if (!member){
-            memberAsked = true;
-            await message.channel.send(`Which member would you like to ${type}?\nSend another message with a mention or a user ID. (30s)`).then(async (x:any)=>{
-                const filter = m=>m.author.id == message.author.id;
-                member = await message.channel.awaitMessages({filter, time: 30000, errors: ['time'], max: 1}).then(async (z:any)=>{
-                    if (z.first().content.startsWith(client.config.prefix)) return 'timedout';
-                    if (type == 'ban'){
-                        return z.first().mentions.users?.first() || (await client.users.fetch(z.first().content).catch(()=>undefined));
-                    } else {
-                        return z.first().mentions.members?.first() || (await message.guild.members.fetch(z.first().content).catch(()=>undefined))
-                    }
-                }).catch(async()=>{
-                    message.channel.send('Command cancelled after 30 seconds of inactivity.');
-                    return 'timedout';
-                });
-            })
-        }
-        if (member === 'timedout') return;
-        else if (!member) return message.channel.send('You failed to mention a member.');
-        let time;
-        let reason;
-        let col1; // idfk if this should be included here but just wanted to get rid of red underline.
+
+    async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
         let result: any;
-        if (args[2] && !memberAsked){
-            // if the first character of args 2 is a number, args 2 is the time. otherwise its the reason.
-            time = (args[2][0].match(/[0-9]/) && !['softban', 'kick', 'warn'].includes(type)) ? args[2] : undefined;
-            // if time is in args 2, reason starts at args 3. if no time was provided, reason starts at args 2
-            reason = args.slice(time ? 3 : 2).join(' '); // "Property 'join' does not exist on type 'string'." :linus: x99
+        if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod')
+        //if (type !== ('warn' || 'mute') && (interaction.member as Discord.GuildMember).roles.cache.has(client.config.mainServer.roles.idk)) return this.youNeedRole(interaction, 'dcmod');
+        const time = this.ms(interaction.options.getString('time'));
+        const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
+        if (type == 'ban'){
+            const user = interaction.options.getUser('member') as Discord.User;
+            if (interaction.user.id == user.id) return interaction.reply(`You cannot ${type} yourself!`);
+            result = await this.punishments.addPunishment(type, user, {time,reason,interaction}, interaction.user.id);
         } else {
-            if (!['softban', 'kick', 'warn'].includes(type)){
-                await message.channel.send(`How long do you want to ${type} this user for?\nSend another message with a time name, or 'forever' to ${type} this user forever. (30s)`);
-                const filter = m=>m.author.id === message.author.id;
-                col1 = await message.channel.awaitMessages({filter, time: 30000, errors: ['time'], max: 1}).then(collected=>{
-                    if (collected.first()?.content.startsWith(client.config.prefix)) return 'timedout';
-                    return collected.first()?.content.toLowerCase() === 'forever' ? 'inf' : collected.first()?.content;
-                }).catch(()=>{
-                    message.channel.send('Command cancelled after 30 seconds of inactivity.');
-                    return 'timedout';
-                });
-                if (time === 'timedout') return;
-            }
-            await message.channel.send(`Send another message with a reason for this ${type}.\nSend another message with "-" to leave the reason unspecified. (30s)`);
-            const filter = m=>m.author.id === message.author.id;
-            reason = await message.channel.awaitMessages({filter, time: 30000, errors: ['time'], max: 1}).then(collected=>{
-                if (collected.first()?.content.startsWith(client.config)) return 0;
-                return collected.first()?.content == '-' ? undefined : collected.first()?.content;
-            }).catch(()=>{
-                message.channel.send('Command cancelled after 30 seconds of inactivity.');
-                return 0;
-            })
-            if (reason === 0) return;
+            const member = interaction.options.getMember('member') as Discord.GuildMember;
+            if (interaction.user.id == member.id) return interaction.reply(`You cannot ${type} yourself!`);
+            if (this.isStaff(member)) return interaction.reply(`You cannot ${type} other staff!`);
+            result = await this.punishments.addPunishment(type, member, {time,reason,interaction}, interaction.user.id);
         }
-        const punishmentResult = await client.punishments.addPunishment(type, member, {time, reason}, message.author.id, message);
-        (typeof result == 'string' ? message.reply(punishmentResult) : message.reply({embeds: [punishmentResult]}))
+        (typeof result == 'string' ? interaction.reply({content: `${result}`}) : interaction.reply({embeds: [result]}))
     };
-    async unPunish(client: TClient, message: Discord.Message, args: string){
-        if (message.guildId !== client.config.mainServer.id) return message.channel.send('This command doesn\'t work in this server');
-        if (!message.member.roles.cache.has(client.config.mainServer.roles.dcmod)) return message.reply(`You need the <@&${client.config.mainServer.roles.dcmod}> role to use this command.`)
-        let punishment;
-        if (args[1]) punishment = client.punishments._content.find((x:any)=>x.id == args[1])
-        if (!punishment){
-            await message.channel.send(`Which punishment would you like to remove?\nSend another message with a Case # (30s)`).then(async (x:any)=>{
-                const filter = m=>m.author.id === message.author.id;
-                punishment = await message.channel.awaitMessages({filter, time: 30000, errors: ['time'], max: 1}).then(async (z:any)=>{
-                    return client.punishments._content.find((x:any)=>x.id == z.first()?.content);
-                }).catch(async()=>{
-                    message.channel.send('Command cancelled after 30 seconds of inactivity.');
-                    return 'timedout';
-                });
-            })
-        }
-        if (punishment === 'timedout') return;
-        else if (!punishment) return message.channel.send('You failed to mention a Case #');
-        //if (punishment.type !== 'warn' && message.member.roles.cache.has(client.config.mainServer.roles.trialmoderator)) return message.channel.send('Trial moderators can only remove warnings.');
-        let reason;
-        if (args[2]){
-            reason = args.slice(2).join(' '); // "Property 'join' does not exist on type 'string'." :linus: x50
-        }else{
-            await message.channel.send(`Send another message with a reason for this ${punishment.type} removal. (30s)\n*Send \`-\` to leave the reason unspecified.*`);
-            const filter = m=>m.author.id === message.author.id;
-            reason = await message.channel.awaitMessages({filter, time: 30000, errors: ['time'], max: 1}).then(collected=>collected.first()?.content === '-' ? undefined : collected.first()?.content).catch(()=>0);
-            if (reason === 0) return message.channel.send('Invalid reason.');
-        }
-        const unpunishResult = await client.punishments.removePunishment(punishment.id, message.author.id, reason);
-        message.channel.send(unpunishResult);
+    async unPunish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod');
+        const punishment = this.punishments._content.find((x:Punishment)=>x.id === interaction.options.getInteger('case_id'));
+        if (!punishment) return interaction.reply({content: 'Invalid Case #', ephemeral: true});
+        //if (type !== ('warn' || 'mute') && (interaction.member as Discord.GuildMember).roles.cache.has(client.config.mainServer.roles.idk)) return this.youNeedRole(interaction, 'dcmod');
+        const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
+        const unpunishResult = await this.punishments.removePunishment(punishment.id, interaction.user.id, reason);
+        interaction.reply(unpunishResult)
     }
+    
     async YTLoop(YTChannelID: string, YTChannelName: string, DCChannelID: string){
         const Data = this.xjs.xml2js((await this.axios.get(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {timeout: 5000})), {compact: true, spaces: 2}).catch(()=>{return null});
         if (!Data) return;
@@ -410,13 +237,13 @@ class punishments extends Database {
         this.client = client;
     }
     createId(){
-        return Math.max(...this.client.punishments._content.map((x:punData)=>x.id), 0)+1;
+        return Math.max(...this.client.punishments._content.map((x:Punishment)=>x.id), 0)+1;
     }
     async addPunishment(type: string, member: any, options: punOpt, moderator: string){
         const now = Date.now();
         const {time, reason, interaction}=options;
         const ms = require('ms');
-        let timeInMillis;
+        let timeInMillis: number;
         if(type !== 'mute'){
             timeInMillis = time ? ms(time) : null;
         } else {
@@ -424,15 +251,40 @@ class punishments extends Database {
         }
         switch (type) {
             case 'ban':
-                const banData: punData={type, id: this.createId(), member: member.id, moderator, time: now};
-                const dm1: Discord.Message = await member.send(`You've been banned from ${interaction.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'} for reason \`${reason || 'Unspecified'}\` (Case #${banData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
-                const banResult = await interaction.guild.bans.create(member.id, {reason: `${reason || 'Unspecified'} | Case #${banData.id}`}).catch((err:Error)=>err.message);
+                const banData: Punishment={type, id: this.createId(), member: member.id, moderator, time: now};
+                const dm1: Discord.Message = await member.send(`You've been banned from ${interaction.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${banData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
+                const banResult = await interaction.guild.bans.create(member.id, {reason: `${reason || 'Reason unspecified'} | Case #${banData.id}`}).catch((err:Error)=>err.message);
+                if (typeof banResult === 'string'){
+                    dm1.delete()
+                    return `Ban was unsuccessful: ${banResult}`
+                } else {
+                    if (timeInMillis){
+                        banData.endTime = now + timeInMillis;
+                        banData.duration = timeInMillis
+                    }
+                    if (reason) banData.reason = reason;
+                    this.client.makeModlogEntry(banData, this.client);
+                    this.addData(banData).forceSave();
+                    return new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${banData.id}: Ban`).setDescription(`${member?.user?.tag ?? member?.tag}\n<@${member.id}>\n(\`${member.id}\`)`).addFields(
+                        {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``},
+                        {name: 'Duration', value: `${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'}`}
+                    )
+                }
             case 'softban':
+                const guild = member.guild;
+                const softbanData: Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
+                const dm2 = Discord.Message = await member.send(`You've been softbanned from ${member.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${softbanData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
+                const softbanResult = await member.ban({deleteMessageDays: 3, reason: `${reason || 'Reason unspecified'} | Case #${softbanData.id}`}).catch((err:Error)=>err.message);
+                if (typeof softbanResult === 'string') {
+                    dm2.delete();
+                    return `Softban was unsuccessful: ${softbanResult}`;
+                }
             case 'kick':
             case 'warn':
             case 'mute':
         }
     }
+    async removePunishment(caseId:number, moderator:any, reason:string):Promise<any>{}
 }
 class userLevels extends Database {
     client: TClient;
@@ -441,24 +293,44 @@ class userLevels extends Database {
         this.client = client
     }
     incrementUser(userid: string){
-        const data = this._content[userid];
+        const data = this._content[userid];// User's data. Integer for old format, object for new format.
 
-        if (data) {
-            this._content[userid].messages++;
-            if (data.messages >= this.algorithm(data.level+2)){
+        if (typeof data == 'number'){// If user's data is an integer, convert it into object for new format.
+            this._content[userid] = {messages: data, level: 0};
+        }
+
+        if (data) {// If user exists on file...
+            this._content[userid].messages++;// Increment their message count
+            if (data.messages >= this.algorithm(data.level+2)){// Quietly level up users who can surpass more than 2 levels at once, usually due to manually updating their message count
                 while (data.messages > this.algorithm(data.level+1)){
                     this._content[userid].level++;
                     console.log(`${userid} EXTENDED LEVELUP ${this._content[userid].level}`)
                 }
-            } else if (data.messages >= this.algorithm(data.level+1)){
-                this._content[userid].level++;
+            } else if (data.messages >= this.algorithm(data.level+1)){// If user's message count meets/exceeds message requirement for next level...
+                this._content[userid].level++;// Level them up.
                 (this.client.channels.resolve(this.client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({content: `<@${userid}> has reached level **${data.level}**. GG!`})
             }
-        } else {
+        } else {// If user doesn't exist on file, create an object for it.
             this._content[userid] = {messages: 1, level: 0};
         }
     }
-    algorithm(level: number){
+    algorithm(level: number){// Algorithm for determining levels. If adjusting, recommended to only change the integer at the end of equation.
         return level*level*15;
+    }
+}
+class bonkCount extends Database {
+    client: TClient;
+    constructor(client: TClient){
+        super('./database/bonkCount.json', 'object')
+        this.client = client
+    }
+    _incrementUser(userid: string){
+        const amount = this._content[userid];
+        if(amount) this._content[userid]++;
+        else this._content[userid] = 1;
+        return this;
+    }
+    getUser(userid: string){
+        return this._content[userid] || 0;
     }
 }
