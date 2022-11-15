@@ -1,5 +1,4 @@
 {
-    "prefix": ".",
     "embedColor": "#0052cf",
     "embedColorGreen": "#57f287",
     "embedColorYellow": "#ffea00",
@@ -11,7 +10,8 @@
         "commands": false,
         "logs": false,
         "automod": false,
-        "mpstats": false
+        "mpstats": false,
+        "autores": false
     },
     "eval": {
         "allowed": true,

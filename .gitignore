@@ -4,6 +4,5 @@ package-lock.json
 .ncurc.json
 # TypeScript stuff
 dist/
-typings/
 # Bot stuff
 database/MPDB.dat
