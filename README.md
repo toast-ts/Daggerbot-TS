@@ -1,5 +1,5 @@
 # Daggerbot-TS
-Original JavaScript Daggerbot from [here](https://github.com/SpaceManBuzz/DaggerBot-) converted to TypeScript.
+TypeScript-based Daggerbot converted from JavaScript at [SpaceManBuzz/DaggerBot-](https://github.com/SpaceManBuzz/DaggerBot-)
 
 ### Todo list:
 - [ ] Development
