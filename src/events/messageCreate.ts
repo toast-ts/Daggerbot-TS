@@ -66,6 +66,7 @@ export default {
             const bannedChannels = [
                 '516344221452599306', // #mp-moderators
                 '742324777934520350', // #discord-moderators
+                '904192878140608563'
             ]
             if (message.content.toLowerCase().includes('tenor.com/view') || message.content.toLowerCase().includes('giphy.com/gifs/') || message.content.toLowerCase().includes('giphy.com/media/') && bannedChannels.includes(message.channelId)) {
                 message.reply('Gifs are not allowed in this channel.').then((msg: any)=>message.delete())
@@ -95,17 +96,20 @@ export default {
                 message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png')
             }
             if (message.content.toLowerCase().includes('nawdic') && (message.content.toLowerCase().includes('break') || message.content.toLowerCase().includes('broke') || message.content.toLowerCase().includes('broken'))){
-                const embed = new client.embed().setTitle('*Nawdic done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)
+                const embed = new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)
                 message.reply({embeds: [embed]})
             }
             if (message.content.toLowerCase().startsWith('good morning') || message.content.toLowerCase().startsWith('morning all') || message.content.toLowerCase().startsWith('morning everyone')){
-                message.reply(`Good morning ${message.author.username}!`)
+                message.reply(`Good morning **${message.member.displayName}**!`)
             }
-            if (message.content.toLowerCase().startsWith('good afternoon') || message.content.toLowerCase().startsWith('afternoon all') || message.content.toLowerCase().startsWith('good evening') || message.content.toLowerCase().startsWith('evening all')){
-                message.reply(`Good afternoon/evening ${message.author.username}!`)
+            if (message.content.toLowerCase().startsWith('good afternoon') || message.content.toLowerCase().startsWith('afternoon all')){
+                message.reply(`Afternoon **${message.member.displayName}**!`)
+            }
+            if (message.content.toLowerCase().startsWith('good evening') || message.content.toLowerCase().startsWith('evening all')){
+                message.reply(`Good evening **${message.member.displayName}**!`)
             }
             if (message.content.toLowerCase().startsWith('night all') || message.content.toLowerCase().startsWith('night everyone')){
-                message.reply(`Night ${message.author.username}`)
+                message.reply(`Night **${message.member.displayName}**`)
             }
         }
     }

@@ -1,18 +1,22 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "checkJs": true,
-        "sourceMap": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "target": "ESNext",
-        "module": "CommonJS",
-        "baseUrl": "./",
-        "rootDir": "src/",
-        "outDir": "dist/",
-        "moduleResolution": "node",
-        "typeRoots": [ "node_modules/@types" ],
+    "ts-node": {
+        "transpileOnly": true,
+        "compilerOptions": {
+            "esModuleInterop": true,
+            "resolveJsonModule": true,
+            "emitDecoratorMetadata": true,
+            "experimentalDecorators": true,
+            "target": "ESNext",
+            "module": "NodeNext",
+            "baseUrl": "./",
+            "rootDir": "src/",
+            "outDir": "dist/",
+            "moduleResolution": "Node",
+            "declarationDir": "src/typings",
+            "typeRoots": [ "node_modules/@types", "src/typings" ],
+        },
+
     },
-    "include": [ "./**/*.ts" ],
+    "include": [ "node_modules/@types", "src/**/*" ],
     "exclude": [ "dist", "node_modules" ],
 }

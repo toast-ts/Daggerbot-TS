@@ -1,10 +1,10 @@
-import Discord from 'discord.js';
+import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 import { exec } from 'node:child_process';
 export default {
-    async run(client: TClient, message: Discord.Message, args: any){
-        if (!client.config.eval.whitelist.includes(message.author.id)) return message.reply('You\'re not allowed to use this command')
-        const msg = await message.reply({content: 'Pulling...', fetchReply: true})
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        if (!client.config.eval.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
+        const msg = await interaction.reply({content: 'Pulling...', fetchReply: true})
         exec(
             'git pull',(err:Error,stdout)=>{
                 if (err){
@@ -17,7 +17,7 @@ export default {
             }
         )
     },
-    name: 'update',
-    description: 'Pull from repository and restart.',
-    category: 'bot'
+    data: new SlashCommandBuilder()
+        .setName('update')
+        .setDescription('Pull from repository and restart')
 }

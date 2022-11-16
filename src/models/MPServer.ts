@@ -1,15 +1,18 @@
-import {Sequelize, DataTypes} from 'sequelize';
+import {Sequelize, DataTypes, Model, InferAttributes, InferCreationAttributes} from 'sequelize';
 var db = new Sequelize('database', 'daggerbot', 'toastsus', {
     host: 'localhost',
     dialect: 'sqlite',
     logging: false,
-    storage: '../database/MPDB.dat'
+    storage: 'src/database/MPDB.dat'
 })
-var ServerDB = db.define('urls', {
+class MPDB extends Model<InferAttributes<MPDB>, InferCreationAttributes<MPDB>>{
+    declare serverId: string | null;
+    declare ip: string | null;
+    declare code: string | null;
+}
+MPDB.init({
     serverId: {
         type: DataTypes.STRING,
-        defaultValue: 'Missing ID',
-        allowNull: false,
         unique: true
     },
     ip: {
@@ -22,5 +25,5 @@ var ServerDB = db.define('urls', {
         defaultValue: 'Missing Code',
         allowNull: false
     }
-}, {timestamps: false})
-export default ServerDB;
+}, { sequelize: db, modelName: 'urls', timestamps: false });
+export default MPDB

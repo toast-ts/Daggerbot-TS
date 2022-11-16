@@ -37,7 +37,7 @@ export class TClient extends Client {
                 Partials.Reaction,
                 Partials.Message
             ],
-            allowedMentions: { repliedUser: false, parse: ['roles', 'users'] }
+            allowedMentions: { users: [], roles: [] } // idk if it would work but requires testing...
         })
         this.invites = new Map();
         this.commands = new Discord.Collection();
@@ -52,10 +52,10 @@ export class TClient extends Client {
         this.collection = Discord.Collection;
         this.messageCollector = Discord.MessageCollector;
         this.attachmentBuilder = Discord.AttachmentBuilder;
-        this.moment = import('moment');
-        this.xjs = import('xml-js');
-        this.axios = import('axios');
-        this.ms = import('ms');
+        this.moment = require('moment');
+        this.xjs = require('xml-js');
+        this.axios = require('axios');
+        this.ms = require('ms');
         this.memberCount_LastGuildFetchTimestamp = 0;
         this.userLevels = new userLevels(this);
         this.bonkCount = new bonkCount(this);
@@ -70,11 +70,11 @@ export class TClient extends Client {
         this.bannedWords.initLoad();
         this.bonkCount.initLoad();
         this.userLevels.initLoad().intervalSave(15000).disableSaveNotifs();
-        const commandFiles = fs.readdirSync('./commands/slash').filter(file=>file.endsWith('.ts'));
+        const commandFiles = fs.readdirSync('src/commands').filter(file=>file.endsWith('.ts'));
         for (const file of commandFiles){
-            const command = require(`./commands/slash/${file}`);
-            this.commands.set(command.data.name, command)
-            this.registry.push(command.data.toJSON())
+            const command = require(`./commands/${file}`);
+            this.commands.set(command.default.data.name, command)
+            this.registry.push(command.default.data.toJSON())
         }
     }
     formatPunishmentType(punishment: Punishment, client: TClient, cancels: Punishment){
@@ -182,7 +182,7 @@ export class TClient extends Client {
     async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
         let result: any;
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod')
-        //if (type !== ('warn' || 'mute') && (interaction.member as Discord.GuildMember).roles.cache.has(client.config.mainServer.roles.idk)) return this.youNeedRole(interaction, 'dcmod');
+        if (type !== ('warn' || 'mute') && (interaction.member as Discord.GuildMember).roles.cache.has(client.config.mainServer.roles.idk)) return this.youNeedRole(interaction, 'dcmod');
         const time = this.ms(interaction.options.getString('time'));
         const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
         if (type == 'ban'){
@@ -226,14 +226,14 @@ export class TClient extends Client {
 class bannedWords extends Database {
     client: TClient;
     constructor(client: TClient){
-        super('./database/bannedWords.json', 'array');
+        super('src/database/bannedWords.json', 'array');
         this.client = client;
     }
 }
 class punishments extends Database {
     client: TClient;
     constructor(client: TClient){
-        super('./database/punishments.json', 'array');
+        super('src/database/punishments.json', 'array');
         this.client = client;
     }
     createId(){
@@ -289,7 +289,7 @@ class punishments extends Database {
 class userLevels extends Database {
     client: TClient;
     constructor(client: TClient){
-        super('./database/userLevels.json', 'object');
+        super('src/database/userLevels.json', 'object');
         this.client = client
     }
     incrementUser(userid: string){
@@ -321,7 +321,7 @@ class userLevels extends Database {
 class bonkCount extends Database {
     client: TClient;
     constructor(client: TClient){
-        super('./database/bonkCount.json', 'object')
+        super('src/database/bonkCount.json', 'object')
         this.client = client
     }
     _incrementUser(userid: string){

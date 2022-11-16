@@ -5,4 +5,4 @@ package-lock.json
 # TypeScript stuff
 dist/
 # Bot stuff
-database/MPDB.dat
+src/database/MPDB.dat

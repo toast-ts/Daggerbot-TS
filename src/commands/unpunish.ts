@@ -1,12 +1,18 @@
-import Discord from 'discord.js';
-import { TClient  } from 'src/client';
+import Discord,{SlashCommandBuilder} from 'discord.js';
+import { TClient } from 'src/client';
 export default {
-    async run(client: TClient, message: Discord.Message, args: any){
-        client.unPunish(client, message, args);
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        client.unPunish(client, interaction)
     },
-    name: 'unpunish',
-    description: 'Remove an active punishment from a user or an entry from their punishment history.',
-    usage: ['case id', '?reason'],
-    alias: ['unban', 'unmute', 'unwarn'],
-    category: 'moderation'
+    data: new SlashCommandBuilder()
+        .setName('unpunish')
+        .setDescription('Remove the active punishment from a member')
+        .addIntegerOption((opt)=>opt
+            .setName('case_id')
+            .setDescription('Case # of the punishment to be overwritten')
+            .setRequired(true))
+        .addStringOption((opt)=>opt
+            .setName('reason')
+            .setDescription('Reason for removing the punishment')
+            .setRequired(false))
 }
