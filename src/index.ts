@@ -1,14 +1,14 @@
-import Discord = require('discord.js');
+import Discord from 'discord.js';
 import { TClient } from './client';
 const client = new TClient;
 client.init();
-import fs = require('node:fs');
-import ServerDB from './models/MPServer';
+import fs from 'node:fs';
+import MPDB from './models/MPServer';
 
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e: { members: { fetch: () => any; }; })=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'Running under TS', type: 0 }], status: 'online'});
+        client.user.setPresence({activities: [{ name: 'TypeScript is pog', type: 0 }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
     if (client.config.botSwitches.registerCommands) (client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild).commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
@@ -22,13 +22,13 @@ client.on('ready', async()=>{
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
     console.log(client.config.botSwitches);
-    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active`);
+    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
-    const eventFiles = fs.readdirSync('./events').filter(file=>file.endsWith('.js'));
+    const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
     eventFiles.forEach((file)=>{
         const event = require(`./events/${file}`);
-        client.on(event.name, async(...args: any)=>event.execute(client, ...args))
+        client.on(event.default.name, async(...args)=>event.default.execute(client, ...args));
     });
 })
 
@@ -49,28 +49,32 @@ process.on('error', async(error: Error)=>{
 // Daggerwin MP loop
 setInterval(async()=>{
     if (!client.config.botSwitches.mpstats) return;
-    const msg = await (client.channels.resolve('ChannelID') as Discord.TextChannel).messages.fetch('MessageID')
+    const msg = await (client.channels.resolve('904192878140608563') as Discord.TextChannel).messages.fetch('1042464209709051974')
     const embed = new client.embed();
     let Players = [];
     let Server: any;
-    let CSG: void;
+    let CSG;
     let xmlData = undefined;
 
     // Connect to DB to retrieve the Gameserver info to fetch data.
-    ServerDB.sync();
+    MPDB.sync();
     const newServerId = client.config.mainServer.id
-    const ServerURL = await ServerDB.findOne({where: {serverId: newServerId}})
-    const DBURL = ServerURL.get('ip')
-    const DBCode = ServerURL.get('code')
+    const ServerURL = MPDB.findOne({where: {serverId: newServerId}})
+    const DBURL = (await ServerURL).ip
+    const DBCode = (await ServerURL).code // vv todo: strip 'http://' from ServerURL
     const completedURL_DSS = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
 	const completedURL_CSG = DBURL + '/feed/dedicated-server-savegame.html?code=' + DBCode + '&file=careerSavegame'
-
+    console.log(DBURL + '\n' + DBCode)
     try {
         Server = await client.axios.get(completedURL_DSS, {timeout: 4000})
     } catch (err){
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp dss fail`)
-        embed.setTitle('Data could not be retrieved, the host may not be responding.').setColor(client.config.embedColorRed)
-        msg.edit({embeds: [embed]})
+        if (client.config.botSwitches.mpstatsDebug) {
+            console.log(err)
+        } else {
+            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp dss fail`)
+        }
+        embed.setTitle('Host is not responding.').setColor(client.config.embedColorRed)
+        msg.edit({content: null, embeds: [embed]})
         return;
     }
     try {
@@ -78,17 +82,25 @@ setInterval(async()=>{
             xmlData = client.xjs.xml2js(xml.data, {compact: true, spaces: 2}).careerSavegame;
         })
     } catch (err){
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp csg fail`)
+        if (client.config.botSwitches.mpstatsDebug) {
+            console.log(err)
+        } else {
+            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp csg fail`)
+        }
     }
     if (xmlData == undefined){
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp csg failed to convert`)
+        if (client.config.botSwitches.mpstatsDebug) {
+            console.log(xmlData)
+        } else {
+            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp csg failed to convert`)
+        }
         embed.setFooter({text: 'XML Data retrieve failed. Retrying in next minute.'})
         msg.edit({embeds: [embed]})
     }
 
     const DB = require(`./database/MPPlayerData.json`);
     DB.push(Server.data.slots.used)
-    fs.writeFileSync(__dirname + `./database/MPPlayerData.json`, JSON.stringify(DB))
+    fs.writeFileSync(__dirname + `/database/MPPlayerData.json`, JSON.stringify(DB))
     
     // Number format function
     function formatNumber(number: any, digits: any, icon: any){
@@ -99,28 +111,28 @@ setInterval(async()=>{
 
     if (Server.data.server.name.length == 0){
         embed.setTitle('The server seems to be offline.').setColor(client.config.embedColorRed);
-        msg.edit({embeds: [embed]})
+        msg.edit({content: 'This embed will resume when server is back online.', embeds: [embed]})
     } else {
         const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Server details').addFields(
-            {name: '| Current Map |', value: `${Server.data.server.mapName.length == 0 ? '\u200b' : Server.data.server.mapName}`, inline: true},
-			{name: '| Game Version |', value: `${Server.data.server.version.length == 0 ? '0.0.0.0' : Server.data.server.version}`, inline: true},
-			{name: '| In-game Time |', value: `${('0' + Math.floor((Server.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((Server.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-			{name: '| Slot Usage |', value: `${Number(xmlData?.slotSystem?._attributes?.slotUsage).toLocaleString('en-US')}`, inline: true},
-			{name: '| Timescale |', value: `${formatNumber(timeScale, 0, 'x')}`, inline: true}
+            {name: 'Current Map', value: `${Server.data.server.mapName.length == 0 ? '\u200b' : Server.data.server.mapName}`, inline: true},
+			{name: 'Game Version', value: `${Server.data.server.version.length == 0 ? '\u200b' : Server.data.server.version}`, inline: true},
+			{name: 'In-game Time', value: `${('0' + Math.floor((Server.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((Server.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
+			{name: 'Slot Usage', value: `${Number(xmlData?.slotSystem?._attributes?.slotUsage).toLocaleString('en-US')}`, inline: true},
+			{name: 'Timescale', value: `${formatNumber(timeScale, 0, 'x')}`, inline: true}
         );
         await Server.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
-            Players.push(`**| ${player.name} | ${player.isAdmin ? 'admin |' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('0' + (player.uptime % 60)).slice(-2)} min`)
+            Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('0' + (player.uptime % 60)).slice(-2)} min`)
         })
         embed.setDescription(`${Server.data.slots.used == 0 ? '*No players online*' : Players.join('\n\n')}`).setTitle(Server.data.server.name).setColor(client.config.embedColor)
         embed.setAuthor({name: `${Server.data.slots.used}/${Server.data.slots.capacity}`});
-        msg.edit({embeds: [embed1, embed]})
+        msg.edit({content: 'This embed updates every minute.', embeds: [embed1, embed]})
     }
 }, 60000)
 
 // YouTube Upload notification
 setInterval(async()=>{
-	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702');
-	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567')
+	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
+	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
 }, 300000)
 
 // Event loop for punishments and daily msgs
@@ -147,7 +159,7 @@ setInterval(async()=>{
             total = yesterday
         }
         dailyMsgs.push([formattedDate, total]);
-        fs.writeFileSync(__dirname + './database/dailyMsgs.json', JSON.stringify(dailyMsgs))
+        fs.writeFileSync(__dirname + 'dailyMsgs.json', JSON.stringify(dailyMsgs))
         console.log(`\x1b[36m[${client.moment().format('DD/MM/YY HH:mm:ss')}] \x1b[33m`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`)
     }
 }, 5000)

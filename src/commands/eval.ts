@@ -1,4 +1,4 @@
-import Discord from 'discord.js';
+import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 import * as util from 'node:util';
 const removeUsername = (text: string)=>{
@@ -16,25 +16,25 @@ const removeUsername = (text: string)=>{
     } return array.join('\/');
 };
 export default {
-    async run(client: TClient, message: Discord.Message, args: any) {
-        if (!client.config.eval.allowed) return message.channel.send('Eval is disabled.');
-        if (!client.config.eval.whitelist.includes(message.author.id)) return message.reply('You\'re not allowed to use this command.');
-        const code = message.content.slice(client.config.prefix.length+args[0].length+1);
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
+        if (!client.config.eval.allowed) return interaction.reply({content: 'Eval is disabled.', ephemeral: true});
+        if (!client.config.eval.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'You\'re not allowed to use this command.', ephemeral: true});
+        const code = interaction.options.getString('code') as string;
         let output = 'error';
         let error = false;
         try {
-            output = await eval(code)
+            output = await eval(code);
         } catch (err: any) {
             error = true
             const embed = new client.embed().setColor('#ff0000').setTitle('__Eval__').addFields(
                 {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1010)}\n\`\`\``},
                 {name: 'Output', value: `\`\`\`\n${err}\`\`\``}
             )
-            message.channel.send({embeds: [embed]}).then(errorEmbedMessage=>{
-                const filter = x=>x.content === 'stack' && x.author.id === message.author.id
-                const messagecollector = message.channel.createMessageCollector({filter, max: 1, time: 60000});
-                messagecollector.on('collect',collected=>{
-                    collected.channel.send(`\`\`\`\n${removeUsername(err.stack)}\n\`\`\``);
+            interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]})).then(errorEmbedMessage=>{
+                const filter = (x:any)=>x.content === 'stack' && x.author.id === interaction.user.id
+                const messagecollector = (interaction.channel as Discord.TextChannel).createMessageCollector({filter, max: 1, time: 60000});
+                messagecollector.on('collect', collected=>{
+                    collected.reply({content: `\`\`\`\n${removeUsername(err.stack)}\n\`\`\``, allowedMentions: {repliedUser: false}});
                 });
             });
         }
@@ -45,16 +45,20 @@ export default {
             output = '\n' + String(output);
         }
         [client.tokens.token_main,client.tokens.token_beta,client.tokens.token_toast,client.tokens.token_tae].forEach((x)=>{
-            const regexp = new RegExp(x,'g');
+            const regexp = new RegExp(x as string,'g');
             output = output.replace(regexp, 'TOKEN_LEAK');
         })
         const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
             {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
             {name: 'Output', value: `\`\`\`${removeUsername(output).slice(0,1016)}\n\`\`\``}
         );
-        message.channel.send({embeds: [embed]})
+        interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}))
     },
-    name: 'eval',
-    description: 'Run code for debugging purposes',
-    category: 'bot'
+    data: new SlashCommandBuilder()
+        .setName('eval')
+        .setDescription('Run code for debugging purposes')
+            .addStringOption((opt)=>opt
+                .setName('code')
+                .setDescription('Execute your code')
+                .setRequired(true))
 }

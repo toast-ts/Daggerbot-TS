@@ -1,12 +1,18 @@
-import Discord from 'discord.js';
-import { TClient  } from 'src/client';
+import Discord,{SlashCommandBuilder} from 'discord.js';
+import { TClient } from 'src/client';
 export default {
-    async run(client: TClient, message: Discord.Message, args: any){
-        if (!message.inGuild() || !message.channel) return;
-            client.punish(client, message, args, 'warn');
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        client.punish(client, interaction, 'warn');
     },
-    name: 'kick',
-    description: 'Warn a member.',
-    usage: ['user mention or id', '?reason'],
-    category: 'moderation'
+    data: new SlashCommandBuilder()
+        .setName('warn')
+        .setDescription('Warn a member')
+        .addUserOption((opt)=>opt
+            .setName('member')
+            .setDescription('Which member to warn?')
+            .setRequired(true))
+        .addStringOption((opt)=>opt
+            .setName('reason')
+            .setDescription('Reason for the warning')
+            .setRequired(false))
 }

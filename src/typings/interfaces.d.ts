@@ -1,16 +1,11 @@
-interface createTableOpt {
-    columnAlign: any,
-    columnSeparator: any,
-    columnEmptyChar: any
-}
 interface formatTimeOpt {
     longNames: boolean,
     commas: boolean
 }
-interface CommandInfoOpt {
-    insertNewline: boolean,
-    parts: string[], //idfk
-    titles: string[]
+interface createTableOpt {
+    columnAlign: any,
+    columnSeparator: any,
+    columnEmptyChar: any
 }
 interface punOpt {
     time?: string,
