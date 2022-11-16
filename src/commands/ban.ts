@@ -1,12 +1,22 @@
-import Discord from 'discord.js';
-import { TClient  } from 'src/client';
+import Discord,{SlashCommandBuilder} from 'discord.js';
+import { TClient } from 'src/client';
 export default {
-    async run(client: TClient, message: Discord.Message, args: any){
-        if (!message.inGuild() || !message.channel) return;
-            client.punish(client, message, args, 'ban');
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        client.punish(client, interaction, 'ban');
     },
-    name: 'ban',
-    description: 'Ban a member from server.',
-    usage: ['user mention or id', '?time', '?reason'],
-    category: 'moderation'
+    data: new SlashCommandBuilder()
+        .setName('ban')
+        .setDescription('Ban a member from the server')
+        .addUserOption((opt)=>opt
+            .setName('member')
+            .setDescription('Which member to ban?')
+            .setRequired(true))
+        .addStringOption((opt)=>opt
+            .setName('time')
+            .setDescription('How long the ban will be?')
+            .setRequired(false))
+        .addStringOption((opt)=>opt
+            .setName('reason')
+            .setDescription('Reason for the ban')
+            .setRequired(false))
 }

@@ -1,12 +1,12 @@
-import { TClient } from "src/client";
-import Discord from 'discord.js';
+import Discord,{SlashCommandBuilder} from 'discord.js';
+import { TClient } from 'src/client';
 export default {
-    async run(client: TClient, message: Discord.Message){
-        const msg = await message.reply(`Pinging...`)
-        const time = msg.createdTimestamp - message.createdTimestamp;
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        const msg = await interaction.reply({content: 'Pinging...', fetchReply: true})
+        const time = msg.createdTimestamp - interaction.createdTimestamp;
         msg.edit(`Websocket: \`${client.ws.ping}\`ms\nBot: \`${time}\``)
     },
-    name: 'ping',
-    description: 'Check bot\'s latency',
-    category: 'bot'
+    data: new SlashCommandBuilder()
+        .setName('ping')
+        .setDescription('Check bot\'s latency')
 }

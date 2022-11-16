@@ -1,12 +1,18 @@
-import Discord from 'discord.js';
-import { TClient  } from 'src/client';
+import Discord,{SlashCommandBuilder} from 'discord.js';
+import { TClient } from 'src/client';
 export default {
-    async run(client: TClient, message: Discord.Message, args: any){
-        if (!message.inGuild() || !message.channel) return;
-            client.punish(client, message, args, 'kick');
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+        client.punish(client, interaction, 'kick');
     },
-    name: 'kick',
-    description: 'Kick a member from server.',
-    usage: ['user mention or id', '?reason'],
-    category: 'moderation'
+    data: new SlashCommandBuilder()
+        .setName('kick')
+        .setDescription('Boot a member from the server')
+        .addUserOption((opt)=>opt
+            .setName('member')
+            .setDescription('Which member to kick?')
+            .setRequired(true))
+        .addStringOption((opt)=>opt
+            .setName('reason')
+            .setDescription('Reason for the kick')
+            .setRequired(false))
 }
