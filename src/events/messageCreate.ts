@@ -3,7 +3,7 @@ import { TClient } from '../client';
 export default {
     name: 'messageCreate',
     execute: async(client:TClient, message:Discord.Message)=>{
-        if (!client.config.botSwitches.commands && !client.config.eval.whitelist.includes(message.author.id)) return
+            if (!client.config.botSwitches.commands && !client.config.eval.whitelist.includes(message.author.id)) return
             if (message.author.bot) return;
             if (message.channel.type === ChannelType.DM) return;
             const msgarr = message.content.toLowerCase().split(' ');
@@ -73,15 +73,15 @@ export default {
             }
 
             // Autoresponse:tm:
-        if (!client.config.botSwitches.autores && !automodded) {
+        if (client.config.botSwitches.autores && !automodded) {
             if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member) && message.type != 19){
                 message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>')
             }
             if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19){
                 message.reply('Please don\'t tag Monster unless it\'s important!')
             }
-            if (message.content.toLowerCase().startsWith(`${client.config.prefix}players`) || message.content.toLowerCase().startsWith(`${client.config.prefix}status`)){
-                message.reply('Commands for the MP server have been moved to `*mp players` and `*mp status`.')
+            if (message.content.toLowerCase().startsWith(`*mp players`) || message.content.toLowerCase().startsWith(`*mp status`)){
+                message.reply('Prefix-based MP commands has been moved to `/mp players` and `/mp status`')
             }
             if (message.content.toLowerCase().includes('whats the password') || message.content.toLowerCase().includes('what\'s the password') || message.content.toLowerCase().includes('password pls')){
                 message.reply('Password and other details can be found in <#543494084363288637>')

@@ -26,7 +26,7 @@ export default {
         const usedInvite = newInvites.find((inv:any)=>oldInvites.get(inv.code)?.uses < inv.uses);
         newInvites.forEach((inv:any)=>client.invites.set(inv.code,{uses: inv.uses, creator: inv.inviter.id}));
 
-        const embed1 = new client.embed().setColor(client.config.embedColorGreen).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`Member Joined: ${member.user.tag}`).setDescription(`<@${member.user.id}>\n\`${member.user.id}\``).addFields(
+        const embed1 = new client.embed().setColor(client.config.embedColorGreen).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`Member Joined: ${member.user.tag}`).setDescription(`<@${member.user.id}>\n\`${member.user.id}\``).setFooter({text: `Total members: ${index}${suffix}`}).addFields(
             {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
             {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.tag}**` : 'I couldn\'t find out how they joined!'}
         );

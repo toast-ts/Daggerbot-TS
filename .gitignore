@@ -6,3 +6,6 @@ package-lock.json
 dist/
 # Bot stuff
 src/database/MPDB.dat
+src/commands/disabled
+src/commands/roleinfo.ts
+src/commands/rank.ts
