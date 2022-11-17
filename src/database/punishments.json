@@ -94,5 +94,13 @@
     "moderator": "532662366354276352",
     "time": 1668331244780,
     "reason": "innapropiate profile picture"
+  },
+  {
+    "type": "ban",
+    "id": 13,
+    "member": "985447227755495425",
+    "moderator": "141304507249197057",
+    "time": 1668526989338,
+    "reason": "steam scammer"
   }
 ]

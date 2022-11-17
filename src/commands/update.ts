@@ -12,7 +12,7 @@ export default {
                 } else if (stdout.includes('Already up to date')){
                     msg.edit(`Pull aborted:\nUp to date with the repository`)
                 } else {
-                    setTimeout(()=>{msg.edit('Restarting...').then(()=>eval(process.exit(-1)))},1000)
+                    setTimeout(()=>{msg.edit('Restarting...').then(()=>require('node:child_process').exec('pm2 restart Daggerbot'))},1000)
                 }
             }
         )

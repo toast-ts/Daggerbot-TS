@@ -1,14 +1,20 @@
+interface punOpt {
+    time?: string,
+    reason?: string,
+    interaction?: any
+}
 import Discord from 'discord.js';
 import { TClient } from './client';
 const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
+import { Punishment } from './typings/interfaces';
 
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e: { members: { fetch: () => any; }; })=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'TypeScript is pog', type: 0 }], status: 'online'});
+        client.user.setPresence({activities: [{ name: 'Slash commands!', type: 0 }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
     if (client.config.botSwitches.registerCommands) (client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild).commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
@@ -22,7 +28,7 @@ client.on('ready', async()=>{
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
     console.log(client.config.botSwitches);
-    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
+    //(client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
     const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
@@ -35,21 +41,21 @@ client.on('ready', async()=>{
 // Handle errors
 process.on('unhandledRejection', async(error: Error)=>{
     console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    //(client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 process.on('uncaughtException', async(error: Error)=>{
     console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    //(client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 process.on('error', async(error: Error)=>{
     console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    //(client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 
 // Daggerwin MP loop
 setInterval(async()=>{
     if (!client.config.botSwitches.mpstats) return;
-    const msg = await (client.channels.resolve('904192878140608563') as Discord.TextChannel).messages.fetch('1042464209709051974')
+    const msg = await (client.channels.resolve('904192878140608563') as Discord.TextChannel).messages.fetch('1042835699906400346')
     const embed = new client.embed();
     let Players = [];
     let Server: any;
@@ -115,7 +121,7 @@ setInterval(async()=>{
     } else {
         const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Server details').addFields(
             {name: 'Current Map', value: `${Server.data.server.mapName.length == 0 ? '\u200b' : Server.data.server.mapName}`, inline: true},
-			{name: 'Game Version', value: `${Server.data.server.version.length == 0 ? '\u200b' : Server.data.server.version}`, inline: true},
+			{name: 'Version', value: `${Server.data.server.version.length == 0 ? '\u200b' : Server.data.server.version}`, inline: true},
 			{name: 'In-game Time', value: `${('0' + Math.floor((Server.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((Server.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
 			{name: 'Slot Usage', value: `${Number(xmlData?.slotSystem?._attributes?.slotUsage).toLocaleString('en-US')}`, inline: true},
 			{name: 'Timescale', value: `${formatNumber(timeScale, 0, 'x')}`, inline: true}
@@ -131,7 +137,7 @@ setInterval(async()=>{
 
 // YouTube Upload notification
 setInterval(async()=>{
-	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
+	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '904192878140608563'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
 }, 300000)
 
@@ -159,7 +165,7 @@ setInterval(async()=>{
             total = yesterday
         }
         dailyMsgs.push([formattedDate, total]);
-        fs.writeFileSync(__dirname + 'dailyMsgs.json', JSON.stringify(dailyMsgs))
+        fs.writeFileSync(__dirname + '/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
         console.log(`\x1b[36m[${client.moment().format('DD/MM/YY HH:mm:ss')}] \x1b[33m`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`)
     }
 }, 5000)
