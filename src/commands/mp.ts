@@ -27,11 +27,11 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
     return FSserver
 }
 
-export default {
+export default { //468835769092669461
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-        if (interaction.channelId == '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
+        if (interaction.channelId == '904192878140608563' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
             interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then((msg)=>{
-                setTimeout(()=>{interaction.deleteReply()}, 500)
+                setTimeout(()=>{interaction.deleteReply()}, 5000)
             });
             return;
         }
