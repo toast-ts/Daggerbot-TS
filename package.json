@@ -1,11 +1,7 @@
 {
   "name": "daggerbot-ts",
   "description": "TypeScript version of the original JavaScript-based bot for Official Daggerwin Discord.",
-  "main": "src/Sharding.ts",
-  "scripts": {
-    "start": "ts-node src/Sharding.ts",
-    "startDev": "ts-node src/index.ts"
-  },
+  "main": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS.git"
