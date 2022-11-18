@@ -8,5 +8,5 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName('botlog')
-        .setDescription('Retrieves the log from host and sends it to appropriate channel.')
+        .setDescription('Retrieves the log from host and sends it to development server.')
 } 

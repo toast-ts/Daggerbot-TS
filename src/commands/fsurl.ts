@@ -3,7 +3,7 @@ import { TClient } from 'src/client';
 import MPDB from '../models/MPServer';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-        if (interaction.guildId !== client.config.mainServer.id) return interaction.reply('This command doesn\'t work in this server.');
+        if (interaction.guildId !== client.config.mainServer.id) return interaction.reply({content: 'This command doesn\'t work in this server.', ephemeral: true});
         if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
 
         MPDB.sync();
