@@ -1,15 +1,10 @@
-interface punOpt {
-    time?: string,
-    reason?: string,
-    interaction?: any
-}
 import Discord from 'discord.js';
 import { TClient } from './client';
 const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
-import { Punishment } from './typings/interfaces';
+import { Punishment, punOpt } from './typings/interfaces';
 
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e: { members: { fetch: () => any; }; })=>{await e.members.fetch()});
@@ -190,7 +185,7 @@ Object.assign(client.punishments,{
                 const banData: Punishment = {type, id: this.createId(), member: member.id, moderator, time: now};
                 let dm1:any;
                 try {
-                    dm1 = await member.send(`You've been banned from ${interaction.guild.name} ${timeInMillis ? `for ${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${banData.id})`)
+                    dm1 = await member.send(`You've been banned from ${interaction.guild.name} ${timeInMillis ? `for ${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${banData.id})`)
                 } catch (err) {
                     setTimeout(()=>interaction.channel.send('Failed to DM user.'), 500)
                 }
@@ -209,7 +204,7 @@ Object.assign(client.punishments,{
                     this.forceSave();
                     return new client.embed().setColor(client.config.embedColor).setTitle(`Case #${banData.id}: Ban`).setDescription(`${member.tag}\n<@${member.id}>\n(\`${member.id}\`)`).addFields(
                         {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``},
-                        {name: 'Duration', value: `${timeInMillis ? `for ${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'}`}
+                        {name: 'Duration', value: `${timeInMillis ? `for ${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'}`}
                     )
                 }
             case 'softban':
@@ -253,7 +248,7 @@ Object.assign(client.punishments,{
             case 'mute':
                 const muteData: Punishment = {type, id: this.createId(), member: member.user.id, moderator, time: now};
                 let muteResult;
-                const dm4 = await member.send(`You've been muted in ${member.guild.name} ${timeInMillis ? `for ${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${muteData.id})`).catch((err:Error)=>setTimeout(()=>interaction.channel.send('Failed to DM user.'), 500));
+                const dm4 = await member.send(`You've been muted in ${member.guild.name} ${timeInMillis ? `for ${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${muteData.id})`).catch((err:Error)=>setTimeout(()=>interaction.channel.send('Failed to DM user.'), 500));
                 if (timeInMillis){
                     muteResult = await member.timeout(timeInMillis, `${reason || 'Reason unspecified'} | Case #${muteData.id}`).catch((err: Error)=>err.message);
                 } else {
@@ -273,7 +268,7 @@ Object.assign(client.punishments,{
                     this.forceSave();
                     const embedm = new client.embed().setColor(client.config.embedColor).setTitle(`Case #${muteData.id}: Mute`).setDescription(`${member.user.tag}\n<@${member.user.id}>\n(\`${member.user.id}\`)`).addFields(
                         {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``},
-                        {name: 'Duration', value: `${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})} (${timeInMillis}ms)`}
+                        {name: 'Duration', value: `${client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}`}
                     )
                     if (moderator !== '795443537356521502') {return embedm};
                 }
@@ -328,7 +323,7 @@ Object.assign(client.punishments,{
                 client.makeModlogEntry(removePunishmentData, client);
                 this._content[this._content.findIndex(x=>x.id === punishment.id)].expired = true;
                 this.addData(removePunishmentData).forceSave();
-                return `Successfully ${punishment.type === 'ban' ? 'unbanned' : 'unmuted'} ${removePunishmentResult?.tag} (\`${removePunishmentResult?.id}\`) for reason \`${reason || 'Reason unspecified'}\``;
+                return `Successfully ${punishment.type === 'ban' ? 'unbanned' : 'unmuted'} **${removePunishmentResult?.tag}** (\`${removePunishmentResult?.id}\`) for reason \`${reason || 'Reason unspecified'}\``;
             }
         } else {
             try {
