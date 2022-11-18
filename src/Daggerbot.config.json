@@ -1,0 +1,64 @@
+{
+    "embedColor": "#0052cf",
+    "embedColorGreen": "#57f287",
+    "embedColorYellow": "#ffea00",
+    "embedColorRed": "#e62c3b",
+    "embedColorBCA": "#ff69b4",
+    "LRSstart": 1661236321433,
+    "botSwitches": {
+        "registerCommands": true,
+        "commands": false,
+        "logs": true,
+        "automod": true,
+        "mpstats": true,
+        "mpstatsDebug": false,
+        "autores": true
+    },
+    "eval": {
+        "allowed": true,
+        "whitelist": [
+            "190407856527376384",
+            "615761944154210305",
+            "593696856165449749",
+            "633345781780185099",
+            "506022868157595648",
+            "215497515934416896",
+            "309373272594579456"
+        ]
+    },
+    "mainServer": {
+        "id": "468835415093411861",
+        "staffRoles": [
+            "admin",
+            "dcmod",
+            "mpmanager",
+            "mpmod",
+            "vtcmanager",
+            "vtcstaff",
+            "ytmod"
+        ],
+        "roles": {
+            "admin": "468842789053136897",
+            "bottech": "1011341005389307925",
+            "dcmod": "468841295150972929",
+            "mpmanager": "1028735939813585029",
+            "mpmod": "572151330710487041",
+            "vtcmanager": "1028735871370940490",
+            "vtcstaff": "801945627268481046",
+            "ytmod": "734888335851388958",
+            "mphelper": "1034453973412884500",
+            "mpplayer": "798285830669598762",
+            "vtcmember": "802282391652663338"
+          },
+          "channels": {
+            "console": "1011318687065710663",
+            "errors": "1009754872188506192",
+            "thismeanswar": "930588618085502987",
+            "bot_status": "1009753780188884992",
+            "logs": "548032776830582794",
+            "welcome": "621134751897616406",
+            "botcommands": "468888722210029588"
+    
+          }
+    }
+}

@@ -12,7 +12,7 @@ export default {
             //if (member && adminPerm) return interaction.reply('You cannot bonk an admin!')
             if (member) {
                 const embed = new client.embed().setColor(client.config.embedColor)
-                .setDescription(`> <@${member.id}> has been bonked!\n${reason?.length == null ? '' : `> Reason: ${reason}`}`)
+                .setDescription(`> <@${member.id}> has been bonked!\n${reason?.length == null ? '' : `> Reason: **${reason}**`}`)
                 .setImage('https://media.tenor.com/7tRddlNUNNcAAAAd/hammer-on-head-minions.gif')
                 .setFooter({text: `Bonk count for ${member.tag}: ${await client.bonkCount.getUser(member.id).toLocaleString('en-US')}`})
             interaction.reply({embeds: [embed]})
