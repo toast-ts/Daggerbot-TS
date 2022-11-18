@@ -3,7 +3,7 @@ import { TClient } from 'src/client';
 import { Punishment } from "src/typings/interfaces";
 export default {
 	async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-        if (!interaction.member.roles.cache.has(client.config.mainServer.roles.dcmod)) return client.youNeedRole(interaction, 'dcmod')
+        if (!client.isStaff(interaction.member)) return client.youNeedRole(interaction, 'dcmod');
         const Subb = interaction.options.getSubcommand();
         const caseId = interaction.options.getInteger('id');
         if (Subb == 'update'){
