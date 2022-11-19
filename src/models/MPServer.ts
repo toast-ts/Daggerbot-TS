@@ -9,6 +9,7 @@ class MPDB extends Model<InferAttributes<MPDB>, InferCreationAttributes<MPDB>>{
     declare serverId: string | null;
     declare ip: string | null;
     declare code: string | null;
+    declare timesUpdated: number | null;
 }
 MPDB.init({
     serverId: {
@@ -24,6 +25,12 @@ MPDB.init({
         type: DataTypes.STRING,
         defaultValue: 'Missing Code',
         allowNull: false
+    },
+    timesUpdated: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false
     }
 }, { sequelize: db, modelName: 'urls', timestamps: false });
+MPDB.sync();
 export default MPDB

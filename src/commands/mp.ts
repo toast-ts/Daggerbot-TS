@@ -7,11 +7,12 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
     MPDB.sync();
     const newServerId = interaction.guildId;
     const ServerURL = await MPDB.findOne({where: { serverId: newServerId }});
+    if (!ServerURL) return interaction.reply(`No gameserver found, please contact <@&${client.config.mainServer.roles.mpmanager}> to add it.`)
     const DBURL = ServerURL.ip
     const DBCode = ServerURL.code
-    const verifyURL = DBURL.match(/http/)
+   const verifyURL = DBURL.match(/http/)
     const completedURL = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
-    if (!verifyURL) return interaction.reply(`No gameserver found, please contact <@&${client.config.mainServer.roles.mpmanager}> to update it.`)
+    if (!verifyURL) return interaction.reply(`Invalid gameserver IP, please contact <@&${client.config.mainServer.roles.mpmanager}> to update it.`)
 
     // Fetch dss
     try {
@@ -209,7 +210,7 @@ export default {
                 const Image = new client.attachmentBuilder(img.toBuffer(),{name: 'FSStats.png'})
                 embed1.setImage('attachment://FSStats.png')
                 const FSserver1 = await MPdata(client, interaction, embed1)
-                embed1.setTitle(FSserver1.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
+                embed1.setTitle(FSserver1?.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
                 .setDescription(`${FSserver1?.data.slots.used}/${FSserver1?.data.slots.capacity}`)
                 .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
                 FSserver1?.data.slots.players.filter(x=>x.isUsed).forEach(player=>{
@@ -222,7 +223,7 @@ export default {
                 const FSserver2 = await MPdata(client, interaction, embed2)
                 const DBURL = MPDB.findOne({where: {serverId: interaction.guildId}})
                 embed2.setDescription([
-                    `**Server name**: ${FSserver2?.data.server.name.length == 0 ? 'Unknown Server' : `\`${FSserver2.data.server.name}\``}`,
+                    `**Server name**: \`Official Daggerwin Game Server\``,
                     '**Password:** `mf4700`',
                     '**Crossplay server**',
                     `**Map:** ${FSserver2.data.server.mapName.length == 0 ? 'Null Island' : FSserver2.data.server.mapName}`,
