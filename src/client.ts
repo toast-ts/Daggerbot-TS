@@ -47,7 +47,7 @@ export class TClient extends Client {
         this.tokens = require('./tokens.json');
         this.YTCache = {
             'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
-            'UCguI73--UraJpso4NizXNzA': undefined, // Machinery Restorer
+            'UCguI73--UraJpso4NizXNzA': undefined // Machinery Restorer
         }
         this.embed = Discord.EmbedBuilder;
         this.collection = Discord.Collection;
