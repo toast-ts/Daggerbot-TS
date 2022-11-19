@@ -102,5 +102,13 @@
     "moderator": "141304507249197057",
     "time": 1668526989338,
     "reason": "steam scammer"
+  },
+  {
+    "type": "ban",
+    "id": 14,
+    "member": "1041929757916405791",
+    "moderator": "593696856165449749",
+    "time": 1668851141637,
+    "reason": "Steam scammer"
   }
 ]
