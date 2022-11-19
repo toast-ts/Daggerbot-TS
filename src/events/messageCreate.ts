@@ -18,7 +18,9 @@ export default {
 
             if (client.bannedWords._content.some((x)=>msgarr.includes(x)) && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId) && client.config.botSwitches.automod){
                 automodded = true;
-                message.delete();
+                message.delete().catch((err)=>{
+                    console.log('bannedWords automod; msg got possibly deleted by another bot or moderator.')
+                })
                 message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 5000));
                 if (client.repeatedMessages[message.author.id]){
                     // add this message to the list
@@ -55,7 +57,9 @@ export default {
             }
             if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod)) {
                 automodded = true;
-                message.delete();
+                message.delete().catch((err)=>{
+                    console.log('advertisement automod; msg got possibly deleted by another bot or moderator.')
+                })
             }
 
             if (message.guildId == client.config.mainServer.id && !automodded){
