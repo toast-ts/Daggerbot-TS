@@ -6,7 +6,7 @@ export default {
             if (message.author.bot) return;
             if (message.channel.type === ChannelType.DM) return;
             const msgarr = message.content.toLowerCase().split(' ');
-            let automodded: any;
+            let automodded: boolean;
 
             function onTimeout(){
                 delete client.repeatedMessages[message.author.id]
@@ -19,7 +19,7 @@ export default {
             if (client.bannedWords._content.some((x)=>msgarr.includes(x)) && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId) && client.config.botSwitches.automod){
                 automodded = true;
                 message.delete().catch((err)=>{
-                    console.log('bannedWords automod; msg got possibly deleted by another bot or moderator.')
+                    console.log('bannedWords automod; msg got possibly deleted by another bot.')
                 })
                 message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 5000));
                 if (client.repeatedMessages[message.author.id]){
@@ -58,7 +58,7 @@ export default {
             if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod)) {
                 automodded = true;
                 message.delete().catch((err)=>{
-                    console.log('advertisement automod; msg got possibly deleted by another bot or moderator.')
+                    console.log('advertisement automod; msg got possibly deleted by another bot.')
                 })
             }
 
