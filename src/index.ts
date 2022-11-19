@@ -4,7 +4,7 @@ const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
-import { Punishment, punOpt } from './typings/interfaces';
+import { Punishment, punOpt, UserLevels } from './typings/interfaces';
 
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e: { members: { fetch: () => any; }; })=>{await e.members.fetch()});
@@ -23,7 +23,7 @@ client.on('ready', async()=>{
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
     console.log(client.config.botSwitches);
-    //(client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
+    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
     const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
@@ -152,10 +152,6 @@ setInterval(async()=>{
     
     const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
     const dailyMsgs = require('./database/dailyMsgs.json');
-    interface UserLevels {
-        messages: number,
-        level: number
-    }
     if (!dailyMsgs.some(x=>x[0] === formattedDate)){
         let total = Object.values<UserLevels>(client.userLevels._content).reduce((a,b)=>a + b.messages, 0); // sum of all users
         const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
