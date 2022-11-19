@@ -13,12 +13,10 @@ export default {
             );
             channel.send({embeds: [embed]})
         }
-        /*
-            todo: role update
-                - howtobasic the nonexistent '._roles'
-        
-        const newRoles = newMember._roles.filter(x=>!oldMember._roles.some(y=>y==x));
-        const oldRoles = oldMember._roles.filter(x=>!newMember._roles.some(y=>y==x));
+
+        const newRoles = newMember.roles.cache.map((x,i)=>i).filter(x=>!oldMember.roles.cache.map((x,i)=>i).some(y=>y==x));
+        const oldRoles = oldMember.roles.cache.map((x,i)=>i).filter(x=>!newMember.roles.cache.map((x,i)=>i).some(y=>y==x));
+        if (newRoles.length == 0 && oldRoles.length == 0) return;
         const embed = new client.embed().setColor(client.config.embedColor).setThumbnail(newMember.user.displayAvatarURL({size: 2048})).setTitle(`Role updated: ${newMember.user.tag}`).setDescription(`<@${newMember.user.id}>\n\`${newMember.user.id}\``)
         if (newRoles.length != 0){
             embed.addFields({name: '🔹 Role added', value: newRoles.map((x)=>`<@&${x}>`).join(' ')})
@@ -27,6 +25,5 @@ export default {
             embed.addFields({name: '🔹 Role removed', value: oldRoles.map((x)=>`<@&${x}>`).join(' ')})
         }
         channel.send({embeds: [embed]})
-        */
     }
 }

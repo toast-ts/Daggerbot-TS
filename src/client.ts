@@ -47,7 +47,7 @@ export class TClient extends Client {
         this.tokens = require('./tokens.json');
         this.YTCache = {
             'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
-            'UCguI73--UraJpso4NizXNzA': undefined // Machinery Restorer
+            'UCguI73--UraJpso4NizXNzA': undefined, // Machinery Restorer
         }
         this.embed = Discord.EmbedBuilder;
         this.collection = Discord.Collection;
@@ -182,7 +182,6 @@ export class TClient extends Client {
     async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
         let result: any;
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod')
-        //if (type !== ('warn' || 'mute') && (interaction.member as Discord.GuildMember).roles.cache.has(client.config.mainServer.roles.idk)) return this.youNeedRole(interaction, 'dcmod');
         const time = interaction.options.getString('time') as string;
         const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
         if (type == 'ban'){
@@ -201,7 +200,6 @@ export class TClient extends Client {
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod');
         const punishment = this.punishments._content.find((x:Punishment)=>x.id === interaction.options.getInteger('case_id'));
         if (!punishment) return interaction.reply({content: 'Invalid Case #', ephemeral: true});
-        //if (type !== ('warn' || 'mute') && (interaction.member as Discord.GuildMember).roles.cache.has(client.config.mainServer.roles.idk)) return this.youNeedRole(interaction, 'dcmod');
         const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
         const unpunishResult = await this.punishments.removePunishment(punishment.id, interaction.user.id, reason);
         interaction.reply(unpunishResult)
@@ -226,7 +224,7 @@ export class TClient extends Client {
             return;
         }
         if (Data.feed.entry[1]['yt:videoId']._text == this.YTCache[YTChannelID]){
-            this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text
+            this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
             (this.channels.resolve(DCChannelID) as Discord.TextChannel).send(`**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`)
         }
     }
