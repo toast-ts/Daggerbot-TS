@@ -1,9 +1,6 @@
-interface UserLevels {
-    messages: number,
-    level: number
-}
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
+import { UserLevels } from 'src/typings/interfaces';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (interaction.guildId !== client.config.mainServer.id) return interaction.reply({content: 'This command doesn\'t work in this server.', ephemeral: true});
@@ -152,7 +149,7 @@ export default {
 
 			// fetch user or user interaction sender
 			const member = interaction.options.getMember("member") ?? interaction.member as Discord.GuildMember;
-
+			if (member.user.bot) return interaction.reply('Bots don\'t level up, try viewing non-bots instead.')
 			const embed = new client.embed().setColor(member.displayColor)
 
 			// information about users progress on level roles
@@ -182,7 +179,7 @@ export default {
         .setDescription('Level system')
         .addSubcommand((optt)=>optt
             .setName('view')
-            .setDescription('View your rank, someone else\'s rank')
+            .setDescription('View your rank or someone else\'s rank')
             .addUserOption((opt)=>opt
                 .setName('member')
                 .setDescription('Which member do you want to view?')))
