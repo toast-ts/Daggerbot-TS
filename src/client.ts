@@ -230,7 +230,6 @@ export class TClient extends Client {
     }
 }
 
-
 //class
 class bannedWords extends Database {
     client: TClient;
@@ -283,7 +282,7 @@ class punishments extends Database {
                 const guild = member.guild;
                 const softbanData:Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
                 const dm2 = Discord.Message = await member.send(`You've been softbanned from ${member.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${softbanData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
-                const softbanResult = await member.ban({deleteMessageDays: 3, reason: `${reason || 'Reason unspecified'} | Case #${softbanData.id}`}).catch((err:Error)=>err.message);
+                const softbanResult = await member.ban({deleteMessageSeconds: 345600, reason: `${reason || 'Reason unspecified'} | Case #${softbanData.id}`}).catch((err:Error)=>err.message);
                 if (typeof softbanResult === 'string') {
                     dm2.delete();
                     return `Softban was unsuccessful: ${softbanResult}`;

@@ -13,6 +13,5 @@ export default {
             .setRequired(true))
         .addStringOption((opt)=>opt
             .setName('reason')
-            .setDescription('Reason for removing the punishment')
-            .setRequired(false))
+            .setDescription('Reason for removing the punishment'))
 }
