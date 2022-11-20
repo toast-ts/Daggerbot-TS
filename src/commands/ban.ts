@@ -13,10 +13,8 @@ export default {
             .setRequired(true))
         .addStringOption((opt)=>opt
             .setName('time')
-            .setDescription('How long the ban will be?')
-            .setRequired(false))
+            .setDescription('How long the ban will be?'))
         .addStringOption((opt)=>opt
             .setName('reason')
-            .setDescription('Reason for the ban')
-            .setRequired(false))
+            .setDescription('Reason for the ban'))
 }

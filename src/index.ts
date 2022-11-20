@@ -23,7 +23,7 @@ client.on('ready', async()=>{
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
     console.log(client.config.botSwitches);
-    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
+    //(client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
     const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
@@ -210,7 +210,7 @@ Object.assign(client.punishments,{
                 const guild = member.guild;
                 const softbanData: Punishment = {type, id: this.createId(), member: member.user.id, moderator, time: now};
                 const dm2 = await member.send(`You've been softbanned from ${member.guild.name} for reason \`${reason || 'Reason unspecified'}\` (Case #${softbanData.id})`).catch(err=>setTimeout(()=>interaction.channel.send(`Failed to DM <@${member.user.id}>.`), 500));
-                const softbanResult = await member.ban({deleteMessageDays: 7, reason: `${reason || 'Reason unspecified'} | Case #${softbanData.id}`}).catch((err: Error)=>err.message);
+                const softbanResult = await member.ban({deleteMessageSeconds: 345600, reason: `${reason || 'Reason unspecified'} | Case #${softbanData.id}`}).catch((err: Error)=>err.message);
                 if (typeof softbanResult === 'string'){
                     dm2.delete();
                     return `Softban was unsuccessful: ${softbanResult}`;
