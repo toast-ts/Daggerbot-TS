@@ -6,11 +6,12 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
     let FSserver;
     MPDB.sync();
     const newServerId = interaction.guildId;
+    if (!await MPDB.findOne({where: {serverId: newServerId}})) return interaction.reply('This server isn\'t linked.')
     const ServerURL = await MPDB.findOne({where: { serverId: newServerId }});
     if (!ServerURL) return interaction.reply(`No gameserver found, please contact <@&${client.config.mainServer.roles.mpmanager}> to add it.`)
     const DBURL = ServerURL.ip
     const DBCode = ServerURL.code
-   const verifyURL = DBURL.match(/http/)
+    const verifyURL = DBURL.match(/http/)
     const completedURL = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
     if (!verifyURL) return interaction.reply(`Invalid gameserver IP, please contact <@&${client.config.mainServer.roles.mpmanager}> to update it.`)
 
@@ -32,7 +33,7 @@ export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (interaction.channelId == '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
             interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then((msg)=>{
-                setTimeout(()=>{interaction.deleteReply()}, 5000)
+                setTimeout(()=>{interaction.deleteReply()}, 6000)
             });
             return;
         }
@@ -41,6 +42,7 @@ export default {
             case 'status':
                 const embed0 = new client.embed();
                 const FSserver0 = await MPdata(client, interaction, embed0);
+                if (!FSserver0.data) return console.log('FSserver0 failed')
                 if (FSserver0.data.server.name.length > 1) {
                     embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
                         {name: 'Server name', value: `${FSserver0?.data.server.name.length == 0 ? '\u200b' : `\`${FSserver0?.data.server.name}\``}`, inline: true},
@@ -48,6 +50,14 @@ export default {
                         {name: 'Current map', value: `${FSserver0?.data.server.mapName.length == 0 ? '\u200b' : FSserver0.data.server.mapName}`, inline: true},
                         {name: 'Version', value: `${FSserver0?.data.server.version.length == 0 ? '\u200b' : FSserver0.data.server.version}`, inline: true},
                         {name: 'In-game Time', value: `${('0' + Math.floor((FSserver0.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSserver0.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true}
+                    )
+                } else if (FSserver0.data.server.name.length == 0) {
+                    embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
+                        {name: 'Server name', value: `\`Official Daggerwin Game Server\``, inline: true},
+                        {name: 'Players', value: '0 out of 0', inline: true},
+                        {name: 'Current map', value: 'Null Island', inline: true},
+                        {name: 'Version', value: '0.0.0.0', inline: true},
+                        {name: 'In-game Time', value: '00:00', inline: true}
                     )
                 }
                 interaction.reply({embeds: [embed0]})
@@ -62,9 +72,7 @@ export default {
                 });
 
                 const first_graph_top = 16;
-
                 const second_graph_top = 16;
-            
                 const textSize = 40;
             
                 const canvas = require('canvas');
@@ -120,7 +128,6 @@ export default {
             
                 // draw points
                 ctx.lineWidth = 5;
-            
             
                 function getYCoordinate(value: number) {
                     return ((1 - (value / second_graph_top)) * graphSize[1]) + graphOrigin[1];
@@ -210,6 +217,7 @@ export default {
                 const Image = new client.attachmentBuilder(img.toBuffer(),{name: 'FSStats.png'})
                 embed1.setImage('attachment://FSStats.png')
                 const FSserver1 = await MPdata(client, interaction, embed1)
+                if (!FSserver1.data) return console.log('FSserver1 failed')
                 embed1.setTitle(FSserver1?.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
                 .setDescription(`${FSserver1?.data.slots.used}/${FSserver1?.data.slots.capacity}`)
                 .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
@@ -221,6 +229,7 @@ export default {
             case 'info':
                 const embed2 = new client.embed().setColor(client.config.embedColor)
                 const FSserver2 = await MPdata(client, interaction, embed2)
+                if (!FSserver2.data) return console.log('FSserver2 failed')
                 const DBURL = MPDB.findOne({where: {serverId: interaction.guildId}})
                 embed2.setDescription([
                     `**Server name**: \`Official Daggerwin Game Server\``,
