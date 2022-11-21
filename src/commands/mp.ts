@@ -58,7 +58,7 @@ export default {
                         {name: 'Current map', value: 'Null Island', inline: true},
                         {name: 'Version', value: '0.0.0.0', inline: true},
                         {name: 'In-game Time', value: '00:00', inline: true}
-                    )
+                    ).setFooter({text: 'Server is currently offline.'})
                 }
                 interaction.reply({embeds: [embed0]})
                 break;
