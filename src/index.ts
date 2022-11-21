@@ -141,7 +141,7 @@ setInterval(async()=>{
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
-    const now = Date.now()
+    const now = Date.now();
     const lrsStart = client.config.LRSstart;
     
     client.punishments._content.filter((x:Punishment)=>x.endTime<= now && !x.expired).forEach(async (punishment:Punishment)=>{
@@ -152,7 +152,7 @@ setInterval(async()=>{
     
     const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
     const dailyMsgs = require('./database/dailyMsgs.json');
-    if (!dailyMsgs.some(x=>x[0] === formattedDate)){
+    if (!dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
         let total = Object.values<UserLevels>(client.userLevels._content).reduce((a,b)=>a + b.messages, 0); // sum of all users
         const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
         if (total < yesterday){ // messages went down.
