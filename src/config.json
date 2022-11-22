@@ -10,7 +10,7 @@
         "commands": false,
         "logs": true,
         "automod": false,
-        "mpstats": true,
+        "mpstats": false,
         "mpstatsDebug": false,
         "autores": false
     },
