@@ -7,12 +7,12 @@ import MPDB from './models/MPServer';
 import {Punishment, UserLevels} from './typings/interfaces';
 
 client.on('ready', async()=>{
-    client.guilds.cache.forEach(async(e: { members: { fetch: () => any; }; })=>{await e.members.fetch()});
+    client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
     setInterval(async()=>{
         client.user.setPresence({activities: [{ name: 'Slash commands!', type: 1, url: 'https://www.youtube.com/watch?v=eO9YZsJmjlM' }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
-    if (client.config.botSwitches.registerCommands) (client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild).commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
+    if (client.config.botSwitches.registerCommands) client.application.commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
     setInterval(()=>{
         const guild = client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild;
         guild.invites.fetch().then((invs)=>{
@@ -133,7 +133,7 @@ setInterval(async()=>{
 
 // YouTube Upload notification
 setInterval(async()=>{
-	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '904192878140608563'); // 528967918772551702 = #videos-and-streams
+	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
     console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] YTLoop interval`)
 }, 300000)
