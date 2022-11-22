@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { Database } from './database';
 import timeNames from './timeNames';
 import { Punishment, formatTimeOpt, createTableOpt, punOpt } from './typings/interfaces';
+import MPDB from './models/MPServer';
 export class TClient extends Client {
     invites: Map<any, any>;
     commands: Discord.Collection<string, any>;
@@ -66,6 +67,7 @@ export class TClient extends Client {
         this.setMaxListeners(80)
     }
     async init(){
+        MPDB.sync();
         this.login(this.tokens.token_toast);
         this.punishments.initLoad();
         this.bannedWords.initLoad();
