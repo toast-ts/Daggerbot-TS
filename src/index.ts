@@ -23,7 +23,7 @@ client.on('ready', async()=>{
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
     console.log(client.config.botSwitches);
-    //(client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
+    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
     const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
