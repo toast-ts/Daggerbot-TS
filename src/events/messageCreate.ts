@@ -100,7 +100,7 @@ export default {
                 message.reply('Prefix-based MP commands has moved to </mp players:1044732701317537873> and </mp status:1044732701317537873>')
             }
             if (message.content.toLowerCase().startsWith(`*lrs`) || message.content.toLowerCase().startsWith(`*rank`)){
-                message.reply('Prefix-based LRS command has moved to </rank view:1044732701317537877>`')
+                message.reply('Prefix-based LRS command has moved to </rank view:1044732701317537877>')
             }
             if (message.content.toLowerCase().startsWith(`*mp series`) || message.content.toLowerCase().startsWith(`*mp info`)){
                 message.reply('Prefix-based info commands has moved to </faq:1044732701267202195>')
