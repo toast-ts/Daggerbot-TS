@@ -67,14 +67,13 @@ setInterval(async()=>{
     const completedURL_DSS = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
 	const completedURL_CSG = DBURL + '/feed/dedicated-server-savegame.html?code=' + DBCode + '&file=careerSavegame'
     if (!verifyURL) return msg.edit({content: 'Invalid gameserver IP, please update!', embeds: null})
-    console.log(DBURL + '\n' + DBCode)
     try {
         Server = await client.axios.get(completedURL_DSS, {timeout: 4000})
     } catch (err){
         if (client.config.botSwitches.mpstatsDebug) {
             console.log(err)
         } else {
-            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp dss fail`)
+            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp dss fail, maybe host isn't responding?`)
         }
         embed.setTitle('Host is not responding.').setColor(client.config.embedColorRed)
         msg.edit({content: null, embeds: [embed]})
