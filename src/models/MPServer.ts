@@ -32,5 +32,4 @@ MPDB.init({
         allowNull: false
     }
 }, { sequelize: db, modelName: 'urls', timestamps: false });
-MPDB.sync();
 export default MPDB
