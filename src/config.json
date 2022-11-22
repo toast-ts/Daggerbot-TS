@@ -9,8 +9,8 @@
         "registerCommands": true,
         "commands": false,
         "logs": true,
-        "automod": true,
-        "mpstats": false,
+        "automod": false,
+        "mpstats": true,
         "mpstatsDebug": false,
         "autores": false
     },
