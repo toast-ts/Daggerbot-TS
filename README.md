@@ -7,5 +7,5 @@ TypeScript-based Daggerbot converted from JavaScript at [SpaceManBuzz/DaggerBot-
     - [x] Install TypeScript dependencies and tools
     - [x] Convert JS files to TS one by one
     - [x] Plz work
-- [ ] Production
-    - [ ] Deploy bot
+- [x] Production
+    - [x] Deploy bot
