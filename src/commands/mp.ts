@@ -237,7 +237,8 @@ export default {
                     '**Crossplay server**',
                     `**Map:** ${FSserver2.data.server.mapName.length == 0 ? 'Null Island' : FSserver2.data.server.mapName}`,
                     `**Mods:** [Click here](${(await DBURL).ip}/mods.html) **|** [Direct Download](${(await DBURL).ip}/all_mods_download?onlyActive=true)`,
-                    '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)'
+                    '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
+                    'Please see <#543494084363288637> for additional information.'
                 ].join('\n'));
                 interaction.reply({embeds: [embed2]})
                 break;
