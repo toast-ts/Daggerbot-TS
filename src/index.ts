@@ -50,7 +50,7 @@ process.on('error', async(error: Error)=>{
 // Daggerwin MP loop
 setInterval(async()=>{
     if (!client.config.botSwitches.mpstats) return;
-    const msg = await (client.channels.resolve('904192878140608563') as Discord.TextChannel).messages.fetch('1044552089340219422')
+    const msg = await (client.channels.resolve('543494084363288637') as Discord.TextChannel).messages.fetch('1023699243183112192')
     const embed = new client.embed();
     let Players = [];
     let Server: any;
