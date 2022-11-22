@@ -68,7 +68,7 @@ export class TClient extends Client {
     }
     async init(){
         MPDB.sync();
-        this.login(this.tokens.token_toast);
+        this.login(this.tokens.token_main);
         this.punishments.initLoad();
         this.bannedWords.initLoad();
         this.bonkCount.initLoad();
