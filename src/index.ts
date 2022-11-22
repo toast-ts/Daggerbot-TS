@@ -4,12 +4,12 @@ const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
-import { Punishment, UserLevels } from './typings/interfaces';
+import {Punishment, UserLevels} from './typings/interfaces';
 
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e: { members: { fetch: () => any; }; })=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'Slash commands!', type: 0 }], status: 'online'});
+        client.user.setPresence({activities: [{ name: 'Slash commands!', type: 1, url: 'https://www.youtube.com/watch?v=eO9YZsJmjlM' }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
     if (client.config.botSwitches.registerCommands) (client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild).commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
@@ -50,11 +50,11 @@ process.on('error', async(error: Error)=>{
 // Daggerwin MP loop
 setInterval(async()=>{
     if (!client.config.botSwitches.mpstats) return;
-    const msg = await (client.channels.resolve('904192878140608563') as Discord.TextChannel).messages.fetch('1042835699906400346')
+    const msg = await (client.channels.resolve('904192878140608563') as Discord.TextChannel).messages.fetch('1044552089340219422')
     const embed = new client.embed();
     let Players = [];
     let Server: any;
-    let CSG;
+    let CSG: any;
     let xmlData = undefined;
 
     // Connect to DB to retrieve the Gameserver info to fetch data.

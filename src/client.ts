@@ -204,7 +204,6 @@ export class TClient extends Client {
         const unpunishResult = await this.punishments.removePunishment(punishment.id, interaction.user.id, reason);
         interaction.reply(unpunishResult)
     }
-    
     async YTLoop(YTChannelID: string, YTChannelName: string, DCChannelID: string){
         let Data:any;
         let error;
