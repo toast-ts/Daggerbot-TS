@@ -7,7 +7,7 @@
     "LRSstart": 1661236321433,
     "botSwitches": {
         "registerCommands": true,
-        "commands": false,
+        "commands": true,
         "logs": true,
         "automod": true,
         "mpstats": true,
