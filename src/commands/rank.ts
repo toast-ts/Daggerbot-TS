@@ -146,31 +146,36 @@ export default {
 			interaction.reply({embeds: [embed], files: [yeahok]});
 			return;
 		} else if (subCmd === "view") {
-
 			// fetch user or user interaction sender
 			const member = interaction.options.getMember("member") ?? interaction.member as Discord.GuildMember;
 			if (member.user.bot) return interaction.reply('Bots don\'t level up, try viewing non-bots instead.')
 			const embed = new client.embed().setColor(member.displayColor)
-
 			// information about users progress on level roles
 			const information = client.userLevels._content[member.user.id];
-		
 			const pronounBool = (you: string, they: string) => { // takes 2 words and chooses which to use based on if user did this command on themself
 				if (interaction.user.id === member.user.id) return you || true;
 				else return they || false;
 			};
-
 			if (!information) {
 				return interaction.reply(`${pronounBool('You', 'They')} currently don't have a level, send some messages to level up.`)
 			}
-		
 			const index = Object.entries<UserLevels>(client.userLevels._content).sort((a, b) => b[1].messages - a[1].messages).map(x => x[0]).indexOf(member.id) + 1;
+			const suffix = ((index)=>{
+				const numbers = index.toString().split('').reverse(); //eg. 1850 -> [0,5,8,1]
+				if (numbers[1] == '1'){//this some -teen
+					return 'th';
+				}else{
+					if (numbers[0] == '1') return 'st';
+					else if (numbers[0] == '2') return 'nd';
+					else if (numbers[0] == '3') return 'rd';
+					else return 'th';
+				}
+			})(index);
 			const memberDifference = information.messages - client.userLevels.algorithm(information.level);
 			const levelDifference = client.userLevels.algorithm(information.level+1) - client.userLevels.algorithm(information.level);
-	
-			embed.setThumbnail(member.user.avatarURL({ extension: 'png', size: 256}) || member.user.defaultAvatarURL)
-			embed.setAuthor({name: `Ranking for ${member.user.tag}`})
-			embed.setTitle(`Level: **${information.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${information.messages - client.userLevels.algorithm(information.level)}/${client.userLevels.algorithm(information.level+1) - client.userLevels.algorithm(information.level)} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${information.messages}**`);
+
+			embed.setThumbnail(member.user.avatarURL({ extension: 'png', size: 256}) || member.user.defaultAvatarURL).setAuthor({name: `Ranking for ${member.user.tag}`}).setFooter({text: `You're ${index ? index + suffix : 'last'} in a leaderboard, ordered by their message count.`})
+			.setTitle(`Level: **${information.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${information.messages - client.userLevels.algorithm(information.level)}/${client.userLevels.algorithm(information.level+1) - client.userLevels.algorithm(information.level)} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${information.messages}**`);
 			interaction.reply({embeds: [embed]});
 	 	}
     },
