@@ -426,7 +426,7 @@ class userLevels extends Database {
                 }
             } else if (data.messages >= this.algorithm(data.level+1)){// If user's message count meets/exceeds message requirement for next level...
                 this._content[userid].level++;// Level them up.
-                (this.client.channels.resolve(this.client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({content: `<@${userid}> has reached level **${data.level}**. GG!`, allowedMentions: {parse: ['users']}})
+                (this.client.channels.resolve(this.client.config.mainServer.channels.botcommands) as Discord.TextChannel).send({content: `<@${userid}> has reached level **${data.level}**. GG!`, allowedMentions: {parse: ['users']}})
             }
         } else {// If user doesn't exist on file, create an object for it.
             this._content[userid] = {messages: 1, level: 0};
