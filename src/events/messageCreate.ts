@@ -103,7 +103,7 @@ export default {
                 message.reply('Prefix-based LRS command has moved to </rank view:1044732701317537877>')
             }
             if (message.content.toLowerCase().startsWith(`*mp series`) || message.content.toLowerCase().startsWith(`*mp info`)){
-                message.reply('Prefix-based info commands has moved to </faq:1044732701267202195>')
+                message.reply('Prefix-based MP info commands has moved to </mp series:1044732701317537873> and </mp info:1044732701317537873>')
             }
             if (PasswordArray.some(e=>message.content.toLowerCase().includes(e))){
                 message.reply('Password and other details can be found in <#543494084363288637>')
