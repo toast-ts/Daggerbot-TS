@@ -143,9 +143,9 @@ setInterval(async()=>{
     const lrsStart = client.config.LRSstart;
     
     client.punishments._content.filter((x:Punishment)=>x.endTime<= now && !x.expired).forEach(async (punishment:Punishment)=>{
-        console.log(`\x1b[36m[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, '\x1b[32m' + `${punishment.member}\'s ${punishment.type} should expire now`);
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]` + `${punishment.member}\'s ${punishment.type} should expire now`);
         const unpunishResult = await client.punishments.removePunishment(punishment.id, client.user.id, 'Time\'s up!');
-        console.log(`\x1b[36m[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, '\x1b[32m' + unpunishResult);
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]` + unpunishResult);
     });
     
     const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
@@ -158,6 +158,6 @@ setInterval(async()=>{
         }
         dailyMsgs.push([formattedDate, total]);
         fs.writeFileSync(__dirname + '/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
-        console.log(`\x1b[36m[${client.moment().format('DD/MM/YY HH:mm:ss')}] \x1b[33m`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`)
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`)
     }
 }, 5000)
