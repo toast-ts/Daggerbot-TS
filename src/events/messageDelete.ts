@@ -11,9 +11,8 @@ export default {
         const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setAuthor({name: `Author: ${msg.author.tag} (${msg.author.id})`, iconURL: `${msg.author.displayAvatarURL()}`}).setTitle('Message deleted').setDescription(`<@${msg.author.id}>\nContent:\n\`\`\`\n${msg?.content}\n\`\`\`\nChannel: <#${msg.channelId}>`)
         let image;
         if (msg.attachments?.first()?.width && ['png', 'jpeg', 'jpg', 'gif', 'webp'].some(x=>((msg.attachments.first() as Discord.Attachment).name as string).endsWith(x))) {
-            image = msg.attachments?.first().proxyURL
-            embed.setImage(image)
+            image = msg.attachments?.first().attachment
         }
-        channel.send({embeds: [embed]})
+        channel.send({embeds: [embed], files: [image]})
     }
 }
