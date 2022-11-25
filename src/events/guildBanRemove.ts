@@ -3,6 +3,7 @@ import { TClient } from '../client';
 export default {
     name: 'guildBanRemove',
     execute: async(client:TClient, member:Discord.GuildMember)=>{
+        if (member.guild?.id != client.config.mainServer.id) return;
         const fetchUnbanlog = await member.guild.fetchAuditLogs({
             limit: 1,
             type: AuditLogEvent.MemberBanRemove
