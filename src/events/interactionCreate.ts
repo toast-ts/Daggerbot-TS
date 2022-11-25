@@ -14,7 +14,7 @@ export default {
                     commandFile.default.run(client, interaction);
                     commandFile.uses ? commandFile.uses++ : commandFile.uses = 1;
                 } catch (error:any){
-                    console.log(`\x1b[31mAn error occured while running command "${commandFile.name}"`, error, error.stack);
+                    console.log(`An error occured while running command "${commandFile.name}"`, error, error.stack);
                     return interaction.reply('An error occured while executing that command.');
                 }
             }

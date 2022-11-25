@@ -49,7 +49,7 @@ export class Database {
 		const newJson = JSON.stringify(db._content);
 		if (oldJson !== newJson || force){
 			writeFileSync(this._path, JSON.stringify(this._content, null, 2));
-			if (this._saveNotifs) console.log(`\x1b[36m[${moment().format('DD/MM/YY HH:mm:ss')}] \x1b[33m` + this._path + ' Database saved');
+			if (this._saveNotifs) console.log(`[${moment().format('DD/MM/YY HH:mm:ss')}]` + this._path + ' Database saved');
 		}
 		return db;
 	}

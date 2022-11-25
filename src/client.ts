@@ -216,7 +216,7 @@ export class TClient extends Client {
             })
         } catch(err){
             error = true;
-            console.log(`\x1b[36m[${this.moment().format('DD/MM/YY HH:mm:ss')}]`, `\x1b[31m${YTChannelName} YT fail`)
+            console.log(`[${this.moment().format('DD/MM/YY HH:mm:ss')}]`, `${YTChannelName} YT fail`)
         }
         
         if (!Data) return;
