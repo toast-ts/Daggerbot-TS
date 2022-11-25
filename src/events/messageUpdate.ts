@@ -4,6 +4,7 @@ export default {
     name: 'messageUpdate',
     execute: async(client:TClient, oldMsg:Discord.Message, newMsg:Discord.Message)=>{
         if (!client.config.botSwitches.logs) return;
+        if (oldMsg.guild?.id != client.config.mainServer.id) return;
         if (oldMsg.author == null) return;
         if (oldMsg?.author.bot) return;
         if (oldMsg.partial) return;
