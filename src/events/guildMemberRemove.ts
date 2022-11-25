@@ -5,6 +5,7 @@ export default {
     execute: async(client:TClient, member:Discord.GuildMember)=>{
         if (!client.config.botSwitches.logs) return;
         if (!member.joinedTimestamp) return;
+        if (member.guild?.id != client.config.mainServer.id) return;
         const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048}) as string).setTitle(`Member Left: ${member.user.tag}`).setDescription(`<@${member.user.id}>\n\`${member.user.id}\``).addFields(
             {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
             {name: '🔹 Join Date', value: `<t:${Math.round(member.joinedTimestamp/1000)}>\n<t:${Math.round(member.joinedTimestamp/1000)}:R>`},
