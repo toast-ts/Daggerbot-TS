@@ -31,8 +31,7 @@ export class TClient extends Client {
             intents: [
                 GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
                 GatewayIntentBits.GuildBans, GatewayIntentBits.GuildInvites,
-                GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildMessageReactions,
-                GatewayIntentBits.DirectMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
+                GatewayIntentBits.GuildPresences, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
             ],
             partials: [
                 Partials.Channel,
