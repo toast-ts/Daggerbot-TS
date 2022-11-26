@@ -3,6 +3,7 @@ import { TClient } from '../client';
 export default {
     name: 'roleUpdate',
     execute: async(client:TClient, oldRole:Discord.Role, newRole:Discord.Role)=>{
+        if (oldRole.guild?.id != client.config.mainServer.id) return;
         const fetchRoleUpdoot = await client.guilds.cache.get(oldRole.guild.id).fetchAuditLogs({
             limit: 1,
             type: AuditLogEvent.RoleUpdate
