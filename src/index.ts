@@ -36,7 +36,7 @@ client.on('ready', async()=>{
 // Handle errors
 process.on('unhandledRejection', async(error: Error)=>{
     console.log(error);
-    //(client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 });
 process.on('uncaughtException', async(error: Error)=>{
     console.log(error);
