@@ -9,7 +9,7 @@ import {Punishment, UserLevels} from './typings/interfaces';
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'Slash commands!', type: 1, url: 'https://www.youtube.com/watch?v=eO9YZsJmjlM' }], status: 'online'});
+        client.user.setPresence({activities: [{ name: 'Slash commands!', type: 1, url: 'https://www.youtube.com/watch?v=GtL1huin9EE' }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
     if (client.config.botSwitches.registerCommands) client.application.commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
