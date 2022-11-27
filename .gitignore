@@ -2,8 +2,7 @@
 node_modules/
 package-lock.json
 .ncurc.json
-# TypeScript stuff
-dist/
 # Bot stuff
-src/database/MPDB.dat
-src/commands/disabled
+src/database/
+src/tokens.json
+src/Toast-Testbot.config.json
