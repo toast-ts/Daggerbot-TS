@@ -326,7 +326,7 @@ class punishments extends Database {
                     const embedw = new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${warnData.id}: Warn`).setDescription(`${member.user.tag}\n<@${member.user.id}>\n(\`${member.user.id}\`)`).addFields(
                         {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``}
                     )
-                    if (moderator !== client.user.id) {return embedw}
+                    if (moderator !== this.client.user.id) {return embedw}
                 }
             case 'mute':
                 const muteData:Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
@@ -352,7 +352,7 @@ class punishments extends Database {
                     const embedm = new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${muteData.id}: Mute`).setDescription(`${member.user.tag}\n<@${member.user.id}>\n(\`${member.user.id}\`)`).addFields(
                         {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``},
                         {name: 'Duration', value: `${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}`})
-                    if (moderator !== client.user.id) {return embedm};
+                    if (moderator !== this.client.user.id) {return embedm};
                 }
         }
     }
