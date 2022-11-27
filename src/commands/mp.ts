@@ -242,7 +242,7 @@ export default {
                 ].join('\n'));
                 interaction.reply({embeds: [embed2]})
                 break;
-            case 'series':
+            /* case 'series':
                 const embed3 = new client.embed().setColor(client.config.embedColor).setTitle('How to join the Daggerwin MP series')
                 .setDescription([
                     'To join the Daggerwin MP series, you first need to:',
@@ -252,7 +252,7 @@ export default {
                     '**4:** If you don\'t receive the role within a day or so, please message an Admin and they will sort it out.',
                     '**5:** Take a look in <#511657659364147200> to get information on how to join the server.'
                 ].join('\n'));
-                interaction.reply({embeds: [embed3]})
+                interaction.reply({embeds: [embed3]}) */
         }
     },
     data: new SlashCommandBuilder()
@@ -267,7 +267,7 @@ export default {
         .addSubcommand((opt)=>opt
             .setName('info')
             .setDescription('Provides you with server information such as filters and so on'))
-        .addSubcommand((opt)=>opt
+        /* .addSubcommand((opt)=>opt
             .setName('series')
-            .setDescription('Step-by-step on joining Daggerwin\'s MP series'))
+            .setDescription('Step-by-step on joining Daggerwin\'s MP series')) */
 }
