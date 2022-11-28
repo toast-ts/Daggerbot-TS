@@ -23,7 +23,7 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
         embed.setTitle('Host is not responding.');
         embed.setColor(client.config.embedColorRed);
         interaction.reply({embeds: [embed]});
-        console.log('dag mp fail to fetch, host is not responding.');
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp fail to fetch, host is not responding.`);
         return;
     }
     return FSserver
