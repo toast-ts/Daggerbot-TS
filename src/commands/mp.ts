@@ -42,7 +42,7 @@ export default {
             case 'status':
                 const embed0 = new client.embed();
                 const FSserver0 = await MPdata(client, interaction, embed0);
-                if (!FSserver0.data) return console.log('FSserver0 failed')
+                if (!FSserver0?.data) return console.log('FSserver0 failed')
                 if (FSserver0.data.server.name.length > 1) {
                     embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
                         {name: 'Server name', value: `${FSserver0?.data.server.name.length == 0 ? '\u200b' : `\`${FSserver0?.data.server.name}\``}`, inline: true},
@@ -217,7 +217,7 @@ export default {
                 const Image = new client.attachmentBuilder(img.toBuffer(),{name: 'FSStats.png'})
                 embed1.setImage('attachment://FSStats.png')
                 const FSserver1 = await MPdata(client, interaction, embed1)
-                if (!FSserver1.data) return console.log('FSserver1 failed')
+                if (!FSserver1?.data) return console.log('FSserver1 failed')
                 embed1.setTitle(FSserver1?.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
                 .setDescription(`${FSserver1?.data.slots.used}/${FSserver1?.data.slots.capacity}`)
                 .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
@@ -229,7 +229,7 @@ export default {
             case 'info':
                 const embed2 = new client.embed().setColor(client.config.embedColor)
                 const FSserver2 = await MPdata(client, interaction, embed2)
-                if (!FSserver2.data) return console.log('FSserver2 failed')
+                if (!FSserver2?.data) return console.log('FSserver2 failed')
                 const DBURL = MPDB.findOne({where: {serverId: interaction.guildId}})
                 embed2.setDescription([
                     `**Server name**: \`Official Daggerwin Game Server\``,
