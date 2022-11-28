@@ -13,7 +13,7 @@ export default {
                 try{
                     commandFile.default.run(client, interaction);
                     commandFile.uses ? commandFile.uses++ : commandFile.uses = 1;
-                } catch (error:any){
+                } catch (error){
                     console.log(`An error occured while running command "${commandFile.name}"`, error, error.stack);
                     return interaction.reply('An error occured while executing that command.');
                 }
