@@ -4,6 +4,7 @@
     "embedColorYellow": "#ffea00",
     "embedColorRed": "#e62c3b",
     "embedColorBCA": "#ff69b4",
+    "embedColorXmas": "#FFFFFF",
     "LRSstart": 1661236321433,
     "botSwitches": {
         "registerCommands": true,
