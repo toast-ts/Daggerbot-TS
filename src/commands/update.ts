@@ -20,4 +20,5 @@ export default {
     data: new SlashCommandBuilder()
         .setName('update')
         .setDescription('Pull from repository and restart')
+        .setDMPermission(false)
 }

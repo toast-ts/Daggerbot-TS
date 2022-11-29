@@ -57,8 +57,9 @@ export default {
     data: new SlashCommandBuilder()
         .setName('eval')
         .setDescription('Run code for debugging purposes')
-            .addStringOption((opt)=>opt
-                .setName('code')
-                .setDescription('Execute your code')
-                .setRequired(true))
+        .setDMPermission(false)
+        .addStringOption((opt)=>opt
+            .setName('code')
+            .setDescription('Execute your code')
+            .setRequired(true))
 }

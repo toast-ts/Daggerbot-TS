@@ -9,4 +9,5 @@ export default {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Check bot\'s latency')
+        .setDMPermission(false)
 }
