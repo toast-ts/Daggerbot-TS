@@ -177,6 +177,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName('rank')
         .setDescription('Level system')
+        .setDMPermission(false)
         .addSubcommand((optt)=>optt
             .setName('view')
             .setDescription('View your rank or someone else\'s rank')
