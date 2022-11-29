@@ -90,7 +90,7 @@ export default {
             const NawdicBrokeIt = ['break', 'broke', 'broken']
             const deadChat = ['dead chat', 'chat is dead', 'dead server']
 
-            if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member) && message.type != 19){
+            if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member)){
                 message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>')
             }
             if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19){
