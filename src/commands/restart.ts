@@ -8,4 +8,5 @@ export default {
     data: new SlashCommandBuilder()
         .setName('restart')
         .setDescription('Restart the bot for technical reasons')
+        .setDMPermission(false)
 }

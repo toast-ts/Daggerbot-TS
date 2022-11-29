@@ -7,6 +7,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName('warn')
         .setDescription('Warn a member')
+        .setDMPermission(false)
         .addUserOption((opt)=>opt
             .setName('member')
             .setDescription('Which member to warn?')

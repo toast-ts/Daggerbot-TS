@@ -8,4 +8,5 @@ export default {
     data: new SlashCommandBuilder()
         .setName('smell')
         .setDescription('Who smells?')
+        .setDMPermission(false)
 }

@@ -11,6 +11,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName('addbannedword')
         .setDescription('Add a word to bannedWords file')
+        .setDMPermission(false)
         .addStringOption((opt)=>opt
             .setName('word')
             .setDescription('What word do you want automod to ban?')

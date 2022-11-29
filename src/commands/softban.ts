@@ -7,6 +7,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName('softban')
         .setDescription('Softban a member from the server')
+        .setDMPermission(false)
         .addUserOption((opt)=>opt
             .setName('member')
             .setDescription('Which member to softban?')

@@ -47,6 +47,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName('url')
         .setDescription('View the URL for this server\'s FSMP server or update the URL')
+        .setDMPermission(false)
         .addStringOption((opt)=>opt
             .setName('address')
             .setDescription('Insert a \'dedicated-server-stats\' url'))
