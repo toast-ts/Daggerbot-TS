@@ -1,5 +1,6 @@
-{
-    "embedColor": "#0052cf",
+{   
+    "embedColor": "#FFFFFF",
+    "embedColorBackup": "#0052cf",
     "embedColorGreen": "#57f287",
     "embedColorYellow": "#ffea00",
     "embedColorRed": "#e62c3b",
