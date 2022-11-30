@@ -19,7 +19,6 @@ export class TClient extends Client {
     xjs: any;
     axios: any;
     ms: any;
-    memberCount_LastGuildFetchTimestamp: any;
     userLevels: userLevels;
     punishments: punishments;
     bonkCount: bonkCount;
@@ -57,7 +56,6 @@ export class TClient extends Client {
         this.xjs = require('xml-js');
         this.axios = require('axios');
         this.ms = require('ms');
-        this.memberCount_LastGuildFetchTimestamp = 0;
         this.userLevels = new userLevels(this);
         this.bonkCount = new bonkCount(this);
         this.punishments = new punishments(this);
