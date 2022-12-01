@@ -44,7 +44,7 @@ export default {
                     // if a spammed message exists;
                     if (spammedMessage){
                         // mute
-                        const muteResult = await client.punishments.addPunishment('mute', message.member, {reason: 'Automod; banned words', time: '30m'}, client.user.id);
+                        const muteResult = await client.punishments.addPunishment('mute', { time: '30m' }, (client.user as Discord.User).id, 'Automod; Banned words', message.author, message.member as Discord.GuildMember);
                         // and clear their list of long messages
                         delete client.repeatedMessages[message.author.id];
                     }
