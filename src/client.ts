@@ -179,21 +179,17 @@ export class TClient extends Client {
     }
 
     async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
-        let result: any;
-        if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod')
+        if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
+
         const time = interaction.options.getString('time') as string;
-        const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
-        if (type == 'ban'){
-            const user = interaction.options.getUser('member') as Discord.User;
-            if (interaction.user.id == user.id) return interaction.reply(`You cannot ${type} yourself!`);
-            result = await this.punishments.addPunishment(type, user, {time,reason,interaction}, interaction.user.id);
-        } else {
-            const member = interaction.options.getMember('member') as Discord.GuildMember;
-            if (interaction.user.id == member.id) return interaction.reply(`You cannot ${type} yourself!`);
-            if (this.isStaff(member)) return interaction.reply(`You cannot ${type} other staff!`);
-            result = await this.punishments.addPunishment(type, member, {time,reason,interaction}, interaction.user.id);
-        }
-        (typeof result == 'string' ? interaction.reply({content: `${result}`}) : interaction.reply({embeds: [result]}))
+        const reason = interaction.options.getString('reason') ?? 'Unspecified';
+        const GuildMember = interaction.options.getMember('member') as Discord.GuildMember;
+        const User = interaction.options.getUser('member') as Discord.User;
+
+        if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
+        if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
+
+        await client.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
     };
     async unPunish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod');
@@ -245,115 +241,112 @@ class punishments extends Database {
     createId(){
         return Math.max(...this.client.punishments._content.map((x:Punishment)=>x.id), 0)+1;
     }
-    async addPunishment(type: string, member: any, options: punOpt, moderator: string){
-        const now = Date.now();
-        const {time, reason, interaction}=options;
-        const ms = require('ms');
-        let timeInMillis: number;
-        if(type !== 'mute'){
-            timeInMillis = time ? ms(time) : null;
-        } else {
-            timeInMillis = time ? ms(time) : 2419200000;
+	makeModlogEntry(data: Punishment) {
+        const cancels = data.cancels ? this.client.punishments._content.find((x: Punishment) => x.id === data.cancels) : null;
+    
+        // format data into embed
+        const embed = new this.client.embed()
+            .setTitle(`${this.client.formatPunishmentType(data, this.client, cancels)} | Case #${data.id}`)
+            .addFields(
+            	{name: '🔹 User', value: `<@${data.member}> \`${data.member}\``, inline: true},
+            	{name: '🔹 Moderator', value: `<@${data.moderator}> \`${data.moderator}\``, inline: true},
+            	{name: '\u200b', value: '\u200b', inline: true},
+            	{name: '🔹 Reason', value: `\`${data.reason}\``, inline: true})
+            .setColor(this.client.config.embedColor)
+            .setTimestamp(data.time)
+        if (data.duration) {
+            embed.addFields(
+            	{name: '🔹 Duration', value: this.client.formatTime(data.duration, 100), inline: true},
+            	{name: '\u200b', value: '\u200b', inline: true}
+            )
         }
-        switch (type) {
-            case 'ban':
-                const banData:Punishment={type, id: this.createId(), member: member.id, moderator, time: now};
-                const dm1: Discord.Message = await member.send(`You've been banned from ${interaction.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${banData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
-                const banResult = await interaction.guild.bans.create(member.id, {reason: `${reason || 'Reason unspecified'} | Case #${banData.id}`}).catch((err:Error)=>err.message);
-                if (typeof banResult === 'string'){
-                    dm1.delete()
-                    return `Ban was unsuccessful: ${banResult}`
-                } else {
-                    if (timeInMillis){
-                        banData.endTime = now + timeInMillis;
-                        banData.duration = timeInMillis
-                    }
-                    if (reason) banData.reason = reason;
-                    this.client.makeModlogEntry(banData, this.client);
-                    this.addData(banData).forceSave();
-                    return new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${banData.id}: Ban`).setDescription(`${member?.user?.tag ?? member?.tag}\n<@${member.id}>\n(\`${member.id}\`)`).addFields(
-                        {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``},
-                        {name: 'Duration', value: `${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'}`}
-                    )
-                }
-            case 'softban':
-                const guild = member.guild;
-                const softbanData:Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
-                const dm2 = Discord.Message = await member.send(`You've been softbanned from ${member.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${softbanData.id})`).catch(()=>{return interaction.channel.send('Failed to DM user.')})
-                const softbanResult = await member.ban({deleteMessageSeconds: 345600, reason: `${reason || 'Reason unspecified'} | Case #${softbanData.id}`}).catch((err:Error)=>err.message);
-                if (typeof softbanResult === 'string') {
-                    dm2.delete();
-                    return `Softban was unsuccessful: ${softbanResult}`;
-                } else {
-                    const unbanResult = guild.members.unban(softbanData.member, `${reason || 'Reason unspecified'} | Case #${softbanData.id}`).catch((err:Error)=>err.message);
-                    if (typeof unbanResult === 'string'){
-                        return `Softban (unban) was unsuccessful: ${softbanResult}`
-                    } else {
-                        if (reason) softbanData.reason = reason;
-                        this.client.makeModlogEntry(softbanData, this.client);
-                        this.addData(softbanData).forceSave();
-                        return new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${softbanData.id}: Softban`).setDescription(`${member.user.tag}\n<@${member.user.tag}>\n(\`${member.user.id}\`)`).addFields(
-                            {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``}
-                        )
-                    }
-                }
-            case 'kick':
-                const kickData:Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
-                const dm3: Discord.Message = await member.send(`You've been kicked from ${member.guild.name} for reason \`${reason || 'Reason unspecified'}\` (Case #${kickData.id})`).catch(()=>{interaction.channel.send(`Failed to DM <@${member.user.id}>.`); return null});
-                const kickResult = await member.kick(`${reason || 'Reason unspecified'} | Case #${kickData.id}`).catch((err:Error)=>err.message)
-                if (typeof kickResult === 'string'){
-                    if (dm3) dm3.delete();
-                    return `Kick was unsuccessful: ${kickResult}`
-                } else {
-                    if (reason) kickData.reason = reason;
-                    this.client.makeModlogEntry(kickData, this.client);
-                    this.addData(kickData).forceSave();
-                    return new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${kickData.id}: Kick`).setDescription(`${member.user.tag}\n<@${member.user.id}>\n(\`${member.user.id}\`)`).addFields(
-                        {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``}
-                    )
-                }
-            case 'warn':
-                const warnData:Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
-                const warnResult: Discord.Message = await member.send(`You've been warned in ${member.guild.name} for reason \`${reason || 'Reason unspecified'}\` (Case #${warnData.id})`).catch(()=>{interaction.channel.send(`Failed to DM <@${member.user.id}>`); return null;})
-                if (typeof warnResult === 'string'){
-                    return `Warn was unsuccessful: ${warnResult}`
-                } else {
-                    if (reason) warnData.reason = reason;
-                    this.client.makeModlogEntry(warnData, this.client);
-                    this.addData(warnData).forceSave();
-                    const embedw = new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${warnData.id}: Warn`).setDescription(`${member.user.tag}\n<@${member.user.id}>\n(\`${member.user.id}\`)`).addFields(
-                        {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``}
-                    )
-                    if (moderator !== this.client.user.id) {return embedw}
-                }
-            case 'mute':
-                const muteData:Punishment={type, id: this.createId(), member: member.user.id, moderator, time: now};
-                let muteResult;
-                if (this.client.isStaff(member)) return 'Staff cannot be muted.'
-                const dm4: Discord.Message = await member.send(`You've been muted in ${member.guild.name} ${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}` : 'forever'} for reason \`${reason || 'Reason unspecified'}\` (Case #${muteData.id})`).catch(()=>{interaction.channel.send('Failed to DM user.'); return null});
-                if (timeInMillis) {
-                    muteResult = await member.timeout(timeInMillis, `${reason || 'Reason unspecified'} | Case #${muteData.id}`).catch((err:Error)=>err.message);
-                } else {
-                    muteResult = await member.timeout(2419200000, `${reason || 'Reason unspecified'} | Case #${muteData.id}`).catch((err:Error)=>err.message);
-                }
-                if (typeof muteResult === 'string'){
-                    if (dm4) dm4.delete();
-                    return `Mute was unsuccessful: ${muteResult}`;
-                } else {
-                    if (timeInMillis) {
-                        muteData.endTime = now + timeInMillis;
-                        muteData.duration = timeInMillis;
-                    }
-                    if (reason) muteData.reason = reason;
-                    this.client.makeModlogEntry(muteData, this.client);
-                    this.addData(muteData).forceSave();
-                    const embedm = new this.client.embed().setColor(this.client.config.embedColor).setTitle(`Case #${muteData.id}: Mute`).setDescription(`${member.user.tag}\n<@${member.user.id}>\n(\`${member.user.id}\`)`).addFields(
-                        {name: 'Reason', value: `\`${reason || 'Reason unspecified'}\``},
-                        {name: 'Duration', value: `${this.client.formatTime(timeInMillis, 4, {longNames: true, commas: true})}`})
-                    if (moderator !== this.client.user.id) {return embedm};
-                }
-        }
-    }
+        if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} \`${cancels.reason}\``});
+    
+        // send embed in modlog channel
+        (this.client.channels.cache.get(this.client.config.mainServer.channels.staffreports) as Discord.TextChannel).send({embeds: [embed]});
+    };
+	getTense(type: string) { // Get past tense form of punishment type, grammar yes
+		switch (type) {
+			case 'ban':
+				return 'banned';
+			case 'softban':
+				return 'softbanned';
+			case 'kick':
+				return 'kicked';
+			case 'mute':
+				return 'muted';
+			case 'warn':
+				return 'warned';
+		}
+	}
+	async addPunishment(type: string, options: punOpt, moderator: string, reason: string, User: Discord.User, GuildMember?: Discord.GuildMember) {
+		const { time, interaction } = options;
+		const ms = require('ms');
+		const now = Date.now();
+		const guild = this.client.guilds.cache.get(this.client.config.mainServer.id) as Discord.Guild;
+		const punData: Punishment = { type, id: this.createId(), member: User.id, reason, moderator, time: now }
+		const embed = new this.client.embed()
+			.setColor(this.client.config.embedColor)
+			.setTitle(`Case #${punData.id}: ${type[0].toUpperCase() + type.slice(1)}`)
+			.setDescription(`${User.tag}\n<@${User.id}>\n(\`${User.id}\`)`)
+			.addFields({name: 'Reason', value: reason})
+		let punResult: any;
+		let timeInMillis: number;
+		let DM: Discord.Message<false> | undefined;
+
+		if (type == "mute") {
+			timeInMillis = time ? ms(time) : 2419140000; // Timeouts have a limit of 4 weeks
+		} else {
+			timeInMillis = time ? ms(time) : null;
+		}
+
+		// Add field for duration if time is specified
+		if (time) embed.addFields({name: 'Duration', value: `${timeInMillis ? `for ${this.client.formatTime(timeInMillis, 4, { longNames: true, commas: true })}` : "forever"}`})
+
+		if (GuildMember) {
+			try {
+				DM = await GuildMember.send(`You've been ${this.getTense(type)} ${['warn', 'mute'].includes(type) ? 'in' : 'from'} ${guild.name}${time ? (timeInMillis ? ` for ${this.client.formatTime(timeInMillis, 4, { longNames: true, commas: true })}` : 'forever') : ''} for reason \`${reason}\` (case #${punData.id})`);
+			} catch (err: any) {
+				embed.setFooter({text: 'Failed to DM member of punishment'});
+			}
+		}
+
+		if (['ban', 'softban'].includes(type)) {
+			punResult = await guild.bans.create(User.id, {reason: `${reason} | Case #${punData.id}`}).catch((err: Error) => err.message);
+		} else if (type == 'kick') {
+			punResult = await GuildMember?.kick(`${reason} | Case #${punData.id}`).catch((err: Error) => err.message);
+		} else if (type == 'mute') {
+			punResult = await GuildMember?.timeout(timeInMillis, `${reason} | Case #${punData.id}`).catch((err: Error) => err.message);
+		}
+
+		if (type == 'softban' && typeof punResult != 'string') { // If type was softban and it was successful, continue with softban (unban)
+			punResult = await guild.bans.remove(User.id, `${reason} | Case #${punData.id}`).catch((err: Error) => err.message);
+		}
+
+		if (timeInMillis && ['mute', 'ban'].includes(type)) { // If type is mute or ban, specify duration and endTime
+			punData.endTime = now + timeInMillis;
+			punData.duration = timeInMillis;
+		}
+
+		if (typeof punResult == 'string') { // Punishment was unsuccessful
+			if (DM) DM.delete();
+			if (interaction) {
+				return interaction.reply(punResult);
+			} else {
+				return punResult;
+			}
+		} else { // Punishment was successful
+			this.makeModlogEntry(punData);
+			this.client.punishments.addData(punData).forceSave();
+
+			if (interaction) {
+				return interaction.reply({embeds: [embed]});
+			} else {
+				return punResult;
+			}
+		}
+
+	}
     async removePunishment(caseId:number, moderator:any, reason:string):Promise<any>{
         const now = Date.now()
         const punishment = this._content.find((x:Punishment)=>x.id === caseId);
