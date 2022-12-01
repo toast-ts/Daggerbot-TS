@@ -22,8 +22,8 @@ export interface Punishment {
     member: string;
     moderator: string;
     expired?: boolean;
-    time?: number;
-    reason?: string;
+    time: number;
+    reason: string;
     endTime?: number;
     cancels?: number;
     duration?: number;
