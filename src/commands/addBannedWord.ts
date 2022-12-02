@@ -2,7 +2,7 @@ import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-        if (!client.isStaff(interaction.member) && !client.config.eval.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'dcmod')
+        if (!client.isStaff(interaction.member) && !client.config.eval.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
         const word = interaction.options.getString('word');
         if (client.bannedWords._content.includes(word)) return interaction.reply({content: 'That word is already added to the list.', ephemeral: true});
         client.bannedWords.addData(word).forceSave();
