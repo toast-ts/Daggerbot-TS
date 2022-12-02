@@ -156,28 +156,6 @@ export class TClient extends Client {
 
         return rows.join('\n');
     }
-    makeModlogEntry(data: Punishment, client: TClient){
-        const cancels = data.cancels ? client.punishments._content.find((x: Punishment)=>x.id === data.cancels) : null;
-
-        // turn data into embed
-        const embed = new this.embed().setColor(this.config.embedColor).setTimestamp(data.time)
-            .setTitle(`${this.formatPunishmentType(data, client, cancels)} | Case #${data.id}`).addFields(
-                {name: '🔹 User', value: `<@${data.member}> \`${data.member}\``, inline: true},
-                {name: '🔹 Moderator', value: `<@${data.moderator}> \`${data.moderator}\``, inline: true},
-                {name: '\u200b', value: `\u200b`, inline: true},
-                {name: '🔹 Reason', value: `\`${data.reason || 'Reason unspecified'}\``, inline: true},
-            )
-        if (data.duration) {
-            embed.addFields(
-                {name: '🔹 Duration', value: client.formatTime(data.duration, 100), inline: true},
-                {name: '\u200b', value: '\u200b', inline: true}
-            )
-        }
-        if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id}\n\`${cancels.reason}\``});
-        // send embed to log channel
-        (client.channels.cache.get(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]})
-    }
-
     async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
 
@@ -263,7 +241,7 @@ class punishments extends Database {
         if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} \`${cancels.reason}\``});
     
         // send embed in modlog channel
-        (this.client.channels.cache.get(this.client.config.mainServer.channels.staffreports) as Discord.TextChannel).send({embeds: [embed]});
+        (this.client.channels.cache.get(this.client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]});
     };
 	getTense(type: string) { // Get past tense form of punishment type, grammar yes
 		switch (type) {
@@ -376,7 +354,7 @@ class punishments extends Database {
             if (typeof removePunishmentResult === 'string') return `Un${punishment.type} was unsuccessful: ${removePunishmentResult}`;
             else {
                 const removePunishmentData = {type: `un${punishment.type}`, id, cancels: punishment.id, member: punishment.member, reason, moderator, time: now};
-                this.client.makeModlogEntry(removePunishmentData, this.client);
+                this.makeModlogEntry(removePunishmentData);
                 this._content[this._content.findIndex((x:Punishment)=>x.id === punishment.id)].expired = true;
                 this.addData(removePunishmentData).forceSave();
                 return `Successfully ${punishment.type === 'ban' ? 'unbanned' : 'unmuted'} **${removePunishmentResult?.tag}** (${removePunishmentResult?.id}) for reason \`${reason || 'Reason unspecified'}\``
@@ -384,7 +362,7 @@ class punishments extends Database {
         } else {
             try {
                 const removePunishmentData = {type: 'removeOtherPunishment', id, cancels: punishment.id, member: punishment.member, reason, moderator, time: now};
-                this.client.makeModlogEntry(removePunishmentData, this.client);
+                this.makeModlogEntry(removePunishmentData);
                 this._content[this._content.findIndex((x:Punishment)=>x.id === punishment.id)].expired = true;
                 this.addData(removePunishmentData).forceSave();
                 return `Successfully removed Case #${punishment.id} (type: ${punishment.type}, user: ${punishment.member}).`;
