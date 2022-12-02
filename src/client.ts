@@ -290,7 +290,12 @@ class punishments extends Database {
 		}
 
 		if (['ban', 'softban'].includes(type)) {
-			punResult = await guild.bans.create(User.id, {reason: `${reason} | Case #${punData.id}`}).catch((err: Error) => err.message);
+			const banned = await guild.bans.fetch(User.id).catch(() => undefined);
+			if (!banned) {
+				punResult = await guild.bans.create(User.id, {reason: `${reason} | Case #${punData.id}`}).catch((err: Error) => err.message);
+			} else {
+				punResult = 'User is already banned.';
+			}
 		} else if (type == 'kick') {
 			punResult = await GuildMember?.kick(`${reason} | Case #${punData.id}`).catch((err: Error) => err.message);
 		} else if (type == 'mute') {
