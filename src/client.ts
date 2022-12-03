@@ -167,6 +167,8 @@ export class TClient extends Client {
         if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
         if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
 
+
+        await interaction.deferReply();
         await client.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
     };
     async unPunish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -221,6 +223,7 @@ class punishments extends Database {
     }
 	makeModlogEntry(data: Punishment) {
         const cancels = data.cancels ? this.client.punishments._content.find((x: Punishment) => x.id === data.cancels) : null;
+        const channelId = ['kick', 'ban'].includes(data.type) ? '1048341961901363352' : this.client.config.mainServer.channels.logs;
     
         // format data into embed
         const embed = new this.client.embed()
@@ -241,7 +244,7 @@ class punishments extends Database {
         if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} \`${cancels.reason}\``});
     
         // send embed in modlog channel
-        (this.client.channels.cache.get(this.client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]});
+        (this.client.channels.cache.get(channelId) as Discord.TextChannel).send({embeds: [embed]});
     };
 	getTense(type: string) { // Get past tense form of punishment type, grammar yes
 		switch (type) {
@@ -314,7 +317,7 @@ class punishments extends Database {
 		if (typeof punResult == 'string') { // Punishment was unsuccessful
 			if (DM) DM.delete();
 			if (interaction) {
-				return interaction.reply(punResult);
+				return interaction.editReply(punResult);
 			} else {
 				return punResult;
 			}
@@ -323,7 +326,7 @@ class punishments extends Database {
 			this.client.punishments.addData(punData).forceSave();
 
 			if (interaction) {
-				return interaction.reply({embeds: [embed]});
+				return interaction.editReply({embeds: [embed]});
 			} else {
 				return punResult;
 			}

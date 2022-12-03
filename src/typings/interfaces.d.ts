@@ -1,3 +1,5 @@
+import Discord from 'discord.js';
+
 export interface UserLevels {
     messages: number,
     level: number
@@ -14,7 +16,7 @@ export interface createTableOpt {
 export interface punOpt {
     time?: string,
     reason?: string,
-    interaction?: any
+    interaction?: Discord.ChatInputCommandInteraction<"cached">
 }
 export interface Punishment {
     id: number;
