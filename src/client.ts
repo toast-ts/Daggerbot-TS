@@ -160,7 +160,7 @@ export class TClient extends Client {
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
 
         const time = interaction.options.getString('time') as string;
-        const reason = interaction.options.getString('reason') ?? 'Unspecified';
+        const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
         const GuildMember = interaction.options.getMember('member') as Discord.GuildMember;
         const User = interaction.options.getUser('member') as Discord.User;
 
