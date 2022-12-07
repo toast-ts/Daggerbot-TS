@@ -55,11 +55,36 @@ export default {
                     client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 30000);
                 }
             }
-            if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod)) {
+            if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId)) {
                 automodded = true;
                 message.delete().catch((err)=>{
                     console.log('advertisement automod; msg got possibly deleted by another bot.')
                 })
+                message.channel.send('Advertising other Discord servers is not allowed.').then(x=>setTimeout(()=>x.delete(), 10000))
+                if (client.repeatedMessages[message.author.id]){
+                    client.repeatedMessages[message.author.id].set(message.createdTimestamp,{cont:1,ch:message.channelId});
+
+                    clearTimeout(client.repeatedMessages[message.author.id].to);
+                    client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 60000);
+
+                    const threshold = 60000;
+
+                    client.repeatedMessages[message.author.id] = client.repeatedMessages[message.author.id].filter((x:any, i:number)=> i >= Date.now() - threshold)
+
+                    const spammedMessage = client.repeatedMessages[message.author.id]?.find((x:any)=>{
+                        return client.repeatedMessages[message.author.id].filter((y:any)=>x.cont === y.cont).size >= 4;
+                    });
+
+                    if (spammedMessage){
+                        const muteResult = await client.punishments.addPunishment('mute', {time: '1h'}, (client.user as Discord.User).id, 'Automod; Discord advertisement', message.author, message.member as Discord.GuildMember);
+                        delete client.repeatedMessages[message.author.id];
+                    }
+                }else{
+                    client.repeatedMessages[message.author.id] = new client.collection();
+                    client.repeatedMessages[message.author.id].set(message.createdTimestamp, {cont: 1, ch: message.channelId});
+
+                    client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 60000);
+                }
             }
 
             if (message.guildId == client.config.mainServer.id && !automodded){
