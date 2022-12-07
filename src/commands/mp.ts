@@ -22,7 +22,9 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
         // Blame Nawdic & RedRover92
         embed.setTitle('Host is not responding.');
         embed.setColor(client.config.embedColorRed);
-        interaction.reply({embeds: [embed]});
+        interaction.reply({embeds: [embed]}).catch(err=>{
+            interaction.channel.send({content: `Interaction author: **${interaction.user.tag}** (\`${interaction.user.id}\`)`, embeds: [embed]})
+        })
         console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp fail to fetch, host is not responding.`);
         return;
     }
@@ -42,8 +44,9 @@ export default {
             case 'status':
                 const embed0 = new client.embed();
                 const FSserver0 = await MPdata(client, interaction, embed0);
-                if (!FSserver0?.data) return console.log('FSserver0 failed')
-                if (FSserver0.data.server.name.length > 1) {
+                if (!FSserver0?.data) return console.log('FSserver0 failed');
+                // vv can revert back if things dont work out too well.
+                /*if (FSserver0.data.server.name.length > 1) {
                     embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
                         {name: 'Server name', value: `${FSserver0?.data.server.name.length == 0 ? '\u200b' : `\`${FSserver0?.data.server.name}\``}`, inline: true},
                         {name: 'Players', value: `${FSserver0.data.slots.used} out of ${FSserver0.data.slots.capacity}`, inline: true},
@@ -59,8 +62,25 @@ export default {
                         {name: 'Version', value: '0.0.0.0', inline: true},
                         {name: 'In-game Time', value: '00:00', inline: true}
                     ).setFooter({text: 'Server is currently offline.'})
-                }
-                interaction.reply({embeds: [embed0]})
+                }*/
+
+                try {
+                    if (FSserver0.data.server.name.length > 1){
+                        embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
+                            {name: 'Server name', value: `${FSserver0?.data.server.name.length == 0 ? '\u200b' : `\`${FSserver0?.data.server.name}\``}`, inline: true},
+                            {name: 'Players', value: `${FSserver0.data.slots.used} out of ${FSserver0.data.slots.capacity}`, inline: true},
+                            {name: 'Current map', value: `${FSserver0?.data.server.mapName.length == 0 ? '\u200b' : FSserver0.data.server.mapName}`, inline: true},
+                            {name: 'Version', value: `${FSserver0?.data.server.version.length == 0 ? '\u200b' : FSserver0.data.server.version}`, inline: true},
+                            {name: 'In-game Time', value: `${('0' + Math.floor((FSserver0.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSserver0.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true}
+                        )
+                        interaction.reply({embeds: [embed0]})
+                    } else if (FSserver0.data.server.name.length == 0) {
+                        interaction.reply('Server is currently offline.')
+                    }
+                } catch (err){
+                    console.log(err)
+                    interaction.reply('FSserver0 Placeholder')
+                };
                 break;
             case 'players':
                 const embed1 = new client.embed();
