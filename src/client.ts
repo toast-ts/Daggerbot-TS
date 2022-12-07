@@ -286,7 +286,7 @@ class punishments extends Database {
 
 		if (GuildMember) {
 			try {
-				DM = await GuildMember.send(`You've been ${this.getTense(type)} ${['warn', 'mute'].includes(type) ? 'in' : 'from'} ${guild.name}${time ? (timeInMillis ? ` for ${this.client.formatTime(timeInMillis, 4, { longNames: true, commas: true })}` : 'forever') : ''} for reason \`${reason}\` (case #${punData.id})`);
+				DM = await GuildMember.send(`You've been ${this.getTense(type)} ${['warn', 'mute'].includes(type) ? 'in' : 'from'} ${guild.name}${time ? (timeInMillis ? ` for ${this.client.formatTime(timeInMillis, 4, { longNames: true, commas: true })}` : 'forever') : ''} for reason \`${reason}\` (Case #${punData.id})`);
 			} catch (err: any) {
 				embed.setFooter({text: 'Failed to DM member of punishment'});
 			}
