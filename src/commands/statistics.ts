@@ -1,8 +1,8 @@
-import Discord,{SlashCommandBuilder, version} from 'discord.js';
+import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 import si from 'systeminformation';
 import os from 'node:os';
-import { versionMajorMinor } from 'typescript';
+import { version } from 'typescript';
 import { VERSION } from 'ts-node';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){ 
@@ -47,19 +47,20 @@ export default {
                 const i = Math.floor(Math.log(bytes) / Math.log(k));
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
             }
+            var DJSver = require('discord.js').version;
             const cpu = await si.cpu();
             const ram = await si.mem();
             const osInfo = await si.osInfo();
             const currentLoad = await si.currentLoad();
             const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Statistics: Host Info').setDescription([
                 `> __Dependencies__`,
-                `**TypeScript:** ${versionMajorMinor}`,
+                `**TypeScript:** ${version}`,
                 `**TS-Node:** ${VERSION}`,
                 `**NodeJS:** ${process.version}`,
-                `**DiscordJS:** ${version}`,
+                `**DiscordJS:** ${DJSver}`,
                 `> __Host__`,
                 `**Operating System:** ${osInfo.distro + ' ' + osInfo.release}`,
-                `**CPU:** ${cpu.manufacturer, cpu.brand}`,
+                `**CPU:** ${cpu.manufacturer} ${cpu.brand}`,
                 `**Memory:** ${formatBytes(ram.used)}/${formatBytes(ram.total)}`,
                 `**NodeJS:** ${formatBytes(process.memoryUsage().heapUsed)}/${formatBytes(process.memoryUsage().heapTotal)}`,
                 `**Load Usage:**\nUser: ${currentLoad.currentLoadUser.toFixed(1)}%\nSystem: ${currentLoad.currentLoadSystem.toFixed(1)}%`,
