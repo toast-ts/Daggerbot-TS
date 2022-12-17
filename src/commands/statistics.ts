@@ -16,7 +16,7 @@ export default {
             includedCommands.forEach(command=>{
                 const name = command.default.data.name;
                 const count = command.uses.toString();
-                rows.push(`${name + '_'.repeat(nameLength - name.length)}${'_'.repeat(amountLength - count.length) + count}\n`);
+                rows.push(`${name + ' '.repeat(nameLength - name.length)}${' '.repeat(amountLength - count.length) + count}\n`);
             });
             const embed = new client.embed().setColor(client.config.embedColor).setTitle('Statistics: Command Usage')
             .setDescription([
