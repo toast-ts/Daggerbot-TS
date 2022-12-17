@@ -16,7 +16,7 @@ export default {
             includedCommands.forEach(command=>{
                 const name = command.default.data.name;
                 const count = command.uses.toString();
-                rows.push(`${name + ' '.repeat(nameLength - name.length)}${' '.repeat(amountLength - count.length) + count}\n`);
+                rows.push(`${name + '_'.repeat(nameLength - name.length)}${'_'.repeat(amountLength - count.length) + count}\n`);
             });
             const embed = new client.embed().setColor(client.config.embedColor).setTitle('Statistics: Command Usage')
             .setDescription([
@@ -66,7 +66,7 @@ export default {
                 `**Load Usage:**\nUser: ${currentLoad.currentLoadUser.toFixed(1)}%\nSystem: ${currentLoad.currentLoadSystem.toFixed(1)}%`,
                 `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime as number, 2, {commas: true, longNames: true})}`
             ].join('\n'))
-            .setFooter({text: `Load time: ${Date.now() - interaction.createdTimestamp}ms`});
+            .setFooter({text: `Load time: ${client.formatTime(Date.now() - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`});
             interaction.editReply({embeds: [embed, embed1]});
     },
     data: new SlashCommandBuilder()
