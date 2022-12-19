@@ -4,6 +4,8 @@ import { Database } from './database';
 import timeNames from './timeNames';
 import { Punishment, formatTimeOpt, createTableOpt, punOpt } from './typings/interfaces';
 import MPDB from './models/MPServer';
+import axios from 'axios';
+import moment from 'moment';
 export class TClient extends Client {
     invites: Map<any, any>;
     commands: Discord.Collection<string, any>;
@@ -15,9 +17,9 @@ export class TClient extends Client {
     collection: any;
     messageCollector: any;
     attachmentBuilder: any;
-    moment: any;
+    moment: typeof moment;
     xjs: any;
-    axios: any;
+    axios: typeof axios;
     ms: any;
     userLevels: userLevels;
     punishments: punishments;
@@ -52,9 +54,9 @@ export class TClient extends Client {
         this.collection = Discord.Collection;
         this.messageCollector = Discord.MessageCollector;
         this.attachmentBuilder = Discord.AttachmentBuilder;
-        this.moment = require('moment');
+        this.moment = moment;
         this.xjs = require('xml-js');
-        this.axios = require('axios');
+        this.axios = axios;
         this.ms = require('ms');
         this.userLevels = new userLevels(this);
         this.bonkCount = new bonkCount(this);
