@@ -4,7 +4,7 @@ const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
-import {Punishment, UserLevels} from './typings/interfaces';
+import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interfaces';
 
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
@@ -53,9 +53,7 @@ setInterval(async()=>{
     const msg = await (client.channels.resolve('543494084363288637') as Discord.TextChannel).messages.fetch('1023699243183112192')
     const embed = new client.embed();
     let Players = [];
-    let Server: any;
-    let CSG: any;
-    let xmlData = undefined;
+    let error;
 
     // Connect to DB to retrieve the Gameserver info to fetch data.
     MPDB.sync();
@@ -66,42 +64,50 @@ setInterval(async()=>{
     const verifyURL = DBURL.match(/http/);
     const completedURL_DSS = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
 	const completedURL_CSG = DBURL + '/feed/dedicated-server-savegame.html?code=' + DBCode + '&file=careerSavegame'
+    const FSdss = {
+        data: {} as FSData,
+        fetchResult: '' as string
+    };
+    const FScsg = {
+        data: {} as FSCareerSavegame,
+        fetchResult: '' as string
+    };
     if (!verifyURL) return msg.edit({content: 'Invalid gameserver IP, please update!', embeds: null})
-    try {
-        Server = await client.axios.get(completedURL_DSS, {timeout: 4000})
-    } catch (err){
-        if (client.config.botSwitches.mpstatsDebug) {
-            console.log(err)
+    async function serverData(client:TClient, URL: string){
+        return await client.axios.get(URL, {timeout: 4000, headers: {'User-Agent': `Daggerbot/axios ${client.axios.version}`}}).catch((error:Error)=>error.message)
+    }
+    await Promise.all([serverData(client, completedURL_DSS), serverData(client, completedURL_CSG)]).then(function(results){
+        if (typeof results[0] == 'string'){
+            FSdss.fetchResult = `dag mp dss fail, ${results[0]}`;
+        } else if (results[0].status != 200){
+            FSdss.fetchResult = `dag mp dss fail with ${results[0].status + ' ' + results[0].statusText}`;
         } else {
-            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp dss fail, maybe host isn't responding?`)
+            FSdss.data = results[0].data as FSData
         }
-        embed.setTitle('Host is not responding.').setColor(client.config.embedColorRed)
+        if (typeof results[1] == 'string'){
+            FScsg.fetchResult = `dag mp csg fail, ${results[1]}`;
+        } else if (results[1].status != 200){
+            FScsg.fetchResult = `dag mp csg fail with ${results[1].status + ' ' + results[1].statusText}`;
+        } else {
+            FScsg.data = client.xjs.xml2js(results[1].data,{compact:true,spaces:2}).careerSavegame as FSCareerSavegame;
+        }
+    }).catch((error)=>console.log(error))
+    if (FSdss.fetchResult.length != 0){
+        error = true;
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, FSdss.fetchResult);
+    }
+    if (FScsg.fetchResult.length != 0){
+        error = true;
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, FScsg.fetchResult);
+    }
+    if (error) { // Blame RedRover and Nawdic
+        embed.setTitle('Host is not responding').setColor(client.config.embedColorRed);
         msg.edit({content: null, embeds: [embed]})
         return;
     }
-    try {
-        CSG = await client.axios.get(completedURL_CSG, {timeout: 4100}).then((xml: any)=>{
-            xmlData = client.xjs.xml2js(xml.data, {compact: true, spaces: 2}).careerSavegame;
-        })
-    } catch (err){
-        if (client.config.botSwitches.mpstatsDebug) {
-            console.log(err)
-        } else {
-            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp csg fail`)
-        }
-    }
-    if (xmlData == undefined){
-        if (client.config.botSwitches.mpstatsDebug) {
-            console.log(xmlData)
-        } else {
-            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp csg failed to convert`)
-        }
-        embed.setFooter({text: 'XML Data retrieve failed. Retrying in next minute.'})
-        msg.edit({embeds: [embed]})
-    }
 
     const DB = require(`./database/MPPlayerData.json`);
-    DB.push(Server.data.slots.used)
+    DB.push(FSdss.data.slots.used)
     fs.writeFileSync(__dirname + `/database/MPPlayerData.json`, JSON.stringify(DB))
     
     // Number format function
@@ -109,24 +115,23 @@ setInterval(async()=>{
         var n = Number(number)
         return n.toLocaleString(undefined, {minimumFractionDigits: digits})+icon
     }
-    var timeScale = Number(xmlData?.settings?.timeScale._text)
 
-    if (Server.data.server.name.length == 0){
+    if (FSdss.data.server.name.length == 0){
         embed.setTitle('The server seems to be offline.').setColor(client.config.embedColorRed);
         msg.edit({content: 'This embed will resume when server is back online.', embeds: [embed]})
     } else {
         const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Server details').addFields(
-            {name: 'Current Map', value: `${Server.data.server.mapName.length == 0 ? '\u200b' : Server.data.server.mapName}`, inline: true},
-			{name: 'Version', value: `${Server.data.server.version.length == 0 ? '\u200b' : Server.data.server.version}`, inline: true},
-			{name: 'In-game Time', value: `${('0' + Math.floor((Server.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((Server.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-			{name: 'Slot Usage', value: `${Number(xmlData?.slotSystem?._attributes?.slotUsage).toLocaleString('en-US')}`, inline: true},
-			{name: 'Timescale', value: `${formatNumber(timeScale, 0, 'x')}`, inline: true}
+            {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
+			{name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
+			{name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
+			{name: 'Slot Usage', value: `${Number(FScsg.data.slotSystem._attributes.slotUsage).toLocaleString('en-US')}`, inline: true},
+            {name: 'Timescale', value: `${formatNumber(Number(FScsg.data.settings.timeScale._text), 0, 'x')}`, inline: true}
         );
-        await Server.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
+        FSdss.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
             Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('0' + (player.uptime % 60)).slice(-2)} min`)
         })
-        embed.setDescription(`${Server.data.slots.used == 0 ? '*No players online*' : Players.join('\n\n')}`).setTitle(Server.data.server.name).setColor(client.config.embedColor)
-        embed.setAuthor({name: `${Server.data.slots.used}/${Server.data.slots.capacity}`});
+        embed.setDescription(`${FSdss.data.slots.used == 0 ? '*No players online*' : Players.join('\n\n')}`).setTitle(FSdss.data.server.name).setColor(client.config.embedColor)
+        embed.setAuthor({name: `${FSdss.data.slots.used}/${FSdss.data.slots.capacity}`});
         msg.edit({content: 'This embed updates every minute.', embeds: [embed1, embed]})
     }
 }, 60000)
