@@ -13,7 +13,6 @@
         "logs": true,
         "automod": true,
         "mpstats": true,
-        "mpstatsDebug": false,
         "autores": true
     },
     "eval": {
@@ -60,7 +59,6 @@
             "logs": "548032776830582794",
             "welcome": "621134751897616406",
             "botcommands": "468888722210029588"
-    
           }
     }
 }
