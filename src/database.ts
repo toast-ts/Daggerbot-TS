@@ -31,8 +31,6 @@ export class Database {
 				case 1:
 					this._content = this._content.filter((x:any)=>x[element] != key);
 					break;
-				default:
-					return 'Type must be properly specified';
 			}
 		} else if (this._dataType === 'object'){
 			delete this._content[key];
