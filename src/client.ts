@@ -243,7 +243,7 @@ class punishments extends Database {
             	{name: '\u200b', value: '\u200b', inline: true}
             )
         }
-        if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} \`${cancels.reason}\``});
+        if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id}\n\`${cancels.reason}\``});
     
         // send embed in modlog channel
         (this.client.channels.cache.get(channelId) as Discord.TextChannel).send({embeds: [embed]});
