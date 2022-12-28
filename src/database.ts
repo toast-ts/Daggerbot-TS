@@ -64,4 +64,6 @@ export class Database {
 		console.log(this._path + ' "Database saved" Notifications disabled');
 		return this;
 	}
+
+
 } // Nice.
