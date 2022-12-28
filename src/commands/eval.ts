@@ -3,17 +3,17 @@ import { TClient } from 'src/client';
 import * as util from 'node:util';
 const removeUsername = (text: string)=>{
     let matchesLeft = true;
-    const array = text.split('\/');
+    const array = text.split('\\');
     while (matchesLeft){
-        let usersIndex = array.indexOf('home');
+        let usersIndex = array.indexOf('Users');
         if (usersIndex<1) matchesLeft = false;
         else {
             let usernameIndex = usersIndex+1;
             if(array[usernameIndex].length == 0) usernameIndex += 1;
             array[usernameIndex] = '*'.repeat(array[usernameIndex].length);
-            array[usersIndex] = 'ho\u200bme';
+            array[usersIndex] = 'Us\u200bers';
         }
-    } return array.join('\/');
+    } return array.join('\\');
 };
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
