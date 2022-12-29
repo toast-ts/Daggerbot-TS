@@ -121,15 +121,6 @@ export default {
             if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19){
                 message.reply('Please don\'t tag Monster unless it\'s important!')
             }
-            if (message.content.toLowerCase().startsWith(`*mp players`) || message.content.toLowerCase().startsWith(`*mp status`)){
-                message.reply('Prefix-based MP commands has moved to </mp players:1058125073975869572> and </mp status:1058125073975869572>')
-            }
-            if (message.content.toLowerCase().startsWith(`*lrs`) || message.content.toLowerCase().startsWith(`*rank`)){
-                message.reply('Prefix-based LRS command has moved to </rank view:1058125073975869576>')
-            }
-            if (message.content.toLowerCase().startsWith(`*mp series`) || message.content.toLowerCase().startsWith(`*mp info`)){
-                message.reply('Prefix-based MP info commands has moved to </mp series:1058125073975869572> and </mp info:1058125073975869572>')
-            }
             if (PasswordArray.some(e=>message.content.toLowerCase().includes(e))){
                 message.reply('Password and other details can be found in <#543494084363288637>')
             }
