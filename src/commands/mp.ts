@@ -45,25 +45,6 @@ export default {
                 const embed0 = new client.embed();
                 const FSserver0 = await MPdata(client, interaction, embed0);
                 if (!FSserver0?.data) return console.log('FSserver0 failed');
-                // vv can revert back if things dont work out too well.
-                /*if (FSserver0.data.server.name.length > 1) {
-                    embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
-                        {name: 'Server name', value: `${FSserver0?.data.server.name.length == 0 ? '\u200b' : `\`${FSserver0?.data.server.name}\``}`, inline: true},
-                        {name: 'Players', value: `${FSserver0.data.slots.used} out of ${FSserver0.data.slots.capacity}`, inline: true},
-                        {name: 'Current map', value: `${FSserver0?.data.server.mapName.length == 0 ? '\u200b' : FSserver0.data.server.mapName}`, inline: true},
-                        {name: 'Version', value: `${FSserver0?.data.server.version.length == 0 ? '\u200b' : FSserver0.data.server.version}`, inline: true},
-                        {name: 'In-game Time', value: `${('0' + Math.floor((FSserver0.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSserver0.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true}
-                    )
-                } else if (FSserver0.data.server.name.length == 0) {
-                    embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
-                        {name: 'Server name', value: `\`Official Daggerwin Game Server\``, inline: true},
-                        {name: 'Players', value: '0 out of 0', inline: true},
-                        {name: 'Current map', value: 'Null Island', inline: true},
-                        {name: 'Version', value: '0.0.0.0', inline: true},
-                        {name: 'In-game Time', value: '00:00', inline: true}
-                    ).setFooter({text: 'Server is currently offline.'})
-                }*/
-
                 try {
                     if (FSserver0.data.server.name.length > 1){
                         embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
