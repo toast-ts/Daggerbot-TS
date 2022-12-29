@@ -2,16 +2,18 @@ import Discord, { Client, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import { Database } from './database';
 import timeNames from './timeNames';
-import { Punishment, formatTimeOpt, createTableOpt, punOpt } from './typings/interfaces';
+import { Punishment, formatTimeOpt, createTableOpt, punOpt, Tokens, Config } from './typings/interfaces';
 import MPDB from './models/MPServer';
 import axios from 'axios';
 import moment from 'moment';
+import tokens from './tokens.json';
+import config from './config.json';
 export class TClient extends Client {
     invites: Map<any, any>;
     commands: Discord.Collection<string, any>;
     registry: Array<Discord.ApplicationCommandDataResolvable>;
-    config: any;
-    tokens: any;
+    config: Config;
+    tokens: Tokens;
     YTCache: any;
     embed: typeof Discord.EmbedBuilder;
     collection: any;
@@ -44,8 +46,8 @@ export class TClient extends Client {
         this.invites = new Map();
         this.commands = new Discord.Collection();
         this.registry = [];
-        this.config = require('./config.json');
-        this.tokens = require('./tokens.json');
+        this.config = config as Config;
+        this.tokens = tokens as Tokens;
         this.YTCache = {
             'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
             'UCguI73--UraJpso4NizXNzA': undefined // Machinery Restorer
