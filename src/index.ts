@@ -164,6 +164,6 @@ setInterval(async()=>{
         dailyMsgs.push([formattedDate, total]);
         fs.writeFileSync(__dirname + '/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
         console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
-        (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:1058125073975869576>`)
+        client.application.commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`))
     }
 }, 5000)
