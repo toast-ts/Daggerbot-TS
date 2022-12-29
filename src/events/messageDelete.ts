@@ -5,7 +5,7 @@ export default {
     execute: async(client:TClient, msg:Discord.Message)=>{
         if (!client.config.botSwitches.logs) return;
         const channel = client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel;
-        const disabledChannels = ['548032776830582794']
+        const disabledChannels = ['548032776830582794', '541677709487505408']
         if (msg.guild?.id != client.config.mainServer.id) return;
         if (msg.partial) return;
         if (msg.author.bot) return;
