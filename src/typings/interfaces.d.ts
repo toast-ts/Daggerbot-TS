@@ -1,4 +1,4 @@
-import Discord from 'discord.js';
+import Discord, { ColorResolvable } from 'discord.js';
 
 export interface UserLevels {
     messages: number,
@@ -122,4 +122,62 @@ interface slotUsage {
 }
 interface XMLText {
     _text: string
+}
+export interface Tokens {
+    token_main: string
+    token_beta: string
+    token_toast: string
+    token_tae: string
+}
+export interface Config {
+    embedColor: ColorResolvable,
+    embedColorGreen: ColorResolvable,
+    embedColorYellow: ColorResolvable,
+    embedColorRed: ColorResolvable,
+    embedColorBCA: ColorResolvable,
+    embedColorXmas: ColorResolvable,
+    LRSstart: number,
+    botSwitches: botSwitches,
+    eval: Eval,
+    mainServer: mainServer
+}
+interface botSwitches {
+    registerCommands: boolean,
+    commands: boolean,
+    logs: boolean,
+    automod: boolean,
+    mpstats: boolean,
+    autores: boolean
+}
+interface Eval {
+    allowed: boolean,
+    whitelist: Array<string>
+}
+interface mainServer {
+    id: string,
+    staffRoles: Array<string>,
+    roles: mainServerRoles,
+    channels: mainServerChannels
+}
+interface mainServerRoles {
+    admin: string,
+    bottech: string,
+    dcmod: string,
+    mpmanager: string,
+    mpmod: string,
+    vtcmanager: string,
+    vtcstaff: string,
+    ytmod: string,
+    mphelper: string,
+    mpplayer: string,
+    vtcmember: string
+}
+interface mainServerChannels {
+    console: string,
+    errors: string,
+    thismeanswar: string,
+    bot_status: string,
+    logs: string,
+    welcome: string,
+    botcommands: string
 }
