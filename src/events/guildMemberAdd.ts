@@ -29,7 +29,7 @@ export default {
 
         const embed1 = new client.embed().setColor(client.config.embedColorGreen).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`Member Joined: ${member.user.tag}`).setDescription(`<@${member.user.id}>\n\`${member.user.id}\``).setFooter({text: `Total members: ${index}${suffix}`}).addFields(
             {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
-            {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.tag}**` : 'I couldn\'t find out how they joined!'}
+            {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.tag}**` : 'No invite data could be found.'}
         );
         (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed1]})
     }
