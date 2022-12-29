@@ -15,8 +15,8 @@ export default {
                 interaction.reply(`Successfully added \`${word}\` to the list.`)
                 break;
             case 'remove':
-                if (client.bannedWords._content.includes(!word)) return interaction.reply({content: `\`${word}\` doesn't exist on the list.`, ephemeral: true});
-                client.bannedWords.removeData(word, 1, 0).forceSave();
+                if (client.bannedWords._content.includes(word) == false) return interaction.reply({content: `\`${word}\` doesn't exist on the list.`, ephemeral: true});
+                client.bannedWords.removeData(word, 0, 0).forceSave();
                 interaction.reply(`Successfully removed \`${word}\` from the list.`)
         }
     },
