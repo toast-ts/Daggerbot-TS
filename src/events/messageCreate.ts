@@ -158,6 +158,11 @@ export default {
             if (NightArray.some(e=>message.content.toLowerCase().startsWith(e))){
                 message.reply(`Night **${message.member.displayName}**`)
             }
+
+            if (message.content.startsWith('!!!_wepanikfrfr') && client.config.eval.whitelist.includes(message.author.id)){
+                client.application.commands.set(client.registry);
+                message.reply({content: 'How could you manage to lose the commands??? Anyways, it\'s re-registered now.'})
+            }
         }
     }
 }
