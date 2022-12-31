@@ -11,7 +11,7 @@ export default {
         if (oldMsg.partial) return;
         if (newMsg.partial) return;
         if (!newMsg.member) return;
-        if (disabledChannels) return;
+        if (disabledChannels.includes(newMsg.channelId)) return;
         const msgarr = newMsg.content.toLowerCase().split(' ');
         if (client.bannedWords._content.some((word:string)=>msgarr.includes(word)) && (!client.isStaff(newMsg.member))) newMsg.delete();
         if (newMsg.content === oldMsg.content) return;
