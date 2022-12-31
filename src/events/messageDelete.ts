@@ -9,7 +9,7 @@ export default {
         if (msg.guild?.id != client.config.mainServer.id) return;
         if (msg.partial) return;
         if (msg.author.bot) return;
-        if (disabledChannels) return;
+        if (disabledChannels.includes(msg.channelId)) return;
         const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setAuthor({name: `Author: ${msg.author.tag} (${msg.author.id})`, iconURL: `${msg.author.displayAvatarURL()}`}).setTitle('Message deleted').setDescription(`<@${msg.author.id}>\n\`${msg.author.id}\``);
         if (msg.content.length != 0) embed.addFields({name: 'Content', value: `\`\`\`\n${msg.content.slice(0,1000)}\n\`\`\``});
         embed.addFields(
