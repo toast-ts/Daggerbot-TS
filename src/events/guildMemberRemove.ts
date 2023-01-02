@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'guildMemberRemove',
-    execute: async(client:TClient, member:Discord.GuildMember)=>{
+    async run(client:TClient, member:Discord.GuildMember){
         if (!client.config.botSwitches.logs) return;
         if (
             !member.joinedTimestamp

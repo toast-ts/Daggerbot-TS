@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'messageDelete',
-    execute: async(client:TClient, msg:Discord.Message)=>{
+    async run(client:TClient, msg:Discord.Message){
         if (!client.config.botSwitches.logs) return;
         const channel = client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel;
         const disabledChannels = [

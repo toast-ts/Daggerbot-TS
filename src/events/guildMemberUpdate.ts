@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'guildMemberUpdate',
-    execute: async(client:TClient, oldMember:Discord.GuildMember, newMember:Discord.GuildMember)=>{
+    async run(client:TClient, oldMember:Discord.GuildMember, newMember:Discord.GuildMember){
         if (oldMember.guild.id != client.config.mainServer.id) return;
         if (!client.config.botSwitches.logs) return;
         const channel = (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel)
