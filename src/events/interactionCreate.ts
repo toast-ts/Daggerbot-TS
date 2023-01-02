@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'interactionCreate',
-    execute: async(client:TClient, interaction:Discord.ChatInputCommandInteraction)=>{
+    async run(client:TClient, interaction:Discord.ChatInputCommandInteraction){
         if (!interaction.inGuild() || !interaction.inCachedGuild() || !interaction.command) return;
         if (interaction.isCommand()){
             const commandFile = client.commands.get(interaction.commandName);

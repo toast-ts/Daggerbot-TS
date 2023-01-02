@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'guildMemberAdd',
-    execute: async(client:TClient, member:Discord.GuildMember)=>{
+    async run(client:TClient, member:Discord.GuildMember){
         //if (member.partial) return;
         if (
             member.partial

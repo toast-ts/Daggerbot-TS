@@ -14,7 +14,7 @@ client.on('ready', async()=>{
     }, 60000);
     // ['929807948748832798', '468835415093411861', '1058183358267543552', '549114074273677314'] - 0=Dev Server, 1=Main Server, 2=Throne, 3=Toast's test server
     if (client.config.botSwitches.registerCommands){
-        ['929807948748832798', '468835415093411861', '1058183358267543552'].forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
+        ['929807948748832798'].forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
             console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
             (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
         }));
@@ -33,11 +33,16 @@ client.on('ready', async()=>{
     (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
-    const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
+    fs.readdirSync('src/events').forEach((file)=>{
+        const eventFile = require(`./events/${file}`);
+        client.on(file.replace('.ts', ''), async(...args)=>eventFile.default.run(client,...args));
+    });
+
+    /*const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
     eventFiles.forEach((file)=>{
         const event = require(`./events/${file}`);
         client.on(event.default.name, async(...args)=>event.default.execute(client, ...args));
-    });
+    });*/
 })
 
 // Handle errors
