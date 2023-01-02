@@ -4,7 +4,7 @@ export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         const options = interaction.options.getString('question')
         if (options == 'srp'){
-            const embed = new client.embed().setColor(client.config.embedColor).setTitle('When will SRP (Survival Roleplay) return?').setImage('https://cdn.discordapp.com/attachments/898252602603610142/1013097505094893698/Screenshot_20220827-153617_YouTube.jpg');
+            const embed = new client.embed().setColor(client.config.embedColor).setTitle('When will SRP (Survival Roleplay) return?').setImage('https://cdn.discordapp.com/attachments/1023338018720989305/1059259250242752562/IMG_8964.png');
             interaction.reply({embeds: [embed]})
         } else if (options == 'dlskin'){
             const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Hex code for Daggerwin Logistics').setDescription('The main color will be Onyx (`#353839`) with red bumpers').setImage('https://cdn.discordapp.com/attachments/801965516947324969/806871878736019456/image0.png');

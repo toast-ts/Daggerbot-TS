@@ -3,8 +3,11 @@ import { TClient } from '../client';
 export default {
     name: 'guildMemberAdd',
     execute: async(client:TClient, member:Discord.GuildMember)=>{
-        if (member.partial) return;
-        if (member.guild?.id != client.config.mainServer.id) return;
+        //if (member.partial) return;
+        if (
+            member.partial
+            || member.guild?.id != client.config.mainServer.id
+        ) return;
         const index = member.guild.memberCount;
         const suffix = ((index)=>{
             const numbers = index.toString().split('').reverse(); // eg 1850 --> [0,5,8,1]

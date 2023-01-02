@@ -9,10 +9,17 @@ import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interf
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'Happy new year!', type: 1, url: 'https://www.youtube.com/watch?v=KY1N-ZYe8xA' }], status: 'online'});
+        client.user.setPresence({activities: [{ name: '#general-chat', type: 1, url: 'https://www.youtube.com/watch?v=nhB5WoUYQbc' }], status: 'idle'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
-    if (client.config.botSwitches.registerCommands) client.application.commands.set(client.registry).catch((e)=>{console.log(`Couldn't register slash commands: ${e}`)})
+    // ['929807948748832798', '468835415093411861', '1058183358267543552', '549114074273677314'] - 0=Dev Server, 1=Main Server, 2=Throne, 3=Toast's test server
+    if (client.config.botSwitches.registerCommands){
+        ['929807948748832798', '468835415093411861', '1058183358267543552'].forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
+            console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
+            (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
+        }));
+    };
+
     setInterval(()=>{
         const guild = client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild;
         guild.invites.fetch().then((invs)=>{
@@ -164,6 +171,6 @@ setInterval(async()=>{
         dailyMsgs.push([formattedDate, total]);
         fs.writeFileSync(__dirname + '/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
         console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
-        client.application.commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`))
+        client.application.commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`).catch((e)=>{(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to dailyMsgs`)}))
     }
 }, 5000)
