@@ -5,9 +5,8 @@ import MPDB from '../models/MPServer';
 async function MPdata(client:TClient, interaction:Discord.ChatInputCommandInteraction, embed: EmbedBuilder) {
     let FSserver;
     MPDB.sync();
-    const newServerId = interaction.guildId;
-    if (!await MPDB.findOne({where: {serverId: newServerId}})) return interaction.reply('This server isn\'t linked.')
-    const ServerURL = await MPDB.findOne({where: { serverId: newServerId }});
+    if (!await MPDB.findOne({where: {serverId: interaction.guildId}})) return interaction.reply('This server isn\'t linked.')
+    const ServerURL = await MPDB.findOne({where: { serverId: interaction.guildId }});
     if (!ServerURL) return interaction.reply(`No gameserver found, please contact <@&${client.config.mainServer.roles.mpmanager}> to add it.`)
     const DBURL = ServerURL.ip
     const DBCode = ServerURL.code
@@ -16,17 +15,14 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
     if (!verifyURL) return interaction.reply(`Invalid gameserver IP, please contact <@&${client.config.mainServer.roles.mpmanager}> to update it.`)
 
     // Fetch dss
-    try {
-        FSserver = await client.axios.get(completedURL, {timeout: 2800}) // 2800 seems doable with database latency added to it.
+    try {                                              //   v I am aware timeout has decreased from 2800 to 2588 to fit within Discord's interaction timeouts (3s) -Toast
+        FSserver = await client.axios.get(completedURL, {timeout: 2588}) // Finally got around to fixing the command when it cannot ping the host.
     } catch(err) {
         // Blame Nawdic & RedRover92
         embed.setTitle('Host is not responding.');
         embed.setColor(client.config.embedColorRed);
-        interaction.reply({embeds: [embed]}).catch(err=>{
-            interaction.channel.send({content: `Interaction author: **${interaction.user.tag}** (\`${interaction.user.id}\`)`, embeds: [embed]})
-        })
         console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] dag mp fail to fetch, host is not responding.`);
-        return;
+        return interaction.reply('Server didn\'t respond in time.');
     }
     return FSserver
 }
@@ -44,7 +40,7 @@ export default {
             case 'status':
                 const embed0 = new client.embed();
                 const FSserver0 = await MPdata(client, interaction, embed0);
-                if (!FSserver0?.data) return console.log('FSserver0 failed');
+                if (!FSserver0?.data) return console.log('FSserver0 failed - status');
                 try {
                     if (FSserver0.data.server.name.length > 1){
                         embed0.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
@@ -218,7 +214,7 @@ export default {
                 const Image = new client.attachmentBuilder(img.toBuffer(),{name: 'FSStats.png'})
                 embed1.setImage('attachment://FSStats.png')
                 const FSserver1 = await MPdata(client, interaction, embed1)
-                if (!FSserver1?.data) return console.log('FSserver1 failed')
+                if (!FSserver1?.data) return console.log('FSserver1 failed - players')
                 embed1.setTitle(FSserver1?.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
                 .setDescription(`${FSserver1?.data.slots.used}/${FSserver1?.data.slots.capacity}`)
                 .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
@@ -230,7 +226,7 @@ export default {
             case 'info':
                 const embed2 = new client.embed().setColor(client.config.embedColor)
                 const FSserver2 = await MPdata(client, interaction, embed2)
-                if (!FSserver2?.data) return console.log('FSserver2 failed')
+                if (!FSserver2?.data) return console.log('FSserver2 failed - info')
                 const DBURL = MPDB.findOne({where: {serverId: interaction.guildId}})
                 embed2.setDescription([
                     `**Server name**: \`Official Daggerwin Game Server\``,
