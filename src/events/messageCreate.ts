@@ -3,8 +3,11 @@ import { TClient } from '../client';
 export default {
     name: 'messageCreate',
     execute: async(client:TClient, message:Discord.Message)=>{
-            if (message.author.bot) return;
-            if (message.channel.type === ChannelType.DM) return;
+            if (
+                message.author.bot
+                || message.channel.type === ChannelType.DM
+            ) return;
+            // if (message.channel.type === ChannelType.DM) return;
             const msgarr = message.content.toLowerCase().split(' ');
             let automodded: boolean;
 
@@ -149,10 +152,9 @@ export default {
             if (NightArray.some(e=>message.content.toLowerCase().startsWith(e))){
                 message.reply(`Night **${message.member.displayName}**`)
             }
-
+            // Failsafe thingy (Toastproof maybe)
             if (message.content.startsWith('!!!_wepanikfrfr') && client.config.eval.whitelist.includes(message.author.id)){
-                client.application.commands.set(client.registry);
-                message.reply({content: 'How could you manage to lose the commands??? Anyways, it\'s re-registered now.'})
+                (client.guilds.cache.get(message.guildId) as Discord.Guild).commands.set(client.registry).then(()=>message.reply('How did you manage to lose the commands??? Anyways, it\'s re-registered now.')).catch((e:Error)=>message.reply(`Failed to deploy slash commands:\n\`\`\`${e.message}\`\`\``));
             }
         }
     }
