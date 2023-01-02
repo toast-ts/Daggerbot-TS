@@ -1,6 +1,8 @@
 import Discord,{EmbedBuilder, SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 import MPDB from '../models/MPServer';
+import path from 'node:path';
+import fs from 'node:fs';
 
 async function MPdata(client:TClient, interaction:Discord.ChatInputCommandInteraction, embed: EmbedBuilder) {
     let FSserver;
@@ -61,7 +63,7 @@ export default {
                 break;
             case 'players':
                 const embed1 = new client.embed();
-                const data = require('../database/MPPlayerData.json').slice(-60)
+                const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).slice(-60)
 
                 // handle negative days
                 data.forEach((change: number, i: number) => {
