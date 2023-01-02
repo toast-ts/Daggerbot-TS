@@ -10,7 +10,7 @@ export default {
         let messagesArray: Array<string> = [];
 
         if (user){
-            (interaction.channel as Discord.TextChannel).messages.fetch({limit: 100}).then((msgs)=>{
+            (interaction.channel as Discord.TextChannel).messages.fetch({limit: amount}).then((msgs)=>{
                 const msgList = msgs.filter(x=>x.author.id == user.id);
                 (interaction.channel as Discord.TextChannel).bulkDelete(msgList);
             })

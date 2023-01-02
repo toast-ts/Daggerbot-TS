@@ -1,8 +1,7 @@
 import Discord, { AuditLogEvent } from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'guildBanAdd',
-    execute: async(client:TClient, member:Discord.GuildMember)=>{
+    async run(client:TClient, member:Discord.GuildMember){
         if (member.guild?.id != client.config.mainServer.id) return;
         const fetchBanlog = await member.guild.fetchAuditLogs({
             limit: 1,

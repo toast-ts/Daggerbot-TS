@@ -1,8 +1,7 @@
 import Discord, { ActionRowBuilder, ButtonBuilder } from 'discord.js';
 import { TClient } from '../client';
 export default {
-    name: 'messageUpdate',
-    execute: async(client:TClient, oldMsg:Discord.Message, newMsg:Discord.Message)=>{
+    async run(client:TClient, oldMsg:Discord.Message, newMsg:Discord.Message){
         if (!client.config.botSwitches.logs) return;
         const disabledChannels = [
             '548032776830582794', '541677709487505408'
