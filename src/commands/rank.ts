@@ -1,6 +1,8 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 import { UserLevels } from 'src/typings/interfaces';
+import path from 'node:path';
+import fs from 'node:fs';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (interaction.guildId !== client.config.mainServer.id) return interaction.reply({content: 'This command doesn\'t work in this server.', ephemeral: true});
@@ -10,7 +12,8 @@ export default {
 			const messageCountsTotal = Object.values<UserLevels>(client.userLevels._content).reduce((a, b) => a + b.messages, 0);
 			const timeActive = Math.floor((Date.now() - client.config.LRSstart)/1000/60/60/24);
 
-			const data = require('../database/dailyMsgs.json').map((x: Array<number>, i: number, a: any) => {
+			const dailyMsgsPath = path.join(__dirname, '../database/dailyMsgs.json');
+			const data = JSON.parse(fs.readFileSync(dailyMsgsPath, {encoding: 'utf8'})).map((x: Array<number>, i: number, a: any) => {
 				const yesterday = a[i - 1] || [];
 				return x[1] - (yesterday[1] || x[1]);
 			}).slice(1).slice(-60);
@@ -89,7 +92,6 @@ export default {
 			ctx.fillStyle = client.config.embedColor;
 			ctx.lineWidth = 3;
 			
-			
 			function getYCoordinate(value: number) {
 				return ((1 - (value / second_graph_top)) * graphSize[1]) + graphOrigin[1];
 			}
@@ -118,7 +120,6 @@ export default {
 			ctx.fillStyle = 'white';
 			
 			// highest value
-			//console.log(previousY)
 			const maxx = graphOrigin[0] + graphSize[0] + textSize;
 			const maxy = previousY[0] + (textSize / 3);
 			ctx.fillText(previousY[1].toLocaleString('en-US'), maxx, maxy);
@@ -136,7 +137,7 @@ export default {
 			const ty = graphOrigin[1] + graphSize[1] + (textSize);
 			ctx.fillText('time ->', tx, ty);
 			
-			const yeahok = new client.attachmentBuilder(img.toBuffer(), {name: "dailymsgs.png"})
+			const yeahok = new client.attachmentBuilder(img.toBuffer(), {name: 'dailymsgs.png'})
 			const embed = new client.embed()
 				.setTitle('Ranking leaderboard')
 				.setDescription(`Level System was created **${timeActive}** days ago. Since then, a total of **${messageCountsTotal.toLocaleString('en-US')}** messages have been sent in this server.`)
