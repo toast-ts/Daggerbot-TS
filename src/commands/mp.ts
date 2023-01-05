@@ -231,7 +231,7 @@ export default {
                 if (!FSserver2?.data) return console.log('FSserver2 failed - info')
                 const DBURL = MPDB.findOne({where: {serverId: interaction.guildId}})
                 embed2.setDescription([
-                    `**Server name**: \`Official Daggerwin Game Server\``,
+                    `**Server name**: \`${FSserver2?.data.server.name.length == 0 ? '\u200b' : FSserver2?.data.server.name}\``,
                     '**Password:** `mf4700`',
                     '**Crossplay server**',
                     `**Map:** ${FSserver2.data.server.mapName.length == 0 ? 'Null Island' : FSserver2.data.server.mapName}`,
@@ -239,6 +239,9 @@ export default {
                     '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
                     'Please see <#543494084363288637> for additional information.'
                 ].join('\n'));
+                if (FSserver2?.data.server.name.length == 0){
+                    embed2.setFooter({text: 'Server is currently offline.'})
+                }
                 interaction.reply({embeds: [embed2]})
                 break;
             /* case 'series':
