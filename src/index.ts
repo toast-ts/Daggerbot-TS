@@ -37,12 +37,6 @@ client.on('ready', async()=>{
         const eventFile = require(`./events/${file}`);
         client.on(file.replace('.ts', ''), async(...args)=>eventFile.default.run(client,...args));
     });
-
-    /*const eventFiles = fs.readdirSync('src/events').filter(file=>file.endsWith('.ts'));
-    eventFiles.forEach((file)=>{
-        const event = require(`./events/${file}`);
-        client.on(event.default.name, async(...args)=>event.default.execute(client, ...args));
-    });*/
 })
 
 // Handle errors
