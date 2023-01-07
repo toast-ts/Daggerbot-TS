@@ -7,7 +7,16 @@ import MPDB from './models/MPServer';
 import axios from 'axios';
 import moment from 'moment';
 import tokens from './tokens.json';
-import config from './config.json';
+
+let importconfig:Config
+try{
+    importconfig = require('./DB-Beta.config.json')
+    console.log('Using development config : Daggerbot Beta')
+} catch(e){
+    importconfig = require('./config.json')
+    console.log('Using production config')
+}
+
 export class TClient extends Client {
     invites: Map<any, any>;
     commands: Discord.Collection<string, any>;
@@ -46,7 +55,7 @@ export class TClient extends Client {
         this.invites = new Map();
         this.commands = new Discord.Collection();
         this.registry = [];
-        this.config = config as Config;
+        this.config = importconfig as Config;
         this.tokens = tokens as Tokens;
         this.YTCache = {
             'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
