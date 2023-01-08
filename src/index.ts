@@ -93,6 +93,7 @@ setInterval(async()=>{
         if (typeof results[1] == 'string'){
             FScsg.fetchResult = `dag mp csg fail, ${results[1]}`;
         } else if (results[1].status != 200){
+            if (results[1].status == 204){embed.setImage('https://http.cat/204')}
             FScsg.fetchResult = `dag mp csg fail with ${results[1].status + ' ' + results[1].statusText}`;
         } else {
             FScsg.data = client.xjs.xml2js(results[1].data,{compact:true,spaces:2}).careerSavegame as FSCareerSavegame;
