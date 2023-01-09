@@ -82,7 +82,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('dev')
         .setDescription('Developer commands')
-        .setDMPermission(false)
         .addSubcommand((optt)=>optt
             .setName('eval')
             .setDescription('Execute the code to the bot')

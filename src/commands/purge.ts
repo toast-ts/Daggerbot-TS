@@ -27,7 +27,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('purge')
         .setDescription('Purge the amount of messages in this channel')
-        .setDMPermission(false)
         .addIntegerOption((opt)=>opt
             .setName('amount')
             .setDescription('Amount of messages to be obliterated')

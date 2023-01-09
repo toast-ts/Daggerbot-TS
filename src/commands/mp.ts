@@ -260,7 +260,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('mp')
         .setDescription('Display MP status and other things')
-        .setDMPermission(false)
         .addSubcommand((opt)=>opt
             .setName('status')
             .setDescription('Check server status and details'))

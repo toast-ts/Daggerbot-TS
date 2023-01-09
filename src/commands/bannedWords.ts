@@ -23,7 +23,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('bannedwords')
         .setDescription('description placeholder')
-        .setDMPermission(false)
         .addSubcommand((opt)=>opt
             .setName('view')
             .setDescription('View the list of currently banned words.'))

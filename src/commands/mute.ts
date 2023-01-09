@@ -7,7 +7,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('mute')
         .setDescription('Mute a member')
-        .setDMPermission(false)
         .addUserOption((opt)=>opt
             .setName('member')
             .setDescription('Which member to mute?')

@@ -71,5 +71,4 @@ export default {
     data: new SlashCommandBuilder()
         .setName('statistics')
         .setDescription('See a list of commands ordered by their usage or bot stats')
-        .setDMPermission(false)
 }
