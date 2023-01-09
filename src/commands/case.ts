@@ -52,7 +52,6 @@ export default {
     data: new SlashCommandBuilder()
     .setName('case')
     .setDescription('Retrieve case information or user\'s punishment history')
-    .setDMPermission(false)
     .addSubcommand((opt)=>opt
         .setName('view')
         .setDescription('View a single case.')

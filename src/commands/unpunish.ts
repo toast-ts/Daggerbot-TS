@@ -7,7 +7,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('unpunish')
         .setDescription('Remove the active punishment from a member')
-        .setDMPermission(false)
         .addIntegerOption((opt)=>opt
             .setName('case_id')
             .setDescription('Case # of the punishment to be overwritten')
