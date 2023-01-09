@@ -5,13 +5,12 @@ import os from 'node:os';
 import { version } from 'typescript';
 import { VERSION } from 'ts-node';
 export default {
-    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){ 
-            await interaction.deferReply();
+    async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
             const columns = ['Command name', 'Count'];
             const includedCommands = client.commands.filter(x=>x.uses).sort((a,b)=>b.uses - a.uses);
             if (includedCommands.size == 0) return interaction.reply(`No commands have been used yet.\nUptime: ${client.formatTime(client.uptime as number, 2, {longNames: true, commas: true})}`);
             const nameLength = Math.max(...includedCommands.map(x=>x.default.data.name.length), columns[0].length) + 2;
-            const amountLength = Math.max(...includedCommands.map(x=>x.uses.toLocaleString().length), columns[1].length) + 1;
+            const amountLength = Math.max(...includedCommands.map(x=>x.uses.toString().length), columns[1].length) + 1;
             const rows = [`${columns[0] + ' '.repeat(nameLength - columns[0].length)}|${' '.repeat(amountLength - columns[1].length) + columns[1]}\n`, '-'.repeat(nameLength) + '-'.repeat(amountLength) + '\n'];
             includedCommands.forEach(command=>{
                 const name = command.default.data.name;
@@ -39,7 +38,7 @@ export default {
             };
             
             // Bytes conversion
-            function formatBytes(bytes, decimals = 2) {
+            function formatBytes(bytes:number, decimals:number = 2) {
                 if (bytes === 0) return '0 Bytes';
                 const k = 1024;
                 const dm = decimals < 0 ? 0 : decimals;
@@ -67,7 +66,7 @@ export default {
                 `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime as number, 2, {commas: true, longNames: true})}`
             ].join('\n'))
             .setFooter({text: `Load time: ${client.formatTime(Date.now() - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`});
-            interaction.editReply({embeds: [embed, embed1]});
+            interaction.reply({embeds: [embed, embed1]})
     },
     data: new SlashCommandBuilder()
         .setName('statistics')
