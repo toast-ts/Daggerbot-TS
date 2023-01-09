@@ -6,10 +6,12 @@ export default {
         if (!client.config.botSwitches.logs) return;
         const channel = (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel)
         if (oldMember.nickname != newMember.nickname){
-            const embed = new client.embed().setColor(client.config.embedColor).setTimestamp().setThumbnail(newMember.user.displayAvatarURL({size: 2048})).setTitle(`Nickname updated: ${newMember.user.tag}`).setDescription(`<@${newMember.user.id}>\n\`${newMember.user.id}\``).addFields(
-                {name: '🔹 Old nickname', value: `\`\`\`${oldMember.nickname == null ? ' ' : oldMember.nickname}\`\`\``},
-                {name: '🔹 New nickname', value: `\`\`\`${newMember.nickname == null ? ' ' : newMember.nickname}\`\`\``}
-            );
+            const embed = new client.embed().setColor(client.config.embedColor).setTimestamp().setThumbnail(newMember.user.displayAvatarURL({size: 2048})).setTitle(`Nickname updated: ${newMember.user.tag}`).setDescription(`<@${newMember.user.id}>\n\`${newMember.user.id}\``)/*.addFields(
+                {name: '🔹 Old nickname', value: oldMember.nickname == null ? 'No nickname' : `\`\`\`${oldMember.nickname}\`\`\``},
+                {name: '🔹 New nickname', value: newMember.nickname == null ? 'No nickname' : `\`\`\`${newMember.nickname}\`\`\``}
+            );*/
+            oldMember.nickname == null ? '' : embed.addFields({name: '🔹 Old nickname', value: `\`\`\`${oldMember.nickname}\`\`\``})
+            newMember.nickname == null ? '' : embed.addFields({name: '🔹 New nickname', value: `\`\`\`${newMember.nickname}\`\`\``})
             channel.send({embeds: [embed]})
         }
 
