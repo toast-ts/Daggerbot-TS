@@ -20,7 +20,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('bonk')
         .setDescription('Bonk a member')
-        .setDMPermission(false)
         .addUserOption((opt)=>opt
             .setName('member')
             .setDescription('Which member to bonk?')

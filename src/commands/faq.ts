@@ -24,7 +24,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('faq')
         .setDescription('List of FAQ for users')
-        .setDMPermission(false)
         .addStringOption((opt)=>opt
             .setName('question')
             .setDescription('What question do you want answered?')

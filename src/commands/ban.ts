@@ -7,7 +7,6 @@ export default {
     data: new SlashCommandBuilder()
         .setName('ban')
         .setDescription('Ban a member from the server')
-        .setDMPermission(false)
         .addUserOption((opt)=>opt
             .setName('member')
             .setDescription('Which member to ban?')
