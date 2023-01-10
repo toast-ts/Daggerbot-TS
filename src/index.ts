@@ -11,7 +11,7 @@ import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interf
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'Omega RIP', type: 1, url: 'https://www.youtube.com/watch?v=mI6w02U4iEg' }], status: 'online'});
+        client.user.setPresence({activities: [{ name: 'your wisdom', type: 1, url: 'https://www.youtube.com/watch?v=D-UmfqFjpl0' }], status: 'online'});
         // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
     }, 60000);
     // ['929807948748832798', '468835415093411861', '1058183358267543552', '549114074273677314'] - 0=Dev Server, 1=Main Server, 2=Throne, 3=Toast's test server
