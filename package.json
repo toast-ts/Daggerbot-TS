@@ -31,7 +31,7 @@
     "node-cron": "3.0.2",
     "sequelize": "6.28.0",
     "sqlite3": "5.1.4",
-    "systeminformation": "5.16.9",
+    "systeminformation": "5.17.3",
     "typescript": "4.9.4",
     "xml-js": "1.6.11"
   },
