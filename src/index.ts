@@ -43,17 +43,18 @@ client.on('ready', async()=>{
 })
 
 // Handle errors
-process.on('unhandledRejection', async(error: Error)=>{
+function DZ(error:Error){
     console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#EC5254').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+}
+process.on('unhandledRejection', async(error: Error)=>{
+    DZ(error)
 });
 process.on('uncaughtException', async(error: Error)=>{
-    console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    DZ(error)
 });
 process.on('error', async(error: Error)=>{
-    console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    DZ(error)
 });
 
 // Daggerwin MP loop
@@ -164,7 +165,7 @@ setInterval(async()=>{
     });
     
     const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
-    const dailyMsgs = require('./database/dailyMsgs.json');
+    const dailyMsgs = JSON.parse(fs.readFileSync(__dirname + '/database/dailyMsgs.json', {encoding: 'utf8'}))
     if (!dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
         let total = Object.values<UserLevels>(client.userLevels._content).reduce((a,b)=>a + b.messages, 0); // sum of all users
         const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
