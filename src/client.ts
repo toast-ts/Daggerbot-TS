@@ -12,6 +12,8 @@ let importconfig:Config
 try{
     importconfig = require('./DB-Beta.config.json')
     console.log('Using development config : Daggerbot Beta')
+    //importconfig = require('./Toast-Testbot.config.json')
+    //console.log('Using development config : Toast-Testbot')
 } catch(e){
     importconfig = require('./config.json')
     console.log('Using production config')

@@ -138,12 +138,10 @@ export default {
 			ctx.fillText('time ->', tx, ty);
 			
 			const yeahok = new client.attachmentBuilder(img.toBuffer(), {name: 'dailymsgs.png'})
-			const embed = new client.embed()
-				.setTitle('Ranking leaderboard')
-				.setDescription(`Level System was created **${timeActive}** days ago. Since then, a total of **${messageCountsTotal.toLocaleString('en-US')}** messages have been sent in this server.`)
+			const embed = new client.embed().setTitle('Ranking leaderboard')
+				.setDescription(`Level System was created **${timeActive}** days ago. Since then, a total of **${messageCountsTotal.toLocaleString('en-US')}** messages have been sent in this server.\nGraph updates daily @ <t:${Math.round((client.config.LRSstart+3600000)/1000)}:t>`)
 				.addFields({name: 'Top users by messages sent:', value: Object.entries<UserLevels>(client.userLevels._content).sort((a, b) => b[1].messages - a[1].messages).slice(0, 10).map((x, i) => `\`${i + 1}.\` <@${x[0]}>: ${x[1].messages.toLocaleString('en-US')}`).join('\n')})
-				.setImage('attachment://dailymsgs.png')
-				.setColor(client.config.embedColor)
+				.setImage('attachment://dailymsgs.png').setColor(client.config.embedColor)
 			interaction.reply({embeds: [embed], files: [yeahok]});
 			return;
 		} else if (subCmd === "view") {
