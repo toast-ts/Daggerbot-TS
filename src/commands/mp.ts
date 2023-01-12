@@ -244,6 +244,44 @@ export default {
                 }
                 interaction.reply({embeds: [embed2]})
                 break;
+            case 'url':
+                if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
+                MPDB.sync();
+                const address = interaction.options.getString('address');
+
+                if (!address){
+                    try {
+                        const Url = await MPDB.findOne({where:{serverId: interaction.guildId}})
+                        if (Url.ip && Url.code){return interaction.reply(`${Url.get('ip')}` + '/feed/dedicated-server-stats.json?code=' + `${Url.get('code')}`)}
+                    } catch(err){
+                        console.log(`MPDB | ${err}`)
+                        interaction.reply('**Database error:**\nTry inserting an URL first.')
+                    }
+                }else{
+                    const verifyURL = address.match(/dedicated-server-stats/)
+                    if (!verifyURL) return interaction.reply('The URL does not match `dedicated-server-stats.xml`')
+                    const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=')
+                    try{
+                        console.log(`MPDB | URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
+                        const Url = await MPDB.create({
+                            serverId: interaction.guildId,
+                            ip: newURL[0],
+                            code: newURL[1],
+                            timesUpdated: 0
+                        });
+                        return interaction.reply(`Successfully set the URL to ${Url.ip}`)
+                    } catch(err){
+                        if (err.name == 'SequelizeUniqueConstraintError'){
+                            const AffectedRows = await MPDB.update({ip: newURL[0], code: newURL[1]},{where:{serverId: interaction.guildId}});
+                            await MPDB.increment('timesUpdated',{where:{serverId: interaction.guildId}});
+                            if (AffectedRows) return interaction.reply(`Successfully updated the URL to ${newURL[0]}`)
+                        }else{
+                            console.log(err)
+                            interaction.reply(`\`MPDB\` has caught an error, notify <@&${client.config.mainServer.roles.bottech}>`)
+                        }
+                    }
+                }
+                break;
             /* case 'series':
                 const embed3 = new client.embed().setColor(client.config.embedColor).setTitle('How to join the Daggerwin MP series')
                 .setDescription([
@@ -269,7 +307,13 @@ export default {
         .addSubcommand((opt)=>opt
             .setName('info')
             .setDescription('Provides you with server information such as filters and so on'))
-        /* .addSubcommand((opt)=>opt
+        .addSubcommand((opt)=>opt
+            .setName('url')
+            .setDescription('View the URL for this server\'s FSMP server or update the URL')
+            .addStringOption((opt)=>opt
+                .setName('address')
+                .setDescription('Insert a \'dedicated-server-stats\' URL')))
+    /*  .addSubcommand((opt)=>opt
             .setName('series')
             .setDescription('Step-by-step on joining Daggerwin\'s MP series')) */
 }
