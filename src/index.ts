@@ -67,8 +67,7 @@ setInterval(async()=>{
 
     // Connect to DB to retrieve the Gameserver info to fetch data.
     MPDB.sync();
-    const newServerId = client.config.mainServer.id
-    const ServerURL = MPDB.findOne({where: {serverId: newServerId}})
+    const ServerURL = MPDB.findOne({where: {serverId: client.config.mainServer.id}})
     const DBURL = (await ServerURL).ip
     const DBCode = (await ServerURL).code
     const verifyURL = DBURL.match(/http/);
