@@ -83,7 +83,7 @@ setInterval(async()=>{
     };
     if (!verifyURL) return msg.edit({content: 'Invalid gameserver IP, please update!', embeds: null})
     async function serverData(client:TClient, URL: string){
-        return await client.axios.get(URL, {timeout: 4000, headers: {'User-Agent': `Daggerbot/axios ${client.axios.VERSION}`}}).catch((error:Error)=>error.message)
+        return await client.axios.get(URL, {timeout: 4000, maxContentLength: Infinity, headers: {'User-Agent': `Daggerbot/axios ${client.axios.VERSION}`}}).catch((error:Error)=>error.message)
     }
     await Promise.all([serverData(client, completedURL_DSS), serverData(client, completedURL_CSG)]).then(function(results){
         if (typeof results[0] == 'string'){
