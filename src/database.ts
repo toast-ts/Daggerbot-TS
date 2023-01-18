@@ -47,7 +47,7 @@ export class Database {
 		const newJson = JSON.stringify(db._content);
 		if (oldJson !== newJson || force){
 			writeFileSync(this._path, JSON.stringify(this._content, null, 2));
-			if (this._saveNotifs) console.log(`[${moment().format('DD/MM/YY HH:mm:ss')}] ` + this._path + ' Database saved');
+			if (this._saveNotifs) console.log(`[${moment().format('DD/MM/YY HH:mm:ss')}] ` + this._path + ' DB saved');
 		}
 		return db;
 	}
@@ -61,7 +61,7 @@ export class Database {
 	}
 	disableSaveNotifs(){
 		this._saveNotifs = false;
-		console.log(this._path + ' "Database saved" Notifications disabled');
+		console.log(this._path + ' "DB saved" Notifications disabled');
 		return this;
 	}
 
