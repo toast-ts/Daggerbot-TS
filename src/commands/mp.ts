@@ -63,7 +63,7 @@ export default {
                 break;
             case 'players':
                 const embed1 = new client.embed();
-                const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).slice(-60)
+                const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).slice(client.statsGraph)
 
                 // handle negative days
                 data.forEach((change: number, i: number) => {

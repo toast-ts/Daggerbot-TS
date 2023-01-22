@@ -2,6 +2,8 @@ import Discord,{SlashCommandBuilder} from 'discord.js';
 import { TClient } from 'src/client';
 import * as util from 'node:util';
 import {exec} from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 const removeUsername = (text: string)=>{
     let matchesLeft = true;
     const array = text.split('\\');
@@ -77,6 +79,10 @@ export default {
                     }
                 });
                 break
+            case 'statsgraph':
+                client.statsGraph = -(interaction.options.getInteger('number', true))
+                interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`);
+                break
         }
     },
     data: new SlashCommandBuilder()
@@ -98,4 +104,11 @@ export default {
         .addSubcommand((optt)=>optt
             .setName('update')
             .setDescription('Pull from repository and restart'))
+        .addSubcommand((optt)=>optt
+            .setName('statsgraph')
+            .setDescription('Edit the number of data points to pull')
+            .addIntegerOption((hiTae)=>hiTae
+                .setName('number')
+                .setDescription('Number of data points to pull')
+                .setRequired(true)))
 }
