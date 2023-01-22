@@ -2,7 +2,6 @@ import Discord from 'discord.js';
 import { TClient } from '../client';
 export default {
     async run(client:TClient, member:Discord.GuildMember){
-        //if (member.partial) return;
         if (
             member.partial
             || member.guild?.id != client.config.mainServer.id
