@@ -118,7 +118,7 @@ export default {
                 // 30m mark
                 ctx.setLineDash([8, 16]);
                 ctx.beginPath();
-                const lastMonthStart = graphOrigin[0] + (nodeWidth * (data.length - 60));
+                const lastMonthStart = graphOrigin[0] + (nodeWidth * (data.length - 30));
                 ctx.lineTo(lastMonthStart, graphOrigin[1]);
                 ctx.lineTo(lastMonthStart, graphOrigin[1] + graphSize[1]);
                 ctx.stroke();
