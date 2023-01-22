@@ -117,9 +117,9 @@ setInterval(async()=>{
         return;
     }
 
-    const DB = require(`./database/MPPlayerData.json`);
+    const DB = JSON.parse(fs.readFileSync(__dirname + '/database/MPPlayerData.json', {encoding: 'utf8'}));
     DB.push(FSdss.data.slots.used)
-    fs.writeFileSync(__dirname + `/database/MPPlayerData.json`, JSON.stringify(DB))
+    fs.writeFileSync(__dirname + '/database/MPPlayerData.json', JSON.stringify(DB))
     
     // Number format function
     function formatNumber(number: any, digits: any, icon: any){
