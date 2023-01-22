@@ -6,7 +6,6 @@ export default {
                 message.author.bot
                 || message.channel.type === ChannelType.DM
             ) return;
-            // if (message.channel.type === ChannelType.DM) return;
             const msgarr = message.content.toLowerCase().split(' ');
             let automodded: boolean;
 
