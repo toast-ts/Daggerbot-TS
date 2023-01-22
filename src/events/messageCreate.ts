@@ -109,12 +109,31 @@ export default {
         if (client.config.botSwitches.autores && !automodded) {
             const MorningArray = ['good morning all', 'good morning everyone', 'morning all', 'morning everyone', 'morning lads', 'morning guys']
             const AfternoonArray = ['good afternoon', 'afternoon all']
-            const EveningArray = ['good evening', 'evening all', 'evening everyone']
+            const EveningArray = ['good evening', 'evening all', 'evening everyone', 'i']
             const NightArray = ['night all', 'night everyone']
             const PasswordArray = ['whats the password', 'what\'s the password', 'password pls']
             const cantRead = ['i cant read', 'i can\'t read', 'cant read', 'can\'t read']
             const NawdicBrokeIt = ['break', 'broke', 'broken']
             const deadChat = ['dead chat', 'chat is dead', 'dead server']
+
+            const PersonnyMcPerson = `**${message.member.displayName}**`;
+            const MorningPhrases = [
+                `Morning ${PersonnyMcPerson}, did you sleep great?`, `Good morning ${PersonnyMcPerson}!`, `Hope you enjoyed your breakfast, ${PersonnyMcPerson}!`,
+                `Gm ${PersonnyMcPerson}`, `Uh.. What time is it? Oh yea, morning ${PersonnyMcPerson}`, `Morning and hope you had a good dream last night, ${PersonnyMcPerson}`
+            ]
+            const AfternoonPhrases = [
+                `Afternoon ${PersonnyMcPerson}!`, `What a nice day outside, ${PersonnyMcPerson}`, `Good afternoon ${PersonnyMcPerson}`,
+                `Hope you had a good day so far.`, `Did you enjoy your day yet, ${PersonnyMcPerson}?`, `Weather doesn't look too bad outside right?`,
+                `How's the trip outside, ${PersonnyMcPerson}?`
+            ]
+            const EveningPhrases = [
+                `I can't believe the time flies so quickly!`, `Evening ${PersonnyMcPerson}!`, `Hope you enjoyed the dinner, ${PersonnyMcPerson}!`,
+                `Good evening ${PersonnyMcPerson}!`, `You look tired, ready to go to sleep yet?`, `Being outside was an exhausting task isn't it?`
+            ]
+            const NightPhrases = [
+                `Good night ${PersonnyMcPerson}!`, `Night ${PersonnyMcPerson}!`, `Sweet dreams, ${PersonnyMcPerson}.`, `Don't fall out of sky in your dreamworld, ${PersonnyMcPerson}!`,
+                `Nighty night!`, `I hope tomorrow is a good day for you, ${PersonnyMcPerson}!`
+            ]
 
             if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member)){
                 message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>')
@@ -139,16 +158,16 @@ export default {
                 message.reply({embeds: [embed]})
             }
             if (MorningArray.some(e=>message.content.toLowerCase().startsWith(e))){
-                message.reply(`Good morning **${message.member.displayName}**!`)
+                message.reply(`${MorningPhrases[Math.floor(Math.random()*MorningPhrases.length)]}`)
             }
             if (AfternoonArray.some(e=>message.content.toLowerCase().startsWith(e))){
-                message.reply(`Afternoon **${message.member.displayName}**!`)
+                message.reply(`${AfternoonPhrases[Math.floor(Math.random()*AfternoonPhrases.length)]}`)
             }
             if (EveningArray.some(e=>message.content.toLowerCase().startsWith(e))){
-                message.reply(`Good evening **${message.member.displayName}**!`)
+                message.reply(`${EveningPhrases[Math.floor(Math.random()*EveningPhrases.length)]}`)
             }
             if (NightArray.some(e=>message.content.toLowerCase().startsWith(e))){
-                message.reply(`Night **${message.member.displayName}**`)
+                message.reply(`${NightPhrases[Math.floor(Math.random()*NightPhrases.length)]}`)
             }
             // Failsafe thingy (Toastproof maybe)
             if (message.content.startsWith('!!_wepanikfrfr') && client.config.eval.whitelist.includes(message.author.id)){
