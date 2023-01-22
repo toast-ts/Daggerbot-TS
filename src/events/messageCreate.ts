@@ -107,7 +107,7 @@ export default {
 
             // Autoresponse:tm:
         if (client.config.botSwitches.autores && !automodded) {
-            const MorningArray = ['good morning all', 'good morning everyone', 'morning all', 'morning everyone', 'morning lads', 'morning guys']
+            const MorningArray = ['good morning all', 'good morning everyone', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody']
             const AfternoonArray = ['good afternoon', 'afternoon all']
             const EveningArray = ['good evening', 'evening all', 'evening everyone']
             const NightArray = ['night all', 'night everyone']
