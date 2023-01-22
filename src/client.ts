@@ -39,6 +39,7 @@ export class TClient extends Client {
     bonkCount: bonkCount;
     bannedWords: bannedWords;
     repeatedMessages: any;
+    statsGraph: number;
 
     constructor(){
         super({
@@ -76,7 +77,8 @@ export class TClient extends Client {
         this.punishments = new punishments(this);
         this.bannedWords = new bannedWords(this);
         this.repeatedMessages = {};
-        this.setMaxListeners(80)
+        this.setMaxListeners(80);
+        this.statsGraph = -60;
     }
     async init(){
         MPDB.sync();
