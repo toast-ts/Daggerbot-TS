@@ -15,12 +15,6 @@ export default {
             || !newMsg.member
             || disabledChannels.includes(newMsg.channelId)
         ) return;
-        // if (oldMsg.author == null) return;
-        // if (oldMsg?.author.bot) return;
-        // if (oldMsg.partial) return;
-        // if (newMsg.partial) return;
-        // if (!newMsg.member) return;
-        // if (disabledChannels.includes(newMsg.channelId)) return;
         const msgarr = newMsg.content.toLowerCase().split(' ');
         if (client.bannedWords._content.some((word:string)=>msgarr.includes(word)) && (!client.isStaff(newMsg.member))) newMsg.delete();
         if (newMsg.content === oldMsg.content) return;
