@@ -20,7 +20,7 @@ export default {
             const embed3 = new client.embed().setColor(client.config.embedColor).setTitle('Uploading your log file').setDescription('You can find `log.txt` in `Documents/My Games/FarmingSimulator2022` and upload it into <#596989522395398144> along with your issue, so people can assist you further and help you resolve.').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1015195643528101958/unknown.png');
             interaction.reply({embeds: [embed3]})
         } else if (options == 'ytscam'){
-            const embed4 = new client.embed().setColor(client.config.embedColor).setTitle('YouTube Scammers').setDescription('If you ever see a comment mentioning a giveaway or anything else, it\'s a scam!\nYou should report it to YouTube and move on, or ignore it.').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1068078284996345916/image.png');
+            const embed4 = new client.embed().setColor(client.config.embedColor).setTitle('Scammers in YouTube comments section').setDescription('If you ever see a comment mentioning a giveaway or anything else, **it\'s a scam!**\nYou should report it to YouTube and move on or ignore it.\nP.S: They\'re on every channels and not just Daggerwin.').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1068078284996345916/image.png');
             interaction.reply({embeds: [embed4]})
         }
     },
