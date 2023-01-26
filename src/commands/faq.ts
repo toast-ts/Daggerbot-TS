@@ -36,6 +36,7 @@ export default {
         .addStringOption((opt)=>opt
             .setName('question')
             .setDescription('What question do you want answered?')
+            .setRequired(true)
             .addChoices(
                 { name: 'Survival Roleplay', value: 'srp' },
                 { name: 'Daggerwin Logistics hex code', value: 'dlskin' },
