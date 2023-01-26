@@ -19,6 +19,9 @@ export default {
         } else if (options == 'fsLogfile'){
             const embed3 = new client.embed().setColor(client.config.embedColor).setTitle('Uploading your log file').setDescription('You can find `log.txt` in `Documents/My Games/FarmingSimulator2022` and upload it into <#596989522395398144> along with your issue, so people can assist you further and help you resolve.').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1015195643528101958/unknown.png');
             interaction.reply({embeds: [embed3]})
+        } else if (options == 'ytscam'){
+            const embed4 = new client.embed().setColor(client.config.embedColor).setTitle('YouTube Scammers').setDescription('If you ever see a comment mentioning a giveaway or anything else, it\'s a scam!\nYou should report it to YouTube and move on, or ignore it.').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1068078284996345916/image.png');
+            interaction.reply({embeds: [embed4]})
         }
     },
     data: new SlashCommandBuilder()
@@ -30,6 +33,7 @@ export default {
             .addChoices(
                 { name: 'Survival Roleplay', value: 'srp' },
                 { name: 'Daggerwin Logistics hex code', value: 'dlskin' },
+                { name: 'Scams in YT comments', value: 'ytscam' },
                 { name: 'VTC Role', value: 'vtcR' },
                 { name: 'MP Role', value: 'mpR' },
                 { name: '[FS22] Resolve shader_cache issue', value: 'fsShader' },
