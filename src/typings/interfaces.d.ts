@@ -8,11 +8,6 @@ export interface formatTimeOpt {
     longNames: boolean,
     commas: boolean
 }
-export interface createTableOpt {
-    columnAlign: any,
-    columnSeparator: any,
-    columnEmptyChar: any
-}
 export interface punOpt {
     time?: string,
     reason?: string,
