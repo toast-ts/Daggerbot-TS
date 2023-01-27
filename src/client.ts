@@ -2,7 +2,7 @@ import Discord, { Client, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import { Database } from './database';
 import timeNames from './timeNames';
-import { Punishment, formatTimeOpt, createTableOpt, punOpt, Tokens, Config } from './typings/interfaces';
+import { Punishment, formatTimeOpt, punOpt, Tokens, Config } from './typings/interfaces';
 import MPDB from './models/MPServer';
 import axios from 'axios';
 import moment from 'moment';
@@ -139,39 +139,6 @@ export class TClient extends Client {
         } else {
             text = text + emptyChar.repeat(length - text.length);
         } return text;
-    }
-    createTable(columnTitles = [], rowsData = [], options: createTableOpt, client: TClient){
-        const rows: any = [];
-        let { columnAlign = [], columnSeparator = [], columnEmptyChar = [] } = options;
-        if (columnSeparator.length < 1) columnSeparator.push('|');
-        columnSeparator = columnSeparator.map((x: string)=>`${x}`);
-        // col widths
-        const columnWidths = columnTitles.map((title: any, i)=>Math.max(title.length, ...rowsData.map((x: any)=>x[i].length)));
-        // first row
-        rows.push(columnTitles.map((title, i)=>{
-            let text = client.alignText(title, columnWidths[i], columnAlign[i], columnEmptyChar[i]);
-            if (columnSeparator[i]){
-                text += ' '.repeat(columnSeparator[i].length);
-            }
-            return text;
-        }).join(''))
-        // big line
-        rows.push('━'.repeat(rows[0].length));
-        //data
-        // remove unicode
-        rowsData.map((row: any)=>{
-            return row.map((element: string)=>{
-                return element.split('').map((char: string)=>{
-                    if (char.charCodeAt(0)>128) return '□';
-                }).join('')
-            })
-        })
-        rows.push(rowsData.map((row: any)=>row.map((element: string, i: number)=>{
-                return client.alignText(element, columnWidths[i], columnEmptyChar[i])+(i === columnTitles.length - 1 ? '' : columnSeparator[i]);
-            }).join('')
-        ).join('\n'))
-
-        return rows.join('\n');
     }
     async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
