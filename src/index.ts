@@ -4,8 +4,6 @@ const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
-//import cron from 'node-cron';
-//import {exec} from 'node:child_process';
 import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interfaces';
 
 client.on('ready', async()=>{
@@ -31,7 +29,6 @@ client.on('ready', async()=>{
         })
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
-    //console.log('Total cron tasks: ' + cron.getTasks().size);
     console.log(client.config.botSwitches);
     (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
@@ -178,20 +175,3 @@ setInterval(async()=>{
         client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`))
     }
 }, 5000)
-
-// Check Windows Updates at 6PM Sydney Time every Tuesday and Thursday
-// 0 18 * * 2,4
-/*
-cron.schedule('* * * * *', async function(){
-    const x = await (client.channels.resolve(client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send('Checking Windows Updates...')
-    exec('D:/Bots-Housing/wu.ps1', {'shell':'powershell.exe'}, (err:Error, stdout)=>{
-        if (err){
-            x.edit('Powershell script caught an error, see console.');
-            console.log(err.stack)
-        } else if (stdout.includes('You\'re up to date')){
-            x.edit('The system is up to date.')
-        } else if (stdout.includes('Updates available')){
-            x.edit(`\`\`\`${stdout}\`\`\``)
-        }
-    });
-})*/
