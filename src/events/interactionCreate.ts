@@ -4,8 +4,14 @@ export default {
     async run(client:TClient, interaction:Discord.ChatInputCommandInteraction){
         if (!interaction.inGuild() || !interaction.inCachedGuild() || !interaction.command) return;
         if (interaction.isCommand()){
+            let Sub:string
+            try{
+                Sub = ` ${interaction.options.getSubcommand()}`
+            }catch(e){
+                Sub = ''
+            }            
             const commandFile = client.commands.get(interaction.commandName);
-            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ${interaction.user.tag} used /${interaction.commandName} in #${interaction.channel.name}`);
+            console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ${interaction.user.tag} used /${interaction.commandName}${Sub} in #${interaction.channel.name}`);
             if (!client.config.botSwitches.commands && !client.config.eval.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'Bot is currently being run in development mode.', ephemeral: true});
             if (commandFile){
                 try{
