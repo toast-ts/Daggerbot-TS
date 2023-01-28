@@ -1,5 +1,5 @@
 import Discord, { ActionRowBuilder, ButtonBuilder } from 'discord.js';
-import { TClient } from '../client';
+import TClient from '../client';
 export default {
     async run(client:TClient, oldMsg:Discord.Message, newMsg:Discord.Message){
         if (!client.config.botSwitches.logs) return;

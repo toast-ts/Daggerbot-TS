@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         //if (!client.isStaff(interaction.member) && interaction.channelId == '468835415093411863') return interaction.reply('This command is restricted to staff only in this channel due to high usage.')

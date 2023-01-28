@@ -1,5 +1,5 @@
 import Discord, { ChannelType } from 'discord.js';
-import { TClient } from '../client';
+import TClient from '../client';
 export default {
     async run(client:TClient, message:Discord.Message){
             if (
