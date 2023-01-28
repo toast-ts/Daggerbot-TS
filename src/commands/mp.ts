@@ -1,5 +1,5 @@
 import Discord,{EmbedBuilder, SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 import MPDB from '../models/MPServer';
 import path from 'node:path';
 import fs from 'node:fs';

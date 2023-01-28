@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         const embed = new client.embed().setColor(Math.floor(Math.random()*16777215));

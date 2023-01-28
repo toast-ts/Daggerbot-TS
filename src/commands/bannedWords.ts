@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (!client.isStaff(interaction.member) && !client.config.eval.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')

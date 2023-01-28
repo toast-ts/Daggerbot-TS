@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import { TClient } from '../client';
+import TClient from '../client';
 export default {
     async run(client:TClient, messages:Discord.Collection<string, Discord.Message<boolean>>){
         const channel = client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel;

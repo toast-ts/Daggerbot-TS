@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 import * as util from 'node:util';
 import {exec} from 'node:child_process';
 import { readFileSync } from 'node:fs';

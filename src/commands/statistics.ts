@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 import si from 'systeminformation';
 import os from 'node:os';
 import { version } from 'typescript';

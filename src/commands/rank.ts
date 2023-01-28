@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 import { UserLevels } from 'src/typings/interfaces';
 import path from 'node:path';
 import fs from 'node:fs';

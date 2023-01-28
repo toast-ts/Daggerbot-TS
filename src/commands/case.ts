@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from "discord.js";
-import { TClient } from 'src/client';
+import TClient from 'src/client';
 import { Punishment } from "src/typings/interfaces";
 export default {
 	async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
