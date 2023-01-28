@@ -86,7 +86,7 @@ export default class TClient extends Client {
         this.punishments.initLoad();
         this.bannedWords.initLoad();
         this.bonkCount.initLoad();
-        this.userLevels.initLoad().intervalSave(15000).disableSaveNotifs();
+        this.userLevels.initLoad().intervalSave(30000).disableSaveNotifs();
         const commandFiles = fs.readdirSync('src/commands').filter(file=>file.endsWith('.ts'));
         for (const file of commandFiles){
             const command = require(`./commands/${file}`);
