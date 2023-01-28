@@ -1,5 +1,5 @@
 import Discord, { AuditLogEvent } from 'discord.js';
-import { TClient } from '../client';
+import TClient from '../client';
 export default {
     async run(client:TClient, oldRole:Discord.Role, newRole:Discord.Role){
         const fetchRoleUpdoot = await client.guilds.cache.get(oldRole.guild.id).fetchAuditLogs({
