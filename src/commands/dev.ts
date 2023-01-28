@@ -1,9 +1,9 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
-import * as util from 'node:util';
 import { Octokit } from '@octokit/rest';
 import {exec} from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import * as util from 'node:util';
+import TClient from 'src/client';
 import path from 'node:path';
 const removeUsername = (text: string)=>{
     let matchesLeft = true;
