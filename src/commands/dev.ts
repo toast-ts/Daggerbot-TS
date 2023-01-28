@@ -72,7 +72,7 @@ export default {
                 var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'}
                 const octokit = new Octokit({timeZone: 'Australia/NSW', userAgent: 'Daggerbot'})
                 const fetchCommitMsg = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message);
-                const fetchCommitAuthor = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author);
+                const fetchCommitAuthor = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author.name);
                 const clarkson = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
                 exec('git pull',(err:Error,stdout)=>{
                     if (err){
