@@ -1,6 +1,7 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import TClient from 'src/client';
 import * as util from 'node:util';
+import { Octokit } from '@octokit/rest';
 import {exec} from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -68,6 +69,10 @@ export default {
                 interaction.reply(`Uptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
                 break
             case 'update':
+                var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'}
+                const octokit = new Octokit({timeZone: 'Australia/NSW', userAgent: 'Daggerbot'})
+                const fetchCommitMsg = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message);
+                const fetchCommitAuthor = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author);
                 const clarkson = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
                 exec('git pull',(err:Error,stdout)=>{
                     if (err){
@@ -75,7 +80,7 @@ export default {
                     } else if (stdout.includes('Already up to date')){
                         clarkson.edit('Bot is already up to date with the repository, did you forgor to push the changes? :skull:')
                     } else {
-                        setTimeout(()=>{clarkson.edit(`Uptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))},650)
+                        setTimeout(()=>{clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))},650)
                     }
                 });
                 break
