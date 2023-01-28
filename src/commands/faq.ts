@@ -32,7 +32,7 @@ export default {
     },
     data: new SlashCommandBuilder()
         .setName('faq')
-        .setDescription('List of FAQ for users')
+        .setDescription('List of questions, e.g; log file for FS, YT Scams and etc.')
         .addStringOption((opt)=>opt
             .setName('question')
             .setDescription('What question do you want answered?')
