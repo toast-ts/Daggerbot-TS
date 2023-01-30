@@ -157,16 +157,16 @@ export default {
                 const embed = new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)
                 message.reply({embeds: [embed]})
             }
-            if (MorningArray.some(e=>message.content.toLowerCase().startsWith(e))){
+            if (MorningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == '468835415093411863'){
                 message.reply(`${MorningPhrases[Math.floor(Math.random()*MorningPhrases.length)]}`)
             }
-            if (AfternoonArray.some(e=>message.content.toLowerCase().startsWith(e))){
+            if (AfternoonArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == '468835415093411863'){
                 message.reply(`${AfternoonPhrases[Math.floor(Math.random()*AfternoonPhrases.length)]}`)
             }
-            if (EveningArray.some(e=>message.content.toLowerCase().startsWith(e))){
+            if (EveningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == '468835415093411863'){
                 message.reply(`${EveningPhrases[Math.floor(Math.random()*EveningPhrases.length)]}`)
             }
-            if (NightArray.some(e=>message.content.toLowerCase().startsWith(e))){
+            if (NightArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == '468835415093411863'){
                 message.reply(`${NightPhrases[Math.floor(Math.random()*NightPhrases.length)]}`)
             }
             // Failsafe thingy (Toastproof maybe)
