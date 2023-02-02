@@ -85,6 +85,7 @@ setInterval(async()=>{
     await Promise.all([serverData(client, completedURL_DSS), serverData(client, completedURL_CSG)]).then(function(results){
         if (typeof results[0] == 'string'){
             FSdss.fetchResult = `dag mp dss fail, ${results[0]}`;
+            embed.addFields({name: 'DSS Status', value: results[0]})
         } else if (results[0].status != 200){
             FSdss.fetchResult = `dag mp dss fail with ${results[0].status + ' ' + results[0].statusText}`;
         } else {
@@ -92,6 +93,7 @@ setInterval(async()=>{
         }
         if (typeof results[1] == 'string'){
             FScsg.fetchResult = `dag mp csg fail, ${results[1]}`;
+            embed.addFields({name: 'CSG Status', value: results[1]})
         } else if (results[1].status != 200){
             if (results[1].status == 204){embed.setImage('https://http.cat/204')}
             FScsg.fetchResult = `dag mp csg fail with ${results[1].status + ' ' + results[1].statusText}`;
