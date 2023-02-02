@@ -20,7 +20,7 @@
     },
     "botPresence": {
 		"activities": [
-			{"name": "the days go by", "url": "https://www.youtube.com/watch?v=8UVNT4wvIGY", "type": 1}
+			{"name": "as the days go by", "url": "https://www.youtube.com/watch?v=8UVNT4wvIGY", "type": 1}
 		], 
 		"status": "online"
 	},
