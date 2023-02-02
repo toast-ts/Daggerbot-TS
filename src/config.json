@@ -7,6 +7,9 @@
     "embedColorBCA": "#ff69b4",
     "embedColorXmas": "#FFFFFF",
     "LRSstart": 1661236321433,
+    "whitelistedServers": [
+        "929807948748832798", "468835415093411861", "1058183358267543552"
+    ],
     "botSwitches": {
         "registerCommands": true,
         "commands": true,
@@ -15,6 +18,12 @@
         "mpstats": true,
         "autores": true
     },
+    "botPresence": {
+		"activities": [
+			{"name": "the days go by", "url": "https://www.youtube.com/watch?v=8UVNT4wvIGY", "type": 1}
+		], 
+		"status": "online"
+	},
     "eval": {
         "allowed": true,
         "whitelist": [
