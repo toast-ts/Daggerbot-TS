@@ -132,7 +132,9 @@ export interface Config {
     embedColorBCA: ColorResolvable,
     embedColorXmas: ColorResolvable,
     LRSstart: number,
+    whitelistedServers: Array<string>,
     botSwitches: botSwitches,
+    botPresence: Discord.PresenceData,
     eval: Eval,
     mainServer: mainServer
 }

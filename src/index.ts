@@ -9,12 +9,10 @@ import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interf
 client.on('ready', async()=>{
     client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
     setInterval(async()=>{
-        client.user.setPresence({activities: [{ name: 'the days go by', type: 3, url: 'https://www.youtube.com/watch?v=D-UmfqFjpl0' }], status: 'online'});
-        // Playing: 0, Streaming (Requires YT/Twitch URL to work): 1, Listening to: 2, Watching: 3, Competing in: 5
-    }, 60000);
-    // ['929807948748832798', '468835415093411861', '1058183358267543552', '549114074273677314'] - 0=Dev Server, 1=Main Server, 2=Throne, 3=Toast's test server
+        client.user.setPresence(client.config.botPresence);
+    }, 300000);
     if (client.config.botSwitches.registerCommands){
-        ['929807948748832798', '468835415093411861', '1058183358267543552'].forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
+        client.config.whitelistedServers.forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
             console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
             (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
         }));
@@ -30,6 +28,7 @@ client.on('ready', async()=>{
     }, 500000);
     console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
     console.log(client.config.botSwitches);
+    console.log(client.config.whitelistedServers);
     (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 
     // Event handler
