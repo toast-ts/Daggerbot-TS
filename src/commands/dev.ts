@@ -88,6 +88,36 @@ export default {
                 client.statsGraph = -(interaction.options.getInteger('number', true))
                 interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`);
                 break
+            case 'presence':
+                function convertType(Type?: number){
+                    switch (Type) {
+                        case 0: return 'Playing';
+                        case 1: return 'Streaming';
+                        case 2: return 'Listening to';
+                        case 3: return 'Watching';
+                        case 5: return 'Competing in';
+                    }
+                };
+                const status = interaction.options.getString('status') as Discord.PresenceStatusData | null;
+                const type = interaction.options.getInteger('type');
+                const name = interaction.options.getString('name');
+                const url = interaction.options.getString('url');
+                const currentActivities = client.config.botPresence.activities as Discord.ActivitiesOptions[];
+
+                if (status) client.config.botPresence.status = status;
+                if (type) currentActivities[0].type = type;
+                if (name) currentActivities[0].name = name;
+                if (url) currentActivities[0].url = url;
+
+                client.user.setPresence(client.config.botPresence);
+                interaction.reply([
+                    'Presence updated:',
+                    `Status: **${client.config.botPresence.status}**`,
+                    `Type: **${convertType(currentActivities[0].type)}**`,
+                    `Name: **${currentActivities[0].name}**`,
+                    `URL: \`${currentActivities[0].url}\``
+                ].join('\n'))
+                break
         }
     },
     data: new SlashCommandBuilder()
@@ -116,4 +146,32 @@ export default {
                 .setName('number')
                 .setDescription('Number of data points to pull')
                 .setRequired(true)))
+        .addSubcommand((optt)=>optt
+            .setName('presence')
+            .setDescription('Update the bot\'s presence')
+            .addIntegerOption((hiTae)=>hiTae
+                .setName('type')
+                .setDescription('Set an activity type')
+                .addChoices(
+                    {name: 'Playing', value: Discord.ActivityType.Playing},
+                    {name: 'Streaming', value: Discord.ActivityType.Streaming},
+                    {name: 'Listening to', value: Discord.ActivityType.Listening},
+                    {name: 'Watching', value: Discord.ActivityType.Watching},
+                    {name: 'Competing in', value: Discord.ActivityType.Competing}
+                ))
+            .addStringOption((hiAgain)=>hiAgain
+                .setName('name')
+                .setDescription('Set a message for the activity status'))
+            .addStringOption((hiAgainx2)=>hiAgainx2
+                .setName('url')
+                .setDescription('Set an url for streaming status'))
+            .addStringOption((hiAgainx3)=>hiAgainx3
+                .setName('status')
+                .setDescription('Set a status indicator for the bot')
+                .setChoices(
+                    {name: 'Online', value: Discord.PresenceUpdateStatus.Online},
+                    {name: 'Idle', value: Discord.PresenceUpdateStatus.Idle},
+                    {name: 'Do Not Distrub', value: Discord.PresenceUpdateStatus.DoNotDisturb},
+                    {name: 'Invisible', value: Discord.PresenceUpdateStatus.Offline}
+                )))
 }
