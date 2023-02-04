@@ -135,8 +135,8 @@ setInterval(async()=>{
             {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
 			{name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
 			{name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-			{name: 'Slot Usage', value: `${slotSystem ? 'slotSystem unavailable' : slotSystem}`, inline: true},
-            {name: 'Timescale', value: `${timeScale ? 'timeScale unavailable': timeScale}`, inline: true}
+			{name: 'Slot Usage', value: `${slotSystem == undefined ? 'slotSystem unavailable' : slotSystem}`, inline: true},
+            {name: 'Timescale', value: `${timeScale == undefined ? 'timeScale unavailable': timeScale}`, inline: true}
         );
         FSdss.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
             Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('0' + (player.uptime % 60)).slice(-2)} min`)
