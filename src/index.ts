@@ -123,7 +123,9 @@ setInterval(async()=>{
     function formatNumber(number: any, digits: any, icon: any){
         var n = Number(number)
         return n.toLocaleString(undefined, {minimumFractionDigits: digits})+icon
-    }
+    } // Temporary workaround for fresh save.
+    const slotSystem = Number(FScsg.data.slotSystem?._attributes.slotUsage).toLocaleString('en-US')
+    const timeScale = formatNumber(Number(FScsg.data.settings?.timeScale._text), 0, 'x')
 
     if (FSdss.data.server.name.length == 0){
         embed.setTitle('The server seems to be offline.').setColor(client.config.embedColorRed);
@@ -133,8 +135,8 @@ setInterval(async()=>{
             {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
 			{name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
 			{name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-			{name: 'Slot Usage', value: `${Number(FScsg.data.slotSystem._attributes.slotUsage).toLocaleString('en-US')}`, inline: true},
-            {name: 'Timescale', value: `${formatNumber(Number(FScsg.data.settings.timeScale._text), 0, 'x')}`, inline: true}
+			{name: 'Slot Usage', value: `${slotSystem ? 'slotSystem unavailable' : slotSystem}`, inline: true},
+            {name: 'Timescale', value: `${timeScale ? 'timeScale unavailable': timeScale}`, inline: true}
         );
         FSdss.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
             Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('0' + (player.uptime % 60)).slice(-2)} min`)
