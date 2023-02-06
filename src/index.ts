@@ -151,7 +151,7 @@ setInterval(async()=>{
 setInterval(async()=>{
 	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
-}, 300000)
+}, 600000)
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
