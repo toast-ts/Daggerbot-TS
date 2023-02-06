@@ -88,6 +88,7 @@ setInterval(async()=>{
             embed.addFields({name: 'DSS Status', value: results[0]})
         } else if (results[0].status != 200){
             FSdss.fetchResult = `dag mp dss fail with ${results[0].status + ' ' + results[0].statusText}`;
+            embed.addFields({name: 'DSS Status', value: results[0].status + ' ' + results[0].statusText})
         } else {
             FSdss.data = results[0].data as FSData
         }
@@ -97,6 +98,7 @@ setInterval(async()=>{
         } else if (results[1].status != 200){
             if (results[1].status == 204){embed.setImage('https://http.cat/204')}
             FScsg.fetchResult = `dag mp csg fail with ${results[1].status + ' ' + results[1].statusText}`;
+            embed.addFields({name: 'CSG Status', value: results[1].status + ' ' + results[1].statusText})
         } else {
             FScsg.data = client.xjs.xml2js(results[1].data,{compact:true,spaces:2}).careerSavegame as FSCareerSavegame;
         }
@@ -124,8 +126,8 @@ setInterval(async()=>{
         var n = Number(number)
         return n.toLocaleString(undefined, {minimumFractionDigits: digits})+icon
     } // Temporary workaround for fresh save.
-    const slotSystem = Number(FScsg.data.slotSystem?._attributes.slotUsage).toLocaleString('en-US')
-    const timeScale = formatNumber(Number(FScsg.data.settings?.timeScale._text), 0, 'x')
+    const slotSystem = isNaN(Number(FScsg.data.slotSystem?._attributes.slotUsage)) == true ? 'Unavailable' : Number(FScsg.data.slotSystem?._attributes.slotUsage).toLocaleString('en-US');
+    const timeScale = isNaN(Number(FScsg.data.settings?.timeScale._text)) == true ? 'Unavailable' : formatNumber(Number(FScsg.data.settings?.timeScale._text), 0, 'x');
 
     if (FSdss.data.server.name.length == 0){
         embed.setTitle('The server seems to be offline.').setColor(client.config.embedColorRed);
@@ -135,11 +137,11 @@ setInterval(async()=>{
             {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
 			{name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
 			{name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-			{name: 'Slot Usage', value: `${slotSystem == undefined ? 'slotSystem unavailable' : slotSystem}`, inline: true},
-            {name: 'Timescale', value: `${timeScale == undefined ? 'timeScale unavailable': timeScale}`, inline: true}
+			{name: 'Slot Usage', value: `${slotSystem}`, inline: true},
+            {name: 'Timescale', value: `${timeScale}`, inline: true}
         );
         FSdss.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
-            Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('0' + (player.uptime % 60)).slice(-2)} min`)
+            Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('' + (player.uptime % 60)).slice(-2)} min`)
         })
         embed.setDescription(`${FSdss.data.slots.used == 0 ? '*No players online*' : Players.join('\n\n')}`).setTitle(FSdss.data.server.name).setColor(client.config.embedColor)
         embed.setAuthor({name: `${FSdss.data.slots.used}/${FSdss.data.slots.capacity}`});
