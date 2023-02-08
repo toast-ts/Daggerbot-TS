@@ -153,7 +153,7 @@ export default {
             if (deadChat.some(e=>message.content.toLowerCase().includes(e))){
                 message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png')
             }
-            if (message.content.toLowerCase().includes('nawdic') && (NawdicBrokeIt.some(e=>message.content.toLowerCase().includes(e)))){
+            if (message.content.toLowerCase().includes('nawdic') && NawdicBrokeIt.some(e=>message.content.toLowerCase().includes(e)) && message.channelId !== '516344221452599306'){
                 const embed = new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)
                 message.reply({embeds: [embed]})
             }
