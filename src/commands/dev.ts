@@ -50,7 +50,7 @@ export default {
                 } else {
                     output = '\n' + String(output);
                 }
-                [client.tokens.token_main,client.tokens.token_beta,client.tokens.token_toast,client.tokens.token_tae].forEach((x)=>{
+                [client.tokens.token_main,client.tokens.token_beta,client.tokens.token_toast,client.tokens.token_tae,client.tokens.webhook_url].forEach((x)=>{
                     const regexp = new RegExp(x as string,'g');
                     output = output.replace(regexp, ':noblank: No token?');
                 })
