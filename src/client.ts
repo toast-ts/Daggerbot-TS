@@ -150,7 +150,7 @@ export default class TClient extends Client {
 
         if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
         if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
-
+        if (GuildMember.user.bot) return interaction.reply(`You cannot ${type} a bot!`);
 
         await interaction.deferReply();
         await client.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
