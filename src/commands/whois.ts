@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord,{GuildMember, SlashCommandBuilder} from 'discord.js';
 import TClient from 'src/client';
 
 function convert(status?:Discord.ClientPresenceStatus){
@@ -15,7 +15,7 @@ function convert(status?:Discord.ClientPresenceStatus){
 
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-        const member = interaction.options.getMember('member');
+        const member = interaction.options.getMember('member') as GuildMember;
         if (member == null){
             const user = interaction.options.getUser('member') as Discord.User;
             const embed = new client.embed()
@@ -28,8 +28,8 @@ export default {
             interaction.reply({embeds: [embed]})
         } else {
             await member.user.fetch();
+            const presence = member.presence?.clientStatus as Discord.ClientPresenceStatusData;
             const embedArray = [];
-            const presence = member.presence.clientStatus as Discord.ClientPresenceStatusData;
             let title = 'Member';
             if (member.user.bot) {
                 title = 'Bot'
@@ -49,6 +49,7 @@ export default {
                     {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: member.roles.cache.size > 1 ? member.roles.cache.filter(x=>x.id !== interaction.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}
                 )
                 if (member.premiumSinceTimestamp !== null) embed0.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
+                if (!presence) embed0.addFields({name: `🔹 Status: Unavailable to retrieve`, value: '\u200b'})
                 if (member.presence) embed0.addFields({name: `🔹 Status: ${member.presence.status}`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
                 embedArray.push(embed0)
                 interaction.reply({embeds: embedArray})
