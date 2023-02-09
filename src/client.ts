@@ -1,4 +1,4 @@
-import Discord, { Client, GatewayIntentBits, Partials } from 'discord.js';
+import Discord, { Client, WebhookClient, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import timeNames from './timeNames';
 import { Punishment, formatTimeOpt, Tokens, Config } from './typings/interfaces';
@@ -187,3 +187,6 @@ export default class TClient extends Client {
         }
     }
 }
+
+export class WClient extends WebhookClient {tokens: Tokens; constructor(){super({url: tokens.webhook_url})}}
+// hi tae, ik you went to look for secret hello msgs in here too.

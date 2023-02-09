@@ -123,6 +123,7 @@ export interface Tokens {
     token_beta: string
     token_toast: string
     token_tae: string
+    webhook_url: string
 }
 export interface Config {
     embedColor: ColorResolvable,
