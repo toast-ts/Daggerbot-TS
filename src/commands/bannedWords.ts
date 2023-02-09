@@ -3,22 +3,20 @@ import TClient from 'src/client';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (!client.isStaff(interaction.member) && !client.config.eval.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
-        const Sub = interaction.options.getSubcommand();
         const word = interaction.options.getString('word');
-        switch(Sub){
-            case 'view':
-                interaction.reply({content: 'Here is a complete list of banned words!\n*You can open it with a web browser, e.g Chrome/Firefox/Safari, or you can use Visual Studio Code/Notepad++*', files: ['src/database/bannedWords.json'], ephemeral: true})
-                break;
-            case 'add':
+        ({
+            add: ()=>{
                 if (client.bannedWords._content.includes(word)) return interaction.reply({content: `\`${word}\` is already added.`, ephemeral: true});
                 client.bannedWords.addData(word).forceSave();
                 interaction.reply(`Successfully added \`${word}\` to the list.`)
-                break;
-            case 'remove':
+            },
+            remove: ()=>{
                 if (client.bannedWords._content.includes(word) == false) return interaction.reply({content: `\`${word}\` doesn't exist on the list.`, ephemeral: true});
                 client.bannedWords.removeData(word, 0, 0).forceSave();
                 interaction.reply(`Successfully removed \`${word}\` from the list.`)
-        }
+            },
+            view: ()=>interaction.reply({content: 'Here is a complete list of banned words!\n*You can open it with a web browser, e.g Chrome/Firefox/Safari, or you can use Visual Studio Code/Notepad++*', files: ['src/database/bannedWords.json'], ephemeral: true})
+        } as any)[interaction.options.getSubcommand()]();
     },
     data: new SlashCommandBuilder()
         .setName('bannedwords')
