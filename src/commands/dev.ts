@@ -1,9 +1,9 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import { Octokit } from '@octokit/rest';
+import {Octokit} from '@octokit/rest';
 import {exec} from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import {readFileSync} from 'node:fs';
 import * as util from 'node:util';
-import TClient from 'src/client';
+import TClient from '../client';
 import path from 'node:path';
 const removeUsername = (text: string)=>{
     let matchesLeft = true;
@@ -117,7 +117,6 @@ export default {
                     `Name: **${currentActivities[0].name}**`,
                     `URL: \`${currentActivities[0].url}\``
                 ].join('\n'))
-                break
         }
     },
     data: new SlashCommandBuilder()
