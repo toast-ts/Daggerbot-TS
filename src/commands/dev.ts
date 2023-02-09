@@ -22,8 +22,8 @@ const removeUsername = (text: string)=>{
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
         if (!client.config.eval.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
-        switch (interaction.options.getSubcommand()){
-            case 'eval':
+        ({
+            eval: async()=>{
                 if (!client.config.eval.allowed) return interaction.reply({content: 'Eval is disabled.', ephemeral: true});
                 const code = interaction.options.getString('code') as string;
                 let output = 'error';
@@ -59,16 +59,8 @@ export default {
                     {name: 'Output', value: `\`\`\`${removeUsername(output).slice(0,1016)}\n\`\`\``}
                 );
                 interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
-                break
-            case 'logs':
-                interaction.deferReply();
-                (client.channels.resolve(client.config.mainServer.channels.console) as Discord.TextChannel).send({content: `Uploaded the current console dump as of <t:${Math.round(Date.now()/1000)}:R>`, files: [`${process.env.pm2_home}/logs/Daggerbot-out-0.log`, `${process.env.pm2_home}/logs/Daggerbot-error-0.log`]}).then(()=>interaction.editReply('It has been uploaded to dev server.')).catch((e:Error)=>interaction.editReply(`\`${e.message}\``))
-                break
-            case 'restart':
-                client.userLevels.forceSave();
-                interaction.reply(`Uptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
-                break
-            case 'update':
+            },
+            update: async()=>{
                 var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'}
                 const octokit = new Octokit({timeZone: 'Australia/NSW', userAgent: 'Daggerbot'})
                 const fetchCommitMsg = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message);
@@ -83,12 +75,8 @@ export default {
                         setTimeout(()=>{clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))},650)
                     }
                 });
-                break
-            case 'statsgraph':
-                client.statsGraph = -(interaction.options.getInteger('number', true))
-                interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`);
-                break
-            case 'presence':
+            },
+            presence: ()=>{
                 function convertType(Type?: number){
                     switch (Type) {
                         case 0: return 'Playing';
@@ -117,7 +105,20 @@ export default {
                     `Name: **${currentActivities[0].name}**`,
                     `URL: \`${currentActivities[0].url}\``
                 ].join('\n'))
-        }
+            },
+            statsgraph: ()=>{
+                client.statsGraph = -(interaction.options.getInteger('number', true));
+                interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`)
+            },
+            logs: ()=>{
+                interaction.deferReply();
+                (client.channels.resolve(client.config.mainServer.channels.console) as Discord.TextChannel).send({content: `Uploaded the current console dump as of <t:${Math.round(Date.now()/1000)}:R>`, files: [`${process.env.pm2_home}/logs/Daggerbot-out-0.log`, `${process.env.pm2_home}/logs/Daggerbot-error-0.log`]}).then(()=>interaction.editReply('It has been uploaded to dev server.')).catch((e:Error)=>interaction.editReply(`\`${e.message}\``))
+            },
+            restart: ()=>{
+                client.userLevels.forceSave();
+                interaction.reply(`Uptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+            }
+        } as any)[interaction.options.getSubcommand()]();
     },
     data: new SlashCommandBuilder()
         .setName('dev')
