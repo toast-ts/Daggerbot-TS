@@ -93,6 +93,10 @@ export default class TClient extends Client {
             this.commands.set(command.default.data.name, command)
             this.registry.push(command.default.data.toJSON())
         }
+        fs.readdirSync('src/events').forEach((file)=>{
+            const eventFile = require(`./events/${file}`);
+            this.on(file.replace('.ts', ''), async(...args)=>eventFile.default.run(this,...args));
+        });
     }
     formatPunishmentType(punishment: Punishment, client: TClient, cancels?: Punishment){
         if (punishment.type == 'removeOtherPunishment'){

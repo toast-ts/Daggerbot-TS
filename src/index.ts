@@ -30,29 +30,18 @@ client.on('ready', async()=>{
     console.log(client.config.botSwitches);
     console.log(client.config.whitelistedServers);
     (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
-
-    // Event handler
-    fs.readdirSync('src/events').forEach((file)=>{
-        const eventFile = require(`./events/${file}`);
-        client.on(file.replace('.ts', ''), async(...args)=>eventFile.default.run(client,...args));
-    });
 })
 
 // Handle errors
-function DZ(error:Error){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
+function DZ(error:Error, location:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
     if (['getaddrinfo ENOTFOUND discord.com'].includes(error.message)) return;
     console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 }
-process.on('unhandledRejection', async(error: Error)=>{
-    DZ(error)
-});
-process.on('uncaughtException', async(error: Error)=>{
-    DZ(error)
-});
-process.on('error', async(error: Error)=>{
-    DZ(error)
-});
+process.on('unhandledRejection', async(error: Error)=>DZ(error, 'unhandledRejection'));
+process.on('uncaughtException', async(error: Error)=>DZ(error, 'uncaughtException'));
+process.on('error', async(error: Error)=>DZ(error, 'process-error'));
+client.on('error', async(error: Error)=>DZ(error, 'client-error'));
 
 // Daggerwin MP loop
 setInterval(async()=>{
