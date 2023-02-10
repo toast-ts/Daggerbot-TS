@@ -124,6 +124,7 @@ export interface Tokens {
     token_toast: string
     token_tae: string
     webhook_url: string
+    webhook_url_test: string
 }
 export interface Config {
     embedColor: ColorResolvable,
