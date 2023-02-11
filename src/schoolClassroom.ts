@@ -90,7 +90,7 @@ export class punishments extends Database {
         if (data.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id}\n\`${cancels.reason}\``});
     
         // send embed in modlog channel
-        (this.client.channels.cache.get(channelId) as Discord.TextChannel).send({embeds: [embed]});
+        (this.client.channels.resolve(channelId) as Discord.TextChannel).send({embeds: [embed]});
     };
 	getTense(type: string) { // Get past tense form of punishment type, grammar yes
 		switch (type) {
@@ -141,7 +141,7 @@ export class punishments extends Database {
 		if (['ban', 'softban'].includes(type)) {
 			const banned = await guild.bans.fetch(User.id).catch(() => undefined);
 			if (!banned) {
-				punResult = await guild.bans.create(User.id, {reason: `${reason} | Case #${punData.id}`}).catch((err: Error) => err.message);
+				punResult = await guild.bans.create(User.id, {reason: `${reason} | Case #${punData.id}`, deleteMessageSeconds: 172800}).catch((err: Error) => err.message);
 			} else {
 				punResult = 'User is already banned.';
 			}
