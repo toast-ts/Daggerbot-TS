@@ -3,7 +3,7 @@ import TClient from 'src/client';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         ({
-            srp: ()=>interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('When will SRP (Survival Roleplay) return?').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1074259453878226944/image.png')]}),
+            srp: ()=>interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('When will SRP (Survival Roleplay) return?').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1074260301756780544/image.png')]}),
             dlskin: ()=>interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Daggerwin Logistics hex code').setDescription('The main color will be Onyx (`#353839`) with red bumpers.').setImage('https://cdn.discordapp.com/attachments/801965516947324969/806871878736019456/image0.png')]}),
             vtcR: ()=>interaction.reply(`You can get the <@&${client.config.mainServer.roles.vtcmember}> role from <#802283932430106624> by reacting <@282859044593598464>'s message with :truck:\n*VTC skin can also be found in <#801975222609641472> as well.*`),
             mpR: ()=>interaction.reply(`You can get the <@&${client.config.mainServer.roles.mpplayer}> role from <#802283932430106624> by reacting <@282859044593598464>'s message with :tractor:`),
