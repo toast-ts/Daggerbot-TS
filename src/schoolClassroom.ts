@@ -23,7 +23,7 @@ export class bonkCount extends Database {
         return this;
     }
     getUser(userid: string){
-        return this._content[userid] || 0;
+        return this._content[userid] as number || 0;
     }
 }
 export class userLevels extends Database {
