@@ -7,36 +7,27 @@ import MPDB from './models/MPServer';
 import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interfaces';
 
 client.on('ready', async()=>{
-    client.guilds.cache.forEach(async(e)=>{await e.members.fetch()});
-    setInterval(async()=>{
-        client.user.setPresence(client.config.botPresence);
-    }, 300000);
-    if (client.config.botSwitches.registerCommands){
-        client.config.whitelistedServers.forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
-            console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
-            (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
-        }));
-    };
-
-    setInterval(()=>{
-        const guild = client.guilds.cache.get(client.config.mainServer.id) as Discord.Guild;
-        guild.invites.fetch().then((invs)=>{
-            invs.forEach(async(inv)=>{
-                client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId})
-            })
-        })
-    }, 500000);
-    console.log(`${client.user.tag} has logged into Discord API and now ready for operation`);
-    console.log(client.config.botSwitches);
-    console.log(client.config.whitelistedServers);
-    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
+  setInterval(()=>client.user.setPresence(client.config.botPresence), 300000);
+  await client.guilds.fetch(client.config.mainServer.id).then(async guild=>{
+    await guild.members.fetch();
+    setInterval(()=>guild.invites.fetch().then(invites=>invites.forEach(inv=>client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId}))),300000)
+  });
+  if (client.config.botSwitches.registerCommands){
+      client.config.whitelistedServers.forEach((guildId)=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
+          console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
+          (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
+      }))
+  };
+  console.log(`${client.user.tag} has logged into Discord API`);
+  console.log(client.config.botSwitches, client.config.whitelistedServers);
+  (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
 })
 
 // Handle errors
 function DZ(error:Error, location:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
-    if (['getaddrinfo ENOTFOUND discord.com'].includes(error.message)) return;
-    console.log(error);
-    (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+  if (['getaddrinfo ENOTFOUND discord.com'].includes(error.message)) return;
+  console.log(error);
+  (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 }
 process.on('unhandledRejection', async(error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', async(error: Error)=>DZ(error, 'uncaughtException'));
@@ -45,19 +36,19 @@ client.on('error', async(error: Error)=>DZ(error, 'client-error'));
 
 // Daggerwin MP loop
 setInterval(async()=>{
-    if (!client.config.botSwitches.mpstats) return;
-    const msg = await (client.channels.resolve('543494084363288637') as Discord.TextChannel).messages.fetch('1023699243183112192')
-    const embed = new client.embed();
-    let Players = [];
-    let error;
+  if (!client.config.botSwitches.mpstats) return;
+  const msg = await (client.channels.resolve('543494084363288637') as Discord.TextChannel).messages.fetch('1023699243183112192')
+  const embed = new client.embed();
+  let Players = [];
+  let error;
 
-    // Connect to DB to retrieve the Gameserver info to fetch data.
-    MPDB.sync();
-    const ServerURL = MPDB.findOne({where: {serverId: client.config.mainServer.id}})
-    const DBURL = (await ServerURL).ip
-    const DBCode = (await ServerURL).code
-    const verifyURL = DBURL.match(/http/);
-    const completedURL_DSS = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
+  // Connect to DB to retrieve the Gameserver info to fetch data.
+  MPDB.sync();
+  const ServerURL = MPDB.findOne({where: {serverId: client.config.mainServer.id}})
+  const DBURL = (await ServerURL).ip
+  const DBCode = (await ServerURL).code
+  const verifyURL = DBURL.match(/http/);
+  const completedURL_DSS = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
 	const completedURL_CSG = DBURL + '/feed/dedicated-server-savegame.html?code=' + DBCode + '&file=careerSavegame'
     const FSdss = {
         data: {} as FSData,
