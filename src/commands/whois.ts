@@ -36,7 +36,7 @@ export default {
             } else if (member.user.id == interaction.guild.ownerId) {
                 title = ':crown: Server Owner'
             };
-            const embed0 = new client.embed()
+            const embed = new client.embed()
                 .setColor(member.displayColor || client.config.embedColor)
                 .setURL(`https://discord.com/users/${member.user.id}`)
                 .setThumbnail(member.user.avatarURL({size:2048}) || member.user.defaultAvatarURL)
@@ -48,10 +48,10 @@ export default {
                     {name: '🔹 Server Join Date', value: `<t:${Math.round((member.joinedTimestamp as number)/1000)}>\n<t:${Math.round((member.joinedTimestamp as number)/1000)}:R>`},
                     {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: member.roles.cache.size > 1 ? member.roles.cache.filter(x=>x.id !== interaction.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}
                 )
-                if (member.premiumSinceTimestamp !== null) embed0.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
-                if (!presence) embed0.addFields({name: `🔹 Status: Unavailable to retrieve`, value: '\u200b'})
-                if (member.presence) embed0.addFields({name: `🔹 Status: ${member.presence.status}`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
-                embedArray.push(embed0)
+                if (member.premiumSinceTimestamp !== null) embed.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
+                if (!presence) embed.addFields({name: `🔹 Status: Unavailable to retrieve`, value: '\u200b'})
+                if (member.presence) embed.addFields({name: `🔹 Status: ${member.presence.status}`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
+                embedArray.push(embed)
                 interaction.reply({embeds: embedArray})
         }
     },

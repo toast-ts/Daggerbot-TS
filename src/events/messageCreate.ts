@@ -2,10 +2,7 @@ import Discord, { ChannelType } from 'discord.js';
 import TClient from '../client';
 export default {
     async run(client:TClient, message:Discord.Message){
-            if (
-                message.author.bot
-                || message.channel.type === ChannelType.DM
-            ) return;
+            if (message.author.bot || message.channel.type === ChannelType.DM) return;
             const msgarr = message.content.toLowerCase().split(' ');
             let automodded: boolean;
 
@@ -19,9 +16,7 @@ export default {
 
             if (client.bannedWords._content.some((x)=>msgarr.includes(x)) && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId) && client.config.botSwitches.automod){
                 automodded = true;
-                message.delete().catch((err)=>{
-                    console.log('bannedWords automod; msg got possibly deleted by another bot.')
-                })
+                message.delete().catch(err=>console.log('bannedWords automod; msg got possibly deleted by another bot.'))
                 message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 5000));
                 if (client.repeatedMessages[message.author.id]){
                     // add this message to the list
@@ -58,20 +53,15 @@ export default {
             }
             if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId)) {
                 automodded = true;
-                message.delete().catch((err)=>{
-                    console.log('advertisement automod; msg got possibly deleted by another bot.')
-                })
+                message.delete().catch(err=>console.log('advertisement automod; msg got possibly deleted by another bot.'))
                 message.channel.send('Advertising other Discord servers is not allowed.').then(x=>setTimeout(()=>x.delete(), 10000))
                 if (client.repeatedMessages[message.author.id]){
                     client.repeatedMessages[message.author.id].set(message.createdTimestamp,{cont:1,ch:message.channelId});
 
                     clearTimeout(client.repeatedMessages[message.author.id].to);
                     client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 60000);
-
                     const threshold = 60000;
-
                     client.repeatedMessages[message.author.id] = client.repeatedMessages[message.author.id].filter((x:any, i:number)=> i >= Date.now() - threshold)
-
                     const spammedMessage = client.repeatedMessages[message.author.id]?.find((x:any)=>{
                         return client.repeatedMessages[message.author.id].filter((y:any)=>x.cont === y.cont).size >= 4;
                     });
@@ -83,7 +73,6 @@ export default {
                 }else{
                     client.repeatedMessages[message.author.id] = new client.collection();
                     client.repeatedMessages[message.author.id].set(message.createdTimestamp, {cont: 1, ch: message.channelId});
-
                     client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 60000);
                 }
             }
@@ -154,8 +143,7 @@ export default {
                 message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png')
             }
             if (message.content.toLowerCase().includes('nawdic') && NawdicBrokeIt.some(e=>message.content.toLowerCase().includes(e)) && message.channelId !== '516344221452599306'){
-                const embed = new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)
-                message.reply({embeds: [embed]})
+                message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]})
             }
             if (MorningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == '468835415093411863'){
                 message.reply(`${MorningPhrases[Math.floor(Math.random()*MorningPhrases.length)]}`)
