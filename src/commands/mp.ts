@@ -1,7 +1,8 @@
 import Discord,{EmbedBuilder, SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
 import MPDB from '../models/MPServer';
+import TClient from 'src/client';
 import path from 'node:path';
+import canvas from 'canvas';
 import fs from 'node:fs';
 
 async function MPdata(client:TClient, interaction:Discord.ChatInputCommandInteraction, embed: EmbedBuilder) {
@@ -127,8 +128,7 @@ export default {
                 const first_graph_top = 16;
                 const second_graph_top = 16;
                 const textSize = 40;
-            
-                const canvas = require('canvas');
+
                 const img = canvas.createCanvas(1500, 750);
                 const ctx = img.getContext('2d');
             
@@ -188,10 +188,10 @@ export default {
 
                 function colorAtPlayercount(playercount: number) {
                     if (playercount === first_graph_top) {
-                        return client.config.embedColorRed;
+                        return client.config.embedColorRed as string;
                     } else if (playercount > 9) {
-                        return client.config.embedColorYellow;
-                    } else {return client.config.embedColorGreen;}
+                        return client.config.embedColorYellow as string;
+                    } else {return client.config.embedColorGreen as string}
                 }
                 let lastCoords: Array<number> = [];
                 data.forEach((curPC: number /* current player count */, i: number) => {
@@ -204,21 +204,21 @@ export default {
                     const prvColor = colorAtPlayercount(prvPC); // color at last point
                     if (curColor !== prvColor && !isNaN(prvPC) && lastCoords.length > 0) { // gradient should be used when the color between now and last point is not the same
                         // gradient from now to last point
-                        const grd = ctx.createLinearGradient(...lastCoords, x, y);
+                        const grd = ctx.createLinearGradient(lastCoords[0], lastCoords[1], x, y);
                         grd.addColorStop(0, colorAtPlayercount(prvPC)); // prev color at the beginning
                         grd.addColorStop(1, colorAtPlayercount(curPC)); // cur color at the end
                         // special case: playercount rises or falls rapidly accross all colors (eg. straight from red to green)
                         if (curColor !== client.config.embedColorYellow && prvColor !== client.config.embedColorYellow) {
                             const yellowY = getYCoordinate(10); // y coordinate at which line should be yellow
                             const stop = (yellowY - lastCoords[1]) / (y - lastCoords[1]); // between 0 and 1, where is yellowY between y and nextPointCoords[1] ?
-                            grd.addColorStop(stop, client.config.embedColorYellow); // add a yellow stop to the gradient
+                            grd.addColorStop(stop, client.config.embedColorYellow as string); // add a yellow stop to the gradient
                         }
                         ctx.strokeStyle = grd;
                     } else {
                         ctx.strokeStyle = colorAtPlayercount(curPC);
                     }
                     ctx.beginPath();
-                    if (lastCoords.length > 0) ctx.moveTo(...lastCoords);
+                    if (lastCoords.length > 0) ctx.moveTo(lastCoords[0], lastCoords[1]);
                     // if the line being drawn is horizontal, make it go until it has to go down
                     if (y === lastCoords[1]) {
                         let newX = x;
