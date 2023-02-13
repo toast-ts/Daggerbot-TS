@@ -6,15 +6,14 @@ export default {
         const member = interaction.options.getMember('member') as Discord.GuildMember;
         const reason = interaction.options.getString('reason');
         const adminPerm = member.permissions.has('Administrator');
-
         if (adminPerm) return interaction.reply('You cannot bonk an admin!');
         
-        await client.bonkCount._incrementUser(member.id).forceSave();
-        const embed = new client.embed().setColor(client.config.embedColor)
+        client.bonkCount._incrementUser(member.id).forceSave();
+        interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor)
             .setDescription(`> <@${member.id}> has been bonked!\n${reason?.length == null ? '' : `> Reason: **${reason}**`}`)
             .setImage('https://media.tenor.com/7tRddlNUNNcAAAAd/hammer-on-head-minions.gif')
-            .setFooter({text: `Bonk count for ${member.user.tag}: ${await client.bonkCount.getUser(member.id).toLocaleString('en-US')}`})
-        interaction.reply({embeds: [embed]});
+            .setFooter({text: `Bonk count for ${member.user.tag}: ${client.bonkCount.getUser(member.id).toLocaleString('en-US')}`})
+        ]})
     },
     data: new SlashCommandBuilder()
         .setName('bonk')
