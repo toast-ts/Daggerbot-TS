@@ -40,8 +40,8 @@ export default {
                     // if a spammed message exists;
                     if (spammedMessage){
                         // mute
-                        const muteResult = await client.punishments.addPunishment('mute', { time: '30m' }, (client.user as Discord.User).id, 'Automod; Banned words', message.author, message.member as Discord.GuildMember);
-                        // and clear their list of long messages
+                        await client.punishments.addPunishment('mute', { time: '30m' }, (client.user as Discord.User).id, 'Automod; Banned words', message.author, message.member as Discord.GuildMember);
+                        // clear their list of long messages
                         delete client.repeatedMessages[message.author.id];
                     }
                 } else {
@@ -67,7 +67,7 @@ export default {
                     });
 
                     if (spammedMessage){
-                        const muteResult = await client.punishments.addPunishment('mute', {time: '1h'}, (client.user as Discord.User).id, 'Automod; Discord advertisement', message.author, message.member as Discord.GuildMember);
+                        await client.punishments.addPunishment('mute', {time: '1h'}, (client.user as Discord.User).id, 'Automod; Discord advertisement', message.author, message.member as Discord.GuildMember);
                         delete client.repeatedMessages[message.author.id];
                     }
                 }else{
