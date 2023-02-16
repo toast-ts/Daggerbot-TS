@@ -141,9 +141,9 @@ setInterval(async()=>{
     const lrsStart = client.config.LRSstart;
     
     client.punishments._content.filter((x:Punishment)=>x.endTime<= now && !x.expired).forEach(async (punishment:Punishment)=>{
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]` + `${punishment.member}\'s ${punishment.type} should expire now`);
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ` + `${punishment.member}\'s ${punishment.type} should expire now`);
         const unpunishResult = await client.punishments.removePunishment(punishment.id, client.user.id, 'Time\'s up!');
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]` + unpunishResult);
+        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ` + unpunishResult);
     });
     
     const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
