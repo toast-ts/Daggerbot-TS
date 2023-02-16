@@ -1,7 +1,7 @@
 import Discord, { Client, WebhookClient, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import timeNames from './timeNames';
-import { Punishment, formatTimeOpt, Tokens, Config } from './typings/interfaces';
+import { Punishment, formatTimeOpt, Tokens, Config, repeatedMessages } from './typings/interfaces';
 import { bannedWords, bonkCount, userLevels, punishments } from './schoolClassroom';
 import MPDB from './models/MPServer';
 import axios from 'axios';
@@ -38,7 +38,7 @@ export default class TClient extends Client {
     punishments: punishments;
     bonkCount: bonkCount;
     bannedWords: bannedWords;
-    repeatedMessages: any;
+    repeatedMessages: repeatedMessages;
     statsGraph: number;
 
     constructor(){

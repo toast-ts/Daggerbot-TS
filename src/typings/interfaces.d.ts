@@ -1,4 +1,4 @@
-import Discord, { ColorResolvable } from 'discord.js';
+import Discord from 'discord.js';
 
 export interface UserLevels {
     messages: number,
@@ -12,6 +12,9 @@ export interface punOpt {
     time?: string,
     reason?: string,
     interaction?: Discord.ChatInputCommandInteraction<"cached">
+}
+export interface repeatedMessages {
+  [key:string]: {data: Discord.Collection<number,{cont:number,ch:string}>, timeout: NodeJS.Timeout}
 }
 export interface Punishment {
     id: number;
@@ -127,12 +130,12 @@ export interface Tokens {
     webhook_url_test: string
 }
 export interface Config {
-    embedColor: ColorResolvable,
-    embedColorGreen: ColorResolvable,
-    embedColorYellow: ColorResolvable,
-    embedColorRed: ColorResolvable,
-    embedColorBCA: ColorResolvable,
-    embedColorXmas: ColorResolvable,
+    embedColor: Discord.ColorResolvable,
+    embedColorGreen: Discord.ColorResolvable,
+    embedColorYellow: Discord.ColorResolvable,
+    embedColorRed: Discord.ColorResolvable,
+    embedColorBCA: Discord.ColorResolvable,
+    embedColorXmas: Discord.ColorResolvable,
     LRSstart: number,
     whitelistedServers: Array<string>,
     botSwitches: botSwitches,
