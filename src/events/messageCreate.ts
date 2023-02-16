@@ -20,21 +20,21 @@ export default {
                 message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 5000));
                 if (client.repeatedMessages[message.author.id]){
                     // add this message to the list
-                    client.repeatedMessages[message.author.id].set(message.createdTimestamp, {cont: 0, ch: message.channelId});
+                    client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 0, ch: message.channelId});
 
                     // reset timeout
-                    clearTimeout(client.repeatedMessages[message.author.id].to);
-                    client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 30000);
+                    clearTimeout(client.repeatedMessages[message.author.id].timeout);
+                    client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, 30000);
 
                     // this is the time in which 4 messages have to be sent, in milliseconds (ms)
                     const threshold = 30000;
 
                     // message mustve been sent after (now - threshold), so purge those that were sent earlier
-                    client.repeatedMessages[message.author.id] = client.repeatedMessages[message.author.id].filter((x, i)=>i >= Date.now() - threshold)
+                    client.repeatedMessages[message.author.id].data = client.repeatedMessages[message.author.id].data.filter((x, i)=>i >= Date.now() - threshold)
 
                     // a spammed message is one that has been sent atleast 4 times in the last threshold milliseconds
-                    const spammedMessage = client.repeatedMessages[message.author.id]?.find((x)=>{
-                        return client.repeatedMessages[message.author.id].size >= 4;
+                    const spammedMessage = client.repeatedMessages[message.author.id]?.data.find((x)=>{
+                        return client.repeatedMessages[message.author.id].data.size >= 4;
                     });
 
                     // if a spammed message exists;
@@ -46,9 +46,9 @@ export default {
                     }
                 } else {
                     client.repeatedMessages[message.author.id] = new client.collection();
-                    client.repeatedMessages[message.author.id].set(message.createdTimestamp, {cont: 0, ch: message.channelId});
+                    client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 0, ch: message.channelId});
                     // autodelete after 30 secs
-                    client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 30000);
+                    client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, 30000);
                 }
             }
             if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId)) {
@@ -56,14 +56,14 @@ export default {
                 message.delete().catch(err=>console.log('advertisement automod; msg got possibly deleted by another bot.'))
                 message.channel.send('Advertising other Discord servers is not allowed.').then(x=>setTimeout(()=>x.delete(), 10000))
                 if (client.repeatedMessages[message.author.id]){
-                    client.repeatedMessages[message.author.id].set(message.createdTimestamp,{cont:1,ch:message.channelId});
+                    client.repeatedMessages[message.author.id].data.set(message.createdTimestamp,{cont:1,ch:message.channelId});
 
-                    clearTimeout(client.repeatedMessages[message.author.id].to);
-                    client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 60000);
+                    clearTimeout(client.repeatedMessages[message.author.id].timeout);
+                    client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, 60000);
                     const threshold = 60000;
-                    client.repeatedMessages[message.author.id] = client.repeatedMessages[message.author.id].filter((x:any, i:number)=> i >= Date.now() - threshold)
-                    const spammedMessage = client.repeatedMessages[message.author.id]?.find((x:any)=>{
-                        return client.repeatedMessages[message.author.id].filter((y:any)=>x.cont === y.cont).size >= 4;
+                    client.repeatedMessages[message.author.id].data = client.repeatedMessages[message.author.id].data.filter((x, i)=> i >= Date.now() - threshold)
+                    const spammedMessage = client.repeatedMessages[message.author.id]?.data.find((x)=>{
+                        return client.repeatedMessages[message.author.id].data.filter((y)=>x.cont === y.cont).size >= 4;
                     });
 
                     if (spammedMessage){
@@ -72,8 +72,8 @@ export default {
                     }
                 }else{
                     client.repeatedMessages[message.author.id] = new client.collection();
-                    client.repeatedMessages[message.author.id].set(message.createdTimestamp, {cont: 1, ch: message.channelId});
-                    client.repeatedMessages[message.author.id].to = setTimeout(onTimeout, 60000);
+                    client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 1, ch: message.channelId});
+                    client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, 60000);
                 }
             }
 
