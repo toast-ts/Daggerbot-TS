@@ -67,7 +67,7 @@ export default {
                         await client.punishments.addPunishment('mute', {time: '1h'}, (client.user as Discord.User).id, 'Automod; Discord advertisement', message.author, message.member as Discord.GuildMember);
                     }
                 }else{
-                    client.repeatedMessages[message.author.id] = new client.collection();
+                    client.repeatedMessages[message.author.id].data = new client.collection();
                     client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 1, ch: message.channelId});
                     client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, threshold);
                 }
