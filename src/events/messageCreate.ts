@@ -41,10 +41,8 @@ export default {
                         await client.punishments.addPunishment('mute', { time: '30m' }, (client.user as Discord.User).id, 'Automod; Banned words', message.author, message.member as Discord.GuildMember);
                     }
                 } else {
-                    client.repeatedMessages[message.author.id] = {data: new client.collection(), timeout: setTimeout(onTimeout, threshold)}
+                    client.repeatedMessages[message.author.id] = { data: new client.collection(), timeout: setTimeout(onTimeout, threshold) };
                     client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 0, ch: message.channelId});
-                    // autodelete after 30 secs
-                    client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, threshold);
                 }
             }
             if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId)) {
@@ -67,9 +65,8 @@ export default {
                         await client.punishments.addPunishment('mute', {time: '1h'}, (client.user as Discord.User).id, 'Automod; Discord advertisement', message.author, message.member as Discord.GuildMember);
                     }
                 }else{
-                    client.repeatedMessages[message.author.id].data = new client.collection();
+                    client.repeatedMessages[message.author.id] = { data: new client.collection(), timeout: setTimeout(onTimeout, threshold) };
                     client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 1, ch: message.channelId});
-                    client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, threshold);
                 }
             }
 
