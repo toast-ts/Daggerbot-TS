@@ -14,7 +14,7 @@ export default {
                 // Arrary of channel ids for automod to be disabled in
             ]
 
-            if (client.bannedWords._content.some((x)=>msgarr.includes(x)) && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId) && client.config.botSwitches.automod){
+            if (client.bannedWords._content.some((x)=>message.content.toLowerCase().includes(x)) && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId) && client.config.botSwitches.automod){
                 automodded = true;
                 const threshold = 30000;
                 message.delete().catch(err=>console.log('bannedWords automod; msg got possibly deleted by another bot.'))
