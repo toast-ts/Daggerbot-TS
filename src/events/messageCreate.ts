@@ -117,11 +117,11 @@ export default {
 
             if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member)) message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>');
             if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19) message.reply('Please don\'t tag Monster unless it\'s important!');
-            if (PasswordArray.some(e=>message.content.toLowerCase().includes(e))) message.reply('Password and other details can be found in <#543494084363288637>');
-            if (cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931');
-            if (message.content.toLowerCase().includes('is daggerbot working')) message.reply('https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579');
-            if (deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png');
-            if (message.content.toLowerCase().includes('nawdic') && NawdicBrokeIt.some(e=>message.content.toLowerCase().includes(e)) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]});
+            if (PasswordArray.some(e=>msgarr.includes(e))) message.reply('Password and other details can be found in <#543494084363288637>');
+            if (cantRead.some(e=>msgarr.includes(e))) message.reply('https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931');
+            if (msgarr.includes('is daggerbot working')) message.reply('https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579');
+            if (deadChat.some(e=>msgarr.includes(e))) message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png');
+            if (msgarr.includes('nawdic') && NawdicBrokeIt.some(e=>msgarr.includes(e)) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]});
             if (MorningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == GeneralChatID && message.type == 0) message.reply(`${MorningPhrases[Math.floor(Math.random()*MorningPhrases.length)]}`);
             if (AfternoonArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == GeneralChatID && message.type == 0) message.reply(`${AfternoonPhrases[Math.floor(Math.random()*AfternoonPhrases.length)]}`);
             if (EveningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == GeneralChatID && message.type == 0) message.reply(`${EveningPhrases[Math.floor(Math.random()*EveningPhrases.length)]}`);
