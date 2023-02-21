@@ -18,7 +18,7 @@ export default {
                 automodded = true;
                 const threshold = 30000;
                 message.delete().catch(err=>console.log('bannedWords automod; msg got possibly deleted by another bot.'))
-                message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 5000));
+                message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 10000));
                 if (client.repeatedMessages[message.author.id]){
                     // add this message to the list
                     client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 0, ch: message.channelId});
@@ -49,7 +49,7 @@ export default {
                 automodded = true;
                 const threshold = 60000;
                 message.delete().catch(err=>console.log('advertisement automod; msg got possibly deleted by another bot.'))
-                message.channel.send('Advertising other Discord servers is not allowed.').then(x=>setTimeout(()=>x.delete(), 10000))
+                message.channel.send('Advertising other Discord servers is not allowed.').then(x=>setTimeout(()=>x.delete(), 15000))
                 if (client.repeatedMessages[message.author.id]){
                     client.repeatedMessages[message.author.id].data.set(message.createdTimestamp,{cont:1,ch:message.channelId});
 
