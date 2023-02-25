@@ -4,7 +4,7 @@ const client = new TClient;
 client.init();
 import fs from 'node:fs';
 import MPDB from './models/MPServer';
-import {Punishment, UserLevels, FSData, FSCareerSavegame} from './typings/interfaces';
+import {FSData, FSCareerSavegame} from './typings/interfaces';
 
 client.on('ready', async()=>{
   setInterval(()=>client.user.setPresence(client.config.botPresence), 300000);
@@ -27,7 +27,8 @@ client.on('ready', async()=>{
 function DZ(error:Error, location:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
   if (['getaddrinfo ENOTFOUND discord.com'].includes(error.message)) return;
   console.log(error);
-  (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+  const channel = client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null
+  channel?.send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 }
 process.on('unhandledRejection', async(error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', async(error: Error)=>DZ(error, 'uncaughtException'));
@@ -85,11 +86,11 @@ setInterval(async()=>{
     }).catch((error)=>console.log(error))
     if (FSdss.fetchResult.length != 0){
         error = true;
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, FSdss.fetchResult);
+        console.log(client.logTime(), FSdss.fetchResult);
     }
     if (FScsg.fetchResult.length != 0){
         error = true;
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, FScsg.fetchResult);
+        console.log(client.logTime(), FScsg.fetchResult);
     }
     if (error) { // Blame RedRover and Nawdic
         embed.setTitle('Host is not responding').setColor(client.config.embedColorRed);
@@ -140,23 +141,24 @@ setInterval(async()=>{
     const now = Date.now();
     const lrsStart = client.config.LRSstart;
     
-    client.punishments._content.filter((x:Punishment)=>x.endTime<= now && !x.expired).forEach(async (punishment:Punishment)=>{
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ` + `${punishment.member}\'s ${punishment.type} should expire now`);
-        const unpunishResult = await client.punishments.removePunishment(punishment.id, client.user.id, 'Time\'s up!');
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}] ` + unpunishResult);
+    const punishments = await client.punishments._content.find({});
+    punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
+        console.log(client.logTime(), `${punishment.member}\'s ${punishment.type} should expire now`);
+        const unpunishResult = await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!');
+        console.log(client.logTime(), unpunishResult);
     });
     
     const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
     const dailyMsgs = JSON.parse(fs.readFileSync(__dirname + '/database/dailyMsgs.json', {encoding: 'utf8'}))
     if (!dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
-        let total = Object.values<UserLevels>(client.userLevels._content).reduce((a,b)=>a + b.messages, 0); // sum of all users
+        let total = (await client.userLevels._content.find({})).reduce((a,b)=>a + b.messages, 0); // sum of all users
         const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
         if (total < yesterday){ // messages went down.
             total = yesterday
         }
         dailyMsgs.push([formattedDate, total]);
         fs.writeFileSync(__dirname + '/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
-        console.log(`[${client.moment().format('DD/MM/YY HH:mm:ss')}]`, `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
+        console.log(client.logTime(), `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
         client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`))
     }
 }, 5000)

@@ -17,7 +17,7 @@ export interface repeatedMessages {
   [key:string]: {data: Discord.Collection<number,{cont:number,ch:string}>, timeout: NodeJS.Timeout}
 }
 export interface Punishment {
-    id: number;
+    _id: number;
     type: string;
     member: string;
     moderator: string;
@@ -122,12 +122,14 @@ interface XMLText {
     _text: string
 }
 export interface Tokens {
-    token_main: string
-    token_beta: string
-    token_toast: string
-    token_tae: string
+    main: string
+    beta: string
+    toast: string
+    tae: string
     webhook_url: string
     webhook_url_test: string
+    mongodb_uri: string
+    mongodb_uri_dev: string
 }
 export interface Config {
     embedColor: Discord.ColorResolvable,
