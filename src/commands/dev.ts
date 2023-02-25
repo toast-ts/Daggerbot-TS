@@ -46,7 +46,7 @@ export default {
               }
               if (error) return;
               if (typeof output == 'object') {
-                  output = 'js\n'+util.formatWithOptions({depth: 1, colors: true}, '%O', output)        
+                  output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)        
               } else {
                   output = '\n' + String(output);
               }
