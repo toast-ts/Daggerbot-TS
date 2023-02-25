@@ -1,8 +1,13 @@
 import Discord, { Client, WebhookClient, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
+import { exec } from 'node:child_process';
 import timeNames from './timeNames';
-import { Punishment, formatTimeOpt, Tokens, Config, repeatedMessages } from './typings/interfaces';
-import { bannedWords, bonkCount, userLevels, punishments } from './schoolClassroom';
+import mongoose from 'mongoose';
+import { formatTimeOpt, Tokens, Config, repeatedMessages } from './typings/interfaces';
+import bannedWords from './models/bannedWords';
+import userLevels from './models/userLevels';
+import punishments from './models/punishments';
+import bonkCount from './models/bonkCount';
 import MPDB from './models/MPServer';
 import axios from 'axios';
 import moment from 'moment';
@@ -82,11 +87,16 @@ export default class TClient extends Client {
     }
     async init(){
         MPDB.sync();
-        this.login(this.tokens.token_main);
-        this.punishments.initLoad();
-        this.bannedWords.initLoad();
-        this.bonkCount.initLoad();
-        this.userLevels.initLoad().intervalSave(30000).disableSaveNotifs();
+        mongoose.set('strictQuery', true);
+        await mongoose.connect(this.tokens.mongodb_uri, {
+          autoIndex: true,
+          serverSelectionTimeoutMS: 5000,
+          socketTimeoutMS: 30000,
+          family: 4,
+          keepAlive: true,
+          waitQueueTimeoutMS: 50000
+        }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(()=>{console.log(this.logTime(), 'Failed to connect to MongoDB'); exec('pm2 stop Daggerbot')})
+        await this.login(this.tokens.main);
         const commandFiles = fs.readdirSync('src/commands').filter(file=>file.endsWith('.ts'));
         for (const file of commandFiles){
             const command = require(`./commands/${file}`);
@@ -97,12 +107,6 @@ export default class TClient extends Client {
             const eventFile = require(`./events/${file}`);
             this.on(file.replace('.ts', ''), async(...args)=>eventFile.default.run(this,...args));
         });
-    }
-    formatPunishmentType(punishment: Punishment, client: TClient, cancels?: Punishment){
-        if (punishment.type == 'removeOtherPunishment'){
-            cancels ||= this.punishments._content.find((x: Punishment)=>x.id === punishment.cancels)
-            return cancels.type[0].toUpperCase()+cancels.type.slice(1)+' Removed';
-        } else return punishment.type[0].toUpperCase()+punishment.type.slice(1);
     }
     formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
         let achievedAccuracy = 0;
@@ -134,6 +138,9 @@ export default class TClient extends Client {
     youNeedRole(interaction: Discord.CommandInteraction, role:string){
         return interaction.reply(`This command is restricted to <@&${this.config.mainServer.roles[role]}>`)
     }
+    logTime(){
+      return `[${this.moment().format('DD/MM/YY HH:mm:ss')}]`
+    }
     alignText(text: string, length: number, alignment: string, emptyChar = ' '){
         if (alignment == 'right'){
             text = emptyChar.repeat(length - text.length)+text;
@@ -158,14 +165,6 @@ export default class TClient extends Client {
 
         await interaction.deferReply();
         await client.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
-    };
-    async unPunish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-        if (!client.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, 'dcmod');
-        const punishment = this.punishments._content.find((x:Punishment)=>x.id === interaction.options.getInteger('case_id'));
-        if (!punishment) return interaction.reply({content: 'Invalid Case #', ephemeral: true});
-        const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
-        const unpunishResult = await this.punishments.removePunishment(punishment.id, interaction.user.id, reason);
-        interaction.reply(unpunishResult)
     }
     async YTLoop(YTChannelID: string, YTChannelName: string, DCChannelID: string){
         let Data:any;
@@ -177,7 +176,7 @@ export default class TClient extends Client {
             })
         } catch(err){
             error = true;
-            console.log(`[${this.moment().format('DD/MM/YY HH:mm:ss')}]`, `${YTChannelName} YT fail`)
+            console.log(this.logTime(), `${YTChannelName} YT fail`)
         }
         
         if (!Data) return;
@@ -192,5 +191,5 @@ export default class TClient extends Client {
     }
 }
 
-export class WClient extends WebhookClient {tokens: Tokens; constructor(){super({url: tokens.webhook_url})}}
+export class WClient extends WebhookClient {tokens: Tokens; constructor(){super({url: tokens.webhook_url_test})}}
 // hi tae, ik you went to look for secret hello msgs in here too.
