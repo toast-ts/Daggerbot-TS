@@ -1,5 +1,4 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import {UserLevels} from 'src/typings/interfaces';
 import TClient from 'src/client';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -7,31 +6,32 @@ import canvas from 'canvas';
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (interaction.guildId !== client.config.mainServer.id) return interaction.reply({content: 'This command doesn\'t work in this server.', ephemeral: true});
+        const allData = await client.userLevels._content.find({});
         ({
-			      view: ()=>{
+			      view: async()=>{
 			      	// fetch user or user interaction sender
 			      	const member = interaction.options.getMember("member") ?? interaction.member as Discord.GuildMember;
 			      	if (member.user.bot) return interaction.reply('Bots don\'t level up, try viewing non-bots instead.')
 			      	// information about users progress on level roles
-			      	const information = client.userLevels._content[member.user.id];
+			      	const userData = await client.userLevels._content.findById(member.user.id);
 
 			      	const pronounBool = (you: string, they: string) => { // takes 2 words and chooses which to use based on if user did this command on themself
 			      		if (interaction.user.id === member.user.id) return you || true;
 			      		else return they || false;
 			      	};
-			      	if (!information) return interaction.reply(`${pronounBool('You', 'They')} currently don't have a level, send some messages to level up.`)
+			      	if (!userData) return interaction.reply(`${pronounBool('You', 'They')} currently don't have a level, send some messages to level up.`)
 
-			      	const index = Object.entries<UserLevels>(client.userLevels._content).sort((a, b) => b[1].messages - a[1].messages).map(x => x[0]).indexOf(member.id) + 1;
-			      	const memberDifference = information.messages - client.userLevels.algorithm(information.level);
-			      	const levelDifference = client.userLevels.algorithm(information.level+1) - client.userLevels.algorithm(information.level);
-			      	interaction.reply({embeds: [new client.embed().setColor(member.displayColor).setTitle(`Level: **${information.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${information.messages - client.userLevels.algorithm(information.level)}/${client.userLevels.algorithm(information.level+1) - client.userLevels.algorithm(information.level)} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${information.messages}**`).setThumbnail(member.user.avatarURL({ extension: 'png', size: 256}) || member.user.defaultAvatarURL)]})
+			      	const index = allData.sort((a, b) => b.messages - a.messages).map(x => x._id).indexOf(member.id) + 1;
+			      	const memberDifference = userData.messages - client.userLevels.algorithm(userData.level);
+			      	const levelDifference = client.userLevels.algorithm(userData.level+1) - client.userLevels.algorithm(userData.level);
+			      	interaction.reply({embeds: [new client.embed().setColor(member.displayColor).setTitle(`Level: **${userData.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${memberDifference}/${levelDifference} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${userData.messages}**`).setThumbnail(member.user.avatarURL({ extension: 'png', size: 256}) || member.user.defaultAvatarURL)]})
 			      },
 			      leaderboard: ()=>{
-				      const messageCountsTotal = Object.values<UserLevels>(client.userLevels._content).reduce((a, b) => a + b.messages, 0);
+				      const messageCountsTotal = allData.reduce((a, b) => a + b.messages, 0);
 				      const timeActive = Math.floor((Date.now() - client.config.LRSstart)/1000/60/60/24);
 
 				      const dailyMsgsPath = path.join(__dirname, '../database/dailyMsgs.json');
-				      const data = JSON.parse(fs.readFileSync(dailyMsgsPath, {encoding: 'utf8'})).map((x: Array<number>, i: number, a: any) => {
+				      const data = JSON.parse(fs.readFileSync(dailyMsgsPath, 'utf8')).map((x: Array<number>, i: number, a: any) => {
 				      	const yesterday = a[i - 1] || [];
 				      	return x[1] - (yesterday[1] || x[1]);
 				      }).slice(1).slice(-60);
@@ -147,12 +147,15 @@ export default {
 				      const ty = graphOrigin[1] + graphSize[1] + (textSize);
 				      ctx.fillText('time ->', tx, ty);
 
-				      const yeahok = new client.attachmentBuilder(img.toBuffer(), {name: 'dailymsgs.png'})
+              const topUsers = allData.sort((a,b)=>b.messages - a.messages).slice(0,10).map((x,i)=>`\`${i+1}.\` <@${x._id}>: ${x.messages.toLocaleString('en-US')}`).join('\n');
+
+				      const graphImage = new client.attachmentBuilder(img.toBuffer(), {name: 'dailymsgs.png'})
 				      const embed = new client.embed().setTitle('Ranking leaderboard')
-				      	.setDescription(`Level System was created **${timeActive}** days ago. Since then, a total of **${messageCountsTotal.toLocaleString('en-US')}** messages have been sent in this server.\nGraph updates daily @ <t:${Math.round((client.config.LRSstart+3600000)/1000)}:t>`)
-				      	.addFields({name: 'Top users by messages sent:', value: Object.entries<UserLevels>(client.userLevels._content).sort((a, b) => b[1].messages - a[1].messages).slice(0, 10).map((x, i) => `\`${i + 1}.\` <@${x[0]}>: ${x[1].messages.toLocaleString('en-US')}`).join('\n')})
-				      	.setImage('attachment://dailymsgs.png').setColor(client.config.embedColor)
-				      interaction.reply({embeds: [embed], files: [yeahok]})
+				      	.setDescription(`Level System was created **${timeActive}** days ago. Since then, a total of **${messageCountsTotal.toLocaleString('en-US')}** messages have been sent in this server.`)
+				      	.addFields({name: 'Top users by messages sent:', value: topUsers})
+                .setImage('attachment://dailymsgs.png').setColor(client.config.embedColor)
+				      	.setFooter({text: 'Graph updates daily.'})
+                interaction.reply({embeds: [embed], files: [graphImage]})
 			      }
 		    } as any)[interaction.options.getSubcommand()]();
     },
