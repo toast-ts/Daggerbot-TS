@@ -28,6 +28,7 @@ export default class punishments extends Schema {
   createId = async()=>Math.max(...(await this._content.find({})).map(x=>x.id), 0) + 1;
   async makeModlogEntry(punishment:Punishment){
     // Format data into an embed
+    const channel = ['kick', 'ban'].includes(punishment.type) ? '1048341961901363352' : this.client.config.mainServer.channels.logs;
     const embed = new this.client.embed()
       .setTitle(`${punishment.type[0].toUpperCase() + punishment.type.slice(1)} | Case #${punishment._id}`)
       .addFields(
@@ -43,8 +44,8 @@ export default class punishments extends Schema {
       embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id}\n\`${cancels.reason}\``})
     }
     // Send it off to specific Discord channel.
-    (this.client.channels.cache.get(this.client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds:[embed]});
-  }// hi tae
+    (this.client.channels.cache.get(channel) as Discord.TextChannel).send({embeds:[embed]});
+  }// hi tae --- hi
   getTense(type:string){// Get past tense form of punishment type, grammar yes
     return {
       ban: 'banned',
