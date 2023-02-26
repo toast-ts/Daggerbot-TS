@@ -3,7 +3,6 @@ import TClient from './client';
 const client = new TClient;
 client.init();
 import fs from 'node:fs';
-import MPDB from './models/MPServer';
 import {FSData, FSCareerSavegame} from './typings/interfaces';
 
 client.on('ready', async()=>{
@@ -44,13 +43,12 @@ setInterval(async()=>{
   let error;
 
   // Connect to DB to retrieve the Gameserver info to fetch data.
-  MPDB.sync();
-  const ServerURL = MPDB.findOne({where: {serverId: client.config.mainServer.id}})
-  const DBURL = (await ServerURL).ip
-  const DBCode = (await ServerURL).code
-  const verifyURL = DBURL.match(/http/);
-  const completedURL_DSS = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
-	const completedURL_CSG = DBURL + '/feed/dedicated-server-savegame.html?code=' + DBCode + '&file=careerSavegame'
+  const ServerURL = await client.MPServer._content.findById(client.config.mainServer.id);
+  const MPURL = ServerURL.ip;
+  const MPCode = ServerURL.code;
+  const verifyURL = MPURL.match(/http|https/);
+  const completedURL_DSS = MPURL+'/feed/dedicated-server-stats.json?code='+MPCode;
+	const completedURL_CSG = MPURL+'/feed/dedicated-server-savegame.html?code='+MPCode+'&file=careerSavegame';
     const FSdss = {
         data: {} as FSData,
         fetchResult: '' as string
@@ -59,30 +57,27 @@ setInterval(async()=>{
         data: {} as FSCareerSavegame,
         fetchResult: '' as string
     };
-    if (!verifyURL) return msg.edit({content: 'Invalid gameserver IP, please update!', embeds: null})
+    if (!verifyURL) return msg.edit({content: '*Detected an invalid IP.*', embeds: null})
     async function serverData(client:TClient, URL: string){
         return await client.axios.get(URL, {timeout: 4000, maxContentLength: Infinity, headers: {'User-Agent': `Daggerbot/axios ${client.axios.VERSION}`}}).catch((error:Error)=>error.message)
     }
     await Promise.all([serverData(client, completedURL_DSS), serverData(client, completedURL_CSG)]).then(function(results){
         if (typeof results[0] == 'string'){
-            FSdss.fetchResult = `dag mp dss fail, ${results[0]}`;
+            FSdss.fetchResult = `DagMP DSS failed, ${results[0]}`;
             embed.addFields({name: 'DSS Status', value: results[0]})
         } else if (results[0].status != 200){
-            FSdss.fetchResult = `dag mp dss fail with ${results[0].status + ' ' + results[0].statusText}`;
+            FSdss.fetchResult = `DagMP DSS failed with ${results[0].status + ' ' + results[0].statusText}`;
             embed.addFields({name: 'DSS Status', value: results[0].status + ' ' + results[0].statusText})
-        } else {
-            FSdss.data = results[0].data as FSData
-        }
+        } else FSdss.data = results[0].data as FSData
+
         if (typeof results[1] == 'string'){
-            FScsg.fetchResult = `dag mp csg fail, ${results[1]}`;
+            FScsg.fetchResult = `DagMP CSG failed, ${results[1]}`;
             embed.addFields({name: 'CSG Status', value: results[1]})
         } else if (results[1].status != 200){
-            if (results[1].status == 204){embed.setImage('https://http.cat/204')}
-            FScsg.fetchResult = `dag mp csg fail with ${results[1].status + ' ' + results[1].statusText}`;
+            if (results[1].status == 204) embed.setImage('https://http.cat/204');
+            FScsg.fetchResult = `DagMP CSG failed with ${results[1].status + ' ' + results[1].statusText}`;
             embed.addFields({name: 'CSG Status', value: results[1].status + ' ' + results[1].statusText})
-        } else {
-            FScsg.data = client.xjs.xml2js(results[1].data,{compact:true,spaces:2}).careerSavegame as FSCareerSavegame;
-        }
+        } else FScsg.data = client.xjs.xml2js(results[1].data,{compact:true,spaces:2}).careerSavegame as FSCareerSavegame;
     }).catch((error)=>console.log(error))
     if (FSdss.fetchResult.length != 0){
         error = true;
@@ -115,11 +110,11 @@ setInterval(async()=>{
         msg.edit({content: 'This embed will resume when server is back online.', embeds: [embed]})
     } else {
         const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Server details').addFields(
-            {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
-			{name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
-			{name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-			{name: 'Slot Usage', value: `${slotSystem}`, inline: true},
-            {name: 'Timescale', value: `${timeScale}`, inline: true}
+          {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
+			    {name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
+			    {name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
+			    {name: 'Slot Usage', value: `${slotSystem}`, inline: true},
+          {name: 'Timescale', value: `${timeScale}`, inline: true}
         );
         FSdss.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>{
             Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('' + (player.uptime % 60)).slice(-2)} min`)

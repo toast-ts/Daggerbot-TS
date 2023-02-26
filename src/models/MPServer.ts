@@ -1,35 +1,25 @@
-import {Sequelize, DataTypes, Model, InferAttributes, InferCreationAttributes} from 'sequelize';
-var db = new Sequelize('database', 'daggerbot', 'toastsus', {
-    host: 'localhost',
-    dialect: 'sqlite',
-    logging: false,
-    storage: 'src/database/MPDB.dat'
-})
-class MPDB extends Model<InferAttributes<MPDB>, InferCreationAttributes<MPDB>>{
-    declare serverId: string | null;
-    declare ip: string | null;
-    declare code: string | null;
-    declare timesUpdated: number | null;
+import TClient from 'src/client';
+import mongoose from 'mongoose';
+
+const Schema = mongoose.model('mpserver', new mongoose.Schema({
+  _id: {type: String, required:true},
+  ip: {type: String},
+  code: {type: String},
+  timesUpdated: {type: Number, required: true}
+}, {versionKey: false}));
+
+export default class MPServer extends Schema {
+  client: TClient;
+  _content: typeof Schema;
+  constructor(client:TClient){
+    super();
+    this.client = client;
+    this._content = Schema;
+  }
+  async _increment(serverId: string){
+    const server = await this._content.findById(serverId)
+    if (server) await this._content.findByIdAndUpdate(server, {timesUpdated: server.timesUpdated + 1})
+    else await this._content.create({_id:serverId, timesUpdated: 1})
+    //console.log(`[${serverId}] :: timesUpdated value incremented`)
+  }
 }
-MPDB.init({
-    serverId: {
-        type: DataTypes.STRING,
-        unique: true
-    },
-    ip: {
-        type: DataTypes.STRING,
-        defaultValue: 'Missing IP',
-        allowNull: false
-    },
-    code: {
-        type: DataTypes.STRING,
-        defaultValue: 'Missing Code',
-        allowNull: false
-    },
-    timesUpdated: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-        allowNull: false
-    }
-}, { sequelize: db, modelName: 'urls', timestamps: false });
-export default MPDB
