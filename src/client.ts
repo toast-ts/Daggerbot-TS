@@ -8,7 +8,7 @@ import bannedWords from './models/bannedWords';
 import userLevels from './models/userLevels';
 import punishments from './models/punishments';
 import bonkCount from './models/bonkCount';
-import MPDB from './models/MPServer';
+import MPServer from './models/MPServer';
 import axios from 'axios';
 import moment from 'moment';
 import tokens from './tokens.json';
@@ -43,6 +43,7 @@ export default class TClient extends Client {
     punishments: punishments;
     bonkCount: bonkCount;
     bannedWords: bannedWords;
+    MPServer: MPServer;
     repeatedMessages: repeatedMessages;
     statsGraph: number;
 
@@ -81,12 +82,12 @@ export default class TClient extends Client {
         this.bonkCount = new bonkCount(this);
         this.punishments = new punishments(this);
         this.bannedWords = new bannedWords(this);
+        this.MPServer = new MPServer(this);
         this.repeatedMessages = {};
         this.setMaxListeners(80);
         this.statsGraph = -60;
     }
     async init(){
-        MPDB.sync();
         mongoose.set('strictQuery', true);
         await mongoose.connect(this.tokens.mongodb_uri, {
           autoIndex: true,

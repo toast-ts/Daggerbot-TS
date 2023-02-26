@@ -1,30 +1,28 @@
-import Discord,{EmbedBuilder, SlashCommandBuilder} from 'discord.js';
-import MPDB from '../models/MPServer';
+import Discord,{SlashCommandBuilder} from 'discord.js';
 import TClient from 'src/client';
 import path from 'node:path';
 import canvas from 'canvas';
 import fs from 'node:fs';
 
-async function MPdata(client:TClient, interaction:Discord.ChatInputCommandInteraction, embed: EmbedBuilder) {
+async function MPdata(client:TClient, interaction:Discord.ChatInputCommandInteraction, embed: Discord.EmbedBuilder) {
     let FSserver;
-    MPDB.sync();
-    if (!await MPDB.findOne({where: {serverId: interaction.guildId}})) return interaction.reply('This server isn\'t linked.')
-    const ServerURL = await MPDB.findOne({where: { serverId: interaction.guildId }});
-    if (!ServerURL) return interaction.reply(`No gameserver found, please contact <@&${client.config.mainServer.roles.mpmanager}> to add it.`)
-    const DBURL = ServerURL.ip
-    const DBCode = ServerURL.code
-    const verifyURL = DBURL.match(/http/)
-    const completedURL = DBURL + '/feed/dedicated-server-stats.json?code=' + DBCode
-    if (!verifyURL) return interaction.reply(`Invalid gameserver IP, please contact <@&${client.config.mainServer.roles.mpmanager}> to update it.`)
+    if (!await client.MPServer._content.findOne({_id:interaction.guildId})) return interaction.reply('This server isn\'t linked to the bot.');
+    const ServerURL = await client.MPServer._content.findById(interaction.guildId);
+    if (!ServerURL) return interaction.reply(`No FS server found, please notify <@&${client.config.mainServer.roles.mpmanager}> to add it.`)
+    const MPURL = ServerURL.ip
+    const MPCode = ServerURL.code
+    const verifyURL = MPURL.match(/http|https/)
+    const completedURL = MPURL+'/feed/dedicated-server-stats.json?code='+MPCode
+    if (!verifyURL) return interaction.reply(`The server IP for this server is currently invalid, please notify <@&${client.config.mainServer.roles.mpmanager}>`)
 
     // Fetch dss
     try {                                              //   v I am aware timeout has decreased from 2800 to 2588 to fit within Discord's interaction timeouts (3s) -Toast
-        FSserver = await client.axios.get(completedURL, {timeout: 2588, headers: {'User-Agent': `Daggerbot - mp cmd/axios ${client.axios.VERSION}`}}) // Finally got around to fixing the command when it cannot ping the host.
+        FSserver = await client.axios.get(completedURL, {timeout: 2588, headers: {'User-Agent': `Daggerbot - mp cmd/axios ${client.axios.VERSION}`}})
     } catch(err) {
         // Blame Nawdic & RedRover92
         embed.setTitle('Host is not responding.');
         embed.setColor(client.config.embedColorRed);
-        console.log(client.logTime, 'dag mp fail to fetch, host is not responding.');
+        console.log(client.logTime(), 'DagMP failed to fetch, host didn\'t respond in time.');
         return interaction.reply('Server didn\'t respond in time.');
     }
     return FSserver
@@ -33,9 +31,7 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
 export default {
     async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
         if (interaction.channelId == '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
-            interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then((msg)=>{
-                setTimeout(()=>{interaction.deleteReply()}, 6000)
-            });
+            interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then((msg)=>{setTimeout(()=>{interaction.deleteReply()}, 6000)});
             return;
         }
         ({
@@ -53,43 +49,38 @@ export default {
                             {name: 'In-game Time', value: `${('0' + Math.floor((FSserver0.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSserver0.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true}
                         )
                         interaction.reply({embeds: [embed0]})
-                    } else if (FSserver0.data.server.name.length == 0) {
-                        interaction.reply('Server is currently offline.')
-                    }
+                    } else if (FSserver0.data.server.name.length == 0) interaction.reply('Server is currently offline.')
                 } catch (err){
                     console.log(err)
-                    interaction.reply('FSserver0 Placeholder')
+                    interaction.reply('FSserver0 Error placeholder')
                 };
             },
             info: async()=>{
                 const embed2 = new client.embed().setColor(client.config.embedColor)
                 const FSserver2 = await MPdata(client, interaction, embed2)
                 if (!FSserver2?.data) return console.log('FSserver2 failed - info')
-                const DBURL = MPDB.findOne({where: {serverId: interaction.guildId}})
+                const MPURL = await client.MPServer._content.findById(interaction.guildId);
                 embed2.setDescription([
                     `**Server name**: \`${FSserver2?.data.server.name.length == 0 ? '\u200b' : FSserver2?.data.server.name}\``,
                     '**Password:** `mf4700`',
                     '**Crossplay server**',
                     `**Map:** ${FSserver2.data.server.mapName.length == 0 ? 'Null Island' : FSserver2.data.server.mapName}`,
-                    `**Mods:** [Click here](${(await DBURL).ip}/mods.html) **|** [Direct Download](${(await DBURL).ip}/all_mods_download?onlyActive=true)`,
+                    `**Mods:** [Click here](${MPURL.ip}/mods.html) **|** [Direct Download](${MPURL.id}/all_mods_download?onlyActive=true)`,
                     '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
                     'Please see <#543494084363288637> for additional information.'
                 ].join('\n'));
-                if (FSserver2?.data.server.name.length == 0){
-                    embed2.setFooter({text: 'Server is currently offline.'})
-                }
+                if (FSserver2?.data.server.name.length == 0) embed2.setFooter({text: 'Server is currently offline.'})
                 interaction.reply({embeds: [embed2]})
             },
             url: async()=>{
                 if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
-                MPDB.sync();
                 const address = interaction.options.getString('address');
                 if (!address){
                     try {
-                        const Url = await MPDB.findOne({where:{serverId: interaction.guildId}})
-                        if (Url.ip && Url.code){return interaction.reply(`${Url.get('ip')}` + '/feed/dedicated-server-stats.json?code=' + `${Url.get('code')}`)}
+                        const Url = await client.MPServer._content.findById(interaction.guildId);
+                        if (Url.ip && Url.code) return interaction.reply(`${Url.get('ip')}`+'/feed/dedicated-server-stats.json?code='+`${Url.get('code')}`)
                     } catch(err){
-                        console.log(`MPDB | ${err}`)
+                        console.log(`MPDB :: ${err}`)
                         interaction.reply('**Database error:**\nTry inserting an URL first.')
                     }
                 }else{
@@ -97,23 +88,13 @@ export default {
                     if (!verifyURL) return interaction.reply('The URL does not match `dedicated-server-stats.xml`')
                     const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=')
                     try{
-                        console.log(`MPDB | URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
-                        const Url = await MPDB.create({
-                            serverId: interaction.guildId,
-                            ip: newURL[0],
-                            code: newURL[1],
-                            timesUpdated: 0
-                        });
-                        return interaction.reply(`Successfully set the URL to ${Url.ip}`)
+                      console.log(`MPDB :: URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
+                      await client.MPServer._content.create({_id: interaction.guildId, ip: newURL[0], code: newURL[1], timesUpdated: 0})
+                      return interaction.reply('This server is now linked and URL has been added.');
                     } catch(err){
-                        if (err.name == 'SequelizeUniqueConstraintError'){
-                            const AffectedRows = await MPDB.update({ip: newURL[0], code: newURL[1]},{where:{serverId: interaction.guildId}});
-                            await MPDB.increment('timesUpdated',{where:{serverId: interaction.guildId}});
-                            if (AffectedRows) return interaction.reply(`Successfully updated the URL to ${newURL[0]}`)
-                        }else{
-                            console.log(err)
-                            interaction.reply(`\`MPDB\` has caught an error, notify <@&${client.config.mainServer.roles.bottech}>`)
-                        }
+                      const affectedValues = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {ip: newURL[0], code: newURL[1]});
+                      await client.MPServer._increment(interaction.guildId);
+                      if (affectedValues) return interaction.reply('URL successfully updated.')
                     }
                 }
             },
