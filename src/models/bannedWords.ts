@@ -1,4 +1,3 @@
-import Discord from 'discord.js';
 import TClient from 'src/client';
 import mongoose from 'mongoose';
 
