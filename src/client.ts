@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { formatTimeOpt, Tokens, Config, repeatedMessages } from './typings/interfaces';
 import bannedWords from './models/bannedWords';
 import userLevels from './models/userLevels';
+import suggestion from './models/suggestion';
 import punishments from './models/punishments';
 import bonkCount from './models/bonkCount';
 import MPServer from './models/MPServer';
@@ -44,6 +45,7 @@ export default class TClient extends Client {
     bonkCount: bonkCount;
     bannedWords: bannedWords;
     MPServer: MPServer;
+    suggestion: suggestion;
     repeatedMessages: repeatedMessages;
     statsGraph: number;
 
@@ -83,6 +85,7 @@ export default class TClient extends Client {
         this.punishments = new punishments(this);
         this.bannedWords = new bannedWords(this);
         this.MPServer = new MPServer(this);
+        this.suggestion = new suggestion(this);
         this.repeatedMessages = {};
         this.setMaxListeners(80);
         this.statsGraph = -60;
@@ -192,5 +195,5 @@ export default class TClient extends Client {
     }
 }
 
-export class WClient extends WebhookClient {tokens: Tokens; constructor(){super({url: tokens.webhook_url_test})}}
+export class WClient extends WebhookClient {tokens: Tokens; constructor(){super({url: tokens.webhook_url})}}
 // hi tae, ik you went to look for secret hello msgs in here too.
