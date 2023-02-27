@@ -15,7 +15,7 @@ const Schema = mongoose.model('punishments', new mongoose.Schema({
   endTime: {type: Number},
   cancels: {type: Number},
   duration: {type: Number}
-}));
+}, {versionKey: false}));
 
 export default class punishments extends Schema {
   client: TClient;
