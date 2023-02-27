@@ -16,7 +16,7 @@ export default {
         const notifEmbed = new client.embed()
           .setColor(client.config.embedColor)
           .setTitle(`Suggestion ID: ${suggestionID}`)
-          .setAuthor({name: interaction.member.displayName, iconURL: interaction.user.avatarURL({size: 256})})
+          .setAuthor({name: interaction.user.tag, iconURL: interaction.user.avatarURL({size: 256})})
           .setFooter({text: `Timestamp: ${timeFormatting}`})
           .setDescription([
             '> **Suggestion:**',
