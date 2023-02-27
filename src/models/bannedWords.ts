@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.model('bannedWords', new mongoose.Schema({
   _id: {type: String, required:true}
-}));
+}, {versionKey: false}));
 
 export default class bannedWords extends Schema {
   client: TClient;
