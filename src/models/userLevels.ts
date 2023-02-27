@@ -6,7 +6,7 @@ const Schema = mongoose.model('userLevels', new mongoose.Schema({
   _id: {type: String},
   messages: {type: Number, required: true},
   level: {type: Number, required: true}
-}));
+}, {versionKey: false}));
 
 export default class userLevels extends Schema {
   client: TClient;

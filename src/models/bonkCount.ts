@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.model('bonkCount', new mongoose.Schema({
   _id: {type: String, required:true},
   value: {type: Number, required:true}
-}));
+}, {versionKey: false}));
 
 export default class bonkCount extends Schema {
   client: TClient;
