@@ -73,7 +73,9 @@ export default {
                 interaction.reply({embeds: [embed2]})
             },
             url: async()=>{
-                if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
+                if (client.config.mainServer.id == interaction.guildId) {
+                  if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
+                }
                 const address = interaction.options.getString('address');
                 if (!address){
                     try {
