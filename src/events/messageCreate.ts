@@ -77,9 +77,7 @@ export default {
                 '742324777934520350', // #discord-moderators
             ]
             const gifURL = ['tenor.com/view', 'giphy.com/gifs', 'giphy.com/media']
-            if (gifURL.some(e=>message.content.toLowerCase().includes(e)) && bannedChannels.includes(message.channelId)) {
-                message.reply('Gifs are not allowed in this channel.').then((msg: any)=>message.delete())
-            }
+            if (gifURL.some(e=>message.content.toLowerCase().includes(e)) && bannedChannels.includes(message.channelId)) message.reply('Gifs are not allowed in this channel.').then((msg)=>message.delete())
 
             // Autoresponse:tm:
         if (client.config.botSwitches.autores && !automodded) {
