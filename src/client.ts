@@ -94,7 +94,7 @@ export default class TClient extends Client {
         mongoose.set('strictQuery', true);
         await mongoose.connect(this.tokens.mongodb_uri, {
           autoIndex: true,
-          serverSelectionTimeoutMS: 5000,
+          serverSelectionTimeoutMS: 12000,
           socketTimeoutMS: 30000,
           family: 4,
           keepAlive: true,
