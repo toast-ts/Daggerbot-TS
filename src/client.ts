@@ -93,13 +93,14 @@ export default class TClient extends Client {
     async init(){
         mongoose.set('strictQuery', true);
         await mongoose.connect(this.tokens.mongodb_uri, {
+          replicaSet: 'toastyy',
           autoIndex: true,
-          serverSelectionTimeoutMS: 12000,
-          socketTimeoutMS: 30000,
-          family: 4,
           keepAlive: true,
-          waitQueueTimeoutMS: 50000
-        }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(()=>{console.log(this.logTime(), 'Failed to connect to MongoDB'); exec('pm2 stop Daggerbot')})
+          serverSelectionTimeoutMS: 15000,
+          waitQueueTimeoutMS: 50000,
+          socketTimeoutMS: 30000,
+          family: 4
+        }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch((err)=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
         await this.login(this.tokens.main);
         const commandFiles = fs.readdirSync('src/commands').filter(file=>file.endsWith('.ts'));
         for (const file of commandFiles){
