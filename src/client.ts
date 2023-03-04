@@ -159,14 +159,14 @@ export default class TClient extends Client {
     async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
         if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
 
-        const time = interaction.options.getString('time') as string;
+        const time = interaction.options.getString('time') ?? undefined;
         const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
-        const GuildMember = interaction.options.getMember('member') as Discord.GuildMember;
-        const User = interaction.options.getUser('member') as Discord.User;
+        const GuildMember = interaction.options.getMember('member') ?? undefined;
+        const User = interaction.options.getUser('member', true);
 
         if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
         if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
-        if (GuildMember.user.bot) return interaction.reply(`You cannot ${type} a bot!`);
+        if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);
 
         await interaction.deferReply();
         await client.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
