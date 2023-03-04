@@ -29,10 +29,10 @@ function DZ(error:Error, location:string){// Yes, I may have shiternet but I don
   const channel = client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null
   channel?.send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
 }
-process.on('unhandledRejection', async(error: Error)=>DZ(error, 'unhandledRejection'));
-process.on('uncaughtException', async(error: Error)=>DZ(error, 'uncaughtException'));
-process.on('error', async(error: Error)=>DZ(error, 'process-error'));
-client.on('error', async(error: Error)=>DZ(error, 'client-error'));
+process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
+process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
+process.on('error', (error: Error)=>DZ(error, 'process-error'));
+client.on('error', (error: Error)=>DZ(error, 'client-error'));
 
 // Daggerwin MP loop
 setInterval(async()=>{
