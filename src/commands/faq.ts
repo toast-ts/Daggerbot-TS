@@ -1,7 +1,7 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import TClient from 'src/client';
 export default {
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+  run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     ({
       srp: ()=>interaction.reply('Ballyspring is the map that is used in Survival Roleplay S4.'),
       dlskin: ()=>interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Daggerwin Logistics hex code').setDescription('The main color will be Onyx (`#353839`) with red bumpers.').setImage('https://cdn.discordapp.com/attachments/801965516947324969/806871878736019456/image0.png')]}),

@@ -15,26 +15,17 @@ export class Database {
 		this._content = dataType === 'array' ? [] : {};
 	}
 	addData(data: any, data1?: any){
-		if (Array.isArray(this._content)){
-			this._content.push(data);
-		} else if (typeof this._content === 'object'){
-			this._content[data] = data1;
-		}
+		if (Array.isArray(this._content)) this._content.push(data);
+		else if (typeof this._content === 'object') this._content[data] = data1;
 		return this;
 	}
 	removeData(key: any, type: number, element: any){
 		if (this._dataType === 'array'){
-			switch (type){
-				case 0:
-					this._content = this._content.filter((x:any)=>x != key);
-					break;
-				case 1:
-					this._content = this._content.filter((x:any)=>x[element] != key);
-					break;
-			}
-		} else if (this._dataType === 'object'){
-			delete this._content[key];
-		}
+			({
+        0: ()=>this._content = this._content.filter((x:any)=>x!=key),
+        1: ()=>this._content = this._content.filter((x:any)=>x[element]!=key)
+      })[type]()
+		} else if (this._dataType === 'object') delete this._content[key];
 		return this;
 	}
 	initLoad(){
@@ -64,6 +55,4 @@ export class Database {
 		console.log(this._path + ' "DB saved" Notifications disabled');
 		return this;
 	}
-
-
-} // Nice.
+}
