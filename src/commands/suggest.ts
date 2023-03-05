@@ -56,7 +56,7 @@ export default {
         ]});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Rejected'});
         return interaction.reply({embeds:[new client.embed().setColor(client.config.embedColorRed).setTitle(`Suggestion rejected | ${suggestionIDReply}`).setDescription(stateChanged)]});
-      },
+      }
     } as any)[interaction.options.getSubcommand()]();
   },
   data: new SlashCommandBuilder()
