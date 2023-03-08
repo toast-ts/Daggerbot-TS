@@ -2,18 +2,18 @@ import Discord from 'discord.js';
 import TClient from '../client';
 export default {
   async run(client:TClient, member:Discord.GuildMember){
-  if (member.partial || member.guild?.id != client.config.mainServer.id) return;
-  const index = member.guild.memberCount;
-  const suffix = ((index)=>{
-    const numbers = index.toString().split('').reverse(); // eg 1850 --> [0,5,8,1]
-    if (numbers[1] === '1') return 'th'; // this is some -teen
-    else {
-      if (numbers[0] === '1') return 'st';
-      else if (numbers[0] === '2') return 'nd';
-      else if (numbers[0] === '3') return 'rd';
-      else return 'th';
-    }
-  })(index);
+    if (member.partial || member.guild?.id != client.config.mainServer.id) return;
+    const index = member.guild.memberCount;
+    const suffix = ((index)=>{
+      const numbers = index.toString().split('').reverse(); // eg 1850 --> [0,5,8,1]
+      if (numbers[1] === '1') return 'th'; // this is some -teen
+      else {
+        if (numbers[0] === '1') return 'st';
+        else if (numbers[0] === '2') return 'nd';
+        else if (numbers[0] === '3') return 'rd';
+        else return 'th';
+      }
+    })(index);
     (client.channels.resolve(client.config.mainServer.channels.welcome) as Discord.TextChannel).send({embeds: [new client.embed().setColor(client.config.embedColor).setThumbnail(member.user.displayAvatarURL({size: 2048}) || member.user.defaultAvatarURL).setTitle(`Welcome to Daggerwin, ${member.user.tag}!`).setFooter({text: `${index}${suffix} member`})]})
     if (!client.config.botSwitches.logs) return;
     const newInvites = await member.guild.invites.fetch();
