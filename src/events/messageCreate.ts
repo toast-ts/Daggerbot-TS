@@ -34,7 +34,7 @@ export default {
       }
     }
 
-    if (client.config.botSwitches.automod && !client.isStaff(message.member as Discord.GuildMember)){
+    if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id){
       if (await client.bannedWords._content.findById(msgarr) && !Whitelist.includes(message.channelId)){
         automodded = true;
         message.delete().catch(()=>console.log('bannedWords automod; msg got possibly deleted by another bot.'));
@@ -51,63 +51,6 @@ export default {
         }
       }
     }
-
-    /*if (await client.bannedWords._content.findOne({_id:msgarr}) && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId) && client.config.botSwitches.automod){
-      automodded = true;
-      const threshold = 30000;
-      message.delete().catch(err=>console.log('bannedWords automod; msg got possibly deleted by another bot.'))
-      message.channel.send('That word is banned here.').then((x)=>setTimeout(()=>x.delete(), 10000));
-      if (client.repeatedMessages[message.author.id]){
-        // add this message to the list
-        client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 0, ch: message.channelId});
-
-        // reset timeout
-        clearTimeout(client.repeatedMessages[message.author.id].timeout);
-        client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, threshold);
-
-        // message mustve been sent after (now - threshold), so purge those that were sent earlier
-        client.repeatedMessages[message.author.id].data = client.repeatedMessages[message.author.id].data.filter((x, i)=>i >= Date.now() - threshold)
-
-        // a spammed message is one that has been sent atleast 4 times in the last threshold milliseconds
-        const spammedMessage = client.repeatedMessages[message.author.id]?.data.find((x)=>{
-          return client.repeatedMessages[message.author.id].data.size >= 4;
-        });
-
-        // if a spammed message exists;
-        if (spammedMessage){
-          delete client.repeatedMessages[message.author.id];
-          await client.punishments.addPunishment('mute', { time: '30m' }, (client.user as Discord.User).id, 'Automod; Banned words', message.author, message.member as Discord.GuildMember);
-        }
-      } else {
-        client.repeatedMessages[message.author.id] = { data: new client.collection(), timeout: setTimeout(onTimeout, threshold) };
-        client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 0, ch: message.channelId});
-      }
-    }
-
-    if (message.content.toLowerCase().includes('discord.gg/') && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id && !Whitelist.includes(message.channelId)) {
-      automodded = true;
-      const threshold = 60000;
-      message.delete().catch(err=>console.log('advertisement automod; msg got possibly deleted by another bot.'))
-      message.channel.send('Advertising other Discord servers is not allowed.').then(x=>setTimeout(()=>x.delete(), 15000))
-      if (client.repeatedMessages[message.author.id]){
-        client.repeatedMessages[message.author.id].data.set(message.createdTimestamp,{cont:1,ch:message.channelId});
-
-        clearTimeout(client.repeatedMessages[message.author.id].timeout);
-        client.repeatedMessages[message.author.id].timeout = setTimeout(onTimeout, threshold);
-        client.repeatedMessages[message.author.id].data = client.repeatedMessages[message.author.id].data.filter((x, i)=> i >= Date.now() - threshold)
-        const spammedMessage = client.repeatedMessages[message.author.id].data.find((x)=>{
-          return client.repeatedMessages[message.author.id].data.filter((y)=>x.cont === y.cont).size >= 4;
-        });
-
-        if (spammedMessage){
-          delete client.repeatedMessages[message.author.id];
-          await client.punishments.addPunishment('mute', {time: '1h'}, (client.user as Discord.User).id, 'Automod; Discord advertisement', message.author, message.member as Discord.GuildMember);
-        }
-      }else{
-        client.repeatedMessages[message.author.id] = { data: new client.collection(), timeout: setTimeout(onTimeout, threshold) };
-        client.repeatedMessages[message.author.id].data.set(message.createdTimestamp, {cont: 1, ch: message.channelId});
-      }
-    }*/
 
     if (message.guildId == client.config.mainServer.id && !automodded) client.userLevels.incrementUser(message.author.id)
     // Mop gifs from banned channels without Monster having to mop them.
