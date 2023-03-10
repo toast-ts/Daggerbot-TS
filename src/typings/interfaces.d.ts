@@ -14,7 +14,7 @@ export interface punOpt {
   interaction?: Discord.ChatInputCommandInteraction<"cached">
 }
 export interface repeatedMessages {
-  [key:string]: {data: Discord.Collection<number,{cont:number,ch:string}>, timeout: NodeJS.Timeout}
+  [key:string]: {data: Discord.Collection<number,{type:string,channel:string}>, timeout: NodeJS.Timeout}
 }
 export interface Punishment {
   _id: number;

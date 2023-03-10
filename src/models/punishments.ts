@@ -45,7 +45,7 @@ export default class punishments extends Schema {
     }
     // Send it off to specific Discord channel.
     (this.client.channels.cache.get(channel) as Discord.TextChannel).send({embeds:[embed]});
-  }// hi tae --- hi
+  }// hi tae --- hi --- hru?
   getTense(type:string){// Get past tense form of punishment type, grammar yes
     return {
       ban: 'banned',
