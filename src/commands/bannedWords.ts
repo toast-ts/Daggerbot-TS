@@ -8,7 +8,7 @@ export default {
     ({
       add: async()=>{
         if (wordExists) return interaction.reply({content: `\`${word}\` is already added.`, ephemeral: true});
-        await client.bannedWords._content.create({_id:word}).then(a=>a.save());
+        await client.bannedWords._content.create({_id:word}).then(a=>a.save()).catch(e=>{if (e.name == 'No document found for query') return});
         interaction.reply(`Successfully added \`${word}\` to the database.`)
       },
       remove: async()=>{
