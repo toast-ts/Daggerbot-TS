@@ -1,9 +1,11 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import TClient from 'src/client';
+import {writeFileSync} from 'node:fs';
+import path from 'node:path';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!client.isStaff(interaction.member) && !client.config.eval.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
-    const word = interaction.options.getString('word', true);
+    const word = interaction.options.getString('word');
     const wordExists = await client.bannedWords._content.findById(word);
     ({
       add: async()=>{
@@ -16,15 +18,19 @@ export default {
         await client.bannedWords._content.findOneAndDelete({_id:word});
         interaction.reply(`Successfully removed \`${word}\` from the database.`)
       },
-      //view: ()=>interaction.reply({content: 'Here is a complete list of banned words!\n*You can open it with a web browser, e.g Chrome/Firefox/Safari, or you can use Visual Studio Code/Notepad++*', files: ['src/database/bannedWords.json'], ephemeral: true})
+      view: async()=>{
+        const findAll = await client.bannedWords._content.find({});
+        writeFileSync(path.join(__dirname, '../database/bw_dump.json'), JSON.stringify(findAll.map(i=>i._id), null, 2), {encoding: 'utf8', flag: 'w+'});
+        interaction.reply({content: 'Here\'s the dump file from the database.', files: ['src/database/bw_dump.json'], ephemeral: true}).catch(err=>interaction.reply({content: `Ran into an error, notify <@&${client.config.mainServer.roles.bottech}> if it happens again:\n\`${err.message}\``, ephemeral: true}))
+      }
     } as any)[interaction.options.getSubcommand()]();
   },
   data: new SlashCommandBuilder()
     .setName('bannedwords')
-    .setDescription('description placeholder')/*
+    .setDescription('description placeholder')
     .addSubcommand((opt)=>opt
       .setName('view')
-      .setDescription('View the list of currently banned words.'))*/
+      .setDescription('View the list of currently banned words.'))
     .addSubcommand((opt)=>opt
       .setName('add')
       .setDescription('What word do you want to add?')
