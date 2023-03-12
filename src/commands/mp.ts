@@ -58,6 +58,7 @@ export default {
         const FSserver2 = await MPdata(client, interaction, embed2)
         if (!FSserver2?.data) return console.log('FSserver2 failed - info')
         const MPURL = await client.MPServer._content.findById(interaction.guildId);
+        if (FSserver2.data.server.name.length == 0) embed2.setFooter({text: 'Server is currently offline.'})
         interaction.reply({embeds: [embed2.setDescription([
           `**Server name**: \`${FSserver2?.data.server.name.length == 0 ? '\u200b' : FSserver2?.data.server.name}\``,
           '**Password:** `mf4700`',
@@ -67,7 +68,6 @@ export default {
           '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
           'Please see <#543494084363288637> for additional information.'
         ].join('\n'))]});
-        if (FSserver2.data.server.name.length == 0) embed2.setFooter({text: 'Server is currently offline.'})
       },
       url: async()=>{
         if (client.config.mainServer.id == interaction.guildId) {
