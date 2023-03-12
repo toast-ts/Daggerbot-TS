@@ -53,7 +53,7 @@ export default class TClient extends Client {
     super({
       intents: [
         GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildBans, GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildPresences, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
       ],
       partials: [
