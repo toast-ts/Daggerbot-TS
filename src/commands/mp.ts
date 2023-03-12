@@ -67,7 +67,7 @@ export default {
           '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
           'Please see <#543494084363288637> for additional information.'
         ].join('\n'))]});
-        if (FSserver2?.data.server.name.length == 0) embed2.setFooter({text: 'Server is currently offline.'})
+        if (FSserver2.data.server.name.length == 0) embed2.setFooter({text: 'Server is currently offline.'})
       },
       url: async()=>{
         if (client.config.mainServer.id == interaction.guildId) {
