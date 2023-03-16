@@ -45,7 +45,7 @@ export default class punishments extends Schema {
     }
     // Send it off to specific Discord channel.
     (this.client.channels.cache.get(channel) as Discord.TextChannel).send({embeds:[embed]});
-  }// hi tae --- hi --- hru?
+  }// hi tae --- hi --- hru? --- no answer ok
   getTense(type:string){// Get past tense form of punishment type, grammar yes
     return {
       ban: 'banned',
@@ -146,7 +146,7 @@ export default class punishments extends Schema {
           .setDescription(`${User.tag}\n<@${User.id}>\n(\`${User.id}\`)`)
           .addFields({name: 'Reason', value: reason},{name: 'Overwrites', value: `Case #${punishment.id}`})
         ]})
-      } else return `Successfully ${this.getTense(removePunishmentData.type)} ${User.tag} (\`${User.id}\`) for ${reason}`
+      } else return `Successfully un${this.getTense(removePunishmentData.type.replace('un', ''))} ${User.tag} (\`${User.id}\`) for ${reason}`
     }
   }
 }
