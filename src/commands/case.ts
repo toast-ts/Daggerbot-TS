@@ -8,7 +8,8 @@ export default {
       update: async()=>{
         const reason = interaction.options.getString('reason');
         await client.punishments._content.findByIdAndUpdate(caseId, {reason});
-        await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColorGreen).setTitle('Case updated').setDescription(`Case #${caseId} has been successfully updated with new reason:\n\`${reason}\``)]})
+        if (await client.punishments._content.findById(caseId)) await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColorGreen).setTitle('Case updated').setDescription(`Case #${caseId} has been successfully updated with new reason:\n\`${reason}\``)]});
+        else interaction.reply({embeds: [new client.embed().setColor(client.config.embedColorRed).setTitle('Case not updated').setDescription(`Case #${caseId} is not stored on database, not updating the reason.`)]});
       },
       view: async()=>{
         const punishment = await client.punishments._content.findById(caseId);
