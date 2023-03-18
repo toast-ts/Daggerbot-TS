@@ -7,7 +7,7 @@ export default {
     const reason = interaction.options.getString('reason');
     const adminPerm = member.permissions.has('Administrator');
     if (adminPerm) return interaction.reply('You cannot bonk an admin!');
-    
+
     await client.bonkCount._incrementUser(member.id);
     interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor)
       .setDescription(`> <@${member.id}> has been bonked!\n${reason?.length == null ? '' : `> Reason: **${reason}**`}`)

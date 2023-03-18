@@ -36,8 +36,7 @@ export default class punishments extends Schema {
         {name: '🔹 Moderator', value: `<@${punishment.moderator}>\n\`${punishment.moderator}\``, inline: true},
         {name: '\u200b', value: '\u200b', inline: true},
         {name: '🔹 Reason', value: `\`${punishment.reason}\``, inline: true})
-      .setColor(this.client.config.embedColor)
-      .setTimestamp(punishment.time)
+      .setColor(this.client.config.embedColor).setTimestamp(punishment.time)
     if (punishment.duration) embed.addFields({name: '🔹 Duration', value: this.client.formatTime(punishment.duration, 100), inline: true}, {name: '\u200b', value: '\u200b', inline: true})
     if (punishment.cancels) {
       const cancels = await this._content.findById(punishment.cancels);
