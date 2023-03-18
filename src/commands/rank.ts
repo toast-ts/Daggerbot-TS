@@ -48,13 +48,13 @@ export default {
 				const second_graph_top = Math.ceil(maxValue * 10 ** (-maxValueArr.length + 2)) * 10 ** (maxValueArr.length - 2);
 				const textSize = 32;
 
-				const img = canvas.createCanvas(950, 450);
+				const img = canvas.createCanvas(1200, 600);
 				const ctx = img.getContext('2d');
 
-				const graphOrigin = [10, 50];
-				const graphSize = [700, 360];
+				const graphOrigin = [25, 50];
+				const graphSize = [1020, 500];
 				const nodeWidth = graphSize[0] / (data.length - 1);
-				ctx.fillStyle = '#36393f';
+				ctx.fillStyle = '#36393f'; //'#111111';
 				ctx.fillRect(0, 0, img.width, img.height);
 
 				// grey horizontal lines
@@ -72,18 +72,18 @@ export default {
 				const chosen_interval = interval_candidates.sort((a, b) => b[2] - a[2])[0];
 				let previousY: Array<number> = [];
 
-			  ctx.strokeStyle = '#202225';
+			  ctx.strokeStyle = '#202225'; //'#555B63';
 			  for (let i = 0; i <= chosen_interval[1]; i++) {
 			  	const y = graphOrigin[1] + graphSize[1] - (i * (chosen_interval[0] / second_graph_top) * graphSize[1]);
 			  	if (y < graphOrigin[1]) continue;
 			  	const even = ((i + 1) % 2) === 0;
-			  	if (even) ctx.strokeStyle = '#2c2f33';
+			  	if (even) ctx.strokeStyle = '#2c2f33'; //'#3E4245';
 			  	ctx.beginPath();
 			  	ctx.lineTo(graphOrigin[0], y);
 			  	ctx.lineTo(graphOrigin[0] + graphSize[0], y);
 			  	ctx.stroke();
 			  	ctx.closePath();
-			  	if (even) ctx.strokeStyle = '#202225';
+			  	if (even) ctx.strokeStyle = '#202225'; //'#555B63';
 			  	previousY = [y, i * chosen_interval[0]];
 			  }
 
@@ -100,7 +100,7 @@ export default {
 		    // draw points
 		    ctx.strokeStyle = client.config.embedColor as string;
 		    ctx.fillStyle = client.config.embedColor as string;
-		    ctx.lineWidth = 3;
+		    ctx.lineWidth = 4;
 
 			  function getYCoordinate(value: number) {
 			    return ((1 - (value / second_graph_top)) * graphSize[1]) + graphOrigin[1];
@@ -137,7 +137,7 @@ export default {
 			  // lowest value
 			  const lowx = graphOrigin[0] + graphSize[0] + textSize;
 			  const lowy = graphOrigin[1] + graphSize[1] + (textSize / 3);
-			  ctx.fillText('0 msgs/day', lowx, lowy);
+			  ctx.fillText('0 msgs', lowx, lowy);
 
 			  // 30d
 			  ctx.fillText('30d ago', lastMonthStart, graphOrigin[1] - (textSize / 3));
