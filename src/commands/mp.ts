@@ -115,7 +115,7 @@ export default {
         const graphOrigin = [15, 65];
         const graphSize = [1300, 630];
         const nodeWidth = graphSize[0] / (data.length - 1);
-        ctx.fillStyle = '#36393f';
+        ctx.fillStyle = '#36393f'; //'#111111';
         ctx.fillRect(0, 0, img.width, img.height);
 
         // grey horizontal lines
@@ -134,18 +134,18 @@ export default {
 
         const previousY: Array<number> = [];
 
-        ctx.strokeStyle = '#202225';
+        ctx.strokeStyle = '#202225'; //'#555B63';
         for (let i = 0; i <= chosen_interval[1]; i++) {
           const y = graphOrigin[1] + graphSize[1] - (i * (chosen_interval[0] / second_graph_top) * graphSize[1]);
           if (y < graphOrigin[1]) continue;
           const even = ((i + 1) % 2) === 0;
-          if (even) ctx.strokeStyle = '#2c2f33';
+          if (even) ctx.strokeStyle = '#2c2f33'; //'#3E4245';
           ctx.beginPath();
           ctx.lineTo(graphOrigin[0], y);
           ctx.lineTo(graphOrigin[0] + graphSize[0], y);
           ctx.stroke();
           ctx.closePath();
-          if (even) ctx.strokeStyle = '#202225';
+          if (even) ctx.strokeStyle = '#202225'; //'#555B63';
           previousY.push(y, i * chosen_interval[0]);
         }
 
