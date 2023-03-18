@@ -87,7 +87,7 @@ export default class TClient extends Client {
     this.MPServer = new MPServer(this);
     this.suggestion = new suggestion(this);
     this.repeatedMessages = {};
-    this.setMaxListeners(80);
+    this.setMaxListeners(20);
     this.statsGraph = -60;
   }
   async init(){
