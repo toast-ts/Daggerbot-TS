@@ -112,9 +112,9 @@ setInterval(async()=>{
   } else {
     const embed1 = new client.embed().setColor(client.config.embedColor).setTitle('Server details').addFields(
       {name: 'Current Map', value: `${FSdss.data.server.mapName.length == 0 ? '\u200b' : FSdss.data.server.mapName}`, inline: true},
-	  {name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
-	  {name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-	  {name: 'Slot Usage', value: `${slotSystem}`, inline: true},
+	    {name: 'Version', value: `${FSdss.data.server.version.length == 0 ? '\u200b' : FSdss.data.server.version}`, inline: true},
+	    {name: 'In-game Time', value: `${('0' + Math.floor((FSdss.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSdss.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
+	    {name: 'Slot Usage', value: `${slotSystem}`, inline: true},
       {name: 'Timescale', value: `${timeScale}`, inline: true}
     );
     FSdss.data.slots.players.filter((x)=>x.isUsed !== false).forEach(player=>Players.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${(Math.floor(player.uptime/60))} hr & ${('' + (player.uptime % 60)).slice(-2)} min`))
