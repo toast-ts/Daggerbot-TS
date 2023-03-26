@@ -23,8 +23,8 @@ export default class userLevels extends Schema {
       await this._content.findByIdAndUpdate(userid, {messages: userData.messages + 1});
       if (userData.messages >= this.algorithm(userData.level+2)){
         while (userData.messages > this.algorithm(userData.level+1)){
-          const newData = await this._content.findByIdAndUpdate(userid, {level:userData.level+1}, {new: true});
-          console.log(`${userid} EXTENDED LEVELUP ${newData?.level}`)
+          const newData = await this._content.findByIdAndUpdate(userid, {level:userData.level++}, {new: true});
+          console.log(`${userid} extended to level ${newData.level}`);
         }
       } else if (userData.messages >= this.algorithm(userData.level+1)) {
         const newData = await this._content.findByIdAndUpdate(userid, {level:userData.level+1}, {new: true});
