@@ -20,7 +20,7 @@
   },
   "botPresence": {
 	"activities": [
-		{"name": "the new SRP", "url": "https://www.youtube.com/watch?v=5BDEzgbJ7c0", "type": 1}
+		{"name": "the audio", "url": "https://www.youtube.com/watch?v=HQnC1UHBvWA", "type": 1}
 	], 
 	"status": "idle"
 	},
