@@ -16,5 +16,5 @@ export default {
   },
   data: new SlashCommandBuilder()
     .setName('contributors')
-    .setDescription('List of people who contributed to the bot.')
+    .setDescription('List of people who contributed to the bot')
 }
