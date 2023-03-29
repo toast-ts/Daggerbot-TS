@@ -14,7 +14,7 @@ export default {
     .setDescription('Remove the active punishment from a member')
     .addIntegerOption((opt)=>opt
       .setName('case_id')
-      .setDescription('Case # of the punishment to be overwritten')
+      .setDescription('Case ID of the punishment to be overwritten')
       .setRequired(true))
     .addStringOption((opt)=>opt
       .setName('reason')

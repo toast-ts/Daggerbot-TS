@@ -13,7 +13,7 @@ export default {
       },
       view: async()=>{
         const punishment = await client.punishments._content.findById(caseId);
-        if (!punishment) return interaction.reply('Invalid Case #');
+        if (!punishment) return interaction.reply('Invalid Case ID');
         const cancelledBy = punishment.expired ? await client.punishments._content.findOne({cancels:punishment.id}) : null;
         const cancels = punishment.cancels ? await client.punishments._content.findOne({_id:punishment.cancels}) : null;
         const embed = new client.embed().setColor(client.config.embedColor).setTimestamp(punishment.time).setTitle(`${punishment.type[0].toUpperCase()+punishment.type.slice(1)} | Case #${punishment.id}`).addFields(
@@ -22,8 +22,8 @@ export default {
           {name: '\u200b', value: '\u200b', inline: true},
           {name: '🔹 Reason', value: `\`${punishment.reason || 'Reason unspecified'}\``, inline: true})
         if (punishment.duration) embed.addFields({name: '🔹 Duration', value: client.formatTime(punishment.duration, 100)})
-        if (punishment.expired) embed.addFields({name: '🔹 Expired', value: `This case has been overwritten by case #${cancelledBy.id} for reason \`${cancelledBy.reason}\``})
-        if (punishment.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites case #${cancels.id} with reason \`${cancels.reason}\``})
+        if (punishment.expired) embed.addFields({name: '🔹 Expired', value: `This case has been overwritten by Case #${cancelledBy.id} for reason \`${cancelledBy.reason}\``})
+        if (punishment.cancels) embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id} with reason \`${cancels.reason}\``})
         interaction.reply({embeds: [embed]});
       },
       member: async()=>{
@@ -40,7 +40,7 @@ export default {
           }
         });
         // if caseid is not a punishment nor a user, failed
-        if (!userPunishment || userPunishment.length == 0) return interaction.reply('No punishments found for that case # or User ID');
+        if (!userPunishment || userPunishment.length == 0) return interaction.reply('No punishments found for that Case or User ID');
         const pageNum = interaction.options.getInteger('page') ?? 1;
         return interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle(`${user.username}'s punishment history`).setDescription(`**ID:** \`${user.id}\``).setFooter({text: `${userPunishment.length} total punishments. Viewing page ${pageNum} out of ${Math.ceil(userPunishment.length/6)}.`}).addFields(userPunishment.slice((pageNum - 1) * 6, pageNum * 6))]});
       }
@@ -51,10 +51,10 @@ export default {
     .setDescription('Retrieve case information or user\'s punishment history')
     .addSubcommand((opt)=>opt
       .setName('view')
-      .setDescription('View a single case.')
+      .setDescription('View a multiple or single case')
       .addIntegerOption((optt)=>optt
         .setName('id')
-        .setDescription('Case #')
+        .setDescription('Case ID')
         .setRequired(true)))
     .addSubcommand((opt)=>opt
       .setName('member')
@@ -71,7 +71,7 @@ export default {
       .setDescription('Update the case with new reason')
       .addIntegerOption((optt)=>optt
         .setName('id')
-        .setDescription('Case # to be updated')
+        .setDescription('Case ID to be updated')
         .setRequired(true))
       .addStringOption((optt)=>optt
         .setName('reason')
