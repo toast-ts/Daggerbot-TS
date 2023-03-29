@@ -61,7 +61,7 @@ export default {
   },
   data: new SlashCommandBuilder()
     .setName('suggest')
-    .setDescription('Want to suggest ideas/thoughts to bot techs? Suggest it here.')
+    .setDescription('Want to suggest ideas/thoughts to bot techs? Suggest it here')
     .addSubcommand((opt)=>opt
       .setName('your')
       .setDescription('What do you want to suggest?')
@@ -75,24 +75,24 @@ export default {
         .setDescription('If your idea seems complicated or prefer to show what your idea may look like then attach the image.')))
     .addSubcommand((opt)=>opt
       .setName('approve')
-      .setDescription('[Bot Tech] Approve the suggestions sent by users.')
+      .setDescription('[Bot Tech] Approve the suggestion sent by the user')
       .addStringOption(id=>id
         .setName('id')
         .setDescription('User\'s suggestion ID')
         .setRequired(true))
       .addStringOption(m=>m
         .setName('message')
-        .setDescription('(Optional) Include a message with your approval.')
+        .setDescription('(Optional) Include a message with your approval')
         .setMaxLength(256)))
     .addSubcommand((opt)=>opt
       .setName('reject')
-      .setDescription('[Bot Tech] Reject the suggestions sent by users.')
+      .setDescription('[Bot Tech] Reject the suggestion sent by the user')
       .addStringOption(id=>id
         .setName('id')
         .setDescription('User\'s suggestion ID')
         .setRequired(true))
       .addStringOption(m=>m
         .setName('message')
-        .setDescription('(Optional) Include a message with your rejection.')
+        .setDescription('(Optional) Include a message with your rejection')
         .setMaxLength(256)))
 }

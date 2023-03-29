@@ -30,19 +30,19 @@ export default {
     .setDescription('description placeholder')
     .addSubcommand((opt)=>opt
       .setName('view')
-      .setDescription('View the list of currently banned words.'))
+      .setDescription('View the list of currently banned words'))
     .addSubcommand((opt)=>opt
       .setName('add')
-      .setDescription('What word do you want to add?')
+      .setDescription('Add the word to the list')
         .addStringOption((optt)=>optt
           .setName('word')
-          .setDescription('Add the specific word to automod\'s bannedWords database.')
+          .setDescription('Add the specific word to automod\'s bannedWords database')
           .setRequired(true)))
     .addSubcommand((opt)=>opt
       .setName('remove')
-      .setDescription('What word do you want to remove?')
+      .setDescription('Remove the word from the list')
       .addStringOption((optt)=>optt
         .setName('word')
-        .setDescription('Remove the specific word from automod\'s bannedWords list.')
+        .setDescription('Remove the specific word from automod\'s bannedWords list')
         .setRequired(true)))
 }
