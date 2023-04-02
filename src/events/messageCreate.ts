@@ -70,7 +70,7 @@ export default {
       const PasswordArray = ['whats the password', 'what\'s the password', 'password pls']
       const cantRead = ['i cant read', 'i can\'t read', 'cant read', 'can\'t read']
       const NawdicBrokeIt = ['break', 'broke', 'broken']
-      const deadChat = ['dead chat', 'chat is dead', 'dead server']
+      const deadChat = ['dead chat', 'chat is dead', 'dead server', 'inactive chat', 'inactive channel']
 
       const PersonnyMcPerson = `**${message.member.displayName}**`;
       const GeneralChatID = '468835415093411863';
