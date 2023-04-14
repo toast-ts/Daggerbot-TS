@@ -69,7 +69,7 @@ export default {
       const NightArray = ['night all', 'night everyone', 'night guys']
       const PasswordArray = ['whats the password', 'what\'s the password', 'password pls']
       const cantRead = ['i cant read', 'i can\'t read', 'cant read', 'can\'t read']
-      const NawdicBrokeIt = ['break', 'broke', 'broken']
+      const TheyBrokeIt = ['break', 'broke', 'broken']
       const deadChat = ['dead chat', 'chat is dead', 'dead server', 'inactive chat', 'inactive channel']
 
       const PersonnyMcPerson = `**${message.member.displayName}**`;
@@ -107,7 +107,8 @@ export default {
       if (cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931');
       if (message.content.toLowerCase().includes('is daggerbot working')) message.reply('https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579');
       if (deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png');
-      if (msgarr.includes('nawdic') && NawdicBrokeIt.some(e=>msgarr.includes(e)) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]});
+      if (msgarr.includes('nawdic') && TheyBrokeIt.some(e=>msgarr.includes(e)) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]});
+      if (msgarr.includes('monster') && TheyBrokeIt.some(e=>msgarr.includes(e)) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Monster has broken something*').setImage('https://media.tenor.com/ZIzIjb_wvEoAAAAC/face-palm.gif').setColor(client.config.embedColor)]})
       if (MorningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == GeneralChatID && message.type == 0) message.reply(`${MorningPhrases[Math.floor(Math.random()*MorningPhrases.length)]}`);
       if (AfternoonArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == GeneralChatID && message.type == 0) message.reply(`${AfternoonPhrases[Math.floor(Math.random()*AfternoonPhrases.length)]}`);
       if (EveningArray.some(e=>message.content.toLowerCase().startsWith(e)) && message.channelId == GeneralChatID && message.type == 0) message.reply(`${EveningPhrases[Math.floor(Math.random()*EveningPhrases.length)]}`);
