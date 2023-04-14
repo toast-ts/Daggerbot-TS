@@ -67,7 +67,7 @@ export default {
         exec('git pull',(err:Error,stdout)=>{
           if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
           else if (stdout.includes('Already up to date')) clarkson.edit('Bot is already up to date with the repository, did you forgor to push the changes? :skull:')
-          else setTimeout(()=>clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot')),650)
+          else setTimeout(()=>clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('tsc && pm2 restart Daggerbot')),650)
         });
       },
       presence: ()=>{
