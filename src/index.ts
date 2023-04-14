@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from './client';
+import TClient from './client.js';
 const client = new TClient;
 client.init();
 import fs from 'node:fs';
@@ -78,10 +78,11 @@ setInterval(async()=>{
       if (results[1].status == 204) embed.setImage('https://http.cat/204');
       FScsg.fetchResult = `DagMP CSG failed with ${results[1].status + ' ' + results[1].statusText}`;
       embed.addFields({name: 'CSG Status', value: results[1].status + ' ' + results[1].statusText})
-    } else FScsg.data = client.xjs.xml2js(results[1].data,{compact:true,spaces:2}).careerSavegame as FSCareerSavegame;
+    } else FScsg.data = (client.xjs.xml2js(results[1].data,{compact:true}) as any).careerSavegame as FSCareerSavegame;
   }).catch((error)=>console.log(error))
   if (FSdss.fetchResult.length != 0){
     error = true;
+    if (FSdss.data.slots === undefined) return;
     console.log(client.logTime(), FSdss.fetchResult);
   }
   if (FScsg.fetchResult.length != 0){
@@ -94,9 +95,9 @@ setInterval(async()=>{
     return;
   }
 
-  const DB = JSON.parse(fs.readFileSync(__dirname + '/database/MPPlayerData.json', {encoding: 'utf8'}));
+  const DB = JSON.parse(fs.readFileSync('src/database/MPPlayerData.json', {encoding: 'utf8'}));
   DB.push(FSdss.data.slots.used)
-  fs.writeFileSync(__dirname + '/database/MPPlayerData.json', JSON.stringify(DB))
+  fs.writeFileSync('src/database/MPPlayerData.json', JSON.stringify(DB))
 
   // Number format function
   function formatNumber(number: any, digits: any, icon: any){
@@ -143,13 +144,13 @@ setInterval(async()=>{
   });
     
   const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
-  const dailyMsgs = JSON.parse(fs.readFileSync(__dirname + '/database/dailyMsgs.json', {encoding: 'utf8'}))
+  const dailyMsgs = JSON.parse(fs.readFileSync('./src/database/dailyMsgs.json', {encoding: 'utf8'}))
   if (!dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
     let total = (await client.userLevels._content.find({})).reduce((a,b)=>a + b.messages, 0); // sum of all users
     const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
     if (total < yesterday) total = yesterday // messages went down.
     dailyMsgs.push([formattedDate, total]);
-    fs.writeFileSync(__dirname + '/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
+    fs.writeFileSync('./src/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
     console.log(client.logTime(), `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
     client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`))
   }

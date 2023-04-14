@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 import path from 'node:path';
 import fs from 'node:fs';
 import canvas from 'canvas';
@@ -30,7 +30,7 @@ export default {
         const messageCountsTotal = allData.reduce((a, b) => a + b.messages, 0);
         const timeActive = Math.floor((Date.now() - client.config.LRSstart)/1000/60/60/24);
 
-				const dailyMsgsPath = path.join(__dirname, '../database/dailyMsgs.json');
+				const dailyMsgsPath = path.join('./src/database/dailyMsgs.json');
 				const data = JSON.parse(fs.readFileSync(dailyMsgsPath, 'utf8')).map((x: Array<number>, i: number, a: any) => {
 				  const yesterday = a[i - 1] || [];
 				  return x[1] - (yesterday[1] || x[1]);

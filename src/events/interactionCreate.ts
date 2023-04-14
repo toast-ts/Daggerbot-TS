@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from '../client';
+import TClient from '../client.js';
 export default {
   run(client:TClient, interaction:Discord.BaseInteraction){
     if (!interaction.inGuild() || !interaction.inCachedGuild()) return;
@@ -9,7 +9,7 @@ export default {
       if (!client.config.botSwitches.commands && !client.config.eval.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'Bot is currently being run in development mode.', ephemeral: true});
       if (commandFile){
         try{
-          commandFile.default.run(client, interaction);
+          commandFile.command.default.run(client, interaction);
           commandFile.uses ? commandFile.uses++ : commandFile.uses = 1;
         } catch (error){
           console.log(`An error occurred while running command "${interaction.commandName} ${interaction.options.getSubcommand(false) ?? ''}"`, error, error.stack);

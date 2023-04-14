@@ -1,8 +1,8 @@
-import Discord, { ChannelType } from 'discord.js';
-import TClient from '../client';
+import Discord from 'discord.js';
+import TClient from 'src/client';
 export default {
   async run(client:TClient, message:Discord.Message){
-    if (message.author.bot || message.channel.type === ChannelType.DM) return;
+    if (message.author.bot || message.channel.type === Discord.ChannelType.DM) return;
     const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/g, ' ').split(' ');
     let automodded: boolean;
 

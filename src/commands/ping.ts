@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const msg = await interaction.reply({content: 'Pinging...', fetchReply: true})

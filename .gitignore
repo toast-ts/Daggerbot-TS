@@ -4,6 +4,7 @@ node_modules/
 package-lock.json
 .ncurc.json
 # Bot stuff
+dist/
 src/database/
 src/tokens.json
 src/Toast-Testbot.config.json
