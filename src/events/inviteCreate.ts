@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from '../client';
+import TClient from '../client.js';
 export default {
   async run(client:TClient, invite: Discord.Invite){
     if (!invite.guild) return;

@@ -1,27 +1,26 @@
 import Discord, { Client, WebhookClient, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
-import { exec } from 'node:child_process';
-import timeNames from './timeNames';
+import {exec} from 'node:child_process';
+import timeNames from './timeNames.js';
 import mongoose from 'mongoose';
-import { formatTimeOpt, Tokens, Config, repeatedMessages } from './typings/interfaces';
-import bannedWords from './models/bannedWords';
-import userLevels from './models/userLevels';
-import suggestion from './models/suggestion';
-import punishments from './models/punishments';
-import bonkCount from './models/bonkCount';
-import MPServer from './models/MPServer';
+import {formatTimeOpt, Tokens, Config, repeatedMessages} from './typings/interfaces';
+import bannedWords from './models/bannedWords.js';
+import userLevels from './models/userLevels.js';
+import suggestion from './models/suggestion.js';
+import punishments from './models/punishments.js';
+import bonkCount from './models/bonkCount.js';
+import MPServer from './models/MPServer.js';
+import xjs from 'xml-js';
 import axios from 'axios';
 import moment from 'moment';
-import tokens from './tokens.json';
+import tokens from './tokens.json' assert { type: 'json'};
 
 let importconfig:Config
 try{
-  importconfig = require('./DB-Beta.config.json')
+  importconfig = JSON.parse(fs.readFileSync('src/DB-Beta.config.json', {encoding:'utf8'}));
   console.log('Using development config :: Daggerbot Beta')
-  //importconfig = require('./Toast-Testbot.config.json')
-  //console.log('Using development config :: Toast-Testbot')
 } catch(e){
-  importconfig = require('./config.json')
+  importconfig = JSON.parse(fs.readFileSync('src/config.json', {encoding:'utf8'}))
   console.log('Using production config')
 }
 
@@ -37,7 +36,7 @@ export default class TClient extends Client {
   messageCollector: any;
   attachmentBuilder: any;
   moment: typeof moment;
-  xjs: any;
+  xjs: typeof xjs;
   axios: typeof axios;
   ms: any;
   userLevels: userLevels;
@@ -77,9 +76,9 @@ export default class TClient extends Client {
     this.messageCollector = Discord.MessageCollector;
     this.attachmentBuilder = Discord.AttachmentBuilder;
     this.moment = moment;
-    this.xjs = require('xml-js');
+    this.xjs = xjs;
     this.axios = axios;
-    this.ms = require('ms');
+    this.ms = import('ms').then(i=>i);
     this.userLevels = new userLevels(this);
     this.bonkCount = new bonkCount(this);
     this.punishments = new punishments(this);
@@ -102,17 +101,17 @@ export default class TClient extends Client {
       socketTimeoutMS: 30000,
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch((err)=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
-    await this.login(this.tokens.main);
-    const commandFiles = fs.readdirSync('src/commands').filter(file=>file.endsWith('.ts'));
+    await this.login(this.tokens.beta);
+    fs.readdirSync('dist/events').forEach(async file=>{
+      const eventFile = await import(`./events/${file}`);
+      this.on(file.replace('.js', ''), async(...args)=>eventFile.default.run(this,...args));
+    });
+    const commandFiles = fs.readdirSync('dist/commands').filter(file=>file.endsWith('.js'));
     for (const file of commandFiles){
-      const command = require(`./commands/${file}`);
-      this.commands.set(command.default.data.name, command)
+      const command = await import(`./commands/${file}`);
+      this.commands.set(command.default.data.name, {command, uses: 0})
       this.registry.push(command.default.data.toJSON())
     }
-    fs.readdirSync('src/events').forEach((file)=>{
-      const eventFile = require(`./events/${file}`);
-      this.on(file.replace('.ts', ''), async(...args)=>eventFile.default.run(this,...args));
-    });
   }
   formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
     let achievedAccuracy = 0;
@@ -170,7 +169,7 @@ export default class TClient extends Client {
     let error;
 
     try {
-      await this.axios.get(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {timeout: 5000}).then((xml:any)=>Data = this.xjs.xml2js(xml.data, {compact: true, spaces: 2}))
+      await this.axios.get(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {timeout: 5000}).then((xml:any)=>Data = this.xjs.xml2js(xml.data, {compact: true}))
     } catch(err){
       error = true;
       console.log(this.logTime(), `${YTChannelName} YT fail`)
@@ -194,6 +193,7 @@ export class WClient extends WebhookClient {
     super({
       url: tokens.webhook_url
     })
+    this.tokens = tokens as Tokens;
   }
 }
 // hi tae, ik you went to look for secret hello msgs in here too.

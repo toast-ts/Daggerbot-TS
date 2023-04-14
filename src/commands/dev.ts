@@ -1,9 +1,9 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import {Octokit} from '@octokit/rest';
 import {exec} from 'node:child_process';
-import {readFileSync} from 'node:fs';
+import fs from 'node:fs';
 import util from 'node:util';
-import TClient from '../client';
+import TClient from '../client.js';
 import path from 'node:path';
 const removeUsername = (text: string)=>{
   let matchesLeft = true;
@@ -100,7 +100,7 @@ export default {
       },
       statsgraph: ()=>{
         client.statsGraph = -(interaction.options.getInteger('number', true));
-        interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`)
+        interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(fs.readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`)
       },
       logs: ()=>{
         interaction.deferReply();

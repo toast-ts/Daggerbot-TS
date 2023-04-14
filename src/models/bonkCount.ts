@@ -1,4 +1,4 @@
-import TClient from 'src/client';
+import TClient from '../client.js';
 import mongoose from 'mongoose';
 
 const Schema = mongoose.model('bonkCount', new mongoose.Schema({

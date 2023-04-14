@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 import {writeFileSync} from 'node:fs';
 import path from 'node:path';
 export default {

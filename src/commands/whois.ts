@@ -1,5 +1,5 @@
 import Discord,{GuildMember, SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 
 function convert(status?:Discord.ClientPresenceStatus){
   if (status) return {

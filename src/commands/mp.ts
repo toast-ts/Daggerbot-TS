@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 import path from 'node:path';
 import canvas from 'canvas';
 import fs from 'node:fs';

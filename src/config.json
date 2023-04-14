@@ -20,9 +20,9 @@
   },
   "botPresence": {
 	"activities": [
-		{"name": "the audio", "url": "https://www.youtube.com/watch?v=HQnC1UHBvWA", "type": 1}
+		{"name": "the server", "url": "https://www.youtube.com/watch?v=1P17ct4e5OE", "type": 1}
 	], 
-	"status": "idle"
+	"status": "online"
 	},
   "eval": {
     "allowed": true,

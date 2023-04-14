@@ -1,5 +1,5 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import TClient,{WClient} from '../client';
+import TClient,{WClient} from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const replyInDM = interaction.options.getString('message');

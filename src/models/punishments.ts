@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 import mongoose from 'mongoose';
 import ms from 'ms';
-import {Punishment} from 'src/typings/interfaces';
+import {Punishment} from '../typings/interfaces.js';
 
 const Schema = mongoose.model('punishments', new mongoose.Schema({
   _id: {type: Number, required: true},

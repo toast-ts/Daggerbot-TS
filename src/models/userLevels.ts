@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 import mongoose from 'mongoose';
 
 const Schema = mongoose.model('userLevels', new mongoose.Schema({

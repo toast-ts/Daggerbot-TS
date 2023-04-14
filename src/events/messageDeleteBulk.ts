@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from '../client';
+import TClient from '../client.js';
 export default {
   run(client:TClient, messages:Discord.Collection<string, Discord.Message<boolean>>){
     if (!client.config.botSwitches.logs) return;
