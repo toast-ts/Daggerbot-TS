@@ -1,7 +1,7 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
-import {version} from 'typescript';
+import pkg from 'typescript';
 import si from 'systeminformation';
-import TClient from 'src/client';
+import TClient from '../client.js';
 import os from 'node:os';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -15,7 +15,7 @@ export default {
       const i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     };
-    var DJSver = require('discord.js').version;
+    var DJSver = (await import('discord.js')).version;
     const cpu = await si.cpu();
     const ram = await si.mem();
     const osInfo = await si.osInfo();
@@ -25,11 +25,11 @@ export default {
     const columns = ['Command name', 'Count'];
     const includedCommands = client.commands.filter(x=>x.uses).sort((a,b)=>b.uses - a.uses);
     if (includedCommands.size == 0) return interaction.reply(`No commands have been used yet.\nUptime: **${client.formatTime(client.uptime as number, 3, {longNames: true, commas: true})}**`);
-    const nameLength = Math.max(...includedCommands.map(x=>x.default.data.name.length), columns[0].length) + 2;
+    const nameLength = Math.max(...includedCommands.map(x=>x.command.default.data.name.length), columns[0].length) + 2;
     const amountLength = Math.max(...includedCommands.map(x=>x.uses.toString().length), columns[1].length) + 1;
     const rows = [`${columns[0] + ' '.repeat(nameLength - columns[0].length)}|${' '.repeat(amountLength - columns[1].length) + columns[1]}\n`, '-'.repeat(nameLength) + '-'.repeat(amountLength) + '\n'];
     includedCommands.forEach(command=>{
-      const name = command.default.data.name;
+      const name = command.command.default.data.name;
       const count = command.uses.toString();
       rows.push(`${name + ' '.repeat(nameLength - name.length)}${' '.repeat(amountLength - count.length) + count}\n`);
     });
@@ -50,7 +50,7 @@ export default {
     } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
     embed.addFields(
       {name: '> __Dependencies__', value: [
-        `**TypeScript:** ${version}`,
+        `**TypeScript:** ${pkg.version}`,
         `**NodeJS:** ${process.version}`,
         `**DiscordJS:** ${DJSver}`,
         `**Axios:** ${client.axios.VERSION}`
@@ -64,7 +64,7 @@ export default {
         `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime as number, 2, {commas: true, longNames: true})}`
       ].join('\n')}
     );
-    interaction.reply({embeds: [embed], fetchReply: true}).then((x)=>x.edit({embeds: [new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))    
+    interaction.reply({embeds: [embed], fetchReply: true}).then(x=>x.edit({embeds: [new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))    
   },
   data: new SlashCommandBuilder()// Nice
     .setName('statistics')
