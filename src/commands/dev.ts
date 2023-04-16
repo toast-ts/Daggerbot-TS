@@ -67,7 +67,10 @@ export default {
         exec('git pull',(err:Error,stdout)=>{
           if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
           else if (stdout.includes('Already up to date')) clarkson.edit('Bot is already up to date with the repository, did you forgor to push the changes? :skull:')
-          else setTimeout(()=>clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('tsc && pm2 restart Daggerbot')),650)
+          else clarkson.edit('Compiling TypeScript files...').then(()=>exec('tsc', (err:Error)=>{
+            if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
+            else clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+          }))
         });
       },
       presence: ()=>{
@@ -106,7 +109,13 @@ export default {
         interaction.deferReply();
         (client.channels.resolve(client.config.mainServer.channels.console) as Discord.TextChannel).send({content: `Uploaded the current console dump as of <t:${Math.round(Date.now()/1000)}:R>`, files: [`${process.env.pm2_home}/logs/Daggerbot-out-0.log`, `${process.env.pm2_home}/logs/Daggerbot-error-0.log`]}).then(()=>interaction.editReply('It has been uploaded to dev server.')).catch((e:Error)=>interaction.editReply(`\`${e.message}\``))
       },
-      restart: ()=>interaction.reply(`Uptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+      restart: async()=>{
+        const i = await interaction.reply({content: 'Compiling TypeScript files...', fetchReply: true});
+        exec('tsc',(err:Error)=>{
+          if (err) i.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
+          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+        })
+      }
     } as any)[interaction.options.getSubcommand()]();
   },
   data: new SlashCommandBuilder()
