@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord,{SlashCommandBuilder,version} from 'discord.js';
 import pkg from 'typescript';
 import si from 'systeminformation';
 import TClient from '../client.js';
@@ -15,7 +15,6 @@ export default {
       const i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     };
-    var DJSver = (await import('discord.js')).version;
     const cpu = await si.cpu();
     const ram = await si.mem();
     const osInfo = await si.osInfo();
@@ -52,7 +51,7 @@ export default {
       {name: '> __Dependencies__', value: [
         `**TypeScript:** ${pkg.version}`,
         `**NodeJS:** ${process.version}`,
-        `**DiscordJS:** ${DJSver}`,
+        `**DiscordJS:** ${version}`,
         `**Axios:** ${client.axios.VERSION}`
       ].join('\n')},
       {name: '> __Host__', value: [
