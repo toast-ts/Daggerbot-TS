@@ -46,7 +46,7 @@ export default {
           });
         }
         if (error) return;
-        if (typeof output == 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)        
+        if (typeof output === 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)        
         else output = '\n' + String(output);
         
         [client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.tae,client.tokens.octokit,client.tokens.webhook_url,client.tokens.webhook_url_test,client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev].forEach((x)=>{
