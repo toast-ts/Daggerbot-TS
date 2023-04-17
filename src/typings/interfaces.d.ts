@@ -126,6 +126,7 @@ export interface Tokens {
   beta: string
   toast: string
   tae: string
+  octokit: string
   webhook_url: string
   webhook_url_test: string
   mongodb_uri: string
