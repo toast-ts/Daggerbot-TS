@@ -74,7 +74,7 @@ export default {
           else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
           else clarkson.edit('Compiling TypeScript files...').then(()=>exec('tsc', (err:Error)=>{
             if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-            else clarkson.edit(`[Commit:](<${getCurrentCommitURL}>) **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\nTotal commit changes: **${fetchTotalChanges}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Toast'))
+            else clarkson.edit(`[Commit:](<${getCurrentCommitURL}>) **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\nTotal commit changes: **${fetchTotalChanges}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
           }))
         });
       },
