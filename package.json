@@ -32,6 +32,7 @@
     "mongoose": "7.0.3",
     "systeminformation": "5.17.12",
     "@octokit/rest": "19.0.7",
+    "@octokit/auth-token": "3.0.3",
     "typescript": "5.0.4",
     "xml-js": "1.6.11"
   },

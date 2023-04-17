@@ -1,5 +1,6 @@
 import Discord,{SlashCommandBuilder} from 'discord.js';
 import {Octokit} from '@octokit/rest';
+import {createTokenAuth} from '@octokit/auth-token';
 import {exec} from 'node:child_process';
 import fs from 'node:fs';
 import util from 'node:util';
@@ -48,7 +49,7 @@ export default {
         if (typeof output == 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)        
         else output = '\n' + String(output);
         
-        [client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.tae,client.tokens.webhook_url,client.tokens.webhook_url_test,client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev].forEach((x)=>{
+        [client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.tae,client.tokens.octokit,client.tokens.webhook_url,client.tokens.webhook_url_test,client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev].forEach((x)=>{
           const regexp = new RegExp(x as string,'g');
           output = output.replace(regexp, ':noblank: No token?');
         })
@@ -59,17 +60,21 @@ export default {
         interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
       },
       update: async()=>{
-        var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'}
-        const octokit = new Octokit({timeZone: 'Australia/NSW', userAgent: 'Daggerbot'})
-        const fetchCommitMsg = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message).catch(err=>{console.log(err); interaction.reply({content: 'Placeholder error for `fetchCommitMsg`', ephemeral: true})});
-        const fetchCommitAuthor = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author.name).catch(err=>{console.log(err); interaction.reply({content: 'Placeholder error for `fetchCommitAuthor`', ephemeral: true})});
+        const SummonAuthentication = createTokenAuth(client.tokens.octokit);
+        const {token} = await SummonAuthentication();
+        var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
         const clarkson = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
+        const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
+        const fetchCommitMsg = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message).catch((err:Error)=>err.message);
+        const fetchCommitAuthor = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author.name).catch((err:Error)=>err.message);
+        const fetchTotalChanges = await octokit.repos.getCommit(githubRepo).then(x=>x.data.stats.total.toLocaleString('en-US')).catch((err:Error)=>err.message);
+        const getCurrentCommitURL = await octokit.repos.getCommit(githubRepo).then(x=>x.data.html_url).catch((err:Error)=>err.message);
         exec('git pull',(err:Error,stdout)=>{
           if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-          else if (stdout.includes('Already up to date')) clarkson.edit('Bot is already up to date with the repository, did you forgor to push the changes? :skull:')
+          else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
           else clarkson.edit('Compiling TypeScript files...').then(()=>exec('tsc', (err:Error)=>{
             if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-            else clarkson.edit(`Commit: **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+            else clarkson.edit(`[Commit:](<${getCurrentCommitURL}>) **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\nTotal commit changes: **${fetchTotalChanges}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Toast'))
           }))
         });
       },
