@@ -107,7 +107,7 @@ export default {
       },
       logs: ()=>{
         interaction.deferReply();
-        (client.channels.resolve(client.config.mainServer.channels.console) as Discord.TextChannel).send({content: `Uploaded the current console dump as of <t:${Math.round(Date.now()/1000)}:R>`, files: [`${process.env.pm2_home}/logs/Daggerbot-out-0.log`, `${process.env.pm2_home}/logs/Daggerbot-error-0.log`]}).then(()=>interaction.editReply('It has been uploaded to dev server.')).catch((e:Error)=>interaction.editReply(`\`${e.message}\``))
+        (client.channels.resolve(client.config.mainServer.channels.console) as Discord.TextChannel).send({content: `Uploaded the current console dump as of <t:${Math.round(Date.now()/1000)}:R>`, files: [`${process.env.pm2_home}/logs/Daggerbot-out.log`, `${process.env.pm2_home}/logs/Daggerbot-error.log`]}).then(()=>interaction.editReply('It has been uploaded to dev server.')).catch((e:Error)=>interaction.editReply(`\`${e.message}\``))
       },
       restart: async()=>{
         const i = await interaction.reply({content: 'Compiling TypeScript files...', fetchReply: true});
