@@ -5,7 +5,6 @@ import TClient from '../client.js';
 import os from 'node:os';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    // Host specification (L9-L22, L51-L66)
     // Bytes conversion
     function formatBytes(bytes:number, decimals:number = 2) {
       if (bytes === 0) return '0 Bytes';
@@ -20,7 +19,6 @@ export default {
     const osInfo = await si.osInfo();
     const currentLoad = await si.currentLoad();
 
-    // Command usage (L25-L50)
     const columns = ['Command name', 'Count'];
     const includedCommands = client.commands.filter(x=>x.uses).sort((a,b)=>b.uses - a.uses);
     if (includedCommands.size == 0) return interaction.reply(`No commands have been used yet.\nUptime: **${client.formatTime(client.uptime as number, 3, {longNames: true, commas: true})}**`);
@@ -65,7 +63,7 @@ export default {
     );
     interaction.reply({embeds: [embed], fetchReply: true}).then(x=>x.edit({embeds: [new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))    
   },
-  data: new SlashCommandBuilder()// Nice
+  data: new SlashCommandBuilder()
     .setName('statistics')
     .setDescription('See a list of commands ordered by their usage or host stats')
 }
