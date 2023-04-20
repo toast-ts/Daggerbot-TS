@@ -30,7 +30,7 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (interaction.channelId == '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
-      interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then((msg)=>{setTimeout(()=>{interaction.deleteReply()}, 6000)});
+      interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(msg=>setTimeout(()=>interaction.deleteReply(), 6000));
       return;
     }
     ({
@@ -47,7 +47,7 @@ export default {
               {name: 'Version', value: `${FSserver0?.data.server.version.length == 0 ? '\u200b' : FSserver0.data.server.version}`, inline: true},
               {name: 'In-game Time', value: `${('0' + Math.floor((FSserver0.data.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((FSserver0.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true}
             )]})
-          } else if (FSserver0.data.server.name.length == 0) interaction.reply('Server is currently offline.')
+          } else if (FSserver0.data.server.name.length === 0) interaction.reply('Server is currently offline.')
         } catch (err){
           console.log(err)
           interaction.reply('FSserver0 Error placeholder')
