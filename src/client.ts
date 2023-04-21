@@ -100,18 +100,17 @@ export default class TClient extends Client {
       waitQueueTimeoutMS: 50000,
       socketTimeoutMS: 30000,
       family: 4
-    }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch((err)=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
+    }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
     await this.login(this.tokens.main);
-    fs.readdirSync('dist/events').forEach(async file=>{
+    for await (const file of fs.readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
-      this.on(file.replace('.js', ''), async(...args)=>eventFile.default.run(this,...args));
-    });
-    const commandFiles = fs.readdirSync('dist/commands').filter(file=>file.endsWith('.js'));
-    for (const file of commandFiles){
+      this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
+    };
+    for await (const file of fs.readdirSync('dist/commands')){
       const command = await import(`./commands/${file}`);
-      this.commands.set(command.default.data.name, {command, uses: 0})
+      this.commands.set(command.default.data.name,{command, uses: 0});
       this.registry.push(command.default.data.toJSON())
-    }
+    };
   }
   formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
     let achievedAccuracy = 0;
