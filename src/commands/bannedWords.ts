@@ -20,7 +20,7 @@ export default {
       },
       view: async()=>{
         const findAll = await client.bannedWords._content.find({});
-        writeFileSync(path.join(__dirname, '../database/bw_dump.json'), JSON.stringify(findAll.map(i=>i._id), null, 2), {encoding: 'utf8', flag: 'w+'});
+        writeFileSync('src/database/bw_dump.json', JSON.stringify(findAll.map(i=>i._id), null, 2), {encoding: 'utf8', flag: 'w+'});
         interaction.reply({content: 'Here\'s the dump file from the database.', files: ['src/database/bw_dump.json'], ephemeral: true}).catch(err=>interaction.reply({content: `Ran into an error, notify <@&${client.config.mainServer.roles.bottech}> if it happens again:\n\`${err.message}\``, ephemeral: true}))
       }
     } as any)[interaction.options.getSubcommand()]();
