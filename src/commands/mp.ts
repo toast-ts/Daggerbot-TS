@@ -267,22 +267,22 @@ export default {
   data: new SlashCommandBuilder()
     .setName('mp')
     .setDescription('Display MP status and other things')
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('status')
       .setDescription('Check server status and details'))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('players')
       .setDescription('Check who\'s playing on the server'))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('info')
       .setDescription('Provides you with server information such as filters and so on'))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('url')
       .setDescription('View the URL for this server\'s FSMP server or update the URL')
-      .addStringOption((opt)=>opt
+      .addStringOption(opt=>opt
         .setName('address')
         .setDescription('Insert a \'dedicated-server-stats\' URL')))/*
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('series')
       .setDescription('Step-by-step on joining Daggerwin\'s MP series'))*/
 }
