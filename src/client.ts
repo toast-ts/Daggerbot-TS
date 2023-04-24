@@ -1,7 +1,6 @@
 import Discord, { Client, WebhookClient, GatewayIntentBits, Partials } from 'discord.js';
 import fs from 'node:fs';
 import {exec} from 'node:child_process';
-import timeNames from './timeNames.js';
 import mongoose from 'mongoose';
 import {formatTimeOpt, Tokens, Config, repeatedMessages} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
@@ -52,15 +51,13 @@ export default class TClient extends Client {
     super({
       intents: [
         GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.GuildPresences, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
-      ],
-      partials: [
+      ], partials: [
         Partials.Channel,
         Partials.Reaction,
         Partials.Message
-      ],
-      allowedMentions: {users:[],roles:[]}
+      ], allowedMentions: {users:[],roles:[]}
     })
     this.invites = new Map();
     this.commands = new Discord.Collection();
@@ -101,7 +98,7 @@ export default class TClient extends Client {
       socketTimeoutMS: 30000,
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
-    await this.login(this.tokens.main);
+    this.login(this.tokens.main);
     for await (const file of fs.readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
@@ -115,10 +112,18 @@ export default class TClient extends Client {
   formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
     let achievedAccuracy = 0;
     let text:any = '';
-    for (const timeName of timeNames){
+    for (const timeName of [
+      {name: 'year',   length: 31536000000},
+      {name: 'month',  length: 2592000000},
+      {name: 'week',   length: 604800000},
+      {name: 'day',    length: 86400000},
+      {name: 'hour',   length: 3600000},
+      {name: 'minute', length: 60000},
+      {name: 'second', length: 1000}
+    ]){
       if (achievedAccuracy < accuracy){
         const fullTimelengths = Math.floor(integer/timeName.length);
-        if (fullTimelengths == 0) continue;
+        if (fullTimelengths === 0) continue;
         achievedAccuracy++;
         text += fullTimelengths + (options?.longNames ? (' '+timeName.name+(fullTimelengths === 1 ? '' : 's')) : timeName.name.slice(0, timeName.name === 'month' ? 2 : 1)) + (options?.commas ? ', ' : ' ');
         integer -= fullTimelengths*timeName.length;
