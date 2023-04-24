@@ -49,31 +49,31 @@ export default {
   data: new SlashCommandBuilder()
     .setName('case')
     .setDescription('Retrieve case information or user\'s punishment history')
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('view')
       .setDescription('View a multiple or single case')
       .addIntegerOption((optt)=>optt
         .setName('id')
         .setDescription('Case ID')
         .setRequired(true)))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('member')
       .setDescription('View member\'s punishment history')
-      .addUserOption((optt)=>optt
+      .addUserOption(optt=>optt
         .setName('user')
         .setDescription('Which user do you want to view their punishment history?')
         .setRequired(true))
-      .addIntegerOption((optt)=>optt
+      .addIntegerOption(optt=>optt
         .setName('page')
         .setDescription('Select the page number')))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('update')
       .setDescription('Update the case with new reason')
-      .addIntegerOption((optt)=>optt
+      .addIntegerOption(optt=>optt
         .setName('id')
         .setDescription('Case ID to be updated')
         .setRequired(true))
-      .addStringOption((optt)=>optt
+      .addStringOption(optt=>optt
         .setName('reason')
         .setDescription('New reason for the case')
         .setRequired(true)))

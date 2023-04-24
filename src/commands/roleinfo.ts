@@ -16,7 +16,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('roleinfo')
     .setDescription('View information about the selected role')
-    .addRoleOption((opt)=>opt
+    .addRoleOption(opt=>opt
       .setName('role')
       .setDescription('Role name to view information')
       .setRequired(true))

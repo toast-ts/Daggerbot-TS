@@ -7,11 +7,11 @@ export default {
   data: new SlashCommandBuilder()
     .setName('kick')
     .setDescription('Boot a member from the server')
-    .addUserOption((opt)=>opt
+    .addUserOption(opt=>opt
       .setName('member')
       .setDescription('Which member to kick?')
       .setRequired(true))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('reason')
       .setDescription('Reason for the kick'))
 }

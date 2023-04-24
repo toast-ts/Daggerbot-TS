@@ -162,13 +162,13 @@ export default {
   data: new SlashCommandBuilder()
     .setName('rank')
     .setDescription('Level system')
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('view')
       .setDescription('View your rank or someone else\'s rank')
-      .addUserOption((opt)=>opt
+      .addUserOption(opt=>opt
         .setName('member')
         .setDescription('Which member do you want to view?')))
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('leaderboard')
       .setDescription('View top 10 users on leaderboard'))
 }

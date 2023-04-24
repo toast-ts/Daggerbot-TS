@@ -7,14 +7,14 @@ export default {
   data: new SlashCommandBuilder()
     .setName('ban')
     .setDescription('Ban a member from the server')
-    .addUserOption((opt)=>opt
+    .addUserOption(opt=>opt
       .setName('member')
       .setDescription('Which member to ban?')
       .setRequired(true))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('time')
       .setDescription('How long the ban will be?'))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('reason')
       .setDescription('Reason for the ban'))
 }

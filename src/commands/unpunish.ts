@@ -12,11 +12,11 @@ export default {
   data: new SlashCommandBuilder()
     .setName('unpunish')
     .setDescription('Remove the active punishment from a member')
-    .addIntegerOption((opt)=>opt
+    .addIntegerOption(opt=>opt
       .setName('case_id')
       .setDescription('Case ID of the punishment to be overwritten')
       .setRequired(true))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('reason')
       .setDescription('Reason for removing the punishment'))
 }
