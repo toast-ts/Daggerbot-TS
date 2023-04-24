@@ -7,14 +7,14 @@ export default {
   data: new SlashCommandBuilder()
     .setName('mute')
     .setDescription('Mute a member')
-    .addUserOption((opt)=>opt
+    .addUserOption(opt=>opt
       .setName('member')
       .setDescription('Which member to mute?')
       .setRequired(true))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('time')
       .setDescription('Mute duration'))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('reason')
       .setDescription('Reason for the mute'))
 }

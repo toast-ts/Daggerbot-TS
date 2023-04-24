@@ -7,11 +7,11 @@ export default {
   data: new SlashCommandBuilder()
     .setName('warn')
     .setDescription('Warn a member')
-    .addUserOption((opt)=>opt
+    .addUserOption(opt=>opt
       .setName('member')
       .setDescription('Which member to warn?')
       .setRequired(true))
-    .addStringOption((opt)=>opt
+    .addStringOption(opt=>opt
       .setName('reason')
       .setDescription('Reason for the warning')
       .setRequired(false))

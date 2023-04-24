@@ -25,11 +25,11 @@ export default {
   data: new SlashCommandBuilder()
     .setName('purge')
     .setDescription('Purge the amount of messages in this channel')
-    .addIntegerOption((opt)=>opt
+    .addIntegerOption(opt=>opt
       .setName('amount')
       .setDescription('Amount of messages to be obliterated')
       .setRequired(true))
-    .addUserOption((opt)=>opt
+    .addUserOption(opt=>opt
       .setName('user')
       .setDescription('Which user to have their messages obliterated?'))
 }

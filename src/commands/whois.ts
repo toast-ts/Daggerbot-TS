@@ -53,7 +53,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('whois')
     .setDescription('View your own or someone else\'s information')
-    .addUserOption((opt)=>opt
+    .addUserOption(opt=>opt
       .setName('member')
       .setDescription('Member or user to view their information')
       .setRequired(true))

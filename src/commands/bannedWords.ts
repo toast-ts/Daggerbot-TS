@@ -28,20 +28,20 @@ export default {
   data: new SlashCommandBuilder()
     .setName('bannedwords')
     .setDescription('description placeholder')
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('view')
       .setDescription('View the list of currently banned words'))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('add')
       .setDescription('Add the word to the list')
-        .addStringOption((optt)=>optt
+        .addStringOption(optt=>optt
           .setName('word')
           .setDescription('Add the specific word to automod\'s bannedWords database')
           .setRequired(true)))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('remove')
       .setDescription('Remove the word from the list')
-      .addStringOption((optt)=>optt
+      .addStringOption(optt=>optt
         .setName('word')
         .setDescription('Remove the specific word from automod\'s bannedWords list')
         .setRequired(true)))

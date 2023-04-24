@@ -126,33 +126,33 @@ export default {
   data: new SlashCommandBuilder()
     .setName('dev')
     .setDescription('Developer commands')
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('eval')
       .setDescription('Execute the code to the bot')
       .addStringOption((opt)=>opt
         .setName('code')
         .setDescription('Execute your code')
         .setRequired(true)))
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('logs')
       .setDescription('Retrieve the logs from host and sends it to dev server'))
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('restart')
       .setDescription('Restart the bot for technical reasons'))
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('update')
       .setDescription('Pull from repository and restart'))
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('statsgraph')
       .setDescription('Edit the number of data points to pull')
-      .addIntegerOption((hiTae)=>hiTae
+      .addIntegerOption(hiTae=>hiTae
         .setName('number')
         .setDescription('Number of data points to pull')
         .setRequired(true)))
-    .addSubcommand((optt)=>optt
+    .addSubcommand(optt=>optt
       .setName('presence')
       .setDescription('Update the bot\'s presence')
-      .addIntegerOption((hiTae)=>hiTae
+      .addIntegerOption(hiTae=>hiTae
         .setName('type')
         .setDescription('Set an activity type')
         .addChoices(
@@ -162,13 +162,13 @@ export default {
           {name: 'Watching', value: Discord.ActivityType.Watching},
           {name: 'Competing in', value: Discord.ActivityType.Competing}
         ))
-      .addStringOption((hiAgain)=>hiAgain
+      .addStringOption(hiAgain=>hiAgain
         .setName('name')
         .setDescription('Set a message for the activity status'))
-      .addStringOption((hiAgainx2)=>hiAgainx2
+      .addStringOption(hiAgainx2=>hiAgainx2
         .setName('url')
         .setDescription('Set an url for streaming status'))
-      .addStringOption((hiAgainx3)=>hiAgainx3
+      .addStringOption(hiAgainx3=>hiAgainx3
         .setName('status')
         .setDescription('Set a status indicator for the bot')
         .setChoices(

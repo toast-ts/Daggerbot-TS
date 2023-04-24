@@ -6,6 +6,7 @@ export default {
     const suggestionIDReply = interaction.options.getString('id');
     const suggestionID = (Math.random() + 1).toString(36).substring(5);
     const userid = (await client.suggestion._content.findById(suggestionIDReply))?.user._id;
+    const theirIdea = (await client.suggestion._content.findById(suggestionIDReply))?.idea;
     const timeFormatting = client.moment().format('DD/MM/YY h:mm A');
     const stateChanged = 'Suggestion state has been successfully updated and DM is sent.';
     ({
@@ -32,26 +33,30 @@ export default {
         interaction.reply({content: `Suggestion sent, here is your suggestion ID to take note of it: \`${suggestionID}\``, ephemeral: true})
       },
       approve: async()=>{
-        if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
+        if (client.config.mainServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
+        }
         if ((await client.suggestion._content.findById(suggestionIDReply)).state == 'Rejected') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
           .setColor(client.config.embedColorGreen)
           .setAuthor({name: interaction.user.tag, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been approved.')
-          .setDescription(`> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
+          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
         ]});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Approved'});
         return interaction.reply({embeds:[new client.embed().setColor(client.config.embedColorGreen).setTitle(`Suggestion approved | ${suggestionIDReply}`).setDescription(stateChanged)]});
       },
       reject: async()=>{
-        if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
+        if (client.config.mainServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
+        }
         if ((await client.suggestion._content.findById(suggestionIDReply)).state == 'Approved') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
           .setColor(client.config.embedColorRed)
           .setAuthor({name: interaction.user.tag, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been rejected.')
-          .setDescription(`> **Their message:**\n${replyInDM?.length == null ? '*No message from them.*' : replyInDM}`)
+          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
         ]});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Rejected'});
@@ -62,7 +67,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('suggest')
     .setDescription('Want to suggest ideas/thoughts to bot techs? Suggest it here')
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('your')
       .setDescription('What do you want to suggest?')
       .addStringOption(s=>s
@@ -73,7 +78,7 @@ export default {
       .addAttachmentOption(i=>i
         .setName('image')
         .setDescription('If your idea seems complicated or prefer to show what your idea may look like then attach the image.')))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('approve')
       .setDescription('[Bot Tech] Approve the suggestion sent by the user')
       .addStringOption(id=>id
@@ -84,7 +89,7 @@ export default {
         .setName('message')
         .setDescription('(Optional) Include a message with your approval')
         .setMaxLength(256)))
-    .addSubcommand((opt)=>opt
+    .addSubcommand(opt=>opt
       .setName('reject')
       .setDescription('[Bot Tech] Reject the suggestion sent by the user')
       .addStringOption(id=>id
