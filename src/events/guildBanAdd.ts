@@ -12,6 +12,6 @@ export default {
         {name: '🔹 Moderator', value: `<@${executor.id}>\n\`${executor.id}\``},
         {name: '🔹 Reason', value: `${reason == null ? 'Reason unspecified': reason}`}
       )]});
-    else console.log(`${target.tag} was banned from ${member.guild.name} but no audit log could be fetched.`)
+    else console.log(`User was banned from "${member.guild.name}" but no audit log could be fetched.`)
   }
 }
