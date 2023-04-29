@@ -129,7 +129,7 @@ export default class punishments extends Schema {
         removePunishmentResult = GuildMember.timeout(null, auditLogReason).catch((err:Error)=>err.message);
         GuildMember.send(`You've been unmuted in ${guild.name}.`).catch((err:Error)=>console.log(err.message));
       } else await this._content.findByIdAndUpdate(caseId,{expired:true},{new:true});
-    } else removePunishmentData.type = 'removeOtherPunishment';
+    } else removePunishmentData.type = 'punishmentOverride';
 
     if (typeof removePunishmentResult == 'string'){//Unsuccessful punishment
       if (interaction) return interaction.reply(removePunishmentResult);

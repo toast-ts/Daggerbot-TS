@@ -3,6 +3,7 @@ import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, 'dcmod');
+    console.log(client.logTime(), `[UnpunishmentLog] Case ${interaction.options.getInteger('case_id') ?? '--'} was used in /${interaction.commandName} for ${interaction.options.getString('reason') ?? 'Reason unspecified'}`);
     const punishment = (await client.punishments._content.find({})).find(x=>x._id === interaction.options.getInteger('case_id', true));
     if (!punishment) return interaction.reply({content: 'Invalid Case ID', ephemeral: true});
     if (punishment.expired) return interaction.reply('This case has been overwritten by another case.');
