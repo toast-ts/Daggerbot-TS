@@ -184,5 +184,6 @@ interface mainServerChannels {
   bot_status: string,
   logs: string,
   welcome: string,
-  botcommands: string
+  botcommands: string,
+  bankick_log: string
 }

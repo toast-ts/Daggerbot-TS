@@ -28,9 +28,8 @@ export default class punishments extends Schema {
   createId = async()=>Math.max(...(await this._content.find({})).map(x=>x.id), 0) + 1;
   async makeModlogEntry(punishment:Punishment){
     // Format data into an embed
-    const channel = ['kick', 'ban'].includes(punishment.type) ? '1048341961901363352' : this.client.config.mainServer.channels.logs;
-    const embed = new this.client.embed()
-      .setTitle(`${punishment.type[0].toUpperCase() + punishment.type.slice(1)} | Case #${punishment._id}`)
+    const channel = ['kick', 'ban'].includes(punishment.type) ? this.client.config.mainServer.channels.bankick_log : this.client.config.mainServer.channels.logs;
+    const embed = new this.client.embed().setTitle(`${punishment.type[0].toUpperCase() + punishment.type.slice(1)} | Case #${punishment._id}`)
       .addFields(
         {name: '🔹 User', value: `<@${punishment.member}>\n\`${punishment.member}\``, inline: true},
         {name: '🔹 Moderator', value: `<@${punishment.moderator}>\n\`${punishment.moderator}\``, inline: true},
@@ -139,13 +138,12 @@ export default class punishments extends Schema {
       await this._content.create(removePunishmentData);
       await this.makeModlogEntry(removePunishmentData);
 
-      if (interaction) {
-        return interaction.reply({embeds:[new this.client.embed().setColor(this.client.config.embedColor)
-          .setTitle(`Case #${removePunishmentData._id}: ${removePunishmentData.type[0].toUpperCase()+removePunishmentData.type.slice(1)}`)
-          .setDescription(`${User.tag}\n<@${User.id}>\n(\`${User.id}\`)`)
-          .addFields({name: 'Reason', value: reason},{name: 'Overwrites', value: `Case #${punishment.id}`})
-        ]})
-      } else return `Successfully un${this.getTense(removePunishmentData.type.replace('un', ''))} ${User.tag} (\`${User.id}\`) for ${reason}`
+      if (interaction) return interaction.reply({embeds:[new this.client.embed().setColor(this.client.config.embedColor)
+        .setTitle(`Case #${removePunishmentData._id}: ${removePunishmentData.type[0].toUpperCase()+removePunishmentData.type.slice(1)}`)
+        .setDescription(`${User.tag}\n<@${User.id}>\n(\`${User.id}\`)`)
+        .addFields({name: 'Reason', value: reason},{name: 'Overwrites', value: `Case #${punishment.id}`})
+      ]});
+      else return `Successfully un${this.getTense(removePunishmentData.type.replace('un', ''))} ${User.tag} (\`${User.id}\`) for ${reason}`
     }
   }
 }
