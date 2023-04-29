@@ -155,7 +155,7 @@ export default class TClient extends Client {
   }
   async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
     if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
-    console.log(client.logTime(), `[PunishmentLog] ${interaction.options.data.map(u=>u.user?.tag)} was used in /${interaction.commandName} for ${interaction.options.getString('reason') ?? 'Reason unspecified'}`);
+    console.log(client.logTime(), `[PunishmentLog] ${interaction.options.getMember('member')?.user.tag ? 'No user data' : interaction.options.getUser('member')?.tag} and ${interaction.options.getString('time') ?? 'No duration set'} was used in /${interaction.commandName} for ${interaction.options.getString('reason') ?? 'Reason unspecified'}`);
 
     const time = interaction.options.getString('time') ?? undefined;
     const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
