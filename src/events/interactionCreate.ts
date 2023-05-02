@@ -16,6 +16,17 @@ export default {
           return interaction.reply('An error occurred while executing that command.');
         }
       }
+    } else if (interaction.isButton()){
+      if (interaction.customId.startsWith('reaction-') && client.config.botSwitches.buttonRoles){
+        const RoleID = interaction.customId.replace('reaction-','');
+        if (interaction.member.roles.cache.has(RoleID)){
+          interaction.member.roles.remove(RoleID);
+          interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true})
+        } else {
+          interaction.member.roles.add(RoleID);
+          interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true})
+        }
+      } else console.log(client.logTime(), `Button pressed at ${interaction.message.url}`);
     }
   }
 }

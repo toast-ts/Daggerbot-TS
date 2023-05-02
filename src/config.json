@@ -14,6 +14,7 @@
     "registerCommands": true,
     "commands": true,
     "logs": true,
+    "buttonRoles": true,
     "automod": true,
     "mpstats": true,
     "autores": true
