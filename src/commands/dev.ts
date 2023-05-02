@@ -22,10 +22,10 @@ const removeUsername = (text: string)=>{
 };
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
-    if (!client.config.eval.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
+    if (!client.config.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
     ({
       eval: async()=>{
-        if (!client.config.eval.allowed) return interaction.reply({content: 'Eval is disabled.', ephemeral: true});
+        if (!client.config.eval) return interaction.reply({content: 'Eval is currently disabled.', ephemeral: true});
         const code = interaction.options.getString('code') as string;
         let output = 'error';
         let error = false;
