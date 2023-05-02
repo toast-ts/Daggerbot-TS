@@ -51,12 +51,11 @@ export default class TClient extends Client {
     super({
       intents: [
         GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildPresences, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
+        GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
       ], partials: [
-        Partials.Channel,
-        Partials.Reaction,
-        Partials.Message
+        Partials.Channel, Partials.Reaction, Partials.Message
       ], allowedMentions: {users:[],roles:[]}
     })
     this.invites = new Map();
@@ -92,7 +91,6 @@ export default class TClient extends Client {
     await mongoose.connect(this.tokens.mongodb_uri, {
       replicaSet: 'toastyy',
       autoIndex: true,
-      keepAlive: true,
       serverSelectionTimeoutMS: 15000,
       waitQueueTimeoutMS: 50000,
       socketTimeoutMS: 30000,
@@ -155,13 +153,13 @@ export default class TClient extends Client {
   }
   async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
     if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
-    console.log(client.logTime(), `[PunishmentLog] ${interaction.options.getMember('member')?.user.tag ? 'No user data' : interaction.options.getUser('member')?.tag} and ${interaction.options.getString('time') ?? 'No duration set'} was used in /${interaction.commandName} for ${interaction.options.getString('reason') ?? 'Reason unspecified'}`);
-
+    
     const time = interaction.options.getString('time') ?? undefined;
     const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
     const GuildMember = interaction.options.getMember('member') ?? undefined;
     const User = interaction.options.getUser('member', true);
-
+    
+    console.log(client.logTime(), `[PunishmentLog] ${GuildMember.user.tag ?? User.tag ?? 'No user data'} and ${time ?? 'no duration set'} was used in /${interaction.commandName} for ${reason}`);
     if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
     if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
     if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);

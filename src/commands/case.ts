@@ -27,20 +27,17 @@ export default {
         interaction.reply({embeds: [embed]});
       },
       member: async()=>{
-        // if caseid is user id, show their punishment history sorted by most recent.
         const user = (interaction.options.getUser('user') as Discord.User);
-        if (user.bot) return interaction.reply(`<@${user.id}>'s punishment history cannot be viewed.`)
+        if (user.bot) return interaction.reply(`**${user.username}**'s punishment history cannot be viewed as they are a bot.`)
         const punishments = await client.punishments._content.find({});
-        if (!punishments) return interaction.reply(`<@${user.id}> has a clean record.`)
         const userPunishmentData = await client.punishments._content.find({'member':user.id});
         const userPunishment = userPunishmentData.sort((a,b)=>a.time-b.time).map((punishment)=>{
           return {
             name: `${punishment.type[0].toUpperCase()+punishment.type.slice(1)} | Case #${punishment.id}`,
-            value: `Reason: \`${punishment.reason}\`\n${punishment.duration ? `Duration: ${client.formatTime(punishment.duration, 3)}\n` : ''}Moderator: <@${punishment.moderator}>${punishment.expired ? `\nOverwritten by Case #${punishments.find(x=>x.cancels===punishment._id)?._id}` : ''}${punishment.cancels ? `\nOverwrites case #${punishment.cancels}` : ''}`
+            value: `Reason: \`${punishment.reason}\`\n${punishment.duration ? `Duration: ${client.formatTime(punishment.duration, 3)}\n` : ''}Moderator: <@${punishment.moderator}>${punishment.expired ? `\nOverwritten by Case #${punishments.find(x=>x.cancels===punishment._id)?._id}` : ''}${punishment.cancels ? `\nOverwrites Case #${punishment.cancels}` : ''}`
           }
         });
-        // if caseid is not a punishment nor a user, failed
-        if (!userPunishment || userPunishment.length == 0) return interaction.reply('No punishments found for that Case or User ID');
+        if (!punishments || !userPunishment) return interaction.reply(`**${user.username}** has a clean record.`)
         const pageNum = interaction.options.getInteger('page') ?? 1;
         return interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle(`${user.username}'s punishment history`).setDescription(`**ID:** \`${user.id}\``).setFooter({text: `${userPunishment.length} total punishments. Viewing page ${pageNum} out of ${Math.ceil(userPunishment.length/6)}.`}).addFields(userPunishment.slice((pageNum - 1) * 6, pageNum * 6))]});
       }
