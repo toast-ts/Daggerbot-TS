@@ -6,7 +6,7 @@ export default {
     if (interaction.isChatInputCommand()){
       const commandFile = client.commands.get(interaction.commandName);
       console.log(client.logTime(), `${interaction.user.tag} used /${interaction.commandName} ${interaction.options.getSubcommand(false) ?? ''} in #${interaction.channel.name}`);
-      if (!client.config.botSwitches.commands && !client.config.eval.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'Bot is currently being run in development mode.', ephemeral: true});
+      if (!client.config.botSwitches.commands && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'Bot is currently being run in development mode.', ephemeral: true});
       if (commandFile){
         try{
           commandFile.command.default.run(client, interaction);

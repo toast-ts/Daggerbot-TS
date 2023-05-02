@@ -143,7 +143,8 @@ export interface Config {
   whitelistedServers: Array<string>,
   botSwitches: botSwitches,
   botPresence: Discord.PresenceData,
-  eval: Eval,
+  eval: boolean,
+  whitelist: Array<string>
   mainServer: mainServer
 }
 interface botSwitches {
@@ -153,10 +154,6 @@ interface botSwitches {
   automod: boolean,
   mpstats: boolean,
   autores: boolean
-}
-interface Eval {
-  allowed: boolean,
-  whitelist: Array<string>
 }
 interface mainServer {
   id: string,
