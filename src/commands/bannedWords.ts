@@ -4,7 +4,7 @@ import {writeFileSync} from 'node:fs';
 import path from 'node:path';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!client.isStaff(interaction.member) && !client.config.eval.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
+    if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
     const word = interaction.options.getString('word');
     const wordExists = await client.bannedWords._content.findById(word);
     ({
