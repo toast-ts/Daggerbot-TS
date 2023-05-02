@@ -151,6 +151,7 @@ interface botSwitches {
   registerCommands: boolean,
   commands: boolean,
   logs: boolean,
+  buttonRoles: boolean,
   automod: boolean,
   mpstats: boolean,
   autores: boolean
