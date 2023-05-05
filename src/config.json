@@ -10,6 +10,10 @@
   "whitelistedServers": [
     "929807948748832798", "468835415093411861", "1058183358267543552"
   ],
+  "MPStatsLocation": {
+    "channel": "543494084363288637",
+    "message": "1023699243183112192"
+  },
   "botSwitches": {
     "registerCommands": true,
     "commands": true,
