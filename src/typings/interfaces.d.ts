@@ -141,11 +141,16 @@ export interface Config {
   embedColorXmas: Discord.ColorResolvable,
   LRSstart: number,
   whitelistedServers: Array<string>,
+  MPStatsLocation: MPStatsLocation,
   botSwitches: botSwitches,
   botPresence: Discord.PresenceData,
   eval: boolean,
   whitelist: Array<string>
   mainServer: mainServer
+}
+interface MPStatsLocation {
+  channel: string,
+  message: string
 }
 interface botSwitches {
   registerCommands: boolean,
