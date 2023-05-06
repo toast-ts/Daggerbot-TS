@@ -50,10 +50,10 @@ export default async(client:TClient,Channel:string,Message:string)=>{
   if (DSS.fetchResult.length != 0){
     error = true;
     if (DSS.data.slots === undefined) return;
-    console.error(client.logTime(), DSS.fetchResult);
+    console.log(client.logTime(), DSS.fetchResult);
   } else if (CSG.fetchResult.length != 0){
     error = true;
-    console.error(client.logTime(), CSG.fetchResult);
+    console.log(client.logTime(), CSG.fetchResult);
   }
   if (error){ // Blame Nawdic
     embed.setTitle('Host is not responding').setColor(client.config.embedColorRed);
