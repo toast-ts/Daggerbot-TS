@@ -1,8 +1,8 @@
-import Discord, { Client, WebhookClient, GatewayIntentBits, Partials } from 'discord.js';
+import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'discord.js';
 import fs from 'node:fs';
 import {exec} from 'node:child_process';
 import mongoose from 'mongoose';
-import {formatTimeOpt, Tokens, Config, repeatedMessages} from './typings/interfaces';
+import {formatTimeOpt, Tokens, Config, repeatedMessages, MPServerCache} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
 import suggestion from './models/suggestion.js';
@@ -43,6 +43,7 @@ export default class TClient extends Client {
   bonkCount: bonkCount;
   bannedWords: bannedWords;
   MPServer: MPServer;
+  MPServerCache: MPServerCache;
   suggestion: suggestion;
   repeatedMessages: repeatedMessages;
   statsGraph: number;
@@ -80,6 +81,7 @@ export default class TClient extends Client {
     this.punishments = new punishments(this);
     this.bannedWords = new bannedWords(this);
     this.MPServer = new MPServer(this);
+    this.MPServerCache = {players: [], status: null, name: undefined} as MPServerCache;
     this.suggestion = new suggestion(this);
     this.repeatedMessages = {};
     this.setMaxListeners(20);
@@ -96,7 +98,7 @@ export default class TClient extends Client {
       socketTimeoutMS: 30000,
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
-    this.login(this.tokens.main);
+    this.login(this.tokens.beta);
     for await (const file of fs.readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
@@ -137,6 +139,18 @@ export default class TClient extends Client {
       }
     } return text.trim();
   }
+  formatPlayerUptime(oldTime:number){
+    var Hours=0;
+    oldTime=Math.floor(Number(oldTime));
+    if(oldTime>=60){
+      var Hours=Math.floor(Number(oldTime)/60);
+      var Minutes=(Number(oldTime)-(Hours*60));
+    } else Minutes=Number(oldTime)
+    if(Hours>=24){
+      var Days=Math.floor(Number(Hours)/24);
+      var Hours=(Hours-(Days*24));
+    } return (Days>0?Days+' d ':'')+(Hours>0?Hours+' h ':'')+(Minutes>0?Minutes+' m':'')
+  }
   isStaff = (guildMember:Discord.GuildMember)=>this.config.mainServer.staffRoles.map((x: string)=>this.config.mainServer.roles[x]).some((x: string)=>guildMember.roles.cache.has(x));
 
   youNeedRole = (interaction:Discord.CommandInteraction, role:string)=>interaction.reply(`This command is restricted to <@&${this.config.mainServer.roles[role]}>`);
@@ -151,21 +165,22 @@ export default class TClient extends Client {
     } else text = text + emptyChar.repeat(length - text.length);
     return text;
   }
-  async punish(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
-    if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, "dcmod");
+  async punish(interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
+    if (!this.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, "dcmod");
     
     const time = interaction.options.getString('time') ?? undefined;
     const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
     const GuildMember = interaction.options.getMember('member') ?? undefined;
     const User = interaction.options.getUser('member', true);
-    
-    console.log(client.logTime(), `[PunishmentLog] ${GuildMember.user.tag ?? User.tag ?? 'No user data'} and ${time ?? 'no duration set'} was used in /${interaction.commandName} for ${reason}`);
+
+    console.log(this.logTime(), `[PunishmentLog] ${GuildMember.user.tag ?? User.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in /${interaction.commandName} for ${reason}`);
+    (this.channels.cache.get(this.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new this.embed().setColor(this.config.embedColor).setTitle('Punishment Log').setDescription(`${GuildMember.user.tag ?? User.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
     if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
     if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
     if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);
 
     await interaction.deferReply();
-    await client.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
+    await this.punishments.addPunishment(type, { time, interaction }, interaction.user.id, reason, User, GuildMember);
   }
   async YTLoop(YTChannelID: string, YTChannelName: string, DCChannelID: string){
     let Data:any;

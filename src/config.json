@@ -2,6 +2,7 @@
   "embedColor": "#0052cf",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
+  "embedColorOrange": "#cc5210",
   "embedColorYellow": "#ffea00",
   "embedColorRed": "#e62c3b",
   "embedColorBCA": "#ff69b4",
@@ -69,7 +70,9 @@
       "logs": "548032776830582794",
       "welcome": "621134751897616406",
       "botcommands": "468888722210029588",
-      "bankick_log": "1048341961901363352"
+      "bankick_log": "1048341961901363352",
+      "fs_server_log": "1104632399771488317",
+      "punishment_log": "1102751034754998302"
     }
   }
 }

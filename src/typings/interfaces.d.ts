@@ -49,9 +49,9 @@ export interface FSServer {
 export interface FSslots {
   capacity: number,
   used: number,
-  players: Array<FSPlayers>
+  players: Array<FSPlayer>
 }
-export interface FSPlayers {
+export interface FSPlayer {
   isUsed: boolean,
   isAdmin: boolean,
   uptime: number,
@@ -135,6 +135,7 @@ export interface Tokens {
 export interface Config {
   embedColor: Discord.ColorResolvable,
   embedColorGreen: Discord.ColorResolvable,
+  embedColorOrange: Discord.ColorResolvable,
   embedColorYellow: Discord.ColorResolvable,
   embedColorRed: Discord.ColorResolvable,
   embedColorBCA: Discord.ColorResolvable,
@@ -147,6 +148,11 @@ export interface Config {
   eval: boolean,
   whitelist: Array<string>
   mainServer: mainServer
+}
+export interface MPServerCache {
+  players: FSPlayer[],
+  status: 'online' | 'offline' | null,
+  name: string | undefined
 }
 interface MPStatsLocation {
   channel: string,
@@ -188,5 +194,7 @@ interface mainServerChannels {
   logs: string,
   welcome: string,
   botcommands: string,
-  bankick_log: string
+  bankick_log: string,
+  fs_server_log: string,
+  punishment_log: string
 }
