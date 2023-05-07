@@ -43,7 +43,7 @@ export default class punishments extends Schema {
     }
     // Send it off to specific Discord channel.
     (this.client.channels.cache.get(channel) as Discord.TextChannel).send({embeds:[embed]});
-  }// hi tae --- hi --- hru? --- no answer ok
+  }
   getTense(type:string){// Get past tense form of punishment type, grammar yes
     return {
       ban: 'banned',
@@ -117,7 +117,7 @@ export default class punishments extends Schema {
     const guild = this.client.guilds.cache.get(this.client.config.mainServer.id) as Discord.Guild;
     const auditLogReason = `${reason || 'Reason unspecified'} | Case #${punishment.id}`;
     const User = await this.client.users.fetch(punishment.member);
-    const GuildMember = await guild.members.fetch(punishment.member);
+    const GuildMember = await guild.members.fetch(punishment.member).catch(()=>null);
 
     let removePunishmentData:Punishment={type:`un${punishment.type}`, _id, cancels:punishment.id, member:punishment.member, reason, moderator, time:now};
     let removePunishmentResult;
