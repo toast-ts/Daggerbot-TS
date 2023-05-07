@@ -36,7 +36,7 @@ process.on('error', (error: Error)=>DZ(error, 'process-error'));
 client.on('error', (error: Error)=>DZ(error, 'client-error'));
 
 // YouTube Upload notification and Daggerwin MP loop
-setInterval(()=>MPLoop(client, client.config.MPStatsLocation.channel, client.config.MPStatsLocation.message), 60000);
+setInterval(()=>MPLoop(client, client.config.MPStatsLocation.channel, client.config.MPStatsLocation.message, 'Daggerwin'), 60000);
 setInterval(async()=>{
 	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer

@@ -2,7 +2,7 @@ import Discord,{SlashCommandBuilder} from 'discord.js';
 import TClient from '../client.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    client.punish(client, interaction, 'kick');
+    client.punish(interaction, 'kick');
   },
   data: new SlashCommandBuilder()
     .setName('kick')

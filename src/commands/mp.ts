@@ -8,18 +8,14 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
   let FSserver;
   if (!await client.MPServer._content.findOne({_id:interaction.guildId})) return interaction.reply('This server isn\'t linked to the bot.');
   const ServerURL = await client.MPServer._content.findById(interaction.guildId);
-  if (!ServerURL) return interaction.reply(`No FS server found, please notify <@&${client.config.mainServer.roles.mpmanager}> to add it.`)
-  const MPURL = ServerURL.ip
-  const MPCode = ServerURL.code
-  const verifyURL = MPURL.match(/http|https/)
-  const completedURL = MPURL+'/feed/dedicated-server-stats.json?code='+MPCode
-  if (!verifyURL) return interaction.reply(`The server IP for this server is currently invalid, please notify <@&${client.config.mainServer.roles.mpmanager}>`)
+  if (!ServerURL) return interaction.reply(`No FS server found, please notify <@&${client.config.mainServer.roles.mpmanager}> to add it.`);
+  if (!ServerURL.ip.match(/http|https/)) return interaction.reply(`The server IP for this server is currently invalid, please notify <@&${client.config.mainServer.roles.mpmanager}>`);
 
   // Fetch dss
-  try {                                              //   v I am aware timeout has decreased from 2800 to 2588 to fit within Discord's interaction timeouts (3s) -Toast
-    FSserver = await client.axios.get(completedURL, {timeout: 2588, headers: {'User-Agent': `Daggerbot - mp cmd/axios ${client.axios.VERSION}`}})
+  try {//            I am aware timeout has decreased from 2800 to 2588 to fit within Discord's interaction timeouts (3s) -Toast
+    FSserver = await client.axios.get(ServerURL.ip+'/feed/dedicated-server-stats.json?code='+ServerURL.code, {timeout: 2588, headers: {'User-Agent': `Daggerbot - mp cmd/axios ${client.axios.VERSION}`}})
   } catch(err) {
-    // Blame Nawdic & RedRover92
+    // Blame Nawdic
     embed.setTitle('Host is not responding.');
     embed.setColor(client.config.embedColorRed);
     console.log(client.logTime(), 'DagMP failed to fetch, host didn\'t respond in time.');
@@ -79,16 +75,15 @@ export default {
             const Url = await client.MPServer._content.findById(interaction.guildId);
             if (Url.ip && Url.code) return interaction.reply(`${Url.get('ip')}`+'/feed/dedicated-server-stats.json?code='+`${Url.get('code')}`)
           } catch(err){
-            console.log(`MPDB :: ${err}`)
+            console.log(`MPDB :: ${err}`);
             interaction.reply('**Database error:**\nTry inserting an URL first.')
           }
         }else{
-          const verifyURL = address.match(/dedicated-server-stats/)
-          if (!verifyURL) return interaction.reply('The URL does not match `dedicated-server-stats.xml`')
-          const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=')
+          if (!address.match(/dedicated-server-stats/)) return interaction.reply('The URL does not match `dedicated-server-stats.xml`');
+          const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=');
           try{
             console.log(`MPDB :: URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
-            await client.MPServer._content.create({_id: interaction.guildId, ip: newURL[0], code: newURL[1], timesUpdated: 0})
+            await client.MPServer._content.create({_id: interaction.guildId, ip: newURL[0], code: newURL[1], timesUpdated: 0});
             return interaction.reply('This server is now linked and URL has been added.');
           } catch(err){
             const affectedValues = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {ip: newURL[0], code: newURL[1]});
@@ -247,7 +242,7 @@ export default {
         embed1.setTitle(FSserver1?.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
           .setDescription(`${FSserver1?.data.slots.used}/${FSserver1?.data.slots.capacity}`)
           .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
-        FSserver1?.data.slots.players.filter(x=>x.isUsed).forEach(player=>embed1.addFields({name: `${player.name} ${player.isAdmin ? '| admin' : ''}`, value: `Farming for ${(Math.floor(player.uptime/60))} hr, ${('0' + (player.uptime % 60)).slice(-2)} min`}))
+        FSserver1?.data.slots.players.filter(x=>x.isUsed).forEach(player=>embed1.addFields({name: `${player.name} ${player.isAdmin ? '| admin' : ''}`, value: `Farming for ${client.formatPlayerUptime(player.uptime)}`}))
         interaction.reply({embeds: [embed1], files: [Image]})
       }/*,
       series: ()=>{

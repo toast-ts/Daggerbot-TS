@@ -20,6 +20,5 @@ export default class MPServer extends Schema {
     const server = await this._content.findById(serverId)
     if (server) await this._content.findByIdAndUpdate(server, {timesUpdated: server.timesUpdated + 1})
     else await this._content.create({_id:serverId, timesUpdated: 1})
-    //console.log(`[${serverId}] :: timesUpdated value incremented`)
   }
 }
