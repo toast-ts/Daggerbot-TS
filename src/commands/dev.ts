@@ -64,16 +64,24 @@ export default {
         var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
         const clarkson = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
         const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
-        const fetchCommitMsg = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message).catch((err:Error)=>err.message);
-        const fetchCommitAuthor = await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author.name).catch((err:Error)=>err.message);
-        const fetchTotalChanges = await octokit.repos.getCommit(githubRepo).then(x=>x.data.stats.total.toLocaleString('en-US')).catch((err:Error)=>err.message);
-        const getCurrentCommitURL = await octokit.repos.getCommit(githubRepo).then(x=>x.data.html_url).catch((err:Error)=>err.message);
+        const github = {
+          fetchCommit: {
+            msg: await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.message).catch((err:Error)=>err.message),
+            author: await octokit.repos.getCommit(githubRepo).then(x=>x.data.commit.author.name).catch((err:Error)=>err.message),
+            url: await octokit.repos.getCommit(githubRepo).then(x=>x.data.html_url).catch((err:Error)=>err.message)
+          },
+          fetchChanges: {
+            total: await octokit.repos.getCommit(githubRepo).then(x=>x.data.stats.total.toLocaleString('en-US')).catch((err:Error)=>err.message),
+            addition: await octokit.repos.getCommit(githubRepo).then(x=>x.data.stats.additions.toLocaleString('en-US')).catch((err:Error)=>err.message),
+            deletion: await octokit.repos.getCommit(githubRepo).then(x=>x.data.stats.deletions.toLocaleString('en-US')).catch((err:Error)=>err.message)
+          }
+        };
         exec('git pull',(err:Error,stdout)=>{
           if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
           else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
           else clarkson.edit('Compiling TypeScript files...').then(()=>exec('tsc', (err:Error)=>{
             if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-            else clarkson.edit(`[Commit:](<${getCurrentCommitURL}>) **${fetchCommitMsg}**\nCommit author: **${fetchCommitAuthor}**\nTotal commit changes: **${fetchTotalChanges}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
           }))
         });
       },
