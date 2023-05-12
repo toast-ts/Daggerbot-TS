@@ -19,7 +19,7 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
     data: {} as FSCareerSavegame, fetchResult: '' as string
   };
 
-  if (!Server.ip.match(/http|https/)) return msg.edit({content: '*Detected an invalid IP\nContact MP Manager or Bot Tech*', embeds: null});
+  if (!Server?.ip?.match(/http|https/)) return msg.edit({content: '*Detected an invalid IP\nContact MP Manager or Bot Tech*', embeds: null});
   async function serverData(client:TClient, URL:string){
     return await client.axios.get(URL, {timeout: 5000, maxContentLength: Infinity, headers:{'User-Agent':`Daggerbot/axios ${client.axios.VERSION}`}}).catch((error:Error)=>error.message)
   }
