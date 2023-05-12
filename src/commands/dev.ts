@@ -48,11 +48,10 @@ export default {
         if (error) return;
         if (typeof output === 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)        
         else output = '\n' + String(output);
-        
-        [client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.tae,client.tokens.octokit,client.tokens.webhook_url,client.tokens.webhook_url_test,client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev].forEach((x)=>{
-          const regexp = new RegExp(x as string,'g');
-          output = output.replace(regexp, ':noblank: No token?');
-        })
+        [
+          client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.webhook_url,
+          client.tokens.webhook_url_test,client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev,client.tokens.octokit
+        ].forEach(x=>output = output.replace(new RegExp(x as string,'g'),':noblank: No token?'));
         const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
           {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
           {name: 'Output', value: `\`\`\`${removeUsername(output).slice(0,1016)}\n\`\`\``}
