@@ -80,7 +80,7 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
   const serverIndicatorEmbed =(indicator:string)=>new client.embed().setTitle(`**${ServerName}** is now ${indicator}`).setColor(client.config.embedColorOrange).setTimestamp();
 
   const serverLog = client.channels.resolve(client.config.mainServer.channels.fs_server_log) as Discord.TextChannel;
-  const playersOnServer = DSS.data.slots.players.filter(x=>x.isUsed);
+  const playersOnServer = DSS.data.slots?.players.filter(x=>x.isUsed);
   const playersInCache = client.MPServerCache.players;
   playersOnServer.forEach(player=>playerData.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${client.formatPlayerUptime(player.uptime)}`));
 
