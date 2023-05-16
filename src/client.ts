@@ -93,12 +93,14 @@ export default class TClient extends Client {
     await mongoose.connect(this.tokens.mongodb_uri, {
       replicaSet: 'toastyy',
       autoIndex: true,
+      authMechanism:'DEFAULT',
+      authSource: 'admin',
       serverSelectionTimeoutMS: 15000,
       waitQueueTimeoutMS: 50000,
       socketTimeoutMS: 30000,
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
-    this.login(this.tokens.main);
+    this.login(this.tokens.beta);
     for await (const file of fs.readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
