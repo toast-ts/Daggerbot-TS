@@ -26,9 +26,9 @@
   },
   "botPresence": {
 	"activities": [
-		{"name": "the tutorial", "url": "https://www.youtube.com/watch?v=c94bALAgENM", "type": 1}
-	], 
-	"status": "online"
+		  {"name": "the tutorial", "url": "https://www.youtube.com/watch?v=c94bALAgENM", "type": 1}
+	  ], 
+	  "status": "online"
 	},
   "eval": true,
   "whitelist": [
