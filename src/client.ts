@@ -81,7 +81,7 @@ export default class TClient extends Client {
     this.punishments = new punishments(this);
     this.bannedWords = new bannedWords(this);
     this.MPServer = new MPServer(this);
-    this.MPServerCache = {players: [], status: null, name: undefined} as MPServerCache;
+    this.MPServerCache = {players: [], status: null, name: null} as MPServerCache;
     this.suggestion = new suggestion(this);
     this.repeatedMessages = {};
     this.setMaxListeners(20);
@@ -93,7 +93,7 @@ export default class TClient extends Client {
     await mongoose.connect(this.tokens.mongodb_uri, {
       replicaSet: 'toastyy',
       autoIndex: true,
-      authMechanism:'DEFAULT',
+      authMechanism: 'DEFAULT',
       authSource: 'admin',
       serverSelectionTimeoutMS: 15000,
       waitQueueTimeoutMS: 50000,
