@@ -1,5 +1,4 @@
 {
-  "transpileOnly": true,
   "compilerOptions": {
     "skipLibCheck": true,
     "esModuleInterop": true,
