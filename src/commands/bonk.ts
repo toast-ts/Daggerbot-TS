@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -15,14 +15,14 @@ export default {
       .setFooter({text: `Bonk count for ${member.user.tag}: ${await client.bonkCount._content.findById(member.id).then(b=>b.value.toLocaleString('en-US'))}`})
     ]})
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('bonk')
     .setDescription('Bonk a member')
-    .addUserOption(opt=>opt
+    .addUserOption(x=>x
       .setName('member')
       .setDescription('Which member to bonk?')
       .setRequired(true))
-    .addStringOption(opt=>opt
+    .addStringOption(x=>x
       .setName('reason')
       .setDescription('Reason for the bonk'))
 }

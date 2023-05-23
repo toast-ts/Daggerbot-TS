@@ -1,4 +1,4 @@
-import Discord,{GuildMember, SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 
 function convert(status?:Discord.ClientPresenceStatus){
@@ -12,8 +12,8 @@ function convert(status?:Discord.ClientPresenceStatus){
 
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    const member = interaction.options.getMember('member') as GuildMember;
-    if (member == null){
+    const member = interaction.options.getMember('member') as Discord.GuildMember;
+    if (member === null){
       const user = interaction.options.getUser('member') as Discord.User;
       const embed = new client.embed()
         .setColor(client.config.embedColor)
@@ -44,16 +44,16 @@ export default {
           {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: member.roles.cache.size > 1 ? member.roles.cache.filter(x=>x.id !== interaction.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}
         )
       if (member.premiumSinceTimestamp !== null) embed.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
-      if (!presence) embed.addFields({name: `🔹 Status: Unavailable to retrieve`, value: '\u200b'})
+      if (!presence) embed.addFields({name: `🔹 Status: Unavailable to be fetched`, value: '\u200b'})
       if (member.presence) embed.addFields({name: `🔹 Status: ${member.presence.status}`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
       embedArray.push(embed)
       interaction.reply({embeds: embedArray})
     }
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('whois')
     .setDescription('View your own or someone else\'s information')
-    .addUserOption(opt=>opt
+    .addUserOption(x=>x
       .setName('member')
       .setDescription('Member or user to view their information')
       .setRequired(true))

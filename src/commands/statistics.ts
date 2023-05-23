@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder,version} from 'discord.js';
+import Discord from 'discord.js';
 import pkg from 'typescript';
 import si from 'systeminformation';
 import TClient from '../client.js';
@@ -49,7 +49,7 @@ export default {
       {name: '> __Dependencies__', value: [
         `**TypeScript:** ${pkg.version}`,
         `**NodeJS:** ${process.version}`,
-        `**DiscordJS:** ${version}`,
+        `**DiscordJS:** ${Discord.version}`,
         `**Axios:** ${client.axios.VERSION}`
       ].join('\n')},
       {name: '> __Host__', value: [
@@ -63,7 +63,7 @@ export default {
     );
     interaction.reply({embeds: [embed], fetchReply: true}).then(x=>x.edit({embeds: [new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))    
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('statistics')
     .setDescription('See a list of commands ordered by their usage or host stats')
 }

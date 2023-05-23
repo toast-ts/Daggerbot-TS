@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import {Octokit} from '@octokit/rest';
 import {createTokenAuth} from '@octokit/auth-token';
 import {exec} from 'node:child_process';
@@ -130,36 +130,36 @@ export default {
       }
     } as any)[interaction.options.getSubcommand()]();
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('dev')
     .setDescription('Developer commands')
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('eval')
       .setDescription('Execute the code to the bot')
-      .addStringOption((opt)=>opt
+      .addStringOption(x=>x
         .setName('code')
         .setDescription('Execute your code')
         .setRequired(true)))
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('logs')
       .setDescription('Retrieve the logs from host and sends it to dev server'))
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('restart')
       .setDescription('Restart the bot for technical reasons'))
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('update')
       .setDescription('Pull from repository and restart'))
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('statsgraph')
       .setDescription('Edit the number of data points to pull')
-      .addIntegerOption(hiTae=>hiTae
+      .addIntegerOption(x=>x
         .setName('number')
         .setDescription('Number of data points to pull')
         .setRequired(true)))
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('presence')
       .setDescription('Update the bot\'s presence')
-      .addIntegerOption(hiTae=>hiTae
+      .addIntegerOption(x=>x
         .setName('type')
         .setDescription('Set an activity type')
         .addChoices(
@@ -169,13 +169,13 @@ export default {
           {name: 'Watching', value: Discord.ActivityType.Watching},
           {name: 'Competing in', value: Discord.ActivityType.Competing}
         ))
-      .addStringOption(hiAgain=>hiAgain
+      .addStringOption(x=>x
         .setName('name')
         .setDescription('Set a message for the activity status'))
-      .addStringOption(hiAgainx2=>hiAgainx2
+      .addStringOption(x=>x
         .setName('url')
         .setDescription('Set an url for streaming status'))
-      .addStringOption(hiAgainx3=>hiAgainx3
+      .addStringOption(x=>x
         .setName('status')
         .setDescription('Set a status indicator for the bot')
         .setChoices(

@@ -3,13 +3,15 @@ import TClient from './client.js';
 const client = new TClient;
 client.init();
 import MPLoop from './MPLoop.js';
-import fs from 'node:fs';
+import {writeFileSync, readFileSync} from 'node:fs';
 
 client.on('ready', async()=>{
-  setInterval(()=>client.user.setPresence(client.config.botPresence), 300000);
   await client.guilds.fetch(client.config.mainServer.id).then(async guild=>{
     await guild.members.fetch();
-    setInterval(()=>guild.invites.fetch().then(invites=>invites.forEach(inv=>client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId}))),300000)
+    setInterval(()=>{
+      client.user.setPresence(client.config.botPresence);
+      guild.invites.fetch().then(invites=>invites.forEach(inv=>client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId, channel: inv.channel.name})))
+    },300000)
   });
   if (client.config.botSwitches.registerCommands){
     client.config.whitelistedServers.forEach(guildId=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
@@ -46,22 +48,22 @@ setInterval(async()=>{
 setInterval(async()=>{
   const now = Date.now();
   const lrsStart = client.config.LRSstart;
-    
+
   const punishments = await client.punishments._content.find({});
   punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
     console.log(client.logTime(), `${punishment.member}\'s ${punishment.type} should expire now`);
     const unpunishResult = await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!');
     console.log(client.logTime(), unpunishResult);
   });
-    
+
   const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
-  const dailyMsgs = JSON.parse(fs.readFileSync('./src/database/dailyMsgs.json', {encoding: 'utf8'}))
+  const dailyMsgs = JSON.parse(readFileSync('./src/database/dailyMsgs.json', {encoding: 'utf8'}))
   if (!dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
     let total = (await client.userLevels._content.find({})).reduce((a,b)=>a + b.messages, 0); // sum of all users
     const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
     if (total < yesterday) total = yesterday // messages went down.
     dailyMsgs.push([formattedDate, total]);
-    fs.writeFileSync('./src/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
+    writeFileSync('./src/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
     console.log(client.logTime(), `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
     client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then((commands)=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name == 'rank').id}>`))
   }

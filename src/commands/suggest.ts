@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient,{WClient} from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -64,39 +64,39 @@ export default {
       }
     } as any)[interaction.options.getSubcommand()]();
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('suggest')
     .setDescription('Want to suggest ideas/thoughts to bot techs? Suggest it here')
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('your')
       .setDescription('What do you want to suggest?')
-      .addStringOption(s=>s
+      .addStringOption(x=>x
         .setName('suggestion')
         .setDescription('Suggest something to bot techs. (You will be DM\'d by bot if your idea was approved/rejected)')
         .setMaxLength(1024)
         .setRequired(true))
-      .addAttachmentOption(i=>i
+      .addAttachmentOption(x=>x
         .setName('image')
         .setDescription('If your idea seems complicated or prefer to show what your idea may look like then attach the image.')))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('approve')
       .setDescription('[Bot Tech] Approve the suggestion sent by the user')
-      .addStringOption(id=>id
+      .addStringOption(x=>x
         .setName('id')
         .setDescription('User\'s suggestion ID')
         .setRequired(true))
-      .addStringOption(m=>m
+      .addStringOption(x=>x
         .setName('message')
         .setDescription('(Optional) Include a message with your approval')
         .setMaxLength(256)))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('reject')
       .setDescription('[Bot Tech] Reject the suggestion sent by the user')
-      .addStringOption(id=>id
+      .addStringOption(x=>x
         .setName('id')
         .setDescription('User\'s suggestion ID')
         .setRequired(true))
-      .addStringOption(m=>m
+      .addStringOption(x=>x
         .setName('message')
         .setDescription('(Optional) Include a message with your rejection')
         .setMaxLength(256)))
