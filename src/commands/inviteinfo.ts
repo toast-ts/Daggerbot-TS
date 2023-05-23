@@ -18,5 +18,6 @@ export default {
     .setDescription('View the invite data')
     .addStringOption(x=>x
       .setName('code')
-      .setDescription('Discord invite code'))
+      .setDescription('Discord invite code')
+      .setRequired(true))
 }
