@@ -1,8 +1,10 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!client.isStaff(interaction.member)) return client.youNeedRole(interaction, 'dcmod');
+    if (client.config.mainServer.id === interaction.guildId) {
+      if (!client.isStaff(interaction.member)) return client.youNeedRole(interaction, 'dcmod');
+    }
     const amount = interaction.options.getInteger('amount') as number;
     if (amount > 100) return interaction.reply({content: 'Discord API limits purging up to 100 messages.', ephemeral: true})
     const user = interaction.options.getUser('user');
@@ -22,14 +24,14 @@ export default {
     }
     await interaction.reply({content: `Successfully purged ${amount} messages.`, ephemeral: true})
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('purge')
     .setDescription('Purge the amount of messages in this channel')
-    .addIntegerOption(opt=>opt
+    .addIntegerOption(x=>x
       .setName('amount')
       .setDescription('Amount of messages to be obliterated')
       .setRequired(true))
-    .addUserOption(opt=>opt
+    .addUserOption(x=>x
       .setName('user')
       .setDescription('Which user to have their messages obliterated?'))
 }

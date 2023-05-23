@@ -1,5 +1,5 @@
 import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'discord.js';
-import fs from 'node:fs';
+import {readFileSync, readdirSync} from 'node:fs';
 import {exec} from 'node:child_process';
 import mongoose from 'mongoose';
 import {formatTimeOpt, Tokens, Config, repeatedMessages, MPServerCache} from './typings/interfaces';
@@ -16,10 +16,10 @@ import tokens from './tokens.json' assert { type: 'json'};
 
 let importconfig:Config
 try{
-  importconfig = JSON.parse(fs.readFileSync('src/DB-Beta.config.json', {encoding:'utf8'}));
+  importconfig = JSON.parse(readFileSync('src/DB-Beta.config.json', {encoding:'utf8'}));
   console.log('Using development config :: Daggerbot Beta')
 } catch(e){
-  importconfig = JSON.parse(fs.readFileSync('src/config.json', {encoding:'utf8'}))
+  importconfig = JSON.parse(readFileSync('src/config.json', {encoding:'utf8'}))
   console.log('Using production config')
 }
 
@@ -101,11 +101,11 @@ export default class TClient extends Client {
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
     this.login(this.tokens.main);
-    for await (const file of fs.readdirSync('dist/events')){
+    for await (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
     };
-    for await (const file of fs.readdirSync('dist/commands')){
+    for await (const file of readdirSync('dist/commands')){
       const command = await import(`./commands/${file}`);
       this.commands.set(command.default.data.name,{command, uses: 0});
       this.registry.push(command.default.data.toJSON())

@@ -1,8 +1,8 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 import path from 'node:path';
 import canvas from 'canvas';
-import fs from 'node:fs';
+import {readFileSync} from 'node:fs';
 
 async function MPdata(client:TClient, interaction:Discord.ChatInputCommandInteraction, embed: Discord.EmbedBuilder) {
   let FSserver;
@@ -94,7 +94,7 @@ export default {
       },
       players: async()=>{
         const embed1 = new client.embed();
-        const data = JSON.parse(fs.readFileSync(path.join('src/database/MPPlayerData.json'), {encoding: 'utf8'})).slice(client.statsGraph)
+        const data = JSON.parse(readFileSync(path.join('src/database/MPPlayerData.json'), {encoding: 'utf8'})).slice(client.statsGraph)
         // handle negative days
         data.forEach((change: number, i: number) => {
           if (change < 0) data[i] = data[i - 1] || data[i + 1] || 0;
@@ -259,25 +259,25 @@ export default {
       }*/
     } as any)[interaction.options.getSubcommand()]();
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('mp')
     .setDescription('Display MP status and other things')
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('status')
       .setDescription('Check server status and details'))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('players')
       .setDescription('Check who\'s playing on the server'))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('info')
       .setDescription('Provides you with server information such as filters and so on'))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('url')
       .setDescription('View the URL for this server\'s FSMP server or update the URL')
-      .addStringOption(opt=>opt
+      .addStringOption(x=>x
         .setName('address')
         .setDescription('Insert a \'dedicated-server-stats\' URL')))/*
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('series')
       .setDescription('Step-by-step on joining Daggerwin\'s MP series'))*/
 }

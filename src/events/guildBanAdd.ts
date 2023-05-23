@@ -7,8 +7,8 @@ export default {
     const banLog = fetchBanlog.entries.first();
     if (!banLog) return console.log(`${member.user.tag} was banned from ${member.guild.name} but no audit log for this user.`)
     const {executor, target, reason } = banLog;
-    if (target.id == member.user.id) (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [
-      new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`Member Banned: ${target.tag}`).setDescription(`🔹 **User**\n<@${target.id}>\n\`${target.id}\``).addFields(
+    if (target.id === member.user.id) (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [
+      new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`Member Banned: ${target.tag}`).setDescription(`🔹 **User**\n<@${target.id}>\n\`${target.id}\``).setFooter({text:'Rank data has been wiped.'}).addFields(
         {name: '🔹 Moderator', value: `<@${executor.id}>\n\`${executor.id}\``},
         {name: '🔹 Reason', value: `${reason == null ? 'Reason unspecified': reason}`}
       )]});

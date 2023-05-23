@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -13,10 +13,10 @@ export default {
       {name: '🔹 Permissions', value: `${permissions.includes('Administrator') ? ['Administrator'] : permissions.join(', ') || 'None'}`, inline: true}
     )]})
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('roleinfo')
     .setDescription('View information about the selected role')
-    .addRoleOption(opt=>opt
+    .addRoleOption(x=>x
       .setName('role')
       .setDescription('Role name to view information')
       .setRequired(true))

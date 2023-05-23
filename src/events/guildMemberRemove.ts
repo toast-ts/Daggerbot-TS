@@ -4,6 +4,7 @@ export default {
   async run(client:TClient, member:Discord.GuildMember){
     if (!client.config.botSwitches.logs) return;
     if (!member.joinedTimestamp || member.guild?.id != client.config.mainServer.id) return;
+    if (client.guilds.cache.get(client.config.mainServer.id).bans.cache.has(member.id)) return await client.userLevels._content.findByIdAndDelete(member.id);
     const levelData = await client.userLevels._content.findById(member.id);
     const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048}) as string).setTitle(`Member Left: ${member.user.tag}`).setDescription(`<@${member.user.id}>\n\`${member.user.id}\``).addFields(
       {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
