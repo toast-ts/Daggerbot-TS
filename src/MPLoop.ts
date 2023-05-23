@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import TClient from './client';
-import fs from 'node:fs';
+import {writeFileSync, readFileSync} from 'node:fs';
 import {FSPlayer, FSData, FSCareerSavegame} from './typings/interfaces';
 
 export default async(client:TClient,Channel:string,Message:string,ServerName:string)=>{
@@ -112,9 +112,9 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
 
   if (!isServerOnline){
     playerLog();
-    const Database:Array<number> = JSON.parse(fs.readFileSync('src/database/MPPlayerData.json',{encoding:'utf8',flag:'r+'}));
+    const Database:Array<number> = JSON.parse(readFileSync('src/database/MPPlayerData.json',{encoding:'utf8',flag:'r+'}));
     Database.push(DSS.data.slots?.used);
-    fs.writeFileSync('src/database/MPPlayerData.json', JSON.stringify(Database));
+    writeFileSync('src/database/MPPlayerData.json', JSON.stringify(Database));
     client.MPServerCache.players = playersOnServer
   }
 }

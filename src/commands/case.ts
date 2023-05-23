@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from "discord.js";
+import Discord from "discord.js";
 import TClient from '../client.js';
 export default {
 	run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -43,34 +43,34 @@ export default {
       }
     } as any)[interaction.options.getSubcommand()]();
 	},
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('case')
     .setDescription('Retrieve case information or user\'s punishment history')
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('view')
       .setDescription('View a multiple or single case')
-      .addIntegerOption((optt)=>optt
+      .addIntegerOption(x=>x
         .setName('id')
         .setDescription('Case ID')
         .setRequired(true)))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('member')
       .setDescription('View member\'s punishment history')
-      .addUserOption(optt=>optt
+      .addUserOption(x=>x
         .setName('user')
         .setDescription('Which user do you want to view their punishment history?')
         .setRequired(true))
-      .addIntegerOption(optt=>optt
+      .addIntegerOption(x=>x
         .setName('page')
         .setDescription('Select the page number')))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('update')
       .setDescription('Update the case with new reason')
-      .addIntegerOption(optt=>optt
+      .addIntegerOption(x=>x
         .setName('id')
         .setDescription('Case ID to be updated')
         .setRequired(true))
-      .addStringOption(optt=>optt
+      .addStringOption(x=>x
         .setName('reason')
         .setDescription('New reason for the case')
         .setRequired(true)))

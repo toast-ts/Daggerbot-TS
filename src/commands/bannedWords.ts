@@ -1,7 +1,6 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 import {writeFileSync} from 'node:fs';
-import path from 'node:path';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
@@ -25,23 +24,23 @@ export default {
       }
     } as any)[interaction.options.getSubcommand()]();
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('bannedwords')
     .setDescription('description placeholder')
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('view')
       .setDescription('View the list of currently banned words'))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('add')
       .setDescription('Add the word to the list')
-        .addStringOption(optt=>optt
+        .addStringOption(x=>x
           .setName('word')
           .setDescription('Add the specific word to automod\'s bannedWords database')
           .setRequired(true)))
-    .addSubcommand(opt=>opt
+    .addSubcommand(x=>x
       .setName('remove')
       .setDescription('Remove the word from the list')
-      .addStringOption(optt=>optt
+      .addStringOption(x=>x
         .setName('word')
         .setDescription('Remove the specific word from automod\'s bannedWords list')
         .setRequired(true)))

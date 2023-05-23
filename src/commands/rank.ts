@@ -1,7 +1,7 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 import path from 'node:path';
-import fs from 'node:fs';
+import {readFileSync} from 'node:fs';
 import canvas from 'canvas';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -11,7 +11,7 @@ export default {
       view: async()=>{
       	// fetch user or user interaction sender
       	const member = interaction.options.getMember("member") ?? interaction.member as Discord.GuildMember;
-      	if (member.user.bot) return interaction.reply('Bots don\'t level up, try viewing non-bots instead.')
+      	if (member.user.bot) return interaction.reply('Bots don\'t level up, try viewing the rank data from the users instead.');
       	// information about users progress on level roles
       	const userData = await client.userLevels._content.findById(member.user.id);
 
@@ -31,7 +31,7 @@ export default {
         const timeActive = Math.floor((Date.now() - client.config.LRSstart)/1000/60/60/24);
 
 				const dailyMsgsPath = path.join('./src/database/dailyMsgs.json');
-				const data = JSON.parse(fs.readFileSync(dailyMsgsPath, 'utf8')).map((x: Array<number>, i: number, a: any) => {
+				const data = JSON.parse(readFileSync(dailyMsgsPath, 'utf8')).map((x: Array<number>, i: number, a: any) => {
 				  const yesterday = a[i - 1] || [];
 				  return x[1] - (yesterday[1] || x[1]);
 				}).slice(1).slice(-60);
@@ -159,16 +159,16 @@ export default {
 			}
 		} as any)[interaction.options.getSubcommand()]();
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('rank')
     .setDescription('Level system')
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('view')
       .setDescription('View your rank or someone else\'s rank')
-      .addUserOption(opt=>opt
+      .addUserOption(x=>x
         .setName('member')
         .setDescription('Which member do you want to view?')))
-    .addSubcommand(optt=>optt
+    .addSubcommand(x=>x
       .setName('leaderboard')
       .setDescription('View top 10 users on leaderboard'))
 }

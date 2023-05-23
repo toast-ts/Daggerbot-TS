@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -6,7 +6,7 @@ export default {
     embed.addFields({name: 'Hex code', value: `#${embed.data.color.toString(16).toUpperCase()}`});
     interaction.reply({embeds: [embed]});
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('randomcolor')
     .setDescription('Generate a random hex code')
 }

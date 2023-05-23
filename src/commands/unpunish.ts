@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -11,14 +11,14 @@ export default {
     console.log(client.logTime(), `[UnpunishmentLog] Case #${interaction.options.getInteger('case_id')} was used in /${interaction.commandName} for ${reason}`);
     (client.channels.cache.get(client.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle('Unpunishment Log').setDescription(`Case #${interaction.options.getInteger('case_id')} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
     .setName('unpunish')
     .setDescription('Remove the active punishment from a member')
-    .addIntegerOption(opt=>opt
+    .addIntegerOption(x=>x
       .setName('case_id')
       .setDescription('Case ID of the punishment to be overwritten')
       .setRequired(true))
-    .addStringOption(opt=>opt
+    .addStringOption(x=>x
       .setName('reason')
       .setDescription('Reason for removing the punishment'))
 }

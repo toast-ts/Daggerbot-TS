@@ -14,7 +14,7 @@ export default {
       { name: 'Sent at', value: `<t:${Math.round(msg.createdTimestamp/1000)}>\n<t:${Math.round(msg.createdTimestamp/1000)}:R>` }
     )
     const attachments: Array<string> = [];
-    msg.attachments.forEach((x) => attachments.push(x.url));
+    msg.attachments.forEach(x=>attachments.push(x.url));
     channel.send({embeds: [embed], files: attachments})
   }
 }

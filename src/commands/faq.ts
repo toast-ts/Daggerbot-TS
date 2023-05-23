@@ -1,4 +1,4 @@
-import Discord,{SlashCommandBuilder} from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -12,10 +12,10 @@ export default {
       fsDevConsole: ()=>interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Enabling the development console').setDescription('Head over to `game.xml` in `Documents/My Games/FarmingSimulator2022` and find the section that mentions `<controls>false</controls>` inside development section, change it to `true` then you are good to go!\nFYI: The keybind to open console is \``\u200b\` (backtick).').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1097273921444790322/image.png')]})
     } as any)[interaction.options.getString('question', true)]();
   },
-  data: new SlashCommandBuilder()
+  data: new Discord.SlashCommandBuilder()
   .setName('faq')
   .setDescription('List of questions, e.g; log file for FS, YT Scams and etc.')
-  .addStringOption(opt=>opt
+  .addStringOption(x=>x
     .setName('question')
     .setDescription('What question do you want answered?')
     .setRequired(true)
