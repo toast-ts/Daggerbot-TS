@@ -21,7 +21,7 @@ client.on('ready', async()=>{
   };
   console.log(`${client.user.tag} has logged into Discord API`);
   console.log(client.config.botSwitches, client.config.whitelistedServers);
-  (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send(`${client.user.username} is active\n\`\`\`json\n${Object.entries(client.config.botSwitches).map((hi)=>`${hi[0]}: ${hi[1]}`).join('\n')}\`\`\``);
+  (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send({content: `${client.user.username} is active`, embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`\`\`\`json\n${Object.entries(client.config.botSwitches).map(hiTae=>`${hiTae[0]}: ${hiTae[1]}`).join('\n')}\`\`\``)]});
   console.timeEnd('Startup')
 })
 
