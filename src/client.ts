@@ -175,7 +175,7 @@ export default class TClient extends Client {
     const GuildMember = interaction.options.getMember('member') ?? undefined;
     const User = interaction.options.getUser('member', true);
 
-    console.log(this.logTime(), `[PunishmentLog] ${GuildMember.user.tag ?? User.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in /${interaction.commandName} for ${reason}`);
+    console.log(this.logTime(), `[PunishmentLog] ${GuildMember?.user?.tag ?? User?.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in /${interaction.commandName} for ${reason}`);
     (this.channels.cache.get(this.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new this.embed().setColor(this.config.embedColor).setTitle('Punishment Log').setDescription(`${GuildMember.user.tag ?? User.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
     if (interaction.user.id == User.id) return interaction.reply(`You cannot ${type} yourself.`);
     if (!GuildMember && type != 'ban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
