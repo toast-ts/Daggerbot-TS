@@ -176,7 +176,7 @@ export default class TClient extends Client {
     const User = interaction.options.getUser('member', true);
 
     console.log(this.logTime(), `[PunishmentLog] ${GuildMember?.user?.tag ?? User?.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in /${interaction.commandName} for ${reason}`);
-    (this.channels.cache.get(this.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new this.embed().setColor(this.config.embedColor).setTitle('Punishment Log').setDescription(`${GuildMember?.user?.tag ?? User?.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
+    (this.channels.cache.get(this.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new this.embed().setColor(this.config.embedColor).setAuthor({name: interaction?.user?.tag, iconURL: interaction?.user?.displayAvatarURL({size:2048})}).setTitle('Punishment Log').setDescription(`${GuildMember?.user?.tag ?? User?.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
     if (interaction.user.id === User.id) return interaction.reply(`You cannot ${type} yourself.`);
     if (!GuildMember && type != 'unban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
     if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);
