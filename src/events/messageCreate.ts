@@ -41,7 +41,7 @@ export default {
         message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 10000));
         await repeatedMessages(30000, 3, 'bw', '30m', 'Constant swearing');
       } else if (message.content.toLowerCase().includes('discord.gg/') && !client.isStaff(message.member as Discord.GuildMember)){
-        const url = msgarr.find(x=>x.includes('discord.gg/'));
+        const url = message.content.split(' ').find(x=>x.includes('discord.gg/'));
         const validInvite = await client.fetchInvite(url).catch(()=>undefined);
         if (validInvite && validInvite.guild?.id !== client.config.mainServer.id){
           automodded = true;
