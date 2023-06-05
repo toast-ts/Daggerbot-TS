@@ -244,6 +244,23 @@ export default {
           .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
         FSserver1?.data.slots.players.filter(x=>x.isUsed).forEach(player=>embed1.addFields({name: `${player.name} ${player.isAdmin ? '| admin' : ''}`, value: `Farming for ${client.formatPlayerUptime(player.uptime)}`}))
         interaction.reply({embeds: [embed1], files: [Image]})
+      },
+      maintenance: ()=>{
+        if (client.config.mainServer.id == interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
+        }
+        const maintenanceMessage = interaction.options.getString('message');
+        const activePlayersChannel = '739084625862852715';
+        const channel = (client.channels.cache.get(activePlayersChannel) as Discord.TextChannel);
+        if (channel.permissionOverwrites.cache.get(interaction.guildId).deny.has('SendMessages')) {
+          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: true}, {type: 0, reason: `Unlocked by ${interaction.member.displayName}`});
+          channel.send({embeds: [new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTitle('🔓 Channel unlocked').setDescription(`**Reason:**\n${maintenanceMessage}`).setTimestamp()]});
+          interaction.reply({content: `<#${activePlayersChannel}> has been unlocked!`, ephemeral: true});
+        } else if (channel.permissionOverwrites.cache.get(interaction.guildId).allow.has('SendMessages')) {
+          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: false}, {type: 0, reason: `Locked by ${interaction.member.displayName}`});
+          channel.send({embeds: [new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTitle('🔒 Channel locked').setDescription(`**Reason:**\n${maintenanceMessage}`).setTimestamp()]});
+          interaction.reply({content: `<#${activePlayersChannel}> has been locked!`, ephemeral: true});
+        }
       }/*,
       series: ()=>{
         const embed3 = new client.embed().setColor(client.config.embedColor).setTitle('How to join the Daggerwin MP series')
@@ -276,7 +293,14 @@ export default {
       .setDescription('View the URL for this server\'s FSMP server or update the URL')
       .addStringOption(x=>x
         .setName('address')
-        .setDescription('Insert a \'dedicated-server-stats\' URL')))/*
+        .setDescription('Insert a \'dedicated-server-stats\' URL')))
+    .addSubcommand(x=>x
+      .setName('maintenance')
+      .setDescription('Lock/unlock "#mp-active-players" channel when server is unavailable for few hours')
+      .addStringOption(x=>x
+        .setName('message')
+        .setDescription('The reason why is the server unavailable for?')
+        .setRequired(true)))/*
     .addSubcommand(x=>x
       .setName('series')
       .setDescription('Step-by-step on joining Daggerwin\'s MP series'))*/
