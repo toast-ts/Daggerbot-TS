@@ -34,7 +34,7 @@ export default {
       }
     }
 
-    if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.mainServer.roles.dcmod) && message.guildId == client.config.mainServer.id){
+    if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.mainServer.roles.admin) && message.guildId == client.config.mainServer.id){
       if (await client.bannedWords._content.findById(msgarr) && !Whitelist.includes(message.channelId)){
         automodded = true;
         message.delete().catch(()=>console.log('bannedWords automod; msg got possibly deleted by another bot.'));
