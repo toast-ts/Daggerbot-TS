@@ -3,7 +3,7 @@ import TClient from '../client.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     ({
-      srp: ()=>interaction.reply('[Ballyspring](<https://eireagri.net/modding/fs22>) is the map that is used in Survival Roleplay S4.\n\n> ℹ️ __Note__\n> The map won\'t look closely like the one in SRP as it is privately edited version of the public map.'),
+      srp: ()=>interaction.reply('[Ballyspring](<https://www.farming-simulator.com/mod.php?mod_id=270745>) is the map that is used in Survival Roleplay S4.\n\n> ℹ️ __Note__\n> The map won\'t look closely like the one in SRP as it is privately edited version of the public map.'),
       vtcR: ()=>interaction.reply(`You can get the <@&${client.config.mainServer.roles.vtcmember}> role from <#802283932430106624> by clicking :truck: button on a webhook's message\n*VTC skin can also be found in <#801975222609641472> as well.*`),
       mpR: ()=>interaction.reply(`You can get the <@&${client.config.mainServer.roles.mpplayer}> role from <#802283932430106624> by clicking :tractor: button on webhook's message`),
       ytscam: ()=>interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Scammers in YouTube comments section').setDescription('If you ever see a comment mentioning a giveaway or anything else, **it\'s a scam!**\nYou should report it to YouTube and move on or ignore it.\nP.S: They\'re on every channel and not just Daggerwin.').setImage('https://cdn.discordapp.com/attachments/1015195575693627442/1068078284996345916/image.png')]}),
