@@ -17,7 +17,7 @@ export default {
         const notifEmbed = new client.embed()
           .setColor(client.config.embedColor)
           .setTitle(`Suggestion ID: ${suggestionID}`)
-          .setAuthor({name: interaction.user.tag, iconURL: interaction.user.avatarURL({size: 256})})
+          .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setFooter({text: `Timestamp: ${timeFormatting}`})
           .setDescription([
             '> **Suggestion:**',
@@ -29,7 +29,7 @@ export default {
           console.log(e.message);
           interaction.reply({content: 'Failed to send suggestion, try again later.', ephemeral: true})
         })
-        await client.suggestion._content.create({_id: suggestionID, idea: suggestionText, user: {_id: interaction.user.id, tag: interaction.user.tag}, state: 'Pending'});
+        await client.suggestion._content.create({_id: suggestionID, idea: suggestionText, user: {_id: interaction.user.id, tag: interaction.user.username}, state: 'Pending'});
         interaction.reply({content: `Suggestion sent, here is your suggestion ID to take note of it: \`${suggestionID}\``, ephemeral: true})
       },
       approve: async()=>{
@@ -39,7 +39,7 @@ export default {
         if ((await client.suggestion._content.findById(suggestionIDReply)).state == 'Rejected') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
           .setColor(client.config.embedColorGreen)
-          .setAuthor({name: interaction.user.tag, iconURL: interaction.user.avatarURL({size: 256})})
+          .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been approved.')
           .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
@@ -54,7 +54,7 @@ export default {
         if ((await client.suggestion._content.findById(suggestionIDReply)).state == 'Approved') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
           .setColor(client.config.embedColorRed)
-          .setAuthor({name: interaction.user.tag, iconURL: interaction.user.avatarURL({size: 256})})
+          .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been rejected.')
           .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})

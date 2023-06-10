@@ -37,7 +37,7 @@ export default {
             {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1010)}\n\`\`\``},
             {name: 'Output', value: `\`\`\`\n${err}\`\`\``}
           )
-          interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]})).then(errorEmbedMessage=>{
+          interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]})).then(()=>{
             const filter = (x:any)=>x.content === 'stack' && x.author.id === interaction.user.id
             const messagecollector = (interaction.channel as Discord.TextChannel).createMessageCollector({filter, max: 1, time: 60000});
             messagecollector.on('collect', collected=>{
@@ -46,7 +46,7 @@ export default {
           });
         }
         if (error) return;
-        if (typeof output === 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)        
+        if (typeof output === 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)
         else output = '\n' + String(output);
         [
           client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.webhook_url,

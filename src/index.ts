@@ -19,7 +19,7 @@ client.on('ready', async()=>{
       (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
     }))
   };
-  console.log(`${client.user.tag} has logged into Discord API`);
+  console.log(`${client.user.username} has logged into Discord API`);
   console.log(client.config.botSwitches, client.config.whitelistedServers);
   (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send({content: `${client.user.username} is active`, embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`\`\`\`json\n${Object.entries(client.config.botSwitches).map(hiTae=>`${hiTae[0]}: ${hiTae[1]}`).join('\n')}\`\`\``)]});
   console.timeEnd('Startup')

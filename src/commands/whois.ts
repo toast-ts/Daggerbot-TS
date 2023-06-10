@@ -19,7 +19,7 @@ export default {
         .setColor(client.config.embedColor)
         .setURL(`https://discord.com/users/${user.id}`)
         .setThumbnail(user.avatarURL({size:2048}) || user.defaultAvatarURL)
-        .setTitle(`${user.bot ? 'Bot': 'User'} Info: ${user.tag}`)
+        .setTitle(`${user.bot ? 'Bot': 'User'} Info: ${user.username}`)
         .setDescription(`<@${user.id}>\n\`${user.id}\``)
         .addFields({name: '🔹 Account Creation Date', value: `<t:${Math.round(user.createdTimestamp/1000)}>\n<t:${Math.round(user.createdTimestamp/1000)}:R>`})
       interaction.reply({embeds: [embed]})
@@ -36,7 +36,7 @@ export default {
         .setURL(`https://discord.com/users/${member.user.id}`)
         .setThumbnail(member.user.avatarURL({size:2048}) || member.user.defaultAvatarURL)
         .setImage(member.user.bannerURL({size:1024}) as string)
-        .setTitle(`${title} Info: ${member.user.tag}`)
+        .setTitle(`${title} Info: ${member.user.username}`)
         .setDescription(`<@${member.user.id}>\n\`${member.user.id}\``)
         .addFields(
           {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
