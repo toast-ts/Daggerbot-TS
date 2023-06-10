@@ -100,7 +100,7 @@ export default class TClient extends Client {
       socketTimeoutMS: 30000,
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err.reason}`); exec('pm2 stop Daggerbot')})
-    this.login(this.tokens.main);
+    this.login(this.tokens.beta);
     for await (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
@@ -175,8 +175,8 @@ export default class TClient extends Client {
     const GuildMember = interaction.options.getMember('member') ?? undefined;
     const User = interaction.options.getUser('member', true);
 
-    console.log(this.logTime(), `[PunishmentLog] ${GuildMember?.user?.tag ?? User?.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in /${interaction.commandName} for ${reason}`);
-    (this.channels.cache.get(this.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new this.embed().setColor(this.config.embedColor).setAuthor({name: interaction?.user?.tag, iconURL: interaction?.user?.displayAvatarURL({size:2048})}).setTitle('Punishment Log').setDescription(`${GuildMember?.user?.tag ?? User?.tag ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
+    console.log(this.logTime(), `[PunishmentLog] ${GuildMember?.user?.username ?? User?.username ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in /${interaction.commandName} for ${reason}`);
+    (this.channels.cache.get(this.config.mainServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new this.embed().setColor(this.config.embedColor).setAuthor({name: interaction?.user?.username, iconURL: interaction?.user?.displayAvatarURL({size:2048})}).setTitle('Punishment Log').setDescription(`${GuildMember?.user?.username ?? User?.username ?? 'No user data'} ${time ? ['warn', 'kick'].includes(this.punishments.type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
     if (interaction.user.id === User.id) return interaction.reply(`You cannot ${type} yourself.`);
     if (!GuildMember && type != 'unban') return interaction.reply(`You cannot ${type} someone who is not in the server.`);
     if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);

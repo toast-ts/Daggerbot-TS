@@ -12,7 +12,7 @@ export default {
     interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor)
       .setDescription(`> <@${member.id}> has been bonked!\n${reason?.length == null ? '' : `> Reason: **${reason}**`}`)
       .setImage('https://media.tenor.com/7tRddlNUNNcAAAAd/hammer-on-head-minions.gif')
-      .setFooter({text: `Bonk count for ${member.user.tag}: ${await client.bonkCount._content.findById(member.id).then(b=>b.value.toLocaleString('en-US'))}`})
+      .setFooter({text: `Bonk count for ${member.displayName}: ${await client.bonkCount._content.findById(member.id).then(b=>b.value.toLocaleString('en-US'))}`})
     ]})
   },
   data: new Discord.SlashCommandBuilder()
