@@ -63,7 +63,7 @@ export default class punishments extends Schema {
     const embed = new this.client.embed()
       .setColor(this.client.config.embedColor)
       .setTitle(`Case #${punData._id}: ${type[0].toUpperCase()+type.slice(1)}`)
-      .setDescription(`${User.tag}\n<@${User.id}>\n(\`${User.id}\`)`)
+      .setDescription(`${User.username}\n<@${User.id}>\n(\`${User.id}\`)`)
       .addFields({name: 'Reason', value: reason})
     let punResult;
     let timeInMillis;
@@ -140,10 +140,10 @@ export default class punishments extends Schema {
 
       if (interaction) return interaction.reply({embeds:[new this.client.embed().setColor(this.client.config.embedColor)
         .setTitle(`Case #${removePunishmentData._id}: ${removePunishmentData.type[0].toUpperCase()+removePunishmentData.type.slice(1)}`)
-        .setDescription(`${User.tag}\n<@${User.id}>\n(\`${User.id}\`)`)
+        .setDescription(`${User.username}\n<@${User.id}>\n(\`${User.id}\`)`)
         .addFields({name: 'Reason', value: reason},{name: 'Overwrites', value: `Case #${punishment.id}`})
       ]});
-      else return `Successfully un${this.getTense(removePunishmentData.type.replace('un', ''))} ${User.tag} (\`${User.id}\`) for ${reason}`
+      else return `Successfully un${this.getTense(removePunishmentData.type.replace('un', ''))} ${User.username} (\`${User.id}\`) for ${reason}`
     }
   }
 }

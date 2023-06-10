@@ -26,7 +26,7 @@ export default {
         });
         if (spammedMessage){
           delete client.repeatedMessages[message.author.id];
-          await client.punishments.addPunishment('mute', {time: muteTime}, (client.user as Discord.User).id, `Automod; ${muteReason}`, message.author, message.member as Discord.GuildMember);
+          await client.punishments.addPunishment('mute', {time: muteTime}, (client.user as Discord.User).id, `[AUTOMOD] ${muteReason}`, message.author, message.member as Discord.GuildMember);
         }
       } else {
         client.repeatedMessages[message.author.id] = {data: new client.collection(), timeout: setTimeout(()=>delete client.repeatedMessages[message.author.id], thresholdTime)};
