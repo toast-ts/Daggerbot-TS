@@ -84,7 +84,7 @@ export default class TClient extends Client {
     this.MPServerCache = {players: [], status: null, name: null} as MPServerCache;
     this.suggestion = new suggestion(this);
     this.repeatedMessages = {};
-    this.setMaxListeners(20);
+    this.setMaxListeners(45);
     this.statsGraph = -60;
   }
   async init(){
