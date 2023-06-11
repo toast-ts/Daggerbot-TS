@@ -19,7 +19,7 @@ export default {
         .setColor(client.config.embedColor)
         .setURL(`https://discord.com/users/${user.id}`)
         .setThumbnail(user.avatarURL({size:2048}) || user.defaultAvatarURL)
-        .setTitle(`${user.bot ? 'Bot': 'User'} Info: ${user.username}`)
+        .setTitle(`${user.bot ? 'Bot' : 'User'} Info: ${user.username}`)
         .setDescription(`<@${user.id}>\n\`${user.id}\``)
         .addFields({name: '🔹 Account Creation Date', value: `<t:${Math.round(user.createdTimestamp/1000)}>\n<t:${Math.round(user.createdTimestamp/1000)}:R>`})
       interaction.reply({embeds: [embed]})
@@ -29,7 +29,7 @@ export default {
       const embedArray = [];
       let title = 'Member';
       if (member.user.bot) title = 'Bot';
-      else if (member.user.id == interaction.guild.ownerId) title = ':crown: Server Owner';
+      else if (member.user.id === interaction.guild.ownerId) title = ':crown: Server Owner';
 
       const embed = new client.embed()
         .setColor(member.displayColor || client.config.embedColor)
