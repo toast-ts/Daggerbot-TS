@@ -61,7 +61,7 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
     var n = Number(number);
     return n.toLocaleString(undefined, {minimumFractionDigits: digits})+icon
   }
-  // Join/Leave log - Dorime to tae for examples :dorime:
+  // Join/Leave log
   function playerLogEmbed(player:FSPlayer,joinLog:boolean){
     const logEmbed = new client.embed().setDescription(`**${player.name} ${player.isAdmin ? '| admin' : ''}** ${joinLog ? 'joined' : 'left'} **${ServerName}** at <t:${Math.round(Date.now()/1000)}:t>`);
     if (joinLog) return logEmbed.setColor(client.config.embedColorGreen);
