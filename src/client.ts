@@ -216,4 +216,3 @@ export class WClient extends WebhookClient {
     this.tokens = tokens as Tokens;
   }
 }
-// hi tae, ik you went to look for secret hello msgs in here too.
