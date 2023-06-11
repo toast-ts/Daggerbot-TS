@@ -19,7 +19,7 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
     embed.setTitle('Host is not responding.');
     embed.setColor(client.config.embedColorRed);
     console.log(client.logTime(), 'DagMP failed to fetch, host didn\'t respond in time.');
-    return interaction.reply('Server didn\'t respond in time.');
+    return interaction.reply('Server didn\'t respond in time, please try again later.');
   } return FSserver
 }
 
@@ -56,7 +56,7 @@ export default {
         const MPURL = await client.MPServer._content.findById(interaction.guildId);
         if (FSserver2.data.server.name.length == 0) embed2.setFooter({text: 'Server is currently offline.'})
         interaction.reply({embeds: [embed2.setDescription([
-          `**Server name**: \`${FSserver2?.data.server.name.length == 0 ? '\u200b' : FSserver2?.data.server.name}\``,
+          `**Server name**: \`${FSserver2?.data.server.name.length === 0 ? '\u200b' : FSserver2?.data.server.name}\``,
           '**Password:** `mf4700`',
           '**Crossplay server**',
           `**Map:** ${FSserver2.data.server.mapName.length == 0 ? 'Null Island' : FSserver2.data.server.mapName}`,
