@@ -3,7 +3,7 @@ import TClient from 'src/client';
 export default {
   async run(client:TClient, message:Discord.Message){
     if (message.author.bot || message.channel.type === Discord.ChannelType.DM) return;
-    const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n]/g, ' ').split(' ');
+    const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?1234567890]/g, '').split(' ');
     let automodded: boolean;
 
     const Whitelist = [] // Array of channel ids for automod to be disabled in (Disables bannedWords and advertisement, mind you.)
