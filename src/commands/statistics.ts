@@ -5,6 +5,7 @@ import TClient from '../client.js';
 import os from 'node:os';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+    const waitForData = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true})
     // Bytes conversion
     function formatBytes(bytes:number, decimals:number = 2) {
       if (bytes === 0) return '0 Bytes';
@@ -61,7 +62,7 @@ export default {
         `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime as number, 2, {commas: true, longNames: true})}`
       ].join('\n')}
     );
-    interaction.reply({embeds: [embed], fetchReply: true}).then(x=>x.edit({embeds: [new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))    
+    waitForData.edit({content:null,embeds:[embed]}).then(x=>x.edit({embeds:[new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))  
   },
   data: new Discord.SlashCommandBuilder()
     .setName('statistics')
