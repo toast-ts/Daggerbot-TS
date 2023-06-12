@@ -65,7 +65,7 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
   function playerLogEmbed(player:FSPlayer,joinLog:boolean){
     const logEmbed = new client.embed().setDescription(`**${player.name} ${player.isAdmin ? '| admin' : ''}** ${joinLog ? 'joined' : 'left'} **${ServerName}** at <t:${Math.round(Date.now()/1000)}:t>`);
     if (joinLog) return logEmbed.setColor(client.config.embedColorGreen);
-    else return logEmbed.setColor(client.config.embedColorRed)
+    else return logEmbed.setColor(client.config.embedColorRed).setFooter({text:`Farmed for ${client.formatPlayerUptime(player.uptime)}`})
   }
   function playerLog(){
     // Player leaving
