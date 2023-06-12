@@ -115,7 +115,7 @@ export default {
       },
       statsgraph: ()=>{
         client.statsGraph = -(interaction.options.getInteger('number', true));
-        interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(fs.readFileSync(path.join(__dirname, '../database/MPPlayerData.json'), {encoding: 'utf8'})).length.toLocaleString()}***`)
+        interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(fs.readFileSync('src/database/MPPlayerData.json', {encoding: 'utf8'})).length.toLocaleString()}***`)
       },
       logs: ()=>{
         interaction.deferReply();
