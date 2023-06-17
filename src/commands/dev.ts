@@ -5,7 +5,6 @@ import {exec} from 'node:child_process';
 import fs from 'node:fs';
 import util from 'node:util';
 import TClient from '../client.js';
-import path from 'node:path';
 const removeUsername = (text: string)=>{
   let matchesLeft = true;
   const array = text.split('\\');

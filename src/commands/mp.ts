@@ -25,7 +25,7 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
 
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (interaction.channelId == '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
+    if (interaction.channelId === '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
       interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(msg=>setTimeout(()=>interaction.deleteReply(), 6000));
       return;
     }
@@ -76,7 +76,7 @@ export default {
             if (Url.ip && Url.code) return interaction.reply(`${Url.get('ip')}`+'/feed/dedicated-server-stats.json?code='+`${Url.get('code')}`)
           } catch(err){
             console.log(`MPDB :: ${err}`);
-            interaction.reply('**Database error:**\nTry inserting an URL first.')
+            interaction.reply('**Database error:**\nThis server does not have the URL saved, try adding one.')
           }
         }else{
           if (!address.match(/dedicated-server-stats/)) return interaction.reply('The URL does not match `dedicated-server-stats.xml`');
@@ -296,7 +296,7 @@ export default {
         .setDescription('Insert a \'dedicated-server-stats\' URL')))
     .addSubcommand(x=>x
       .setName('maintenance')
-      .setDescription('Lock/unlock "#mp-active-players" channel when server is unavailable for few hours')
+      .setDescription('Lock/unlock "#mp-active-players" channel when server is unavailable to the public')
       .addStringOption(x=>x
         .setName('message')
         .setDescription('The reason why is the server unavailable for?')

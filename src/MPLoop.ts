@@ -87,7 +87,6 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
 
   ServerName = client.MPServerCache.name;
   if (DSS.data.server.name === 'Official Daggerwin Game Server') client.MPServerCache.name = 'Daggerwin';
-  else client.MPServerCache.name = 'Dag - YT Series';
 
   if (DSS.data.server.name.length === 0){
     embed.setTitle('The server seems to be offline.').setColor(client.config.embedColorRed);
