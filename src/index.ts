@@ -27,7 +27,7 @@ client.on('ready', async()=>{
 
 // Handle errors
 function DZ(error:Error, location:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
-  if (['getaddrinfo ENOTFOUND discord.com'].includes(error.message)) return;
+  if (['ENOTFOUND discord.com', 'EAI_AGAIN discord.com'].includes(error.message)) return;
   //console.error(error);
   const channel = client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null;
   channel?.send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
