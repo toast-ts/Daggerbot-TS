@@ -100,13 +100,13 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
     };
     client.MPServerCache.status = 'online';
     const statusEmbed = new client.embed().setColor(client.config.embedColor).setTitle('Server details').setFields(
-      {name: 'Current Map', value: `${DSS.data.server.mapName.length === 0 ? '\u200b' : DSS.data.server.mapName}`, inline: true},
-      {name: 'Version', value: `${DSS.data.server.version.length === 0 ? '\u200b' : DSS.data.server.version}`, inline: true},
+      {name: 'Current Map', value: DSS.data.server.mapName.length === 0 ? '\u200b' : DSS.data.server.mapName, inline: true},
+      {name: 'Version', value: DSS.data.server.version.length === 0 ? '\u200b' : DSS.data.server.version, inline: true},
       {name: 'In-game Time', value: `${('0'+Math.floor((DSS.data.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-      {name: 'Slot Usage', value: `${isNaN(Number(CSG.data.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(CSG.data.slotSystem?._attributes.slotUsage).toLocaleString('en-us')}`, inline: true},
-      {name: 'Timescale', value: `${isNaN(Number(CSG.data.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(CSG.data.settings?.timeScale._text), 0, 'x')}`, inline: true}
+      {name: 'Slot Usage', value: isNaN(Number(CSG.data.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(CSG.data.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
+      {name: 'Timescale', value: isNaN(Number(CSG.data.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(CSG.data.settings?.timeScale._text), 0, 'x'), inline: true}
     );
-    embed.setColor(client.config.embedColor).setTitle(DSS.data.server.name).setDescription(`${DSS.data.slots.used === 0 ? '*No players online*' : playerData.join('\n\n')}`).setAuthor({name:`${DSS.data.slots.used}/${DSS.data.slots.capacity}`});
+    embed.setColor(client.config.embedColor).setTitle(DSS.data.server.name).setDescription(DSS.data.slots.used === 0 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${DSS.data.slots.used}/${DSS.data.slots.capacity}`});
     msg.edit({content:'This embed updates every minute.',embeds:[statusEmbed,embed]});
   }
 
