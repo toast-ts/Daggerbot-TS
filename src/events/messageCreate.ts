@@ -83,7 +83,8 @@ export default {
           `*opens blinds wide enough to blast sunrays into the room*\nWakey wakey, ${PersonnyMcPerson}. Time to get up!`, 'https://tenor.com/view/skyrim-intro-awake-finally-awake-gif-22633549',
           `Good grief, is it Monday already? Anyways, morning ${PersonnyMcPerson}..`, `This time I can shout! So here we go! 1..2..3\n*inhales*\nMORNING ${PersonnyMcPerson.toUpperCase()}!`,
           'Gooooood morning to you!', `Good morning to you! You know what else is good? A segue to our sponsor, breakfast!\nGet started with getting out of the bed and have some breakfast!`,
-          `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`
+          `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`, 'Is it Friday yet? This week is getting boring already!',
+          `You have reached ${client.moment.utc().dayOfYear().toLocaleString('en-US')}th day of the year. Also good morning to you as well!`
         ],
         afternoon: [
           `Afternoon ${PersonnyMcPerson}!`, `What a nice day outside, ${PersonnyMcPerson}`, `Good afternoon ${PersonnyMcPerson}`,
