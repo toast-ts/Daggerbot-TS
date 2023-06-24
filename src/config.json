@@ -1,4 +1,4 @@
-{   
+{
   "embedColor": "#0052cf",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
@@ -27,7 +27,7 @@
   "botPresence": {
 	"activities": [
 		  {"name": "the banana factory", "url": "https://www.youtube.com/watch?v=zmHca1rW7B4", "type": 1}
-	  ], 
+	  ],
 	  "status": "online"
 	},
   "eval": true,
