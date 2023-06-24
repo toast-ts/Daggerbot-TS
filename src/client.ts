@@ -54,7 +54,8 @@ export default class TClient extends Client {
         GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildPresences,
-        GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages
+        GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates
       ], partials: [
         Partials.Channel, Partials.Reaction, Partials.Message
       ], allowedMentions: {users:[],roles:[]}
@@ -205,6 +206,15 @@ export default class TClient extends Client {
       (this.channels.resolve(DCChannelID) as Discord.TextChannel).send(`**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`)
     }
   }
+  // Bytes conversion
+  formatBytes(bytes:number, decimals:number = 2) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  };
 }
 
 export class WClient extends WebhookClient {
