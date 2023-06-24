@@ -6,15 +6,6 @@ import os from 'node:os';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const waitForData = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true})
-    // Bytes conversion
-    function formatBytes(bytes:number, decimals:number = 2) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const dm = decimals < 0 ? 0 : decimals;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-    };
     const cpu = await si.cpu();
     const ram = await si.mem();
     const osInfo = await si.osInfo();
@@ -56,8 +47,8 @@ export default {
       {name: '> __Host__', value: [
         `**Operating System:** ${osInfo.distro + ' ' + osInfo.release}`,
         `**CPU:** ${cpu.manufacturer} ${cpu.brand}`,
-        `**Memory:** ${formatBytes(ram.used)}/${formatBytes(ram.total)}`,
-        `**NodeJS:** ${formatBytes(process.memoryUsage().heapUsed)}/${formatBytes(process.memoryUsage().heapTotal)}`,
+        `**Memory:** ${client.formatBytes(ram.used)}/${client.formatBytes(ram.total)}`,
+        `**NodeJS:** ${client.formatBytes(process.memoryUsage().heapUsed)}/${client.formatBytes(process.memoryUsage().heapTotal)}`,
         `**Load Usage:**\nUser: ${currentLoad.currentLoadUser.toFixed(1)}%\nSystem: ${currentLoad.currentLoadSystem.toFixed(1)}%`,
         `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime as number, 2, {commas: true, longNames: true})}`
       ].join('\n')}
