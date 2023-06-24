@@ -43,8 +43,7 @@ client.on('error', (error: Error)=>DZ(error, 'client-error'));
 // Audio Player event handling
 player.events.on('playerStart', (queue,track)=>queue.channel.send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`${track.raw.title} - ${track.raw.author}`).setFooter({text:`Playing in ${queue.channel.name}`}).setThumbnail(track.raw.thumbnail)]}));
 player.events.on('playerFinish', (queue,track)=>{
-  if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.');
-  setTimeout(()=>queue.connection.disconnect(), 15000)
+  if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.').then(()=>setTimeout(()=>queue.connection.disconnect(), 15000))
 })
 player.events.on('audioTrackAdd', (queue,track)=>queue.channel.send({embeds:[new client.embed().setColor(client.config.embedColorGreen).setTitle(`${track.raw.title} - ${track.raw.author}`).setFooter({text:`Added to queue`}).setThumbnail(track.raw.thumbnail)]}));
 /* player.events.on('debug', (queue,message)=>{
