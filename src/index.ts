@@ -3,6 +3,8 @@ import TClient from './client.js';
 const client = new TClient;
 client.init();
 import MPLoop from './MPLoop.js';
+import {Player} from 'discord-player';
+const player = Player.singleton(client);
 import {writeFileSync, readFileSync} from 'node:fs';
 
 client.on('ready', async()=>{
@@ -25,17 +27,31 @@ client.on('ready', async()=>{
   console.timeEnd('Startup')
 })
 
-// Handle errors
-function DZ(error:Error, location:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
+// Error handler
+function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
   if (['ENOTFOUND discord.com', 'EAI_AGAIN discord.com'].includes(error.message)) return;
   //console.error(error);
   const channel = client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null;
-  channel?.send({embeds: [new client.embed().setColor('#420420').setTitle('Error caught!').setFooter({text: location}).setDescription(`**Error:** \`${error.message}\`\n\n**Stack:** \`${`${error.stack}`.slice(0, 2500)}\``)]})
+  //                                                    vvv Oh yes, that looks really hot.
+  channel?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
 }
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'process-error'));
 client.on('error', (error: Error)=>DZ(error, 'client-error'));
+
+// Audio Player event handling
+player.events.on('playerStart', (queue,track)=>queue.channel.send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`${track.raw.title} - ${track.raw.author}`).setFooter({text:`Playing in ${queue.channel.name}`}).setThumbnail(track.raw.thumbnail)]}));
+player.events.on('playerFinish', (queue,track)=>{
+  if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.');
+  setTimeout(()=>queue.connection.disconnect(), 15000)
+})
+player.events.on('audioTrackAdd', (queue,track)=>queue.channel.send({embeds:[new client.embed().setColor(client.config.embedColorGreen).setTitle(`${track.raw.title} - ${track.raw.author}`).setFooter({text:`Added to queue`}).setThumbnail(track.raw.thumbnail)]}));
+/* player.events.on('debug', (queue,message)=>{
+  console.log(client.logTime(), message)
+}) */
+player.events.on('playerError', (queue, error)=>DZ(error, 'playerError'));
+player.events.on('error', (queue, error)=>DZ(error, 'playerInternalError'));
 
 // YouTube Upload notification and Daggerwin MP loop
 setInterval(()=>MPLoop(client, client.config.MPStatsLocation.channel, client.config.MPStatsLocation.message, 'Daggerwin'), 60000);
