@@ -144,6 +144,7 @@ export interface Config {
     registerCommands: boolean,
     commands: boolean,
     logs: boolean,
+    music: boolean,
     buttonRoles: boolean,
     automod: boolean,
     mpstats: boolean,
