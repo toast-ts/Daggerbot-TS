@@ -4,6 +4,7 @@ import {Player,useTimeline,useQueue} from 'discord-player';
 import {SpotifyExtractor} from '@discord-player/extractor';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+    if (!client.config.botSwitches.music) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
     if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('This command is in early stages of development, some parts may be missing or broken.\nIt has been restricted to staff for time-being.');
     const player = Player.singleton(client);
     await player.extractors.register(SpotifyExtractor, {
