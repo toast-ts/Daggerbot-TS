@@ -4,7 +4,7 @@ import {Player,useTimeline,useQueue} from 'discord-player';
 import {SpotifyExtractor} from '@discord-player/extractor';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!client.config.botSwitches.music) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
+    if (!client.config.botSwitches.music && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
     if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('This command is in early stages of development, some parts may be missing or broken.\nIt has been restricted to staff for time-being.');
     const player = Player.singleton(client);
     await player.extractors.register(SpotifyExtractor, {
@@ -33,11 +33,17 @@ export default {
         const url = interaction.options.getString('url');
         if (!url.includes('https://open.spotify.com/')) return interaction.reply('Sorry, I can\'t play that. I can only accept Spotify links that contains `https://open.spotify.com/`');
         player.play(interaction.member.voice.channel, url);
-        await interaction.reply(`Added the song to the queue.`);
+        await interaction.reply(`Added the ${url.includes('playlist/') ? 'playlist' : 'song'} to the queue.`);
       },
       stop: async()=>{
         player.destroy();
         await interaction.reply('Player destroyed.')
+      },
+      pause: ()=>{
+        const queue = useQueue(interaction.guildId);
+        queue.node.setPaused(!queue.node.isPaused());
+        if (!queue.node.isPaused) interaction.reply('Music has been paused.');
+        else if (queue.node.isPaused) interaction.reply('Music has been unpaused.')
       },
       now_playing: ()=>{
         const {volume,timestamp,track} = useTimeline(interaction.guildId);
@@ -48,11 +54,22 @@ export default {
           )
         ]})
       },
+      queue: async()=>{
+        const queue = useQueue(interaction.guildId);
+        await interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`Songs currently in the queue: ${queue.tracks.size}`).setDescription(queue.tracks.size > 0 ? `${queue.tracks.map(i=>`**${i.title}** - **${i.author}**`).join('\n')}` : '*No songs currently queued.*')]}).catch(()=>interaction.channel.send('I cannot send an embed that hits beyond the character limit.'))
+      },
       volume: ()=>{
         const vol = interaction.options.getNumber('percentage');
-        const queue = useQueue(interaction.guildId);
-        queue.node.setVolume(vol);
+        useQueue(interaction.guildId).node.setVolume(vol);
         interaction.reply(`Successfully adjusted the player's volume to ${vol}%`)
+      },
+      shuffle: ()=>{
+        useQueue(interaction.guildId).tracks.shuffle();
+        interaction.reply('Songs in the queue has been shuffled.')
+      },
+      remove: ()=>{
+        useQueue(interaction.guildId).removeTrack(interaction.options.getNumber('id',true));
+        interaction.reply('Song has been removed from the queue.')
       }
     } as any)[interaction.options.getSubcommand()]();
   },
@@ -70,15 +87,33 @@ export default {
       .setName('stop')
       .setDescription('Stop playing music and disconnect the bot from voice channel'))
     .addSubcommand(x=>x
+      .setName('pause')
+      .setDescription('Pause/unpause the music'))
+    .addSubcommand(x=>x
       .setName('now_playing')
       .setDescription('Check what song is currently playing'))
+    .addSubcommand(x=>x
+      .setName('queue')
+      .setDescription('View the list of songs currently in queue'))
     .addSubcommand(x=>x
       .setName('volume')
       .setDescription('Adjust the player\'s volume')
       .addNumberOption(x=>x
         .setName('percentage')
-        .setDescription('Volume level to adjust, ranges from 5 to 100, default is 75')
+        .setDescription('Adjust the volume level, ranges from 5 to 100, default is 75')
         .setMaxValue(100)
         .setMinValue(5)
+        .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('shuffle')
+      .setDescription('Shuffle the songs in a queue'))
+    .addSubcommand(x=>x
+      .setName('remove')
+      .setDescription('Remove a specific song from the queue')
+      .addNumberOption(x=>x
+        .setName('id')
+        .setDescription('Song # in the queue to be removed')
+        .setMinValue(0)
+        .setMaxValue(9999)
         .setRequired(true)))
 }
