@@ -36,7 +36,7 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
       CSG.fetchResult = `DagMP CSG failed, ${results[1]}`;
       embed.addFields({name:'CSG Status',value:results[1]})
     } else if (results[1].status != 200){
-      if (results[1].status === 204) embed.setImage('https://http.cat/204');
+      if (results[1].status === 204) embed.setImage('https://httpcats.com/204.jpg');
       CSG.fetchResult = `DagMP CSG failed with ${results[1].status + ' ' + results[1].statusText}`;
       embed.addFields({name:'CSG Status',value:results[1].status + ' ' + results[1].statusText})
     } else CSG.data = (client.xjs.xml2js(results[1].data,{compact:true}) as any).careerSavegame as FSCareerSavegame
