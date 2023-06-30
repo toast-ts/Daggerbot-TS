@@ -24,7 +24,7 @@ export default {
 			  const index = allData.sort((a, b) => b.messages - a.messages).map(x => x._id).indexOf(member.id) + 1;
 			  const memberDifference = userData.messages - client.userLevels.algorithm(userData.level);
 			  const levelDifference = client.userLevels.algorithm(userData.level+1) - client.userLevels.algorithm(userData.level);
-        interaction.reply({embeds: [new client.embed().setColor(member.displayColor).setTitle(`Level: **${userData.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${memberDifference}/${levelDifference} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${userData.messages.toLocaleString('en-US')}**`).setThumbnail(member.avatarURL({extension:'png',size:1024}) || member.user.avatarURL({extension:'png',size:1024}) || member.user.defaultAvatarURL)]})
+        interaction.reply({embeds: [new client.embed().setColor(member.displayColor).setTitle(`Level: **${userData.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${memberDifference}/${levelDifference} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${userData.messages.toLocaleString('en-US')}**`).setThumbnail(member.avatarURL({extension:'png',size:1024}) || member.user.avatarURL({extension:'png',size:1024}) || member.user.defaultAvatarURL).setFooter({text: userData.notificationPing === true ? 'Ping notification enabled' : 'Ping notification disabled'})]})
 			},
 			leaderboard: ()=>{
         const messageCountsTotal = allData.reduce((a, b) => a + b.messages, 0);
@@ -156,7 +156,17 @@ export default {
           .setImage('attachment://dailymsgs.png').setColor(client.config.embedColor)
 			   	.setFooter({text: 'Graph updates daily.'})
           interaction.reply({embeds: [embed], files: [graphImage]})
-			}
+			},
+      notification: async()=>{
+        const findUserInMongo = await client.userLevels._content.findById(interaction.user.id);
+        if (!findUserInMongo.notificationPing ?? findUserInMongo.notificationPing === false) {
+          await findUserInMongo.updateOne({_id: interaction.user.id, notificationPing: true})
+          interaction.reply({content: 'You will be pinged for level-up notification in the future.', ephemeral: true})
+        } else if (findUserInMongo.notificationPing === true) {
+          await findUserInMongo.updateOne({_id: interaction.user.id, notificationPing: false})
+          interaction.reply({content: 'You won\'t be pinged for level-up notification in the future.', ephemeral: true})
+        }
+      }
 		} as any)[interaction.options.getSubcommand()]();
   },
   data: new Discord.SlashCommandBuilder()
@@ -171,4 +181,7 @@ export default {
     .addSubcommand(x=>x
       .setName('leaderboard')
       .setDescription('View top 10 users on leaderboard'))
+    .addSubcommand(x=>x
+      .setName('notification')
+      .setDescription('Allow the bot to ping you or not when you level up'))
 }
