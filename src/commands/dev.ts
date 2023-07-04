@@ -126,7 +126,8 @@ export default {
           if (err) i.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
           else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
         })
-      }
+      },
+      file: ()=>interaction.reply({files:[`./src/database/${interaction.options.getString('name')}.json`]}).catch(()=>'Filesize is too large, upload cancelled.')
     } as any)[interaction.options.getSubcommand()]();
   },
   data: new Discord.SlashCommandBuilder()
@@ -183,4 +184,11 @@ export default {
           {name: 'Do Not Distrub', value: Discord.PresenceUpdateStatus.DoNotDisturb},
           {name: 'Invisible', value: Discord.PresenceUpdateStatus.Offline}
         )))
+    .addSubcommand(x=>x
+      .setName('file')
+      .setDescription('Send a JSON file from database directory on the host')
+      .addStringOption(x=>x
+        .setName('name')
+        .setDescription('JSON filename, don\'t include an extension')
+        .setRequired(true)))
 }
