@@ -7,5 +7,4 @@ package-lock.json
 dist/
 src/database/
 src/tokens.json
-src/Toast-Testbot.config.json
-src/DB-Beta.config.json
+src/*.config.json
