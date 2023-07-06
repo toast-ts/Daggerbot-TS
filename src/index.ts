@@ -29,7 +29,7 @@ client.on('ready', async()=>{
 
 // Error handler
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
-  if (['getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com'].includes(error.message)) return;
+  if (['getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com', '[Error: 30130000:error:0A000410:SSL'].includes(error.message)) return;
   //console.error(error);
   const channel = client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null;
   //                                                    vvv Oh yes, that looks really hot.
