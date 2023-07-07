@@ -36,12 +36,12 @@ export default {
         if (client.config.mainServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
         }
-        if ((await client.suggestion._content.findById(suggestionIDReply)).state == 'Rejected') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
+        if ((await client.suggestion._content.findById(suggestionIDReply)).state === 'Rejected') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
           .setColor(client.config.embedColorGreen)
           .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been approved.')
-          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
+          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length === null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
         ]});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Approved'});
@@ -51,12 +51,12 @@ export default {
         if (client.config.mainServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
         }
-        if ((await client.suggestion._content.findById(suggestionIDReply)).state == 'Approved') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
+        if ((await client.suggestion._content.findById(suggestionIDReply)).state === 'Approved') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
           .setColor(client.config.embedColorRed)
           .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been rejected.')
-          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length == null ? '*No message from them.*' : replyInDM}`)
+          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length === null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
         ]});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Rejected'});

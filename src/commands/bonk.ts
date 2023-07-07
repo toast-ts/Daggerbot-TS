@@ -5,8 +5,7 @@ export default {
     //if (!client.isStaff(interaction.member) && interaction.channelId == '468835415093411863') return interaction.reply('This command is restricted to staff only in this channel due to high usage.')
     const member = interaction.options.getMember('member') as Discord.GuildMember;
     const reason = interaction.options.getString('reason');
-    const adminPerm = member.permissions.has('Administrator');
-    if (adminPerm) return interaction.reply('You cannot bonk an admin!');
+    if (member.permissions.has('Administrator')) return interaction.reply('You cannot bonk an admin!');
 
     await client.bonkCount._incrementUser(member.id);
     interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor)

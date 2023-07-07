@@ -15,14 +15,14 @@ export default {
     const member = interaction.options.getMember('member') as Discord.GuildMember;
     if (member === null){
       const user = interaction.options.getUser('member') as Discord.User;
-      const embed = new client.embed()
+      interaction.reply({embeds: [new client.embed()
         .setColor(client.config.embedColor)
         .setURL(`https://discord.com/users/${user.id}`)
         .setThumbnail(user.avatarURL({size:2048}) || user.defaultAvatarURL)
         .setTitle(`${user.bot ? 'Bot' : 'User'} Info: ${user.username}`)
         .setDescription(`<@${user.id}>\n\`${user.id}\``)
         .addFields({name: '🔹 Account Creation Date', value: `<t:${Math.round(user.createdTimestamp/1000)}>\n<t:${Math.round(user.createdTimestamp/1000)}:R>`})
-      interaction.reply({embeds: [embed]})
+      ]})
     } else {
       await member.user.fetch();
       const presence = member.presence?.clientStatus as Discord.ClientPresenceStatusData;

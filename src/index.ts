@@ -31,9 +31,7 @@ client.on('ready', async()=>{
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
   if (['getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com', '[Error: 30130000:error:0A000410:SSL'].includes(error.message)) return;
   //console.error(error);
-  const channel = client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null;
-  //                                                    vvv Oh yes, that looks really hot.
-  channel?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
+  (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
 }
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
@@ -72,16 +70,14 @@ setInterval(async()=>{
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
   const now = Date.now();
-  const lrsStart = client.config.LRSstart;
 
   const punishments = await client.punishments._content.find({});
   punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
     console.log(client.logTime(), `${punishment.member}\'s ${punishment.type} should expire now`);
-    const unpunishResult = await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!');
-    console.log(client.logTime(), unpunishResult);
+    console.log(client.logTime(), await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!'));
   });
 
-  const formattedDate = Math.floor((now - lrsStart)/1000/60/60/24);
+  const formattedDate = Math.floor((now - client.config.LRSstart)/1000/60/60/24);
   const dailyMsgs = JSON.parse(readFileSync('./src/database/dailyMsgs.json', {encoding: 'utf8'}))
   if (!dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
     let total = (await client.userLevels._content.find({})).reduce((a,b)=>a + b.messages, 0); // sum of all users
