@@ -21,13 +21,12 @@ export default {
     const newInvites = await member.guild.invites.fetch();
     const usedInvite = newInvites.find((inv:Discord.Invite)=>client.invites.get(inv.code)?.uses < inv.uses);
     newInvites.forEach((inv:Discord.Invite)=>client.invites.set(inv.code,{uses: inv.uses, creator: inv.inviterId, channel: inv.channel.name}));
-    const evadedCase = await client.punishments._content.findOne({'member': member.user.id, type: 'mute', expired: undefined});
     (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [
     new client.embed().setColor(client.config.embedColorGreen).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`${isBot} Joined: ${member.user.username}`).setDescription(`<@${member.user.id}>\n\`${member.user.id}\``).setFooter({text: `Total members: ${index}${suffix}`}).addFields(
       {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
       {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.username}**\nChannel: **#${usedInvite.channel.name}**` : 'No invite data could be fetched.'}
     )]});
-    if (evadedCase){
+    if (await client.punishments._content.findOne({'member': member.user.id, type: 'mute', expired: undefined})){
       (client.channels.resolve(client.config.mainServer.channels.dcmod_chat) as Discord.TextChannel).send({embeds: [new client.embed().setColor(client.config.embedColorYellow).setTitle('Case evasion detected').setDescription([
         `**${member.user.username}** (\`${member.user.id}\`) has been detected for case evasion.`,
         'Timeout has been automatically added. (25 days)'

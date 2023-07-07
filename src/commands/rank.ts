@@ -10,7 +10,7 @@ export default {
     ({
       view: async()=>{
       	// fetch user or user interaction sender
-      	const member = interaction.options.getMember("member") ?? interaction.member as Discord.GuildMember;
+      	const member = interaction.options.getMember('member') ?? interaction.member as Discord.GuildMember;
       	if (member.user.bot) return interaction.reply('Bots don\'t level up, try viewing the rank data from the users instead.');
       	// information about users progress on level roles
       	const userData = await client.userLevels._content.findById(member.user.id);
@@ -27,13 +27,8 @@ export default {
         interaction.reply({embeds: [new client.embed().setColor(member.displayColor).setTitle(`Level: **${userData.level}**\nRank: **${index ? '#' + index  : 'last'}**\nProgress: **${memberDifference}/${levelDifference} (${(memberDifference/levelDifference*100).toFixed(2)}%)**\nTotal: **${userData.messages.toLocaleString('en-US')}**`).setThumbnail(member.avatarURL({extension:'png',size:1024}) || member.user.avatarURL({extension:'png',size:1024}) || member.user.defaultAvatarURL).setFooter({text: userData.notificationPing === true ? 'Ping notification enabled' : 'Ping notification disabled'})]})
 			},
 			leaderboard: ()=>{
-        const messageCountsTotal = allData.reduce((a, b) => a + b.messages, 0);
-        const timeActive = Math.floor((Date.now() - client.config.LRSstart)/1000/60/60/24);
-
-				const dailyMsgsPath = path.join('./src/database/dailyMsgs.json');
-				const data = JSON.parse(readFileSync(dailyMsgsPath, 'utf8')).map((x: Array<number>, i: number, a: any) => {
-				  const yesterday = a[i - 1] || [];
-				  return x[1] - (yesterday[1] || x[1]);
+        const data = JSON.parse(readFileSync(path.join('./src/database/dailyMsgs.json'), 'utf8')).map((x: Array<number>, i: number, a: any) => {
+				  return x[1] - (a[i - 1] || [][1] || x[1])
 				}).slice(1).slice(-60);
 
 				// handle negative days
@@ -130,32 +125,24 @@ export default {
 			  ctx.fillStyle = 'white';
 
 			  // highest value
-			  const maxx = graphOrigin[0] + graphSize[0] + textSize;
-			  const maxy = previousY[0] + (textSize / 3);
-			  ctx.fillText(previousY[1].toLocaleString('en-US'), maxx, maxy);
+			  ctx.fillText(previousY[1].toLocaleString('en-US'), graphOrigin[0] + graphSize[0] + textSize, previousY[0] + (textSize / 3));
 
 			  // lowest value
-			  const lowx = graphOrigin[0] + graphSize[0] + textSize;
-			  const lowy = graphOrigin[1] + graphSize[1] + (textSize / 3);
-			  ctx.fillText('0 msgs', lowx, lowy);
+			  ctx.fillText('0 msgs', graphOrigin[0] + graphSize[0] + textSize, graphOrigin[1] + graphSize[1] + (textSize / 3));
 
 			  // 30d
 			  ctx.fillText('30d ago', lastMonthStart, graphOrigin[1] - (textSize / 3));
 
 			  // time ->
-			  const tx = graphOrigin[0] + (textSize / 2);
-			  const ty = graphOrigin[1] + graphSize[1] + (textSize);
-			  ctx.fillText('time ->', tx, ty);
+			  ctx.fillText('time ->', graphOrigin[0] + (textSize / 2), graphOrigin[1] + graphSize[1] + (textSize));
 
-        const topUsers = allData.sort((a,b)=>b.messages - a.messages).slice(0,10).map((x,i)=>`\`${i+1}.\` <@${x._id}>: ${x.messages.toLocaleString('en-US')}`).join('\n');
-
-			  const graphImage = new client.attachmentBuilder(img.toBuffer(), {name: 'dailymsgs.png'})
-			  const embed = new client.embed().setTitle('Ranking leaderboard')
-			    .setDescription(`Level System was created **${timeActive}** days ago. Since then, a total of **${messageCountsTotal.toLocaleString('en-US')}** messages have been sent in this server.`)
-			    .addFields({name: 'Top users by messages sent:', value: topUsers})
+			  interaction.reply({embeds: [
+          new client.embed().setTitle('Ranking leaderboard')
+			    .setDescription(`Level System was created **${Math.floor((Date.now()-client.config.LRSstart)/1000/60/60/24)}** days ago. Since then, a total of **${allData.reduce((a, b)=>a+b.messages, 0).toLocaleString('en-US')}** messages have been sent in this server.`)
+			    .addFields({name: 'Top users by messages sent:', value: allData.sort((a,b)=>b.messages - a.messages).slice(0,10).map((x,i)=>`\`${i+1}.\` <@${x._id}>: ${x.messages.toLocaleString('en-US')}`).join('\n')})
           .setImage('attachment://dailymsgs.png').setColor(client.config.embedColor)
 			   	.setFooter({text: 'Graph updates daily.'})
-          interaction.reply({embeds: [embed], files: [graphImage]})
+        ], files: [new client.attachmentBuilder(img.toBuffer(),{name: 'dailymsgs.png'})]})
 			},
       notification: async()=>{
         const findUserInMongo = await client.userLevels._content.findById(interaction.user.id);

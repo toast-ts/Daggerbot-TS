@@ -26,7 +26,7 @@ async function MPdata(client:TClient, interaction:Discord.ChatInputCommandIntera
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (interaction.channelId === '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) {
-      interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(msg=>setTimeout(()=>interaction.deleteReply(), 6000));
+      interaction.reply(`Please use <#739084625862852715> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
       return;
     }
     ({
@@ -93,7 +93,6 @@ export default {
         }
       },
       players: async()=>{
-        const embed1 = new client.embed();
         const data = JSON.parse(readFileSync(path.join('src/database/MPPlayerData.json'), {encoding: 'utf8'})).slice(client.statsGraph)
         // handle negative days
         data.forEach((change: number, i: number) => {
@@ -235,15 +234,15 @@ export default {
         const ty = graphOrigin[1] + graphSize[1] + (textSize);
         ctx.fillText('time ->', tx, ty);
 
-        const Image = new client.attachmentBuilder(img.toBuffer(),{name: 'FSStats.png'})
-        embed1.setImage('attachment://FSStats.png')
+        const embed1 = new client.embed();
         const FSserver1 = await MPdata(client, interaction, embed1)
         if (!FSserver1?.data) return console.log('FSserver1 failed - players')
-        embed1.setTitle(FSserver1?.data.server.name.length == 0 ? 'Offline' : FSserver1?.data.server.name)
+        embed1.setTitle(FSserver1?.data.server.name.length === 0 ? 'Offline' : FSserver1?.data.server.name)
           .setDescription(`${FSserver1?.data.slots.used}/${FSserver1?.data.slots.capacity}`)
-          .setColor(FSserver1?.data.server.name.length == 0 ? client.config.embedColorRed : client.config.embedColor);
+          .setColor(FSserver1?.data.server.name.length === 0 ? client.config.embedColorRed : client.config.embedColor)
+          .setImage('attachment://FSStats.png');
         FSserver1?.data.slots.players.filter(x=>x.isUsed).forEach(player=>embed1.addFields({name: `${player.name} ${player.isAdmin ? '| admin' : ''}`, value: `Farming for ${client.formatPlayerUptime(player.uptime)}`}))
-        interaction.reply({embeds: [embed1], files: [Image]})
+        interaction.reply({embeds: [embed1], files: [new client.attachmentBuilder(img.toBuffer(),{name:'FSStats.png'})]})
       },
       maintenance: ()=>{
         if (client.config.mainServer.id == interaction.guildId) {

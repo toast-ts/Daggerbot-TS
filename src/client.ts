@@ -12,7 +12,7 @@ import MPServer from './models/MPServer.js';
 import xjs from 'xml-js';
 import axios from 'axios';
 import moment from 'moment';
-import tokens from './tokens.json' assert { type: 'json'};
+import tokens from './tokens.json' assert {type: 'json'};
 
 let importconfig:Config
 try{
@@ -160,14 +160,6 @@ export default class TClient extends Client {
 
   logTime = ()=>`[${this.moment().format('DD/MM/YY HH:mm:ss')}]`;
 
-  alignText(text: string, length: number, alignment: string, emptyChar = ' '){
-    if (alignment == 'right') text = emptyChar.repeat(length - text.length)+text;
-    else if (alignment == 'middle'){
-      const emptyCharsPerSide = (length - text.length)/2;
-      text = emptyChar.repeat(Math.floor(emptyCharsPerSide))+text+emptyChar.repeat(Math.floor(emptyCharsPerSide));
-    } else text = text + emptyChar.repeat(length - text.length);
-    return text;
-  }
   async punish(interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string){
     if (!this.isStaff(interaction.member as Discord.GuildMember)) return this.youNeedRole(interaction, "dcmod");
     
@@ -187,21 +179,19 @@ export default class TClient extends Client {
   }
   async YTLoop(YTChannelID: string, YTChannelName: string, DCChannelID: string){
     let Data:any;
-    let error;
 
     try {
-      await this.axios.get(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {timeout: 5000}).then((xml:any)=>Data = this.xjs.xml2js(xml.data, {compact: true}))
+      await this.axios.get(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {timeout: 5000}).then(xml=>Data = this.xjs.xml2js(xml.data, {compact: true}))
     } catch(err){
-      error = true;
       console.log(this.logTime(), `${YTChannelName} YT fail`)
     }
 
     if (!Data) return;
-    if (this.YTCache[YTChannelID] == undefined){
+    if (this.YTCache[YTChannelID] === undefined){
       this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
       return;
     }
-    if (Data.feed.entry[1]['yt:videoId']._text == this.YTCache[YTChannelID]){
+    if (Data.feed.entry[1]['yt:videoId']._text === this.YTCache[YTChannelID]){
       this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
       (this.channels.resolve(DCChannelID) as Discord.TextChannel).send(`**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`)
     }
@@ -210,19 +200,15 @@ export default class TClient extends Client {
   formatBytes(bytes:number, decimals:number = 2) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals < 0 ? 0 : decimals)) + ' ' + ['Bytes', 'KB', 'MB', 'GB'][i];
   };
 }
 
 export class WClient extends WebhookClient {
   tokens: Tokens;
   constructor(){
-    super({
-      url: tokens.webhook_url
-    })
+    super({url: tokens.webhook_url})
     this.tokens = tokens as Tokens;
   }
 }

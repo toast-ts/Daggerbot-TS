@@ -3,7 +3,6 @@ import TClient from '../client.js';
 export default {
   run(client:TClient, msg:Discord.Message){
     if (!client.config.botSwitches.logs) return;
-    const channel = client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel;
     const disabledChannels = ['548032776830582794', '541677709487505408', '949380187668242483']
     if (msg.guild?.id != client.config.mainServer.id || msg.partial || msg.author.bot || disabledChannels.includes(msg.channelId)) return;
     if (Discord.DiscordAPIError.name === '10008') return console.log(client.logTime(), 'Caught an unexpected error returned by Discord API. (Unknown Message)');
@@ -15,6 +14,6 @@ export default {
     )
     const attachments: Array<string> = [];
     msg.attachments.forEach(x=>attachments.push(x.url));
-    channel.send({embeds: [embed], files: attachments})
+    (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed], files: attachments})
   }
 }
