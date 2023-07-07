@@ -91,6 +91,6 @@ setInterval(async()=>{
     writeFileSync('./src/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
     console.log(client.logTime(), `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
     client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then(commands=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`));
-    (client.channels.resolve(client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({files:['./database/dailyMsgs.json']}).catch(fileErr=>console.log(fileErr))
+    (client.channels.resolve(client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({files:['./src/database/dailyMsgs.json']}).catch(fileErr=>console.log(fileErr))
   }
 }, 5000)
