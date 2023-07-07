@@ -28,7 +28,7 @@ export default {
 			},
 			leaderboard: ()=>{
         const data = JSON.parse(readFileSync(path.join('./src/database/dailyMsgs.json'), 'utf8')).map((x: Array<number>, i: number, a: any) => {
-				  return x[1] - (a[i - 1] || [][1] || x[1])
+          return x[1] - ((a[i - 1] || [])[1] || x[1])
 				}).slice(1).slice(-60);
 
 				// handle negative days
