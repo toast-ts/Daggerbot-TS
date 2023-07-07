@@ -13,7 +13,7 @@ export default {
 
     const columns = ['Command name', 'Count'];
     const includedCommands = client.commands.filter(x=>x.uses).sort((a,b)=>b.uses - a.uses);
-    if (includedCommands.size == 0) return interaction.reply(`No commands have been used yet.\nUptime: **${client.formatTime(client.uptime as number, 3, {longNames: true, commas: true})}**`);
+    if (includedCommands.size === 0) return interaction.reply(`No commands have been used yet.\nUptime: **${client.formatTime(client.uptime as number, 3, {longNames: true, commas: true})}**`);
     const nameLength = Math.max(...includedCommands.map(x=>x.command.default.data.name.length), columns[0].length) + 2;
     const amountLength = Math.max(...includedCommands.map(x=>x.uses.toString().length), columns[1].length) + 1;
     const rows = [`${columns[0] + ' '.repeat(nameLength - columns[0].length)}|${' '.repeat(amountLength - columns[1].length) + columns[1]}\n`, '-'.repeat(nameLength) + '-'.repeat(amountLength) + '\n'];

@@ -8,12 +8,11 @@ export default {
     const amount = interaction.options.getInteger('amount') as number;
     if (amount > 100) return interaction.reply({content: 'Discord API limits purging up to 100 messages.', ephemeral: true})
     const user = interaction.options.getUser('user');
-
     let messagesArray: Array<string> = [];
 
     if (user){
       (interaction.channel as Discord.TextChannel).messages.fetch({limit: amount}).then(msgs=>{
-        const msgList = msgs.filter(x=>x.author.id == user.id);
+        const msgList = msgs.filter(x=>x.author.id === user.id);
         (interaction.channel as Discord.TextChannel).bulkDelete(msgList);
       })
     } else {

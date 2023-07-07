@@ -3,7 +3,6 @@ import TClient from '../client.js';
 export default {
   async run(client:TClient, invite: Discord.Invite){
     if (!invite.guild) return;
-    const newInvites = await (invite.guild as Discord.Guild).invites.fetch();
-    newInvites.forEach(inv=>client.invites.set(inv.code,{uses: inv.code, creator: inv.inviterId, channel: inv.channel.name}))
+    (await (invite.guild as Discord.Guild).invites.fetch()).forEach(inv=>client.invites.set(inv.code,{uses: inv.code, creator: inv.inviterId, channel: inv.channel.name}))
   }
 }

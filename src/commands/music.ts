@@ -11,8 +11,7 @@ export default {
       clientId: client.tokens.dontlookatme.client,
       clientSecret: client.tokens.dontlookatme.secret
     });
-    const voiceCh = interaction.member.voice.channel;
-    if (!voiceCh) return interaction.reply('Please join a voice channel first to use the command.');
+    if (!interaction.member.voice.channel) return interaction.reply('Please join a voice channel first to use the command.');
     player.nodes.create(interaction.guildId, {
       metadata: {
         channel: interaction.channel,

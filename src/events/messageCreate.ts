@@ -6,7 +6,7 @@ export default {
     const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?1234567890]/g, '').split(' ');
     let automodded: boolean;
 
-    const Whitelist = [] // Array of channel ids for automod to be disabled in (Disables bannedWords and advertisement, mind you.)
+    //const Whitelist = [] // Array of channel ids for automod to be disabled in (Disables bannedWords and advertisement, mind you.)
 
     async function repeatedMessages(thresholdTime:number, thresholdAmount:number, type:string, muteTime:string, muteReason:string){
       if (client.repeatedMessages[message.author.id]){
@@ -35,7 +35,7 @@ export default {
     }
 
     if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.mainServer.roles.admin) && message.guildId == client.config.mainServer.id){
-      if (await client.bannedWords._content.findById(msgarr) && !Whitelist.includes(message.channelId)){
+      if (await client.bannedWords._content.findById(msgarr)/*  && !Whitelist.includes(message.channelId) */){
         automodded = true;
         message.delete().catch(()=>console.log('bannedWords automod; msg got possibly deleted by another bot.'));
         message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 10000));
