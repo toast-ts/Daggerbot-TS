@@ -31,6 +31,7 @@ export default {
       play: async()=>{
         const url = interaction.options.getString('url');
         if (!url.includes('https://open.spotify.com/')) return interaction.reply('Sorry, I can\'t play that. I can only accept Spotify links that contains `https://open.spotify.com/`');
+        if (!url.includes('?si=')) return interaction.reply('To be able to play this song/playlist, you need to remove the `?si=<random string of letters>` from the URL or it will basically do nothing.')
         player.play(interaction.member.voice.channel, url);
         await interaction.reply(`Added the ${url.includes('playlist/') ? 'playlist' : 'song'} to the queue.`);
       },
