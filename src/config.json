@@ -19,7 +19,7 @@
     "registerCommands": true,
     "commands": true,
     "logs": true,
-    "music": false,
+    "music": true,
     "buttonRoles": true,
     "automod": true,
     "mpstats": true,
