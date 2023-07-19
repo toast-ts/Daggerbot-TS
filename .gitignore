@@ -1,7 +1,6 @@
 .vscode
 # NodeJS stuff
 node_modules/
-package-lock.json
 .ncurc.json
 # Bot stuff
 dist/
