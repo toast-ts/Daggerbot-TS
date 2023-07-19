@@ -30,7 +30,8 @@ export default {
     ({
       play: async()=>{
         const url = interaction.options.getString('url');
-        if (!url.includes('https://open.spotify.com/')) return interaction.reply('Sorry, I can\'t play that. I can only accept Spotify links that contains `https://open.spotify.com/`');
+        if (!url.includes('https://open.spotify.com/')) return interaction.reply('Sorry, I can\'t play that. I can only accept Spotify links that contains `https://open.spotify.com/`'); // Yes, I made it clear that it's intended typo.
+        if (!(await player.search(url,{requestedBy:interaction.user})).hasTracks()) return interaction.reply(`No results found for \`${url}\`\nIt is either private, unavailable or you made a *tpyo* in your query.`)
         player.play(interaction.member.voice.channel, url);
         await interaction.reply(`Added the ${url.includes('playlist/') ? 'playlist' : 'song'} to the queue.`);
       },
@@ -55,7 +56,7 @@ export default {
       },
       queue: async()=>{
         const queue = useQueue(interaction.guildId);
-        await interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`Songs currently in the queue: ${queue.tracks.size}`).setDescription(queue.tracks.size > 0 ? `${queue.tracks.map(i=>`**${i.title}** - **${i.author}**`).join('\n')}` : '*No songs currently queued.*')]}).catch(()=>interaction.channel.send('I cannot send an embed that hits beyond the character limit.'))
+        interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`Songs currently in the queue: ${queue.tracks.size}`).setDescription(queue.tracks.size > 0 ? `\`\`\`${queue.tracks.map(i=>`${i.title} - ${i.author}\`\`\``).join('```\n')}`.slice(0,1017) : '*No songs currently queued.*')]})
       },
       volume: ()=>{
         const vol = interaction.options.getNumber('percentage');
