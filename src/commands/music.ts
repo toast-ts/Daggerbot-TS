@@ -69,6 +69,10 @@ export default {
       remove: ()=>{
         useQueue(interaction.guildId).removeTrack(interaction.options.getNumber('id',true));
         interaction.reply('Song has been removed from the queue.')
+      },
+      skip: ()=>{
+        useQueue(interaction.guildId).node.skip();
+        interaction.reply('Skipped the current song, now playing the next one in queue.')
       }
     } as any)[interaction.options.getSubcommand()]();
   },
@@ -85,6 +89,9 @@ export default {
     .addSubcommand(x=>x
       .setName('stop')
       .setDescription('Stop playing music and disconnect the bot from voice channel'))
+    .addSubcommand(x=>x
+      .setName('skip')
+      .setDescription('Skip the current song and play the next one'))
     .addSubcommand(x=>x
       .setName('pause')
       .setDescription('Pause/unpause the music'))
