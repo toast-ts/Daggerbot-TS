@@ -139,7 +139,7 @@ export default {
 			  interaction.reply({embeds: [
           new client.embed().setTitle('Ranking leaderboard')
 			    .setDescription(`Level System was created **${Math.floor((Date.now()-client.config.LRSstart)/1000/60/60/24)}** days ago. Since then, a total of **${allData.reduce((a, b)=>a+b.messages, 0).toLocaleString('en-US')}** messages have been sent in this server.`)
-			    .addFields({name: 'Top users by messages sent:', value: allData.sort((a,b)=>b.messages - a.messages).slice(0,10).map((x,i)=>`\`${i+1}.\` <@${x._id}>: ${x.messages.toLocaleString('en-US')}`).join('\n')})
+			    .addFields({name: 'Top users by messages sent:', value: allData.sort((a,b)=>b.messages - a.messages).slice(0,10).map((x,i)=>`${i+1}. <@${x._id}>: ${x.messages.toLocaleString('en-US')}`).join('\n')})
           .setImage('attachment://dailymsgs.png').setColor(client.config.embedColor)
 			   	.setFooter({text: 'Graph updates daily.'})
         ], files: [new client.attachmentBuilder(img.toBuffer(),{name: 'dailymsgs.png'})]})
