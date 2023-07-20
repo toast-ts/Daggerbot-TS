@@ -12,7 +12,8 @@ import MPServer from './models/MPServer.js';
 import xjs from 'xml-js';
 import axios from 'axios';
 import moment from 'moment';
-import tokens from './tokens.json' assert {type: 'json'};
+const tokens = JSON.parse(readFileSync('src/tokens.json', {encoding:'utf8'}));
+// Import assertion warning workaround yes
 
 let importconfig:Config
 try{
