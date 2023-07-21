@@ -100,6 +100,7 @@ export default class TClient extends Client {
       serverSelectionTimeoutMS: 15000,
       waitQueueTimeoutMS: 50000,
       socketTimeoutMS: 30000,
+      tls: false,
       family: 4
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err}`); exec('pm2 stop Daggerbot')})
     this.login(this.tokens.main);
