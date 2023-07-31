@@ -65,7 +65,7 @@ export default {
       const PersonnyMcPerson = `**${message.member.displayName}**`;
       const GeneralChatID = '468835415093411863';
       const incomingArrays = {
-        morning: ['good morning all', 'good morning everyone', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody'],
+        morning: ['good morning all', 'good morning everyone', 'good morning lads', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody'],
         afternoon: ['good afternoon', 'afternoon all', 'afternoon everyone'],
         evening: ['good evening', 'evening all', 'evening everyone'],
         night: ['night all', 'night everyone', 'night guys', 'goodnight', 'good night'],
