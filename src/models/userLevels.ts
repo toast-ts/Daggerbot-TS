@@ -29,7 +29,7 @@ export default class userLevels extends Schema {
       } else if (userData.messages >= this.algorithm(userData.level+1)) {
         const newData = await this._content.findByIdAndUpdate(userid, {level:userData.level+1}, {new: true});
         const fetchUserSchema = await this._content.findById(userid);
-        (this.client.channels.resolve(this.client.config.mainServer.channels.botcommands) as Discord.TextChannel).send({content: `${fetchUserSchema.notificationPing === true ? `<@${userid}>` : `**${(await this.client.users.fetch(userid)).username}**`} has reached level **${newData.level}**. GG!`, allowedMentions: {parse: ['users']}}); 
+        (this.client.channels.resolve(this.client.config.mainServer.channels.botcommands) as Discord.TextChannel).send({content: `${fetchUserSchema.notificationPing === true ? `<@${userid}>` : `**${(await this.client.users.fetch(userid)).displayName}**`} has reached level **${newData.level}**. GG!`, allowedMentions: {parse: ['users']}}); 
       }
     } else await this._content.create({_id: userid, notificationPing: true, messages: 1, level: 0})
   }
