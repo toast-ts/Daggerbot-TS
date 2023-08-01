@@ -62,6 +62,9 @@ export default {
 
     // Autoresponse:tm:
     if (client.config.botSwitches.autores && !automodded) {
+      /* function ResponseMadeBy(id:string){  <-- Will be enabled once autoresponse suggestion comes in.
+        return `╰ *Response made by <@${id}>*`;
+      } */
       const PersonnyMcPerson = `**${message.member.displayName}**`;
       const GeneralChatID = '468835415093411863';
       const incomingArrays = {
