@@ -70,7 +70,7 @@ export default {
       const incomingArrays = {
         morning: ['good morning all', 'good morning everyone', 'good morning lads', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody'],
         afternoon: ['good afternoon', 'afternoon all', 'afternoon everyone'],
-        evening: ['good evening', 'evening all', 'evening everyone'],
+        evening: ['good evening', 'evening all', 'evening everyone', 'evening lads'],
         night: ['night all', 'night everyone', 'night guys', 'goodnight', 'good night'],
         password: ['whats the password', 'what\'s the password', 'password pls'],
         cantRead: ['i cant read', 'i can\'t read', 'cant read', 'can\'t read'],
