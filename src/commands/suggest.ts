@@ -9,7 +9,7 @@ export default {
     const theirIdea = (await client.suggestion._content.findById(suggestionIDReply))?.idea;
     const timeFormatting = client.moment().format('DD/MM/YY h:mm A');
     const stateChanged = 'Suggestion state has been successfully updated and DM is sent.';
-    const dmFail = (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(`Failed to send a DM to <@${userid}>, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`);
+    const dmFail = `Failed to send a DM to <@${userid}>, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
     ({
       your: async()=>{
         const wclient = new WClient;
@@ -44,7 +44,7 @@ export default {
           .setTitle('Your suggestion has been approved.')
           .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length === null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
-        ]}).catch(()=>dmFail);
+        ]}).catch((err:Discord.DiscordjsErrorCodes)=>{if (err) return (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(dmFail)});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Approved'});
         return interaction.reply({embeds:[new client.embed().setColor(client.config.embedColorGreen).setTitle(`Suggestion approved | ${suggestionIDReply}`).setDescription(stateChanged)]});
       },
@@ -59,7 +59,7 @@ export default {
           .setTitle('Your suggestion has been rejected.')
           .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length === null ? '*No message from them.*' : replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
-        ]}).catch(()=>dmFail);
+        ]}).catch((err:Discord.DiscordjsErrorCodes)=>{if (err) return (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(dmFail)});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Rejected'});
         return interaction.reply({embeds:[new client.embed().setColor(client.config.embedColorRed).setTitle(`Suggestion rejected | ${suggestionIDReply}`).setDescription(stateChanged)]});
       }
