@@ -12,8 +12,8 @@
     "rootDir": "src/",
     "outDir": "dist/",
     "moduleResolution": "bundler",
-    "typeRoots": [ "node_modules/@types", "./src/typings" ],
+    "typeRoots": [ "./src/typings" ],
   },
-  "include": [ "node_modules/@types", "src/" ],
-  "exclude": [ "node_modules", ".git", "src/config.json", "src/DB-Beta.config.json", "src/Toast-Testbot.config.json" ],
+  "include": [ "src/" ],
+  "exclude": [ ".yarn/cache", ".yarn/unplugged",".git", "src/config.json", "src/DB-Beta.config.json", "src/Toast-Testbot.config.json" ]
 }
