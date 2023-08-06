@@ -1,2 +1,1 @@
-@echo off
-pm2 start dist/index.js --name Daggerbot
+pm2 start startWithYarn.cjs --name Daggerbot
