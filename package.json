@@ -8,9 +8,6 @@
     "type": "git",
     "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS.git"
   },
-  "scripts": {
-    "start": "yarn node ."
-  },
   "author": "Toast",
   "license": "ISC",
   "os": [
