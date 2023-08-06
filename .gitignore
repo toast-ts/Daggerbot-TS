@@ -1,6 +1,9 @@
 .vscode
+# Yarn stuff
+.yarn/cache/
+.yarn/unplugged/
+.yarn/install-state.gz
 # NodeJS stuff
-node_modules/
 .ncurc.json
 # Bot stuff
 dist/
