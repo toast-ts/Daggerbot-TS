@@ -1,1 +1,1 @@
-require('node:child_process').exec('yarn node dist/index.js', {windowsHide:true}, (error,stdout)=>{console.log(stdout); console.error(error)})
+require('node:child_process').spawn('yarn node dist/index.js', {stdio: 'inherit', windowsHide: true, shell: true})
