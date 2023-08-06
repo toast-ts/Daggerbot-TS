@@ -2,6 +2,7 @@
 # Yarn stuff
 .yarn/cache/
 .yarn/unplugged/
+.yarn/sdks/
 .yarn/install-state.gz
 # NodeJS stuff
 .ncurc.json
