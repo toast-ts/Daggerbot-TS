@@ -5,7 +5,7 @@ const Schema = mongoose.model('suggestion', new mongoose.Schema({
   _id: {type: String, required:true},
   idea: {type: String, required:true},
   user: {required:true, type: new mongoose.Schema({
-    tag: {type: String},
+    name: {type: String},
     _id: {type: String}
   }, {versionKey: false})},
   state: {type: String, required:true}
