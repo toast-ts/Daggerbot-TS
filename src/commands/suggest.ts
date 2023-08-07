@@ -30,7 +30,7 @@ export default {
           console.log(e.message);
           interaction.reply({content: 'Failed to send suggestion, try again later.', ephemeral: true})
         })
-        await client.suggestion._content.create({_id: suggestionID, idea: suggestionText, user: {_id: interaction.user.id, tag: interaction.user.username}, state: 'Pending'});
+        await client.suggestion._content.create({_id: suggestionID, idea: suggestionText, user: {_id: interaction.user.id, name: interaction.user.username}, state: 'Pending'});
         interaction.reply({content: `Suggestion sent, here is your suggestion ID to take note of it: \`${suggestionID}\``, ephemeral: true})
       },
       approve: async()=>{
@@ -42,7 +42,7 @@ export default {
           .setColor(client.config.embedColorGreen)
           .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been approved.')
-          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length === null ? '*No message from them.*' : replyInDM}`)
+          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
         ]}).catch((err:Discord.DiscordjsErrorCodes)=>{if (err) return (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(dmFail)});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Approved'});
@@ -57,7 +57,7 @@ export default {
           .setColor(client.config.embedColorRed)
           .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setTitle('Your suggestion has been rejected.')
-          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM.length === null ? '*No message from them.*' : replyInDM}`)
+          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM}`)
           .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
         ]}).catch((err:Discord.DiscordjsErrorCodes)=>{if (err) return (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(dmFail)});
         await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Rejected'});
@@ -89,6 +89,7 @@ export default {
       .addStringOption(x=>x
         .setName('message')
         .setDescription('(Optional) Include a message with your approval')
+        .setRequired(true)
         .setMaxLength(256)))
     .addSubcommand(x=>x
       .setName('reject')
@@ -100,5 +101,6 @@ export default {
       .addStringOption(x=>x
         .setName('message')
         .setDescription('(Optional) Include a message with your rejection')
+        .setRequired(true)
         .setMaxLength(256)))
 }
