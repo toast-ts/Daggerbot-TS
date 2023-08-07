@@ -107,12 +107,12 @@ export default class TClient extends Client {
     for await (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
-    };
+    }
     for await (const file of readdirSync('dist/commands')){
       const command = await import(`./commands/${file}`);
       this.commands.set(command.default.data.name,{command, uses: 0});
       this.registry.push(command.default.data.toJSON())
-    };
+    }
   }
   formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
     let achievedAccuracy = 0;

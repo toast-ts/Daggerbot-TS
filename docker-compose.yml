@@ -3,6 +3,7 @@ version: '3'
 services:
   bot:
     container_name: 'Daggerbot'
-    image: 'git.toast-server.net/toast/daggerbot-ts:debian12'
+    image: 'git.toast-server.net/toast/daggerbot-ts:alpine3.18'
     volumes:
       - .:/bot
+    network_mode: host
