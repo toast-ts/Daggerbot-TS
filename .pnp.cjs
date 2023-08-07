@@ -46,6 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["systeminformation", "npm:5.18.12"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
             ["xml-js", "npm:1.6.11"],\
+            ["youtube-sr", "npm:4.3.4"],\
             ["ytdl-core", "npm:4.11.5"]\
           ],\
           "linkType": "SOFT"\
@@ -1035,6 +1036,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["systeminformation", "npm:5.18.12"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
             ["xml-js", "npm:1.6.11"],\
+            ["youtube-sr", "npm:4.3.4"],\
             ["ytdl-core", "npm:4.11.5"]\
           ],\
           "linkType": "SOFT"\
@@ -1158,7 +1160,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/youtube-sr", null],\
             ["discord.js", "npm:14.12.1"],\
             ["libsodium-wrappers", "npm:0.7.11"],\
-            ["youtube-sr", null]\
+            ["youtube-sr", "npm:4.3.4"]\
           ],\
           "packagePeers": [\
             "@discord-player/extractor",\
