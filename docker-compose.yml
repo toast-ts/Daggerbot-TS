@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  bot:
+    container_name: 'Daggerbot'
+    image: 'git.toast-server.net/toast/daggerbot-ts:debian12'
+    volumes:
+      - .:/bot
