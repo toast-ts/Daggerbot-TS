@@ -1,5 +1,5 @@
 import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'discord.js';
-import {readFileSync, readdirSync} from 'node:fs';
+import {readFileSync, readdirSync, promises} from 'node:fs';
 import {exec} from 'node:child_process';
 import mongoose from 'mongoose';
 import {formatTimeOpt, Tokens, Config, repeatedMessages, MPServerCache} from './typings/interfaces';
@@ -105,10 +105,12 @@ export default class TClient extends Client {
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err}`); exec('pm2 stop Daggerbot')})
     this.login(this.tokens.main);
     for await (const file of readdirSync('dist/events')){
+      //console.log('EVENTS:', file)
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
     }
     for await (const file of readdirSync('dist/commands')){
+      //console.log('COMMANDS:', file)
       const command = await import(`./commands/${file}`);
       this.commands.set(command.default.data.name,{command, uses: 0});
       this.registry.push(command.default.data.toJSON())
