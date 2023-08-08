@@ -1,1 +1,1 @@
-require('node:child_process').spawn('yarn node dist/index.js', {stdio: [null,process.stdout,null,null], windowsHide: true, shell: true})
+require('node:child_process').spawn('yarn node dist/index.js', {stdio: [null,process.stdout,process.stderr,null], windowsHide: true, shell: true})
