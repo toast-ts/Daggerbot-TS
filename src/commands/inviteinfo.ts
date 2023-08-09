@@ -2,19 +2,20 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    await client.axios.get(`https://discord.com/api/v${Discord.APIVersion}/invites/${interaction.options.getString('code',true).replace(/(https:\/\/|discord.gg\/)/g,'')}`).then(async inviteInfo=>
-      await interaction.reply({embeds: [
-        new client.embed().setColor(client.config.embedColor).setURL(`https://discord.gg/${inviteInfo.data.code}`).setTitle(inviteInfo.data.guild.name).setDescription([
-          `ID: \`${inviteInfo.data.guild.id}\``,
-          `Description: \`\`\`${inviteInfo.data.guild.description != null ? inviteInfo.data.guild.description : 'No description set.'}`,
-          `\`\`\`Total server boosters: \`${inviteInfo.data.guild.premium_subscription_count}\``,
-          `Channel: \`#${inviteInfo.data.channel.name}\``
-        ].join('\n'))
-      ]})).catch(err=>interaction.reply(`\`${err}\``))
+    await client.fetchInvite(interaction.options.getString('code',true).replace(/(https:\/\/|discord.gg\/)/g,'')).then(async inviteData=>
+      await interaction.reply({embeds:[new client.embed()
+        .setColor(client.config.embedColor).setURL(`https://discord.gg/${inviteData.code}`).setTitle(inviteData.guild.name).setDescription([
+          `ID: \`${inviteData.guild.id}\``,
+          `Description: \`\`\`${inviteData.guild.description != null ? inviteData.guild.description : 'No description set.'}`,
+          `\`\`\`Total server boosts: \`${inviteData.guild.premiumSubscriptionCount}\``,
+          `Total members: \`${inviteData.presenceCount}\`**/**\`${inviteData.memberCount}\``,
+          `Channel: \`#${inviteData.channel.name}\``,
+        ].join('\n')).setThumbnail(inviteData.guild.iconURL({size:1024,extension:'webp'})).setImage(inviteData.guild.bannerURL({size:2048,extension:'webp'}))
+      ]})).catch((err:Discord.DiscordAPIError)=>interaction.reply(err.message));
   },
   data: new Discord.SlashCommandBuilder()
     .setName('inviteinfo')
-    .setDescription('View the invite data')
+    .setDescription('View the server data from invite link')
     .addStringOption(x=>x
       .setName('code')
       .setDescription('Discord invite code')
