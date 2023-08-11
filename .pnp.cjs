@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
             ["discord.js", "npm:14.12.1"],\
+            ["libsodium-wrappers", "npm:0.7.11"],\
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.4.2"],\
             ["ms", "npm:2.1.3"],\
@@ -938,6 +939,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
             ["discord.js", "npm:14.12.1"],\
+            ["libsodium-wrappers", "npm:0.7.11"],\
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.4.2"],\
             ["ms", "npm:2.1.3"],\
