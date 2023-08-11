@@ -30,7 +30,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@discord-player/extractor", "npm:4.4.1"],\
             ["@discordjs/opus", "npm:0.9.0"],\
-            ["@ffmpeg-installer/ffmpeg", "npm:1.1.0"],\
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
@@ -216,95 +215,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["discord-api-types", "npm:0.37.51"],\
             ["tslib", "npm:2.6.1"],\
             ["ws", "virtual:9ce84a0604ad02832e33621299f919cd218b24239fb0c46d80371b76a2e2bb3fa8fbeca210d63d15caaa18cb4bd437d3b404ee91d06cb167e4b2efa32b8e514c#npm:8.13.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/darwin-arm64", [\
-        ["npm:4.1.5", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-darwin-arm64-npm-4.1.5-f2e350d660/node_modules/@ffmpeg-installer/darwin-arm64/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/darwin-arm64", "npm:4.1.5"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/darwin-x64", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-darwin-x64-npm-4.1.0-23d0bb519e/node_modules/@ffmpeg-installer/darwin-x64/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/darwin-x64", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/ffmpeg", [\
-        ["npm:1.1.0", {\
-          "packageLocation": "./.yarn/cache/@ffmpeg-installer-ffmpeg-npm-1.1.0-76dedbb189-9725b2ae23.zip/node_modules/@ffmpeg-installer/ffmpeg/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/ffmpeg", "npm:1.1.0"],\
-            ["@ffmpeg-installer/darwin-arm64", "npm:4.1.5"],\
-            ["@ffmpeg-installer/darwin-x64", "npm:4.1.0"],\
-            ["@ffmpeg-installer/linux-arm", "npm:4.1.3"],\
-            ["@ffmpeg-installer/linux-arm64", "npm:4.1.4"],\
-            ["@ffmpeg-installer/linux-ia32", "npm:4.1.0"],\
-            ["@ffmpeg-installer/linux-x64", "npm:4.1.0"],\
-            ["@ffmpeg-installer/win32-ia32", "npm:4.1.0"],\
-            ["@ffmpeg-installer/win32-x64", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/linux-arm", [\
-        ["npm:4.1.3", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-linux-arm-npm-4.1.3-c657dff0d0/node_modules/@ffmpeg-installer/linux-arm/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/linux-arm", "npm:4.1.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/linux-arm64", [\
-        ["npm:4.1.4", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-linux-arm64-npm-4.1.4-44529c4564/node_modules/@ffmpeg-installer/linux-arm64/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/linux-arm64", "npm:4.1.4"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/linux-ia32", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-linux-ia32-npm-4.1.0-eb24e0ee97/node_modules/@ffmpeg-installer/linux-ia32/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/linux-ia32", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/linux-x64", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-linux-x64-npm-4.1.0-c20a613b71/node_modules/@ffmpeg-installer/linux-x64/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/linux-x64", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/win32-ia32", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-win32-ia32-npm-4.1.0-ba198eee7f/node_modules/@ffmpeg-installer/win32-ia32/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/win32-ia32", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@ffmpeg-installer/win32-x64", [\
-        ["npm:4.1.0", {\
-          "packageLocation": "./.yarn/unplugged/@ffmpeg-installer-win32-x64-npm-4.1.0-4162651327/node_modules/@ffmpeg-installer/win32-x64/",\
-          "packageDependencies": [\
-            ["@ffmpeg-installer/win32-x64", "npm:4.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1020,7 +930,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["daggerbot-ts", "workspace:."],\
             ["@discord-player/extractor", "npm:4.4.1"],\
             ["@discordjs/opus", "npm:0.9.0"],\
-            ["@ffmpeg-installer/ffmpeg", "npm:1.1.0"],\
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
