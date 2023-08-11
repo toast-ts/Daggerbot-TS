@@ -102,7 +102,7 @@ export default class TClient extends Client {
       socketTimeoutMS: 30000,
       tls: false,
       family: 4
-    }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err}`); exec('pm2 stop Daggerbot')})
+    }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(err=>{console.error(this.logTime(), `Failed to connect to MongoDB\n${err}`); exec('pm2 stop Daggerbot', {windowsHide:true})})
     this.login(this.tokens.main);
     for await (const file of readdirSync('dist/events')){
       //console.log('EVENTS:', file)

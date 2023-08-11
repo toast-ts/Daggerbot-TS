@@ -75,12 +75,12 @@ export default {
             deletion: await octokit.repos.getCommit(githubRepo).then(x=>x.data.stats.deletions.toLocaleString('en-US')).catch((err:Error)=>err.message)
           }
         };
-        exec('git pull',(err:Error,stdout)=>{
+        exec('git pull',{windowsHide:true},(err:Error,stdout)=>{
           if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
           else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
-          else clarkson.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', (err:Error)=>{
+          else clarkson.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
             if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
           }))
         });
       },
@@ -122,9 +122,9 @@ export default {
       },
       restart: async()=>{
         const i = await interaction.reply({content: 'Compiling TypeScript files...', fetchReply: true});
-        exec('yarn tsc',(err:Error)=>{
+        exec('yarn tsc',{windowsHide:true},(err:Error)=>{
           if (err) i.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot'))
+          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
         })
       },
       file: ()=>interaction.reply({files:[`./src/database/${interaction.options.getString('name')}.json`]}).catch(()=>'Filesize is too large, upload cancelled.')
