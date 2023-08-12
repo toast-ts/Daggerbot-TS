@@ -1,6 +1,6 @@
-# main; node:current-alpine3.18
+# main; node:19.9.0-alpine3.18
 # backup; node:current-bookworm
-FROM node:current-alpine3.18
+FROM node:19.9.0-alpine3.18
 WORKDIR /bot
 RUN yarn
 CMD ["yarn", "node", "dist/index.js"]
