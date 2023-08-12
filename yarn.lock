@@ -379,10 +379,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.4.8":
+"@types/node@npm:*":
   version: 20.4.8
   resolution: "@types/node@npm:20.4.8"
   checksum: 86a3963c0c7af3410553d1dfa4b018a20b3cb3ab4d8e8ffe27408b6338c5de0374b0bf379bc705da2205b466daa751ccfe062f453ba9bde34fdb0e5163ca6a68
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.4.10":
+  version: 20.4.10
+  resolution: "@types/node@npm:20.4.10"
+  checksum: 02a1ca415d9cc91144c4250383aa0ef1e48241bd36067ed7d1b239d8bacc2a11139dd90e223e11ac289345eeae624cc5dcf73359e684bd2e5a6c31bdfbab4811
   languageName: node
   linkType: hard
 
@@ -750,17 +757,17 @@ __metadata:
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.1
     "@types/ms": 0.7.31
-    "@types/node": 20.4.8
+    "@types/node": 20.4.10
     axios: 1.4.0
     canvas: 2.11.2
     discord-player: 6.6.2
     discord.js: 14.12.1
     libsodium-wrappers: 0.7.11
     moment: 2.29.4
-    mongoose: 7.4.2
+    mongoose: 7.4.3
     ms: 2.1.3
     prism-media: 1.3.5
-    systeminformation: 5.18.12
+    systeminformation: 5.18.15
     typescript: 5.1.6
     xml-js: 1.6.11
     youtube-sr: 4.3.4
@@ -1628,9 +1635,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:7.4.2":
-  version: 7.4.2
-  resolution: "mongoose@npm:7.4.2"
+"mongoose@npm:7.4.3":
+  version: 7.4.3
+  resolution: "mongoose@npm:7.4.3"
   dependencies:
     bson: ^5.4.0
     kareem: 2.5.1
@@ -1639,7 +1646,7 @@ __metadata:
     mquery: 5.0.0
     ms: 2.1.3
     sift: 16.0.1
-  checksum: 2bf73cea4bf72ffa553a7d024b827e50fcb4aba9a17111ece764e1644c97313d678e84e0fb63c101061e70966b19ba720524f46deedcfbc631f583da45533eb0
+  checksum: e92feec9e739fd429726b6b17ad0d5c05503d2786aa9605548e2b7e999f990a59bdf950e5cd44aa10e3936277410b4880e760e9e503627fae6c16b4901bf9c49
   languageName: node
   linkType: hard
 
@@ -2233,12 +2240,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.18.12":
-  version: 5.18.12
-  resolution: "systeminformation@npm:5.18.12"
+"systeminformation@npm:5.18.15":
+  version: 5.18.15
+  resolution: "systeminformation@npm:5.18.15"
   bin:
     systeminformation: lib/cli.js
-  checksum: 0893f61fecb0cae181c6cb37b544395263e8be1f7c53a06868c139e4fb9dfe605426850c339afe905d25427addf33e9f754c4c05ec71b0e73dbbf93c2da2247c
+  checksum: 15555c2c0fac29ca8146153c5b9ad146f5fe5ffe109f0cbc20d2d2b902f8b4d2cc57a1add233edc4914c13f984b96250a51ce351bd570a1ac6ba369ed3caa974
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
