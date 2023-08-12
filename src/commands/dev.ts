@@ -91,7 +91,7 @@ export default {
             case 1: return 'Streaming';
             case 2: return 'Listening to';
             case 3: return 'Watching';
-            //case 4: return 'Custom Status'; // Will be enabled once PR #9743 on D.JS repo merges in.
+            case 4: return 'Custom Status'; // Will be enabled once PR #9743 on D.JS repo merges in.
             case 5: return 'Competing in';
           }
         };
@@ -182,6 +182,7 @@ export default {
           {name: 'Streaming', value: Discord.ActivityType.Streaming},
           {name: 'Listening to', value: Discord.ActivityType.Listening},
           {name: 'Watching', value: Discord.ActivityType.Watching},
+          {name: 'Custom Status', value: Discord.ActivityType.Custom},
           {name: 'Competing in', value: Discord.ActivityType.Competing}
         ))
       .addStringOption(x=>x

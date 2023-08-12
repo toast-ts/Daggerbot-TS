@@ -761,7 +761,7 @@ __metadata:
     axios: 1.4.0
     canvas: 2.11.2
     discord-player: 6.6.2
-    discord.js: 14.12.1
+    discord.js: dev
     libsodium-wrappers: 0.7.11
     moment: 2.29.4
     mongoose: 7.4.3
@@ -862,9 +862,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:14.12.1":
-  version: 14.12.1
-  resolution: "discord.js@npm:14.12.1"
+"discord.js@npm:dev":
+  version: 14.13.0-dev.1691841828-9ed1b59df.0
+  resolution: "discord.js@npm:14.13.0-dev.1691841828-9ed1b59df.0"
   dependencies:
     "@discordjs/builders": ^1.6.4
     "@discordjs/collection": ^1.5.2
@@ -880,7 +880,7 @@ __metadata:
     tslib: ^2.6.1
     undici: ^5.22.1
     ws: ^8.13.0
-  checksum: 059c6c2fdec22319e8aa8d5f54392db0066e959a7418440d1dab3b0e7814b0c4a7311ed15500147e959f9409e63e2dbe0b1f159f9c2693d8cd321a216b92fdaf
+  checksum: c584c642a6ddb971d5059b44a01ec3b184fe4280e62d5b14261389514ddf897d3398f84bb7fd6eeeb6115c4eaf45c2fce0077182c5f9bc073f516310281b9b07
   languageName: node
   linkType: hard
 
