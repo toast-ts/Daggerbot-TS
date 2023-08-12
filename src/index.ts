@@ -30,13 +30,18 @@ client.on('ready', async()=>{
 
 // Error handler
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
-  if (['getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com', '[Error: 30130000:error:0A000410:SSL', '[Error: F8200000:error:0A000410:SSL'].includes(error.message)) return;
+  if ([
+    'getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com',
+    '[Error: 30130000:error:0A000410:SSL', '[Error: F8200000:error:0A000410:SSL',
+    'HTTPError: Internal Server Error'
+  ].includes(error.message)) return;
   console.error(error);
   (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
 }
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
-process.on('error', (error: Error)=>DZ(error, 'process-error'));
+process.on('error', (error: Error)=>DZ(error, 'nodeError'));
+process.on('warning', (warn: Error)=>DZ(warn, 'nodeWarning'));
 client.on('error', (error: Error)=>DZ(error, 'client-error'));
 
 // Audio Player event handling
@@ -87,7 +92,9 @@ setInterval(async()=>{
     dailyMsgs.push([formattedDate, total]);
     writeFileSync('./src/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
     console.log(client.logTime(), `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
-    client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then(commands=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`));
-    (client.channels.resolve(client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({files:['./src/database/dailyMsgs.json']}).catch(fileErr=>console.log(fileErr))
+    if (client.token != client.tokens.main){
+      client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then(commands=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`));
+      (client.channels.resolve(client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({files:['./src/database/dailyMsgs.json']}).catch(fileErr=>console.log(fileErr))
+    } else console.log(client.logTime(), 'Development bot\'s token is in use, not uploading dailyMsgs.json to channel.')
   }
 }, 5000)
