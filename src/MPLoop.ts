@@ -83,6 +83,7 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
   const serverLog = client.channels.resolve(client.config.mainServer.channels.fs_server_log) as Discord.TextChannel;
   const playersOnServer = DSS.data.slots?.players.filter(x=>x.isUsed);
   const playersInCache = client.MPServerCache.players;
+  if (!playersOnServer) return console.error('[MPLoop] Empty filter, ignoring...'); // For the love of god, stop throwing errors everytime.
   playersOnServer.forEach(player=>playerData.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${client.formatPlayerUptime(player.uptime)}`));
 
   ServerName = client.MPServerCache.name;
