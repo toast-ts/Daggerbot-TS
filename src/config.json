@@ -26,8 +26,8 @@
     "autores": true
   },
   "botPresence": {
-	"activities": [
-		  {"name": "the fish", "url": "https://www.youtube.com/watch?v=HVMc1ANfeMw", "type": 1}
+	  "activities": [
+		  {"name": "Custom Status", "state": "funni custom status", "url": "https://www.youtube.com/watch?v=HVMc1ANfeMw", "type": 4}
 	  ],
 	  "status": "online"
 	},
