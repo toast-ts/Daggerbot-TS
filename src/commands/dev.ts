@@ -127,7 +127,14 @@ export default {
           else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
         })
       },
-      file: ()=>interaction.reply({files:[`./src/database/${interaction.options.getString('name')}.json`]}).catch(()=>'Filesize is too large, upload cancelled.')
+      file: ()=>interaction.reply({files:[`./src/database/${interaction.options.getString('name')}.json`]}).catch(()=>'Filesize is too large, upload cancelled.'),
+      wake_device: async()=>{
+        const i = await interaction.reply({content: 'Spawning a task...', fetchReply: true});
+        exec(`cd "../../Desktop/System Tools/wakemeonlan" && WakeMeOnLan.exe /wakeup ${interaction.options.getString('name',true)}`, {windowsHide:true}, (err:Error)=>{
+          if (err) i.edit(removeUsername(err.message))
+          else i.edit('Your device should be awake by now!\n||Don\'t blame me if it isn\'t on.||')
+        })
+      }
     } as any)[interaction.options.getSubcommand()]();
   },
   data: new Discord.SlashCommandBuilder()
@@ -149,6 +156,13 @@ export default {
     .addSubcommand(x=>x
       .setName('update')
       .setDescription('Pull from repository and restart'))
+    .addSubcommand(x=>x
+      .setName('wake_device')
+      .setDescription('Remotely wake up a device in the same network as the bot')
+      .addStringOption(x=>x
+        .setName('name')
+        .setDescription('Device name')
+        .setRequired(true)))
     .addSubcommand(x=>x
       .setName('statsgraph')
       .setDescription('Edit the number of data points to pull')
