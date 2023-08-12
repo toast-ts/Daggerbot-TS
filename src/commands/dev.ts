@@ -91,6 +91,7 @@ export default {
             case 1: return 'Streaming';
             case 2: return 'Listening to';
             case 3: return 'Watching';
+            //case 4: return 'Custom Status'; // Will be enabled once PR #9743 on D.JS repo merges in.
             case 5: return 'Competing in';
           }
         };
