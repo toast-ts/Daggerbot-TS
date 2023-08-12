@@ -5,12 +5,9 @@ import {SpotifyExtractor} from '@discord-player/extractor';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!client.config.botSwitches.music && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
-    if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('This command is in early stages of development, some parts may be missing or broken.\nIt has been restricted to staff for time-being.');
+    if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('Music module is close to being completed, some parts may be incomplete or broken, so it has been restricted to staff for time-being.');
     const player = Player.singleton(client);
-    await player.extractors.register(SpotifyExtractor, {
-      clientId: client.tokens.dontlookatme.client,
-      clientSecret: client.tokens.dontlookatme.secret
-    });
+    await player.extractors.register(SpotifyExtractor,{clientId: client.tokens.dontlookatme.client, clientSecret: client.tokens.dontlookatme.secret});
     if (!interaction.member.voice.channel) return interaction.reply('Please join a voice channel first to use the command.');
     player.nodes.create(interaction.guildId, {
       metadata: {
@@ -27,53 +24,67 @@ export default {
       connectionTimeout: 25000,
       strategy: 'FIFO'
     });
+    const queue = useQueue(interaction.guildId);
     ({
       play: async()=>{
         const url = interaction.options.getString('url');
         if (!url.includes('https://open.spotify.com/')) return interaction.reply('Sorry, I can\'t play that. I can only accept Spotify links that contains `https://open.spotify.com/`'); // Yes, I made it clear that it's intended typo.
         if (!(await player.search(url,{requestedBy:interaction.user})).hasTracks()) return interaction.reply(`No results found for \`${url}\`\nIt is either private, unavailable or you made a *tpyo* in your query.`)
         player.play(interaction.member.voice.channel, url);
-        await interaction.reply(`Added the ${url.includes('playlist/') ? 'playlist' : 'song'} to the queue.`);
+        await interaction.reply(`Added the ${url.includes('playlist/') ? 'playlist' : url.includes('album/') ? 'album' : 'song'} to the queue.`);
       },
       stop: async()=>{
         player.destroy();
         await interaction.reply('Player destroyed.')
       },
       pause: ()=>{
-        const queue = useQueue(interaction.guildId);
         queue.node.setPaused(!queue.node.isPaused());
-        if (!queue.node.isPaused) interaction.reply('Music has been paused.');
-        else if (queue.node.isPaused) interaction.reply('Music has been unpaused.')
+        if (queue.node.isPaused()) interaction.reply('Music has been paused.');
+        else interaction.reply('Music has been resumed.')
       },
       now_playing: ()=>{
         const {volume,timestamp,track} = useTimeline(interaction.guildId);
-        interaction.reply({embeds:[
-          new client.embed().setColor(client.config.embedColor).setTitle(`${track.title} - ${track.author}`).setThumbnail(track.thumbnail).addFields(
-            {name: 'Timestamp', value: `**${timestamp.current.label}**/**${timestamp.total.label}**`, inline: true},
-            {name: 'Volume', value: `${volume}%`, inline: true}
-          )
-        ]})
+        if (!track) return interaction.reply('There\'s nothing playing, why are you checking?');
+        else {
+          function convertNumberToText(input:number){
+            switch(input){
+              case 0: return 'Off';
+              case 1: return 'Track';
+              case 2: return 'Queue';
+              case 3: return 'Autoplay DJ';
+            }
+          }
+          interaction.reply({embeds:[
+            new client.embed().setColor(client.config.embedColor).setTitle(`${track.title} - ${track.author}`).setThumbnail(track.thumbnail).addFields(
+              {name: 'Timestamp', value: `**${timestamp.current.label}**/**${timestamp.total.label}**`, inline: true},
+              {name: 'Volume', value: `${volume}%`, inline: true},
+              {name: 'Loop mode', value: `${convertNumberToText(queue.repeatMode)}`, inline: true}
+            )
+          ]})
+        }
       },
-      queue: async()=>{
-        const queue = useQueue(interaction.guildId);
-        interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`Songs currently in the queue: ${queue.tracks.size}`).setDescription(queue.tracks.size > 0 ? `\`\`\`${queue.tracks.map(i=>`${i.title} - ${i.author}\`\`\``).join('```\n')}`.slice(0,1017) : '*No songs currently queued.*')]})
-      },
+      queue: async()=>interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).setTitle(`Songs currently in the queue: ${queue.tracks.size}`).setDescription(queue.tracks.size > 0 ? `\`\`\`${queue.tracks.map(i=>`${i.title} - ${i.author}\`\`\``).join('```\n')}`.slice(0,1017) : '*No songs currently queued.*')]}),
       volume: ()=>{
         const vol = interaction.options.getNumber('percentage');
-        useQueue(interaction.guildId).node.setVolume(vol);
+        queue.node.setVolume(vol);
         interaction.reply(`Successfully adjusted the player's volume to ${vol}%`)
       },
       shuffle: ()=>{
-        useQueue(interaction.guildId).tracks.shuffle();
+        queue.tracks.shuffle();
         interaction.reply('Songs in the queue has been shuffled.')
       },
       remove: ()=>{
-        useQueue(interaction.guildId).removeTrack(interaction.options.getNumber('id',true));
+        queue.removeTrack(interaction.options.getNumber('id',true));
         interaction.reply('Song has been removed from the queue.')
       },
       skip: ()=>{
-        useQueue(interaction.guildId).node.skip();
+        queue.node.skip();
         interaction.reply('Skipped the current song, now playing the next one in queue.')
+      },
+      loop: ()=>{
+        const loopMode = interaction.options.getNumber('mode',true);
+        queue.setRepeatMode(loopMode);
+        interaction.reply(`Loop mode is now ${loopMode === 0 ? 'disabled.' : loopMode === 1 ? 'set to loop current track.': loopMode === 2 ? 'looping through current queue.' : 'activating Autoplay DJ.'}`)
       }
     } as any)[interaction.options.getSubcommand()]();
   },
@@ -114,6 +125,19 @@ export default {
     .addSubcommand(x=>x
       .setName('shuffle')
       .setDescription('Shuffle the songs in a queue'))
+    .addSubcommand(x=>x
+      .setName('loop')
+      .setDescription('Loop through queue or current track or enable Autoplay DJ')
+      .addNumberOption(x=>x
+        .setName('mode')
+        .setDescription('Select the available modes to use')
+        .addChoices(
+          {name: 'Off', value: 0},
+          {name: 'Current track', value: 1},
+          {name: 'Queue', value: 2},
+          {name: 'Autoplay DJ (Play related songs based on queue)', value: 3}
+        )
+        .setRequired(true)))
     .addSubcommand(x=>x
       .setName('remove')
       .setDescription('Remove a specific song from the queue')

@@ -193,7 +193,7 @@ export default {
       .addStringOption(x=>x
         .setName('status')
         .setDescription('Set a status indicator for the bot')
-        .setChoices(
+        .addChoices(
           {name: 'Online', value: Discord.PresenceUpdateStatus.Online},
           {name: 'Idle', value: Discord.PresenceUpdateStatus.Idle},
           {name: 'Do Not Distrub', value: Discord.PresenceUpdateStatus.DoNotDisturb},
