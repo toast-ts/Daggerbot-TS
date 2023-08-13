@@ -33,7 +33,7 @@ function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't n
   if ([
     'getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com',
     '[Error: 30130000:error:0A000410:SSL', '[Error: F8200000:error:0A000410:SSL',
-    'HTTPError: Internal Server Error'
+    'HTTPError: Internal Server Error', 'ExperimentalWarning: '
   ].includes(error.message)) return;
   console.error(error);
   (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
