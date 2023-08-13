@@ -33,7 +33,7 @@ function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't n
   if ([
     'getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com',
     '[Error: 30130000:error:0A000410:SSL', '[Error: F8200000:error:0A000410:SSL',
-    'HTTPError: Internal Server Error', 'ExperimentalWarning: '
+    'HTTPError: Internal Server Error'
   ].includes(error.message)) return;
   console.error(error);
   (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
@@ -41,7 +41,6 @@ function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't n
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
-process.on('warning', (warn: Error)=>DZ(warn, 'nodeWarning'));
 client.on('error', (error: Error)=>DZ(error, 'client-error'));
 
 // Audio Player event handling
