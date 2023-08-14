@@ -9,5 +9,4 @@
 # Bot stuff
 dist/
 src/database/
-src/tokens.json
-src/*.config.json
+src/*.json
