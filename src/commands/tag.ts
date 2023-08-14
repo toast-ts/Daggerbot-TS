@@ -7,7 +7,7 @@ export default {
     // If you question all those '?.', let me tell you: Discord.JS is fricking stupid and I am too stressed to find a solution for it.
   },
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'dcmod');
+    if (interaction.options.getSubcommandGroup() === 'management' && !client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'dcmod');
     const tagData = async()=>await client.tags._content.findOne({_id: interaction.options.getString('name')});
     const tagMeta = {
       isEmbedTrue: async()=>(await tagData()).embedBool,
@@ -20,7 +20,6 @@ export default {
         let targetField = '';
         const targetMember = interaction.options.getMember('target_user');
         if (targetMember) targetField = `*This tag is for <@${targetMember.id}>*`;
-        //console.log(targetMember)
         const embedTemplate = new client.embed().setColor(client.config.embedColor).setTitle(await tagMeta.title()).setDescription(await tagMeta.message()).setFooter({text: `Tag creator: ${await tagMeta.creatorName()}`});
         const messageTemplate = [
           targetField ? targetField : '',
@@ -34,7 +33,7 @@ export default {
       },
       create: async()=>await client.tags._content.create({
           _id: interaction.options.getString('name'),
-          message: interaction.options.getString('message'),
+          message: interaction.options.getString('message').replaceAll(/\\n/g, '\n'),
           embedBool: interaction.options.getBoolean('embed'),
           user: {
             _id: interaction.member.id,
@@ -46,7 +45,7 @@ export default {
       delete: async()=>await client.tags._content.findByIdAndDelete(interaction.options.getString('name')).then(()=>interaction.reply('Tag successfully deleted.')).catch(err=>interaction.reply(`Failed to delete the tag:\n\`\`\`${err}\`\`\``)),
       edit: async()=>await client.tags._content.findByIdAndUpdate(interaction.options.getString('name'), {
           $set: {
-            message: interaction.options.getString('new-message'),
+            message: interaction.options.getString('new-message').replaceAll(/\\n/g, '\n'),
             embedBool: interaction.options.getBoolean('embed')
           }
         })
@@ -82,7 +81,7 @@ export default {
           .setRequired(true))
         .addStringOption(x=>x
           .setName('message')
-          .setDescription('Message to be included in your tag; e.g, you\'re giving the user some instructions')
+          .setDescription('Message to be included in your tag; e.g, you\'re giving the user some instructions, newline: \\n')
           .setMinLength(6)
           .setMaxLength(2048)
           .setRequired(true))
@@ -108,26 +107,10 @@ export default {
           .setRequired(true))
         .addStringOption(x=>x
           .setName('new-message')
-          .setDescription('Replace the current tag\'s message with a new one')
+          .setDescription('Replace the current tag\'s message with a new one, newline: \\n')
           .setRequired(true))
         .addBooleanOption(x=>x
           .setName('embed')
           .setDescription('Toggle this option on an existing tag to be updated with embed or not')
           .setRequired(true))))
 }
-
-// createTag
-/*if (interaction.options.getString('name') === await tagMeta.tagTitle()) return interaction.reply('This tag already exists!');
-        else {
-          await client.tags._content.create({
-            _id: interaction.options.getString('name'),
-            message: interaction.options.getString('message'),
-            embedBool: interaction.options.getBoolean('embed'),
-            user: {
-              _id: interaction.member.id,
-              name: interaction.user.username
-            }
-          })
-          .then(()=>interaction.reply('Tag is now created and available to use.'))
-          .catch(err=>interaction.reply(`There was an error while trying to create your tag:\n\`\`\`${err}\`\`\``))
-        }*/
