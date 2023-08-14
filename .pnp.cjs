@@ -33,7 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.4.10"],\
+            ["@types/node", "npm:20.5.0"],\
             ["axios", "npm:1.4.0"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
@@ -513,17 +513,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node", [\
-        ["npm:20.4.10", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.4.10-a66bd58ee3-02a1ca415d.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:20.4.10"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:20.4.8", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-20.4.8-f8f2d8d349-86a3963c0c.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:20.4.8"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:20.5.0", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.0-ea170d5dd7-659bc5fc93.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:20.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -941,7 +941,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.4.10"],\
+            ["@types/node", "npm:20.5.0"],\
             ["axios", "npm:1.4.0"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
