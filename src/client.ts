@@ -1,5 +1,5 @@
 import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'discord.js';
-import {readFileSync, readdirSync, promises} from 'node:fs';
+import {readFileSync, readdirSync} from 'node:fs';
 import {exec} from 'node:child_process';
 import mongoose from 'mongoose';
 import {formatTimeOpt, Tokens, Config, repeatedMessages, MPServerCache} from './typings/interfaces';
@@ -7,6 +7,7 @@ import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
 import suggestion from './models/suggestion.js';
 import punishments from './models/punishments.js';
+import tags from './models/tagSystem.js';
 import bonkCount from './models/bonkCount.js';
 import MPServer from './models/MPServer.js';
 import xjs from 'xml-js';
@@ -46,6 +47,7 @@ export default class TClient extends Client {
   MPServer: MPServer;
   MPServerCache: MPServerCache;
   suggestion: suggestion;
+  tags: tags;
   repeatedMessages: repeatedMessages;
   statsGraph: number;
 
@@ -85,6 +87,7 @@ export default class TClient extends Client {
     this.MPServer = new MPServer(this);
     this.MPServerCache = {players: [], status: null, name: null} as MPServerCache;
     this.suggestion = new suggestion(this);
+    this.tags = new tags(this);
     this.repeatedMessages = {};
     this.setMaxListeners(45);
     this.statsGraph = -60;
