@@ -17,6 +17,7 @@ export default {
     };
     ({
       send: async()=>{
+        if (!await tagData()) return interaction.reply({content:'This tag is not available in the database.',ephemeral:true});
         let targetField = '';
         const targetMember = interaction.options.getMember('target_user');
         if (targetMember) targetField = `*This tag is for <@${targetMember.id}>*`;
