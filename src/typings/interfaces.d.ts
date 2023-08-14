@@ -141,6 +141,7 @@ export interface Config {
     message: string
   },
   botSwitches: {
+    dailyMsgsBackup: boolean,
     registerCommands: boolean,
     commands: boolean,
     logs: boolean,
