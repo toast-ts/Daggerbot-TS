@@ -37,7 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.4.0"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
-            ["discord.js", "npm:14.13.0-dev.1691841828-9ed1b59df.0"],\
+            ["discord.js", "npm:14.13.0-dev.1691971783-188877c50.0"],\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.4.3"],\
@@ -945,7 +945,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.4.0"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
-            ["discord.js", "npm:14.13.0-dev.1691841828-9ed1b59df.0"],\
+            ["discord.js", "npm:14.13.0-dev.1691971783-188877c50.0"],\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.4.3"],\
@@ -1076,7 +1076,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/discord-player__extractor", null],\
             ["@types/discord.js", null],\
             ["@types/youtube-sr", null],\
-            ["discord.js", "npm:14.13.0-dev.1691841828-9ed1b59df.0"],\
+            ["discord.js", "npm:14.13.0-dev.1691971783-188877c50.0"],\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["youtube-sr", "npm:4.3.4"]\
           ],\
@@ -1092,10 +1092,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["discord.js", [\
-        ["npm:14.13.0-dev.1691841828-9ed1b59df.0", {\
-          "packageLocation": "./.yarn/cache/discord.js-npm-14.13.0-dev.1691841828-9ed1b59df.0-5205132e1c-c584c642a6.zip/node_modules/discord.js/",\
+        ["npm:14.13.0-dev.1691971783-188877c50.0", {\
+          "packageLocation": "./.yarn/cache/discord.js-npm-14.13.0-dev.1691971783-188877c50.0-96206ff672-3e03a228ec.zip/node_modules/discord.js/",\
           "packageDependencies": [\
-            ["discord.js", "npm:14.13.0-dev.1691841828-9ed1b59df.0"],\
+            ["discord.js", "npm:14.13.0-dev.1691971783-188877c50.0"],\
             ["@discordjs/builders", "npm:1.6.4"],\
             ["@discordjs/collection", "npm:1.5.2"],\
             ["@discordjs/formatters", "npm:0.3.1"],\
