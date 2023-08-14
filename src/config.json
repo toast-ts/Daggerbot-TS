@@ -16,6 +16,7 @@
     "message": "1023699243183112192"
   },
   "botSwitches": {
+    "dailyMsgsBackup": true,
     "registerCommands": true,
     "commands": true,
     "logs": true,
