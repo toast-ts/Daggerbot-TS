@@ -3,9 +3,14 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.model('mpserver', new mongoose.Schema({
   _id: {type: String, required:true},
-  ip: {type: String},
-  code: {type: String},
-  timesUpdated: {type: Number, required: true}
+  mainServer: {required:true, type: new mongoose.Schema({
+    ip: {type: String, required:true},
+    code: {type: String, required:true}
+  }, {versionKey: false})},
+  secondServer: {required:true, type: new mongoose.Schema({
+    ip: {type: String, required:true},
+    code: {type: String, required:true}
+  }, {versionKey: false})},
 }, {versionKey: false}));
 
 export default class MPServer extends Schema {
@@ -15,10 +20,5 @@ export default class MPServer extends Schema {
     super();
     this.client = client;
     this._content = Schema;
-  }
-  async _increment(serverId: string){
-    const server = await this._content.findById(serverId)
-    if (server) await this._content.findByIdAndUpdate(server, {timesUpdated: server.timesUpdated + 1})
-    else await this._content.create({_id:serverId, timesUpdated: 1})
   }
 }
