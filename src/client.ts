@@ -85,7 +85,10 @@ export default class TClient extends Client {
     this.punishments = new punishments(this);
     this.bannedWords = new bannedWords(this);
     this.MPServer = new MPServer(this);
-    this.MPServerCache = {players: [], status: null, name: null} as MPServerCache;
+    this.MPServerCache = {
+      main: { players: [], status: null, name: null },
+      second: { players: [], status: null, name: null }
+    } as MPServerCache;
     this.suggestion = new suggestion(this);
     this.tags = new tags(this);
     this.repeatedMessages = {};

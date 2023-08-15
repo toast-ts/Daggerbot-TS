@@ -137,8 +137,14 @@ export interface Config {
   LRSstart: number,
   whitelistedServers: Array<string>,
   MPStatsLocation: {
-    channel: string,
-    message: string
+    main: {
+      channel: string
+      message: string
+    },
+    second: {
+      channel: string
+      message: string
+    }
   },
   botSwitches: {
     dailyMsgsBackup: boolean,
@@ -187,7 +193,14 @@ export interface Config {
   }
 }
 export interface MPServerCache {
-  players: FSPlayer[],
-  status: 'online' | 'offline' | null,
-  name: string | null
+  main: {
+    players: FSPlayer[],
+    status: 'online' | 'offline' | null,
+    name: string | null
+  },
+  second: {
+    players: FSPlayer[],
+    status: 'online' | 'offline' | null,
+    name: string | null
+  }
 }

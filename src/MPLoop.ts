@@ -5,55 +5,95 @@ import {FSPlayer, FSData, FSCareerSavegame} from './typings/interfaces';
 
 export default async(client:TClient,Channel:string,Message:string,ServerName:string)=>{
   if (!client.config.botSwitches.mpstats) return;
+  const noContentImage = 'https://cdn.discordapp.com/attachments/1118960531135541318/1140906691236479036/68efx1.png';
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
   const embed = new client.embed();
   let playerData:Array<string> = [];
   let error:Boolean;
   let isServerOnline = false;
-  const Server = await client.MPServer._content.findById(client.config.mainServer.id);
-
-  const DSS = {
-    data: {} as FSData, fetchResult: '' as string
-  };
-  const CSG = {
-    data: {} as FSCareerSavegame, fetchResult: '' as string
-  };
-
-  if (!Server?.ip?.match(/http|https/)) return msg.edit({content: '*Detected an invalid IP\nContact MP Manager or Bot Tech*', embeds: null});
-  async function serverData(client:TClient, URL:string){
-    return await client.axios.get(URL, {timeout: 5000, maxContentLength: Infinity, headers:{'User-Agent':`Daggerbot/axios ${client.axios.VERSION}`}}).catch((error:Error)=>error.message)
+  const fetchServer = await client.MPServer._content.findById(client.config.mainServer.id);
+  
+  const API = { // Fetch needed data from Farming Simulator server's API endpoints.
+    DSS: {
+      data: {} as FSData,
+      res: '' as string,
+      endpoint: '/feed/dedicated-server-stats.json?code='
+    },
+    CSG: {
+      data: {} as FSCareerSavegame,
+      res: '' as string,
+      endpoint: '/feed/dedicated-server-savegame.html?code=',
+      endpoint_file: '&file=careerSavegame'
+    }
   }
-  await Promise.all([serverData(client, Server.ip+'/feed/dedicated-server-stats.json?code='+Server.code), serverData(client, Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame')]).then(function(results){
-    if (typeof results[0] === 'string'){
-      DSS.fetchResult = `DagMP DSS failed, ${results[0]}`;
+
+  // Fetch needed data from database server and hit them with a GET request.
+  if (!fetchServer.mainServer.ip(/http|https/) ?? !fetchServer.secondServer.ip(/http|https/)) return msg.edit({content:'*This server doesn\'t seem to be setup yet!*', embeds:null});
+  async function hitServer(client:TClient, URL:string){
+    return await client.axios.get(URL, {
+      timeout: 7500, // Increased the timeout a bit just in case.
+      maxContentLength: Infinity,
+      headers: {
+        'User-Agent': `Daggerbot/axios ${client.axios.VERSION}`
+      }
+    }).catch((err:Error)=>err.message)
+  }
+  await Promise.all([
+    hitServer(client, fetchServer.mainServer.ip+API.DSS.endpoint+fetchServer.mainServer.code),
+    hitServer(client, fetchServer.mainServer.ip+API.CSG.endpoint+fetchServer.mainServer.code+API.CSG.endpoint_file),
+    hitServer(client, fetchServer.secondServer.ip+API.DSS.endpoint+fetchServer.secondServer.code),
+    hitServer(client, fetchServer.secondServer.ip+API.CSG.endpoint+fetchServer.secondServer.code+API.CSG.endpoint_file)
+  ]).then(function(results){
+    // Main server's DSS
+    if (typeof results[0] === 'string') {
+      API.DSS.res = `DagMP:Main DSS failed, ${results[0]}`;
       embed.addFields({name:'DSS Status',value:results[0]})
-    } else if (results[0].status != 200){
-      DSS.fetchResult = `DagMP DSS failed with ${results[0].status + ' ' + results[0].statusText}`;
-      embed.addFields({name:'DSS Status',value:results[0].status + ' ' + results[0].statusText})
-    } else DSS.data = results[0].data as FSData
+    } else if (results[0].status != 200) {
+      API.DSS.res = `DagMP:Main DSS failed with ${results[0].status +' '+ results[0].statusText}`;
+      embed.addFields({name:'DSS Status',value:results[0].status +' '+ results[0].statusText})
+    } else API.DSS.data = results[0].data as FSData
 
-    if (typeof results[1] === 'string'){
-      CSG.fetchResult = `DagMP CSG failed, ${results[1]}`;
+    // Main server's CSG
+    if (typeof results[1] === 'string') {
+      API.CSG.res = `DagMP:Main CSG failed, ${results[1]}`;
       embed.addFields({name:'CSG Status',value:results[1]})
-    } else if (results[1].status != 200){
-      if (results[1].status === 204) embed.setImage('https://httpcats.com/204.jpg');
-      CSG.fetchResult = `DagMP CSG failed with ${results[1].status + ' ' + results[1].statusText}`;
-      embed.addFields({name:'CSG Status',value:results[1].status + ' ' + results[1].statusText})
-    } else CSG.data = (client.xjs.xml2js(results[1].data,{compact:true}) as any).careerSavegame as FSCareerSavegame
-  }).catch(error=>console.error(error));
+    } else if (results[1].status != 200) {
+      if (results[1].status === 204) embed.setImage(noContentImage);
+      API.CSG.res = `DagMP:Main CSG failed with ${results[1].status +' '+ results[1].statusText}`;
+      embed.addFields({name:'CSG Status',value:results[1].status +' '+ results[1].statusText})
+    } else API.CSG.data = (client.xjs.xml2js(results[1].data,{compact:true}) as any).careerSavegame as FSCareerSavegame
 
-  if (DSS.fetchResult.length != 0){
+    // Second server's DSS
+    if (typeof results[2] === 'string') {
+      API.DSS.res = `DagMP:Second DSS failed, ${results[2]}`;
+      embed.addFields({name:'DSS Status',value:results[2]})
+    } else if (results[2].status != 200) {
+      API.DSS.res = `DagMP:Second DSS failed with ${results[2].status +' '+ results[2].statusText}`;
+      embed.addFields({name:'DSS Status',value:results[2].status +' '+ results[2].statusText})
+    } else API.DSS.data = results[2].data as FSData
+
+    // Second server's CSG
+    if (typeof results[3] === 'string') {
+      API.CSG.res = `DagMP:Second CSG failed, ${results[3]}`;
+      embed.addFields({name:'CSG Status',value:results[3]})
+    } else if (results[3].status != 200) {
+      if (results[3].status === 204) embed.setImage(noContentImage);
+      API.CSG.res = `DagMP:Second CSG failed with ${results[3].status +' '+ results[3].statusText}`;
+      embed.addFields({name:'CSG Status',value:results[3].status +' '+ results[3].statusText})
+    } else API.CSG.data = (client.xjs.xml2js(results[3].data,{compact:true}) as any).careerSavegame as FSCareerSavegame
+  }).catch((err:Error)=>console.error(err.message))
+
+  if (API.DSS.res.length != 0) {
     error = true;
-    if (DSS.data.slots === undefined) return;
-    console.log(client.logTime(), DSS.fetchResult);
-  } else if (CSG.fetchResult.length != 0){
+    if (API.DSS.data.slots === undefined) return;
+    console.log(client.logTime(), API.DSS.res);
+  } else if (API.CSG.res.length != 0) {
     error = true;
-    console.log(client.logTime(), CSG.fetchResult);
+    console.log(client.logTime(), API.CSG.res);
   }
-  if (error){ // Blame Nawdic
-    embed.setTitle('Host is not responding').setColor(client.config.embedColorRed);
-    msg.edit({content:null, embeds: [embed]})
-    return;
+  if (error) {// Nawdic broke it in his dream
+    embed.setTitle('Host did not respond back in time').setColor(client.config.embedColorRed);
+    return msg.edit({content:null, embeds:[embed]})
   }
 
   //Timescale formatting
@@ -81,42 +121,43 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
   const serverIndicatorEmbed =(indicator:string)=>new client.embed().setTitle(`**${ServerName}** is now ${indicator}`).setColor(client.config.embedColorOrange).setTimestamp();
 
   const serverLog = client.channels.resolve(client.config.mainServer.channels.fs_server_log) as Discord.TextChannel;
-  const playersOnServer = DSS.data.slots?.players.filter(x=>x.isUsed);
-  const playersInCache = client.MPServerCache.players;
-  if (!playersOnServer) return console.error('[MPLoop] Empty filter, ignoring...'); // For the love of god, stop throwing errors everytime.
+  const playersOnServer = API.DSS.data.slots?.players.filter(x=>x.isUsed);
+  const playersInCache = client.MPServerCache[ServerName].players;
+  if (!playersOnServer) return console.error(client.logTime(), '[MPLoop] Empty filter, ignoring...'); // For the love of god, stop throwing errors everytime.
   playersOnServer.forEach(player=>playerData.push(`**${player.name} ${player.isAdmin ? '| admin' : ''}**\nFarming for ${client.formatPlayerUptime(player.uptime)}`));
 
-  ServerName = client.MPServerCache.name;
-  if (DSS.data.server.name === 'Official Daggerwin Game Server') client.MPServerCache.name = 'Daggerwin';
+  ServerName = client.MPServerCache[ServerName].name; // Truncate unnecessary name for the embed
+  if (API.DSS.data.server.name === 'Official Daggerwin Game Server') client.MPServerCache['main'].name = 'Daggerwin';
+  //Second server name is unknown, will come back and update this later.
 
-  if (DSS.data.server.name.length === 0){
+  if (API.DSS.data.server.name.length === 0){
     embed.setTitle('The server seems to be offline.').setColor(client.config.embedColorRed);
     msg.edit({content: 'This embed will resume when the server is back online.', embeds: [embed]});
-    if (client.MPServerCache.status === 'online') serverLog.send({embeds:[serverIndicatorEmbed('offline')]});
-    client.MPServerCache.status = 'offline';
+    if (client.MPServerCache[ServerName].status === 'online') serverLog.send({embeds:[serverIndicatorEmbed('offline')]});
+    client.MPServerCache[ServerName].status = 'offline';
   } else {
-    if (client.MPServerCache.status === 'offline'){
+    if (client.MPServerCache[ServerName].status === 'offline'){
       serverLog.send({embeds:[serverIndicatorEmbed('online')]});
       isServerOnline = true
     };
-    client.MPServerCache.status = 'online';
+    client.MPServerCache[ServerName].status = 'online';
     const statusEmbed = new client.embed().setColor(client.config.embedColor).setTitle('Server details').setFields(
-      {name: 'Current Map', value: DSS.data.server.mapName.length === 0 ? '\u200b' : DSS.data.server.mapName, inline: true},
-      {name: 'Version', value: DSS.data.server.version.length === 0 ? '\u200b' : DSS.data.server.version, inline: true},
-      {name: 'In-game Time', value: `${('0'+Math.floor((DSS.data.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-      {name: 'Slot Usage', value: isNaN(Number(CSG.data.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(CSG.data.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
-      {name: 'Autosave Interval', value: isNaN(Number(CSG.data.settings?.autoSaveInterval._text)) === true ? 'Unavailable' : Number(CSG.data.settings?.autoSaveInterval._text).toFixed(0)+' mins', inline:true},
-      {name: 'Timescale', value: isNaN(Number(CSG.data.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(CSG.data.settings?.timeScale._text), 0, 'x'), inline: true}
+      {name: 'Current Map', value: API.DSS.data.server.mapName.length === 0 ? '\u200b' : API.DSS.data.server.mapName, inline: true},
+      {name: 'Version', value: API.DSS.data.server.version.length === 0 ? '\u200b' : API.DSS.data.server.version, inline: true},
+      {name: 'In-game Time', value: `${('0'+Math.floor((API.DSS.data.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((API.DSS.data.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
+      {name: 'Slot Usage', value: isNaN(Number(API.CSG.data.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(API.CSG.data.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
+      {name: 'Autosave Interval', value: isNaN(Number(API.CSG.data.settings?.autoSaveInterval._text)) === true ? 'Unavailable' : Number(API.CSG.data.settings?.autoSaveInterval._text).toFixed(0)+' mins', inline:true},
+      {name: 'Timescale', value: isNaN(Number(API.CSG.data.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(API.CSG.data.settings?.timeScale._text), 0, 'x'), inline: true}
     );
-    embed.setColor(client.config.embedColor).setTitle(DSS.data.server.name).setDescription(DSS.data.slots.used === 0 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${DSS.data.slots.used}/${DSS.data.slots.capacity}`});
+    embed.setColor(client.config.embedColor).setTitle(API.DSS.data.server.name).setDescription(API.DSS.data.slots.used === 0 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${API.DSS.data.slots.used}/${API.DSS.data.slots.capacity}`});
     msg.edit({content:'This embed updates every minute.',embeds:[statusEmbed,embed]});
   }
 
   if (!isServerOnline){
     playerLog();
-    const Database:Array<number> = JSON.parse(readFileSync('src/database/MPPlayerData.json',{encoding:'utf8',flag:'r+'}));
-    Database.push(DSS.data.slots?.used);
-    writeFileSync('src/database/MPPlayerData.json', JSON.stringify(Database));
-    client.MPServerCache.players = playersOnServer
+    const Database:Array<number> = JSON.parse(readFileSync(`src/database/${ServerName}PlayerData.json`,{encoding:'utf8',flag:'r+'}));
+    Database.push(API.DSS.data.slots?.used);
+    writeFileSync(`src/database/${ServerName}PlayerData.json`, JSON.stringify(Database));
+    client.MPServerCache[ServerName].players = playersOnServer
   }
 }
