@@ -66,11 +66,14 @@ if (client.config.botSwitches.music){
 }
 
 // YouTube Upload notification and Daggerwin MP loop
-setInterval(()=>MPLoop(client, client.config.MPStatsLocation.channel, client.config.MPStatsLocation.message, 'Daggerwin'), 60000);
+setInterval(()=>{
+  MPLoop(client, client.config.MPStatsLocation.main.channel, client.config.MPStatsLocation.main.message, 'Daggerwin')
+  MPLoop(client, client.config.MPStatsLocation.second.channel, client.config.MPStatsLocation.second.message, 'SecondServer')
+}, 60000);
 setInterval(async()=>{
 	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
-}, 600000)
+}, 300000)
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
