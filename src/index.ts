@@ -41,7 +41,7 @@ function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't n
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
-client.on('error', (error: Error)=>DZ(error, 'client-error'));
+client.on('error', (error: Error)=>DZ(error, 'clientError'));
 
 // Audio Player event handling
 if (client.config.botSwitches.music){
