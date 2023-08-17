@@ -49,5 +49,8 @@
   "devDependencies": {
     "@types/ms": "0.7.31",
     "@types/node": "20.5.0"
+  },
+  "resolutions": {
+    "discord-api-types": "0.37.53"
   }
 }
