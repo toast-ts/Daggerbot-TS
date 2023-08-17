@@ -105,7 +105,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@discordjs/formatters", "npm:0.3.1"],\
             ["@discordjs/util", "npm:1.0.0"],\
             ["@sapphire/shapeshift", "npm:3.9.2"],\
-            ["discord-api-types", "npm:0.37.51"],\
+            ["discord-api-types", "npm:0.37.53"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["ts-mixer", "npm:6.0.3"],\
             ["tslib", "npm:2.6.1"]\
@@ -127,7 +127,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@discordjs-formatters-npm-0.3.1-7840a49252-9635568785.zip/node_modules/@discordjs/formatters/",\
           "packageDependencies": [\
             ["@discordjs/formatters", "npm:0.3.1"],\
-            ["discord-api-types", "npm:0.37.51"]\
+            ["discord-api-types", "npm:0.37.53"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -171,7 +171,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sapphire/async-queue", "npm:1.5.0"],\
             ["@sapphire/snowflake", "npm:3.5.1"],\
             ["@vladfrangu/async_event_emitter", "npm:2.2.2"],\
-            ["discord-api-types", "npm:0.37.51"],\
+            ["discord-api-types", "npm:0.37.53"],\
             ["magic-bytes.js", "npm:1.0.15"],\
             ["tslib", "npm:2.6.1"],\
             ["undici", "npm:5.23.0"]\
@@ -194,7 +194,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@discordjs/voice", "npm:0.16.0"],\
             ["@types/ws", "npm:8.5.5"],\
-            ["discord-api-types", "npm:0.37.51"],\
+            ["discord-api-types", "npm:0.37.53"],\
             ["prism-media", "virtual:37f8ab283fb7abcf3fda3c5d430948901f33b8d771da32a273933562670e34608b1daf4394905868d946d64bc91643fb158184deae5131f973a7fcfafbc06afc#npm:1.3.5"],\
             ["tslib", "npm:2.6.1"],\
             ["ws", "virtual:9ce84a0604ad02832e33621299f919cd218b24239fb0c46d80371b76a2e2bb3fa8fbeca210d63d15caaa18cb4bd437d3b404ee91d06cb167e4b2efa32b8e514c#npm:8.13.0"]\
@@ -213,7 +213,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sapphire/async-queue", "npm:1.5.0"],\
             ["@types/ws", "npm:8.5.5"],\
             ["@vladfrangu/async_event_emitter", "npm:2.2.2"],\
-            ["discord-api-types", "npm:0.37.51"],\
+            ["discord-api-types", "npm:0.37.53"],\
             ["tslib", "npm:2.6.1"],\
             ["ws", "virtual:9ce84a0604ad02832e33621299f919cd218b24239fb0c46d80371b76a2e2bb3fa8fbeca210d63d15caaa18cb4bd437d3b404ee91d06cb167e4b2efa32b8e514c#npm:8.13.0"]\
           ],\
@@ -1048,10 +1048,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["discord-api-types", [\
-        ["npm:0.37.51", {\
-          "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.51-89cec04373-0f6c8a5c31.zip/node_modules/discord-api-types/",\
+        ["npm:0.37.53", {\
+          "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.53-511d5a32e5-cff6bc976f.zip/node_modules/discord-api-types/",\
           "packageDependencies": [\
-            ["discord-api-types", "npm:0.37.51"]\
+            ["discord-api-types", "npm:0.37.53"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1104,7 +1104,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@discordjs/ws", "npm:1.0.0"],\
             ["@sapphire/snowflake", "npm:3.5.1"],\
             ["@types/ws", "npm:8.5.5"],\
-            ["discord-api-types", "npm:0.37.51"],\
+            ["discord-api-types", "npm:0.37.53"],\
             ["fast-deep-equal", "npm:3.1.3"],\
             ["lodash.snakecase", "npm:4.1.1"],\
             ["tslib", "npm:2.6.1"],\
