@@ -42,6 +42,7 @@ process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection')
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
 client.on('error', (error: Error)=>DZ(error, 'clientError'));
+client.on('debug', console.log).on('warn', console.log);
 
 // Audio Player event handling
 if (client.config.botSwitches.music){
@@ -66,10 +67,11 @@ if (client.config.botSwitches.music){
 }
 
 // YouTube Upload notification and Daggerwin MP loop
-setInterval(()=>{
+setInterval(async()=>{
+  console.log(client.logTime(), 'MPLoop Interval')
   MPLoop(client, client.config.MPStatsLocation.main.channel, client.config.MPStatsLocation.main.message, 'Daggerwin')
   MPLoop(client, client.config.MPStatsLocation.second.channel, client.config.MPStatsLocation.second.message, 'SecondServer')
-}, 60000);
+}, 30000);
 setInterval(async()=>{
 	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
