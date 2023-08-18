@@ -3,7 +3,69 @@ import TClient from './client';
 import {writeFileSync, readFileSync} from 'node:fs';
 import {FSPlayer, FSData, FSCareerSavegame} from './typings/interfaces';
 
-export default async(client:TClient,Channel:string,Message:string,ServerName:string)=>{
+export default async(client:TClient, Channel:string, Message:string, ServerName:string)=>{
+  if (!client.config.botSwitches.mpstats) return;
+  
+  const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
+  const database = await client.MPServer._content.findById(client.config.mainServer.id);
+  const servers = {
+    main: {
+      dss: database.mainServer.ip+'/feed/dedicated-server-stats.json?code='+database.mainServer.code,
+      csg: database.mainServer.ip+'/feed/dedicated-server-savegame.html?code='+database.mainServer.code+'&file=careerSavegame'
+    },
+    second: {
+      dss: database.secondServer.ip+'/feed/dedicated-server-stats.json?code='+database.secondServer.code,
+      csg: database.secondServer.ip+'/feed/dedicated-server-savegame.html?code='+database.secondServer.code+'&file=careerSavegame'
+    }
+  };
+  // Log bot uptime for the sake of debugging.
+  (client.channels.resolve('1091300529696673792') as Discord.TextChannel).send(client.formatTime(client.uptime, 2, {longNames: true, commas: true}));
+
+  const HITALL = async()=>{
+    /* const hitDSS = await Promise.all([
+      client.axios.get(servers.main.dss,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot - HITALL/axios ${client.axios.VERSION}`}}),
+      client.axios.get(servers.second.dss,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot - HITALL/axios ${client.axios.VERSION}`}})
+    ]).catch(e=>{throw new Error('hitDSS failed to make a request', {cause: e.cause})}); */
+    const hitCSG = await Promise.all([
+      client.axios.get(servers.main.csg,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot - HITALL/axios ${client.axios.VERSION}`}}),
+      client.axios.get(servers.second.csg,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot - HITALL/axios ${client.axios.VERSION}`}})
+    ]).catch(e=>{throw new Error('hitCSG failed to make a request', {cause: e.cause})});
+    try {
+      const APIData = {
+        'Daggerwin': {
+          //dss: hitDSS[0].data as FSData,
+          csg: (client.xjs.xml2js(hitCSG[0].data,{compact:true}) as any).careerSavegame as FSCareerSavegame
+        },
+        'SecondServer': {
+          //dss: hitDSS[1].data as FSData,
+          csg: (client.xjs.xml2js(hitCSG[1].data,{compact:true}) as any).careerSavegame as FSCareerSavegame
+        }
+      } as const;
+      console.log(APIData['Daggerwin'].csg)
+      console.log(APIData['SecondServer'].csg)
+      //console.log((APIData.Daggerwin.dss as FSData).server.name)
+      //console.log((APIData.Daggerwin.csg as FSCareerSavegame).statistics.money)
+      msg.edit({content: [
+        ServerName,
+        (APIData[ServerName].csg as FSCareerSavegame).settings.savegameName._text
+      ].join('\n')})
+    } catch(err) {
+      msg.edit({content: err.message})
+      throw new Error('HITALL failed to make a promise request', {cause: err.cause});
+    }
+  }
+  HITALL();
+
+  /* await Promise.all([
+    client.axios.get(servers.main.dss,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot/axios ${client.axios.VERSION}`}}),
+    client.axios.get(servers.main.csg,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot/axios ${client.axios.VERSION}`}}),
+    client.axios.get(servers.second.dss,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot/axios ${client.axios.VERSION}`}}),
+    client.axios.get(servers.second.csg,{timeout:7500,maxContentLength:Infinity,headers:{'User-Agent':`Daggerbot/axios ${client.axios.VERSION}`}})
+  ]).then(x=>x.map(x=>x.data)).catch(()=>{throw new Error('[MPLOOP] Failed to make a promise request.')});
+  msg.edit({content: ServerName, embeds: []}) */
+}
+
+/* export default async(client:TClient,Channel:string,Message:string,ServerName:string)=>{
   if (!client.config.botSwitches.mpstats) return;
   const noContentImage = 'https://cdn.discordapp.com/attachments/1118960531135541318/1140906691236479036/68efx1.png';
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
@@ -161,3 +223,4 @@ export default async(client:TClient,Channel:string,Message:string,ServerName:str
     client.MPServerCache[ServerName].players = playersOnServer
   }
 }
+ */
