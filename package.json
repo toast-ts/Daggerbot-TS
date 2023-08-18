@@ -34,7 +34,7 @@
     "axios": "1.4.0",
     "canvas": "2.11.2",
     "discord-player": "6.6.2",
-    "discord.js": "dev",
+    "discord.js": "14.13.0",
     "libsodium-wrappers": "0.7.11",
     "moment": "2.29.4",
     "mongoose": "7.4.3",
@@ -49,8 +49,5 @@
   "devDependencies": {
     "@types/ms": "0.7.31",
     "@types/node": "20.5.0"
-  },
-  "resolutions": {
-    "discord-api-types": "0.37.53"
   }
 }
