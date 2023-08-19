@@ -2,7 +2,7 @@ import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'disco
 import {readFileSync, readdirSync} from 'node:fs';
 import {exec} from 'node:child_process';
 import mongoose from 'mongoose';
-import {formatTimeOpt, Tokens, Config, repeatedMessages, MPServerCache} from './typings/interfaces';
+import {formatTimeOpt, Tokens, Config, repeatedMessages, type MPServerCache} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
 import suggestion from './models/suggestion.js';
@@ -45,7 +45,7 @@ export default class TClient extends Client {
   bonkCount: bonkCount;
   bannedWords: bannedWords;
   MPServer: MPServer;
-  MPServerCache: MPServerCache;
+  MPServerCache: MPServerCache = {};
   suggestion: suggestion;
   tags: tags;
   repeatedMessages: repeatedMessages;
@@ -85,10 +85,7 @@ export default class TClient extends Client {
     this.punishments = new punishments(this);
     this.bannedWords = new bannedWords(this);
     this.MPServer = new MPServer(this);
-    this.MPServerCache = {
-      main: { players: [], status: null, name: null },
-      second: { players: [], status: null, name: null }
-    } as MPServerCache;
+    this.MPServerCache = {} as MPServerCache;
     this.suggestion = new suggestion(this);
     this.tags = new tags(this);
     this.repeatedMessages = {};
@@ -111,15 +108,20 @@ export default class TClient extends Client {
     }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(()=>{throw new Error('Failed to connect to MongoDB'); exec('pm2 stop Daggerbot', {windowsHide:true})})
     this.login(this.tokens.beta);
     for await (const file of readdirSync('dist/events')){
-      //console.log('EVENTS:', file)
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
     }
     for await (const file of readdirSync('dist/commands')){
-      //console.log('COMMANDS:', file)
       const command = await import(`./commands/${file}`);
       this.commands.set(command.default.data.name,{command, uses: 0});
       this.registry.push(command.default.data.toJSON())
+    }
+    for (const naming of Object.keys(this.config.MPStatsLocation)){
+      this.MPServerCache[naming] = {
+        players: [],
+        status: null,
+        name: null
+      }
     }
   }
   formatTime(integer: number, accuracy = 1, options?: formatTimeOpt){
