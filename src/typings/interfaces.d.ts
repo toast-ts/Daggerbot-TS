@@ -192,15 +192,12 @@ export interface Config {
     }
   }
 }
-export interface MPServerCache {
-  main: {
-    players: FSPlayer[],
-    status: 'online' | 'offline' | null,
-    name: string | null
-  },
-  second: {
-    players: FSPlayer[],
-    status: 'online' | 'offline' | null,
-    name: string | null
-  }
+export type MPServerCache = Record<string,{
+  players: FSPlayer[],
+  status: 'online' | 'offline' | null,
+  name: string | null
+}>
+export interface TServer {
+  ip: string
+  code: string
 }

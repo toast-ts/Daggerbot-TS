@@ -67,10 +67,10 @@ if (client.config.botSwitches.music){
 }
 
 // YouTube Upload notification and Daggerwin MP loop
-setInterval(async()=>{
+if (client.config.botSwitches.mpstats) setInterval(async()=>{
   const serverlake = (await client.MPServer._content.findById(client.config.mainServer.id));
-  for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPLoop(client, locArea.channel, locArea.message, serverlake[locName])
-}, 10000);
+  for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPLoop(client, locArea.channel, locArea.message, serverlake[locName], locName)
+}, 30000);
 setInterval(async()=>{
 	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
