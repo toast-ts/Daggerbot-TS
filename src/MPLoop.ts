@@ -14,7 +14,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   const genericEmbed = new client.embed();
 
   // Log bot uptime for the sake of debugging.
-  (client.channels.resolve('1091300529696673792') as Discord.TextChannel).send(client.formatTime(client.uptime, 2, {longNames: true, commas: true}));
+  //(client.channels.resolve('1091300529696673792') as Discord.TextChannel).send(client.formatTime(client.uptime, 2, {longNames: true, commas: true}));
 
   const decoPlayer = (player:FSPlayer)=>{
     let decorator = player.isAdmin ? ':detective:' : '';
