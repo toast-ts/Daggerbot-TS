@@ -42,7 +42,7 @@ process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection')
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
 client.on('error', (error: Error)=>DZ(error, 'clientError'));
-client.on('debug', console.log).on('warn', console.log);
+//client.on('debug', console.log).on('warn', console.log);
 
 // Audio Player event handling
 if (client.config.botSwitches.music){
