@@ -10,3 +10,4 @@
 dist/
 src/database/
 src/*.json
+src/MPLoopRaw.log

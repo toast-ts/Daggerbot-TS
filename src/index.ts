@@ -41,7 +41,8 @@ function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't n
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
-client.on('error', (error: Error)=>DZ(error, 'client-error'));
+client.on('error', (error: Error)=>DZ(error, 'clientError'));
+client.on('debug', console.log).on('warn', console.log);
 
 // Audio Player event handling
 if (client.config.botSwitches.music){
@@ -66,11 +67,14 @@ if (client.config.botSwitches.music){
 }
 
 // YouTube Upload notification and Daggerwin MP loop
-setInterval(()=>MPLoop(client, client.config.MPStatsLocation.channel, client.config.MPStatsLocation.message, 'Daggerwin'), 60000);
+if (client.config.botSwitches.mpstats) setInterval(async()=>{
+  const serverlake = (await client.MPServer._content.findById(client.config.mainServer.id));
+  for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPLoop(client, locArea.channel, locArea.message, serverlake[locName], locName)
+}, 30000);
 setInterval(async()=>{
 	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
 	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
-}, 600000)
+}, 300000)
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
