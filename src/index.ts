@@ -31,7 +31,7 @@ client.on('ready', async()=>{
 // Error handler
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
   if ([
-    'getaddrinfo ENOTFOUND discord.com', 'getaddrinfo EAI_AGAIN discord.com',
+    'ConnectTimeoutError: Connect Timeout Error', 'getaddrinfo EAI_AGAIN discord.com',
     '[Error: 30130000:error:0A000410:SSL', '[Error: F8200000:error:0A000410:SSL',
     'HTTPError: Internal Server Error'
   ].includes(error.message)) return;
