@@ -12,8 +12,14 @@
     "929807948748832798", "468835415093411861", "1058183358267543552", "549114074273677314"
   ],
   "MPStatsLocation": {
-    "channel": "543494084363288637",
-    "message": "1023699243183112192"
+    "mainServer": {
+      "channel": "543494084363288637",
+      "message": "1023699243183112192"
+    },
+    "secondServer": {
+      "channel": "",
+      "message": ""
+    }
   },
   "botSwitches": {
     "dailyMsgsBackup": true,
