@@ -90,7 +90,7 @@ export default class TClient extends Client {
     this.tags = new tags(this);
     this.repeatedMessages = {};
     this.setMaxListeners(45);
-    this.statsGraph = -60;
+    this.statsGraph = -120;
   }
   async init(){
     console.time('Startup');
