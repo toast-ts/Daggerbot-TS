@@ -5,6 +5,11 @@ import canvas from 'canvas';
 import {readFileSync} from 'node:fs';
 import {FSData, TServer} from 'src/typings/interfaces.js';
 
+const serverChoices = [
+  {name: 'Main Server', value: 'mainServer'},
+  {name: 'Second Server', value: 'secondServer'}
+]
+
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (client.uptime < 30000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.')
@@ -246,60 +251,51 @@ export default {
     })[interaction.options.getSubcommand()]();
   },
   data: new Discord.SlashCommandBuilder()
-    .setName('mp')
-    .setDescription('Display MP status and other things')
-    .addSubcommand(x=>x
-      .setName('status')
-      .setDescription('Display server status')
-      .addStringOption(x=>x
-        .setName('server')
-        .setDescription('The server to update')
-        .setRequired(true)
-        .setChoices(
-          {name: 'Main Server', value: 'mainServer'},
-          {name: 'Second Server', value: 'secondServer'}
-        )))
-    .addSubcommand(x=>x
-      .setName('players')
-      .setDescription('Display players on server')
-      .addStringOption(x=>x
-        .setName('server')
-        .setDescription('The server to display players for')
-        .setRequired(true)
-        .setChoices(
-          {name: 'Main Server', value: 'mainServer'},
-          {name: 'Second Server', value: 'secondServer'}
-        )))
-    .addSubcommand(x=>x
-      .setName('url')
-      .setDescription('View or update the server URL')
-      .addStringOption(x=>x
-        .setName('server')
-        .setDescription('The server to update')
-        .setRequired(true)
-        .setChoices(
-          {name: 'Main Server', value: 'mainServer'},
-          {name: 'Second Server', value: 'secondServer'}
-        ))
-      .addStringOption(x=>x
-        .setName('address')
-        .setDescription('The URL to the dedicated-server-stats.json file')
-        .setRequired(false)))
-    .addSubcommand(x=>x
-      .setName('info')
-      .setDescription('Display server information')
-      .addStringOption(x=>x
-        .setName('server')
-        .setDescription('The server to display information for')
-        .setRequired(true)
-        .setChoices(
-          {name: 'Main Server', value: 'mainServer'},
-          {name: 'Second Server', value: 'secondServer'}
-        )))
-    .addSubcommand(x=>x
-      .setName('maintenance')
-      .setDescription('Toggle maintenance mode for #mp-active-players')
-      .addStringOption(x=>x
-        .setName('message')
-        .setDescription('The message to display in the channel')))
+  .setName('mp')
+  .setDescription('Display MP status and other things')
+  .addSubcommand(x=>x
+    .setName('status')
+    .setDescription('Display server status')
+    .addStringOption(x=>x
+      .setName('server')
+      .setDescription('The server to update')
+      .setRequired(true)
+      .setChoices(serverChoices[0])))
+  .addSubcommand(x=>x
+    .setName('players')
+    .setDescription('Display players on server')
+    .addStringOption(x=>x
+      .setName('server')
+      .setDescription('The server to display players for')
+      .setRequired(true)
+      .setChoices(serverChoices[0])))
+  /* .addSubcommand(x=>x
+    .setName('url')
+    .setDescription('View or update the server URL')
+    .addStringOption(x=>x
+      .setName('server')
+      .setDescription('The server to update')
+      .setRequired(true)
+      .setChoices(
+        {name: 'Main Server', value: 'mainServer'},
+        {name: 'Second Server', value: 'secondServer'}
+      ))
+    .addStringOption(x=>x
+      .setName('address')
+      .setDescription('The URL to the dedicated-server-stats.json file')
+      .setRequired(false))) */
+  .addSubcommand(x=>x
+    .setName('info')
+    .setDescription('Display server information')
+    .addStringOption(x=>x
+      .setName('server')
+      .setDescription('The server to display information for')
+      .setRequired(true)
+      .setChoices(serverChoices[0])))
+  .addSubcommand(x=>x
+    .setName('maintenance')
+    .setDescription('Toggle maintenance mode for #mp-active-players')
+    .addStringOption(x=>x
+      .setName('message')
+      .setDescription('The message to display in the channel')))
 }
