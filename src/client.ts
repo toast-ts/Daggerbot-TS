@@ -1,4 +1,4 @@
-import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'discord.js';
+import Discord, {Client, GatewayIntentBits, Partials} from 'discord.js';
 import {readFileSync, readdirSync} from 'node:fs';
 import {formatTimeOpt, Tokens, Config, repeatedMessages, type MPServerCache} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
@@ -210,13 +210,5 @@ export default class TClient extends Client {
         array[usersIndex] = process.platform === 'linux' ? 'ho\u200bme' : 'Us\u200bers';
       }
     } return array.join(dirSlash);
-  }
-}
-
-export class WClient extends WebhookClient {
-  tokens: Tokens;
-  constructor(){
-    super({url: tokens.webhook_url})
-    this.tokens = tokens as Tokens;
   }
 }

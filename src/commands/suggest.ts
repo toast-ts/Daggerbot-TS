@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient,{WClient} from '../client.js';
+import TClient from '../client.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const replyInDM = interaction.options.getString('message');
@@ -12,7 +12,7 @@ export default {
     const dmFail = `Failed to send a DM to <@${userid}>, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
     ({
       your: async()=>{
-        const wclient = new WClient;
+        const webhook = await (await (client.channels.fetch(client.config.mainServer.channels.bot_suggestions) as Promise<Discord.TextChannel>)).fetchWebhooks().then(x => x.find(y => y.name === client.user.username));
         const suggestionText = interaction.options.getString('suggestion');
         const suggestionImage = interaction.options.getAttachment('image');
         const notifEmbed = new client.embed()
@@ -25,7 +25,7 @@ export default {
             suggestionText
           ].join('\n'));
         if (suggestionImage) notifEmbed.setImage(suggestionImage.url);
-        wclient.send({embeds: [notifEmbed], username: `${client.user.username} Notification`, avatarURL: client.user.avatarURL({size: 256})}
+        webhook.send({embeds: [notifEmbed], username: `${client.user.username} Notification`, avatarURL: client.user.avatarURL({size: 256})}
         ).catch(e=>{
           console.log(e.message);
           interaction.reply({content: 'Failed to send suggestion, try again later.', ephemeral: true})

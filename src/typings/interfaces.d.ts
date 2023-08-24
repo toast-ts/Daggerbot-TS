@@ -121,8 +121,6 @@ export interface Tokens {
     secret: string
   }
   octokit: string
-  webhook_url: string
-  webhook_url_test: string
   mongodb_uri: string
   mongodb_uri_dev: string
 }
@@ -181,6 +179,7 @@ export interface Config {
       console: string,
       errors: string,
       thismeanswar: string,
+      bot_suggestions: string,
       bot_status: string,
       logs: string,
       welcome: string,
