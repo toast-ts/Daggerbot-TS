@@ -33,7 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.5.4"],\
+            ["@types/node", "npm:20.5.6"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
             ["discord.js", "npm:14.13.0"],\
@@ -43,7 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
             ["systeminformation", "npm:5.19.1"],\
-            ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
             ["ytdl-core", "npm:4.11.5"]\
@@ -526,10 +526,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:20.5.4", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.4-6106d4385a-18de76c990.zip/node_modules/@types/node/",\
+        ["npm:20.5.6", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.6-f7a7eed369-d2ce44f1cf.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:20.5.4"]\
+            ["@types/node", "npm:20.5.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -916,7 +916,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.5.4"],\
+            ["@types/node", "npm:20.5.6"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
             ["discord.js", "npm:14.13.0"],\
@@ -926,7 +926,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
             ["systeminformation", "npm:5.19.1"],\
-            ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
             ["ytdl-core", "npm:4.11.5"]\
@@ -2668,10 +2668,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typescript", [\
-        ["patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071", {\
-          "packageLocation": "./.yarn/cache/typescript-patch-bd21d74a9d-f53bfe97f7.zip/node_modules/typescript/",\
+        ["patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-2e8dbfb8ab-0f4da2f15e.zip/node_modules/typescript/",\
           "packageDependencies": [\
-            ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"]\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
           ],\
           "linkType": "HARD"\
         }]\
