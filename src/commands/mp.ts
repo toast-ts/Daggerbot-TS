@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import path from 'node:path';
 import canvas from 'canvas';
 import {readFileSync} from 'node:fs';
-import {FSData, TServer} from 'src/typings/interfaces.js';
+import {FSData} from 'src/typings/interfaces.js';
 
 const serverChoices = [
   {name: 'Main Server', value: 'mainServer'},
@@ -13,7 +13,7 @@ const serverChoices = [
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (client.uptime < 30000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.')
-    const serverSelector = interaction.options.getString('server', true);
+    const serverSelector = interaction.options.getString('server');
     if (interaction.channelId === '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
     const database = await client.MPServer._content.findById(interaction.guildId);
@@ -276,10 +276,7 @@ export default {
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(
-        {name: 'Main Server', value: 'mainServer'},
-        {name: 'Second Server', value: 'secondServer'}
-      ))
+      .setChoices(serverChoices[0]))
     .addStringOption(x=>x
       .setName('address')
       .setDescription('The URL to the dedicated-server-stats.json file')

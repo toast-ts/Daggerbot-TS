@@ -1,7 +1,5 @@
 import Discord, {Client, WebhookClient, GatewayIntentBits, Partials} from 'discord.js';
 import {readFileSync, readdirSync} from 'node:fs';
-import {exec} from 'node:child_process';
-import mongoose from 'mongoose';
 import {formatTimeOpt, Tokens, Config, repeatedMessages, type MPServerCache} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
@@ -10,18 +8,18 @@ import punishments from './models/punishments.js';
 import tags from './models/tagSystem.js';
 import bonkCount from './models/bonkCount.js';
 import MPServer from './models/MPServer.js';
+import DatabaseServer from './DatabaseServer.js';
 import xjs from 'xml-js';
-import axios from 'axios';
 import moment from 'moment';
-const tokens = JSON.parse(readFileSync('src/tokens.json', {encoding:'utf8'}));
+const tokens = JSON.parse(readFileSync('src/tokens.json', 'utf8'));
 // Import assertion warning workaround yes
 
 let importconfig:Config
 try{
-  importconfig = JSON.parse(readFileSync('src/DB-Beta.config.json', {encoding:'utf8'}));
+  importconfig = JSON.parse(readFileSync('src/DB-Beta.config.json', 'utf8'));
   console.log('Using development config :: Daggerbot Beta')
 } catch(e){
-  importconfig = JSON.parse(readFileSync('src/config.json', {encoding:'utf8'}))
+  importconfig = JSON.parse(readFileSync('src/config.json', 'utf8'))
   console.log('Using production config')
 }
 
@@ -38,7 +36,6 @@ export default class TClient extends Client {
   attachmentBuilder: any;
   moment: typeof moment;
   xjs: typeof xjs;
-  axios: typeof axios;
   ms: any;
   userLevels: userLevels;
   punishments: punishments;
@@ -58,7 +55,7 @@ export default class TClient extends Client {
         GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites,
         GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildPresences,
         GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildVoiceStates
+        GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.DirectMessages
       ], partials: [
         Partials.Channel, Partials.Reaction, Partials.Message
       ], allowedMentions: {users:[],roles:[]}
@@ -78,7 +75,6 @@ export default class TClient extends Client {
     this.attachmentBuilder = Discord.AttachmentBuilder;
     this.moment = moment;
     this.xjs = xjs;
-    this.axios = axios;
     this.ms = import('ms').then(i=>i);
     this.userLevels = new userLevels(this);
     this.bonkCount = new bonkCount(this);
@@ -94,18 +90,7 @@ export default class TClient extends Client {
   }
   async init(){
     console.time('Startup');
-    mongoose.set('strictQuery', true);
-    await mongoose.connect(this.tokens.mongodb_uri, {
-      replicaSet: 'toastyy',
-      autoIndex: true,
-      authMechanism: 'DEFAULT',
-      authSource: 'admin',
-      serverSelectionTimeoutMS: 15000,
-      waitQueueTimeoutMS: 50000,
-      socketTimeoutMS: 30000,
-      tls: false,
-      family: 4
-    }).then(()=>console.log(this.logTime(), 'Successfully connected to MongoDB')).catch(()=>{throw new Error('Failed to connect to MongoDB'); exec('pm2 stop Daggerbot', {windowsHide:true})})
+    await DatabaseServer(this);
     this.login(this.tokens.main);
     for await (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
@@ -193,28 +178,39 @@ export default class TClient extends Client {
     let Data:any;
 
     try {
-      await this.axios.get(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {timeout: 5000}).then(xml=>Data = this.xjs.xml2js(xml.data, {compact: true}))
+      await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {signal: AbortSignal.timeout(6000),headers:{'User-Agent':`Daggerbot - Notification/fetch`}}).then(async xml=>Data = this.xjs.xml2js(await xml.text(), {compact: true}))
     } catch(err){
       console.log(this.logTime(), `${YTChannelName} YT fail`)
     }
 
     if (!Data) return;
-    if (this.YTCache[YTChannelID] === undefined){
-      this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
-      return;
-    }
+    if (!this.YTCache[YTChannelID]) return this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
     if (Data.feed.entry[1]['yt:videoId']._text === this.YTCache[YTChannelID]){
       this.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
       (this.channels.resolve(DCChannelID) as Discord.TextChannel).send(`**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`)
     }
   }
-  // Bytes conversion
   formatBytes(bytes:number, decimals:number = 2) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals < 0 ? 0 : decimals)) + ' ' + ['Bytes', 'KB', 'MB', 'GB'][i];
-  };
+  }
+  removeUsername = (text: string)=>{
+    let matchesLeft = true;
+    const dirSlash = process.platform === 'linux' ? '\/' : '\\';
+    const array = text.split(dirSlash);
+    while (matchesLeft){
+      let usersIndex = array.indexOf(process.platform === 'linux' ? 'home' : 'Users');
+      if (usersIndex<1) matchesLeft = false;
+      else {
+        let usernameIndex = usersIndex+1;
+        if(array[usernameIndex].length == 0) usernameIndex += 1;
+        array[usernameIndex] = '･'.repeat(array[usernameIndex].length);
+        array[usersIndex] = process.platform === 'linux' ? 'ho\u200bme' : 'Us\u200bers';
+      }
+    } return array.join(dirSlash);
+  }
 }
 
 export class WClient extends WebhookClient {
