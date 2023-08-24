@@ -2,7 +2,9 @@ import Discord from 'discord.js';
 import TClient from 'src/client';
 export default {
   async run(client:TClient, message:Discord.Message){
-    if (message.author.bot || message.channel.type === Discord.ChannelType.DM) return;
+    if (message.author.bot) return;
+    if (!message.inGuild()) return (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({content: `<:fish_unamused:1083675172407623711> <@${client.config.whitelist[0]}>\n**${message.author.username}** tried to send me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
+
     const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?1234567890]/g, '').split(' ');
     let automodded: boolean;
 
@@ -87,7 +89,8 @@ export default {
           `Good grief, is it Monday already? Anyways, morning ${PersonnyMcPerson}..`, `This time I can shout! So here we go! 1..2..3\n*inhales*\nMORNING ${PersonnyMcPerson.toUpperCase()}!`,
           'Gooooood morning to you!', `Good morning to you! You know what else is good? A segue to our sponsor, breakfast!\nGet started with getting out of the bed and have some breakfast!`,
           `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`, 'Is it Friday yet? This week is getting boring already!',
-          `You have reached ${client.moment.utc().dayOfYear().toLocaleString('en-US')}th day of the year. Also good morning to you as well!`, 'Good morning! Have a cookie to start your day with. :cookie:'
+          `You have reached ${client.moment.utc().dayOfYear().toLocaleString('en-US')}th day of the year, also good morning to you as well!`, 'Good morning! Have a cookie to start your day with. :cookie:',
+          'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440'
         ],
         afternoon: [
           `Afternoon ${PersonnyMcPerson}!`, `What a nice day outside, ${PersonnyMcPerson}`, `Good afternoon ${PersonnyMcPerson}`,

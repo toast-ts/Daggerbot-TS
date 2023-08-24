@@ -5,16 +5,12 @@ import {FSPlayer, FSData, FSCareerSavegame, TServer} from './typings/interfaces'
 
 export default async(client:TClient, Channel:string, Message:string, Server:TServer, ServerName:string)=>{
   let MPLoopPrefix = '[MPLoop] ';
-  //let httpRegex = /^(https?)(\:\/\/)/;
   let isServerOnline = false;
   let playerData:Array<string> = [];
   let noContentImage = 'https://cdn.discordapp.com/attachments/1118960531135541318/1140906691236479036/68efx1.png';
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
   const serverErrorEmbed = new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time');
   const genericEmbed = new client.embed();
-
-  // Log bot uptime for the sake of debugging.
-  //(client.channels.resolve('1091300529696673792') as Discord.TextChannel).send(client.formatTime(client.uptime, 2, {longNames: true, commas: true}));
 
   const decoPlayer = (player:FSPlayer)=>{
     let decorator = player.isAdmin ? ':detective:' : '';
@@ -35,7 +31,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       }
 
       // Truncate unnecessary parts of the name for the serverLog embed
-      client.MPServerCache[ServerName].name = hitDSS.server.name === 'Official Daggerwin Game Server' ? 'Daggerwin' : hitDSS.server.name === '! ! IRTGaming | Toast Test' ? 'Toast' : client.MPServerCache[ServerName].name;
+      client.MPServerCache[ServerName].name = hitDSS.server.name === 'Official Daggerwin Game Server' ? 'Daggerwin' : hitDSS.server.name === 'undefined' ? 'undefined' : client.MPServerCache[ServerName].name;
       //Second server name is unknown, will come back and update this later.
 
       //Timescale formatting
@@ -57,7 +53,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       const playersInCache = client.MPServerCache[ServerName].players;
       if (!playersOnServer ?? playersOnServer === undefined) return new Error('[MPLoop] Empty array, ignoring...'); // For the love of god, stop throwing errors everytime.
       playersOnServer.forEach(player=>playerData.push(`**${player.name}${decoPlayer(player)}**\nFarming for ${client.formatPlayerUptime(player.uptime)}`));
-      
+
       // Player leaving
       for (const player of playersInCache.filter(x=>!playersOnServer.some(y=>y.name === x.name))){
         if (player.uptime > 0) serverLog.send({embeds:[playerLogEmbed(player,false)]});
@@ -66,6 +62,8 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       if (!playersInCache.length && client.uptime > 32010) playerObject = playersOnServer;
       if (playerObject) for (const player of playerObject) serverLog.send({embeds:[playerLogEmbed(player,true)]});
       else if (playersInCache.length) playerObject = playersOnServer.filter(x=>!playersInCache.some(y=>y.name === x.name));
+
+      if (client.MPServerCache[ServerName].name === null) return;
       const Database:Array<number> = JSON.parse(readFileSync(`src/database/${client.MPServerCache[ServerName].name}PlayerData.json`,{encoding:'utf8',flag:'r+'}));
       Database.push(hitDSS.slots?.used);
       writeFileSync(`src/database/${client.MPServerCache[ServerName].name}PlayerData.json`, JSON.stringify(Database));
@@ -90,7 +88,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       }
     } catch(err) {
       msg.edit({content: null, embeds: [new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time')]});
-      throw new Error(`Failed to make a request for ${client.MPServerCache[ServerName].name}`, {cause: err.cause})
+      console.log(client.logTime(), `Failed to make a request for ${ServerName}`)
     }
   }
   HITALL();

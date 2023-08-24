@@ -3,6 +3,8 @@ import pkg from 'typescript';
 import si from 'systeminformation';
 import TClient from '../client.js';
 import os from 'node:os';
+import {readFileSync} from 'node:fs';
+const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const waitForData = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true})
@@ -42,15 +44,15 @@ export default {
         `**TypeScript:** ${pkg.version}`,
         `**NodeJS:** ${process.version}`,
         `**DiscordJS:** ${Discord.version}`,
-        `**Axios:** ${client.axios.VERSION}`
+        `**Yarn:** ${packageJson.packageManager.slice(5)}`
       ].join('\n')},
       {name: '> __Host__', value: [
         `**Operating System:** ${osInfo.distro + ' ' + osInfo.release}`,
         `**CPU:** ${cpu.manufacturer} ${cpu.brand}`,
         `**Memory:** ${client.formatBytes(ram.used)}/${client.formatBytes(ram.total)}`,
-        `**NodeJS:** ${client.formatBytes(process.memoryUsage().heapUsed)}/${client.formatBytes(process.memoryUsage().heapTotal)}`,
+        `**Process:** ${client.formatBytes(process.memoryUsage().heapUsed)}/${client.formatBytes(process.memoryUsage().heapTotal)}`,
         `**Load Usage:**\nUser: ${currentLoad.currentLoadUser.toFixed(1)}%\nSystem: ${currentLoad.currentLoadSystem.toFixed(1)}%`,
-        `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime as number, 2, {commas: true, longNames: true})}`
+        `**Uptime:**\nHost: ${client.formatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${client.formatTime(client.uptime, 2, {commas: true, longNames: true})}`
       ].join('\n')}
     );
     waitForData.edit({content:null,embeds:[embed]}).then(x=>x.edit({embeds:[new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${client.formatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))  

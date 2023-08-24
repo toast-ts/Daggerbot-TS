@@ -33,17 +33,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.5.1"],\
-            ["axios", "npm:1.4.0"],\
+            ["@types/node", "npm:20.5.4"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
             ["discord.js", "npm:14.13.0"],\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["moment", "npm:2.29.4"],\
-            ["mongoose", "npm:7.4.3"],\
+            ["mongoose", "npm:7.4.4"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
-            ["systeminformation", "npm:5.18.15"],\
+            ["systeminformation", "npm:5.19.1"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -527,10 +526,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:20.5.1", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.1-d4e9ac5c26-3dbe611cd6.zip/node_modules/@types/node/",\
+        ["npm:20.5.4", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.4-6106d4385a-18de76c990.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:20.5.1"]\
+            ["@types/node", "npm:20.5.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -674,27 +673,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["are-we-there-yet", "npm:3.0.1"],\
             ["delegates", "npm:1.0.0"],\
             ["readable-stream", "npm:3.6.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["asynckit", [\
-        ["npm:0.4.0", {\
-          "packageLocation": "./.yarn/cache/asynckit-npm-0.4.0-c718858525-7b78c451df.zip/node_modules/asynckit/",\
-          "packageDependencies": [\
-            ["asynckit", "npm:0.4.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["axios", [\
-        ["npm:1.4.0", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.4.0-4d7ce8ca3e-7fb6a4313b.zip/node_modules/axios/",\
-          "packageDependencies": [\
-            ["axios", "npm:1.4.0"],\
-            ["follow-redirects", "virtual:4d7ce8ca3e1e44d82523fba2ad95e1be18c4e9f8dec6d551377587540da3ed75bd8bd3e812280309a3b90cfdb0560f076f3552a20839f7f15665207a4fbd588a#npm:1.15.2"],\
-            ["form-data", "npm:4.0.0"],\
-            ["proxy-from-env", "npm:1.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -875,16 +853,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["combined-stream", [\
-        ["npm:1.0.8", {\
-          "packageLocation": "./.yarn/cache/combined-stream-npm-1.0.8-dc14d4a63a-49fa4aeb49.zip/node_modules/combined-stream/",\
-          "packageDependencies": [\
-            ["combined-stream", "npm:1.0.8"],\
-            ["delayed-stream", "npm:1.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["concat-map", [\
         ["npm:0.0.1", {\
           "packageLocation": "./.yarn/cache/concat-map-npm-0.0.1-85a921b7ee-902a9f5d89.zip/node_modules/concat-map/",\
@@ -948,17 +916,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.5.1"],\
-            ["axios", "npm:1.4.0"],\
+            ["@types/node", "npm:20.5.4"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.2"],\
             ["discord.js", "npm:14.13.0"],\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["moment", "npm:2.29.4"],\
-            ["mongoose", "npm:7.4.3"],\
+            ["mongoose", "npm:7.4.4"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
-            ["systeminformation", "npm:5.18.15"],\
+            ["systeminformation", "npm:5.19.1"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -1005,15 +972,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["decompress-response", "npm:4.2.1"],\
             ["mimic-response", "npm:2.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["delayed-stream", [\
-        ["npm:1.0.0", {\
-          "packageLocation": "./.yarn/cache/delayed-stream-npm-1.0.0-c5a4c4cc02-46fe6e83e2.zip/node_modules/delayed-stream/",\
-          "packageDependencies": [\
-            ["delayed-stream", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1274,28 +1232,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["follow-redirects", [\
-        ["npm:1.15.2", {\
-          "packageLocation": "./.yarn/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
-          "packageDependencies": [\
-            ["follow-redirects", "npm:1.15.2"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
-        ["virtual:4d7ce8ca3e1e44d82523fba2ad95e1be18c4e9f8dec6d551377587540da3ed75bd8bd3e812280309a3b90cfdb0560f076f3552a20839f7f15665207a4fbd588a#npm:1.15.2", {\
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-359bc4c55c/0/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
-          "packageDependencies": [\
-            ["follow-redirects", "virtual:4d7ce8ca3e1e44d82523fba2ad95e1be18c4e9f8dec6d551377587540da3ed75bd8bd3e812280309a3b90cfdb0560f076f3552a20839f7f15665207a4fbd588a#npm:1.15.2"],\
-            ["@types/debug", null],\
-            ["debug", null]\
-          ],\
-          "packagePeers": [\
-            "@types/debug",\
-            "debug"\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["foreground-child", [\
         ["npm:3.1.1", {\
           "packageLocation": "./.yarn/cache/foreground-child-npm-3.1.1-77e78ed774-139d270bc8.zip/node_modules/foreground-child/",\
@@ -1303,18 +1239,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["foreground-child", "npm:3.1.1"],\
             ["cross-spawn", "npm:7.0.3"],\
             ["signal-exit", "npm:4.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["form-data", [\
-        ["npm:4.0.0", {\
-          "packageLocation": "./.yarn/cache/form-data-npm-4.0.0-916facec2d-01135bf867.zip/node_modules/form-data/",\
-          "packageDependencies": [\
-            ["form-data", "npm:4.0.0"],\
-            ["asynckit", "npm:0.4.0"],\
-            ["combined-stream", "npm:1.0.8"],\
-            ["mime-types", "npm:2.1.35"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1775,25 +1699,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["mime-db", [\
-        ["npm:1.52.0", {\
-          "packageLocation": "./.yarn/cache/mime-db-npm-1.52.0-b5371d6fd2-0d99a03585.zip/node_modules/mime-db/",\
-          "packageDependencies": [\
-            ["mime-db", "npm:1.52.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["mime-types", [\
-        ["npm:2.1.35", {\
-          "packageLocation": "./.yarn/cache/mime-types-npm-2.1.35-dd9ea9f3e2-89a5b7f1de.zip/node_modules/mime-types/",\
-          "packageDependencies": [\
-            ["mime-types", "npm:2.1.35"],\
-            ["mime-db", "npm:1.52.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["mimic-response", [\
         ["npm:2.1.0", {\
           "packageLocation": "./.yarn/cache/mimic-response-npm-2.1.0-037463e454-014fad6ab9.zip/node_modules/mimic-response/",\
@@ -1944,10 +1849,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:de9b2a4bee48b47472569f051556d00472ad2cae24f303eab2885fcb163b9304e49630ec473487f25346e199b727589de8b538c4c4621c9a5e46486fe0dda3c9#npm:5.7.0", {\
-          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-3d9fb5213a/0/cache/mongodb-npm-5.7.0-c5e415a2e7-16357b6229.zip/node_modules/mongodb/",\
+        ["virtual:806a47d2373274fd76cd2d3daf79db5b84b03c36c63d0a3903a6998364b5ab2d2299d972d445ed6004dba802b10f22f34264a9bdd91c7654035f44410ad707b7#npm:5.7.0", {\
+          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-e218204750/0/cache/mongodb-npm-5.7.0-c5e415a2e7-16357b6229.zip/node_modules/mongodb/",\
           "packageDependencies": [\
-            ["mongodb", "virtual:de9b2a4bee48b47472569f051556d00472ad2cae24f303eab2885fcb163b9304e49630ec473487f25346e199b727589de8b538c4c4621c9a5e46486fe0dda3c9#npm:5.7.0"],\
+            ["mongodb", "virtual:806a47d2373274fd76cd2d3daf79db5b84b03c36c63d0a3903a6998364b5ab2d2299d972d445ed6004dba802b10f22f34264a9bdd91c7654035f44410ad707b7#npm:5.7.0"],\
             ["@aws-sdk/credential-providers", null],\
             ["@mongodb-js/zstd", null],\
             ["@types/aws-sdk__credential-providers", null],\
@@ -1990,13 +1895,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["mongoose", [\
-        ["npm:7.4.3", {\
-          "packageLocation": "./.yarn/cache/mongoose-npm-7.4.3-de9b2a4bee-e92feec9e7.zip/node_modules/mongoose/",\
+        ["npm:7.4.4", {\
+          "packageLocation": "./.yarn/cache/mongoose-npm-7.4.4-806a47d237-54d014b435.zip/node_modules/mongoose/",\
           "packageDependencies": [\
-            ["mongoose", "npm:7.4.3"],\
+            ["mongoose", "npm:7.4.4"],\
             ["bson", "npm:5.4.0"],\
             ["kareem", "npm:2.5.1"],\
-            ["mongodb", "virtual:de9b2a4bee48b47472569f051556d00472ad2cae24f303eab2885fcb163b9304e49630ec473487f25346e199b727589de8b538c4c4621c9a5e46486fe0dda3c9#npm:5.7.0"],\
+            ["mongodb", "virtual:806a47d2373274fd76cd2d3daf79db5b84b03c36c63d0a3903a6998364b5ab2d2299d972d445ed6004dba802b10f22f34264a9bdd91c7654035f44410ad707b7#npm:5.7.0"],\
             ["mpath", "npm:0.9.0"],\
             ["mquery", "npm:5.0.0"],\
             ["ms", "npm:2.1.3"],\
@@ -2352,15 +2257,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["proxy-from-env", [\
-        ["npm:1.1.0", {\
-          "packageLocation": "./.yarn/cache/proxy-from-env-npm-1.1.0-c13d07f26b-ed7fcc2ba0.zip/node_modules/proxy-from-env/",\
-          "packageDependencies": [\
-            ["proxy-from-env", "npm:1.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["punycode", [\
         ["npm:2.3.0", {\
           "packageLocation": "./.yarn/cache/punycode-npm-2.3.0-df4bdce06b-39f760e09a.zip/node_modules/punycode/",\
@@ -2702,10 +2598,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["systeminformation", [\
-        ["npm:5.18.15", {\
-          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.18.15-6e7be558fc/node_modules/systeminformation/",\
+        ["npm:5.19.1", {\
+          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.19.1-586055f0a7/node_modules/systeminformation/",\
           "packageDependencies": [\
-            ["systeminformation", "npm:5.18.15"]\
+            ["systeminformation", "npm:5.19.1"]\
           ],\
           "linkType": "HARD"\
         }]\
