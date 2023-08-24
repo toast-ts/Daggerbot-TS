@@ -17,8 +17,7 @@ export default {
     if (interaction.channelId === '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
     const database = await client.MPServer._content.findById(interaction.guildId);
-    let endpoint:any;
-    if (interaction.options.getSubcommand() !== 'maintenance') endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':`Daggerbot - MPdata/fetch`}}).then(r=>r.json() as Promise<FSData>);
+    const endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':`Daggerbot - MPdata/fetch`}}).then(r=>r.json() as Promise<FSData>);
     const embed = new client.embed();
     ({
       players: async()=>{
@@ -189,7 +188,7 @@ export default {
           'Please see <#543494084363288637> for additional information.'
         ].join('\n'))]});
       },
-      url: async()=>{
+      /* url: async()=>{
         if (client.config.mainServer.id == interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
         }
@@ -233,12 +232,13 @@ export default {
         }
       },
       maintenance: ()=>{
-        if (client.config.mainServer.id == interaction.guildId) {
+        if (client.config.mainServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
         }
         const maintenanceMessage = interaction.options.getString('message');
         const activePlayersChannel = '739084625862852715';
         const channel = (client.channels.cache.get(activePlayersChannel) as Discord.TextChannel);
+        console.log(channel.permissionsFor(interaction.guildId).has('SendMessages'));
         if (channel.permissionOverwrites.cache.get(interaction.guildId).deny.has('SendMessages')) {
           channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: true}, {type: 0, reason: `Unlocked by ${interaction.member.displayName}`});
           channel.send({embeds: [new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTitle('🔓 Channel unlocked').setDescription(`**Reason:**\n${maintenanceMessage}`).setTimestamp()]});
@@ -248,7 +248,7 @@ export default {
           channel.send({embeds: [new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTitle('🔒 Channel locked').setDescription(`**Reason:**\n${maintenanceMessage}`).setTimestamp()]});
           interaction.reply({content: `<#${activePlayersChannel}> has been locked!`, ephemeral: true});
         }
-      }
+      } */
     })[interaction.options.getSubcommand()]();
   },
   data: new Discord.SlashCommandBuilder()
@@ -290,10 +290,11 @@ export default {
       .setDescription('The server to display information for')
       .setRequired(true)
       .setChoices(serverChoices[0])))
-  .addSubcommand(x=>x
+  /* .addSubcommand(x=>x
     .setName('maintenance')
     .setDescription('Toggle maintenance mode for #mp-active-players')
     .addStringOption(x=>x
       .setName('message')
-      .setDescription('The message to display in the channel')))
+      .setDescription('The message to display in the channel')
+      .setRequired(true))) */
 }
