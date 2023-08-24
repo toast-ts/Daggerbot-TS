@@ -87,7 +87,7 @@ setInterval(async()=>{
   });
 
   const formattedDate = Math.floor((now - client.config.LRSstart)/1000/60/60/24);
-  const dailyMsgs = JSON.parse(readFileSync('./src/database/dailyMsgs.json', {encoding: 'utf8'}))
+  const dailyMsgs = JSON.parse(readFileSync('./src/database/dailyMsgs.json', 'utf8'))
   if (client.config.botSwitches.dailyMsgsBackup && !dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
     let total = (await client.userLevels._content.find({})).reduce((a,b)=>a + b.messages, 0); // sum of all users
     const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);

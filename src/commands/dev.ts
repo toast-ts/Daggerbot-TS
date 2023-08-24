@@ -5,20 +5,6 @@ import {exec} from 'node:child_process';
 import fs from 'node:fs';
 import util from 'node:util';
 import TClient from '../client.js';
-const removeUsername = (text: string)=>{
-  let matchesLeft = true;
-  const array = text.split('\\');
-  while (matchesLeft){
-    let usersIndex = array.indexOf('Users');
-    if (usersIndex<1) matchesLeft = false;
-    else {
-      let usernameIndex = usersIndex+1;
-      if(array[usernameIndex].length == 0) usernameIndex += 1;
-      array[usernameIndex] = '*'.repeat(array[usernameIndex].length);
-      array[usersIndex] = 'Us\u200bers';
-    }
-  } return array.join('\\');
-};
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
     if (!client.config.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
@@ -40,7 +26,7 @@ export default {
             const filter = (x:any)=>x.content === 'stack' && x.author.id === interaction.user.id
             const messagecollector = (interaction.channel as Discord.TextChannel).createMessageCollector({filter, max: 1, time: 60000});
             messagecollector.on('collect', collected=>{
-              collected.reply({content: `\`\`\`\n${removeUsername(err.stack)}\n\`\`\``, allowedMentions: {repliedUser: false}});
+              collected.reply({content: `\`\`\`\n${client.removeUsername(err.stack)}\n\`\`\``, allowedMentions: {repliedUser: false}});
             });
           });
         }
@@ -53,7 +39,7 @@ export default {
         ].forEach(x=>output = output.replace(new RegExp(x as string,'g'),':noblank: No token?'));
         const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
           {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
-          {name: 'Output', value: `\`\`\`${removeUsername(output).slice(0,1016)}\n\`\`\``}
+          {name: 'Output', value: `\`\`\`${client.removeUsername(output).slice(0,1016)}\n\`\`\``}
         );
         interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
       },
@@ -76,13 +62,14 @@ export default {
           }
         };
         exec('git pull',{windowsHide:true},(err:Error,stdout)=>{
-          if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
+          if (err) clarkson.edit(`\`\`\`${client.removeUsername(err.message)}\`\`\``)
           else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
           else clarkson.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
-            if (err) clarkson.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
+            if (err) clarkson.edit(`\`\`\`${client.removeUsername(err.message)}\`\`\``)
+            if (interaction.options.getBoolean('restart')) clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}));
+            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!`)
           }))
-        });
+        })
       },
       presence: ()=>{
         function convertType(Type?: number){
@@ -91,7 +78,7 @@ export default {
             case 1: return 'Streaming';
             case 2: return 'Listening to';
             case 3: return 'Watching';
-            case 4: return 'Custom Status'; // Will be enabled once PR #9743 on D.JS repo merges in.
+            case 4: return 'Custom Status';
             case 5: return 'Competing in';
           }
         };
@@ -115,7 +102,7 @@ export default {
       },
       statsgraph: ()=>{
         client.statsGraph = -(interaction.options.getInteger('number', true));
-        interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(fs.readFileSync('src/database/MPPlayerData.json', {encoding: 'utf8'})).length.toLocaleString()}***`)
+        interaction.reply(`Successfully set to \`${client.statsGraph}\`\n*Total data points: **${JSON.parse(fs.readFileSync(`src/database/${interaction.options.getString('server')}PlayerData.json`, {encoding: 'utf8'})).length.toLocaleString()}***`)
       },
       logs: ()=>{
         interaction.deferReply();
@@ -124,15 +111,15 @@ export default {
       restart: async()=>{
         const i = await interaction.reply({content: 'Compiling TypeScript files...', fetchReply: true});
         exec('yarn tsc',{windowsHide:true},(err:Error)=>{
-          if (err) i.edit(`\`\`\`${removeUsername(err.message)}\`\`\``)
-          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime as number, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
+          if (err) i.edit(`\`\`\`${client.removeUsername(err.message)}\`\`\``)
+          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
         })
       },
       file: ()=>interaction.reply({files:[`./src/database/${interaction.options.getString('name')}.json`]}).catch(()=>'Filesize is too large, upload cancelled.'),
       wake_device: async()=>{
         const i = await interaction.reply({content: 'Spawning a task...', fetchReply: true});
-        exec(`cd "../../Desktop/System Tools/wakemeonlan" && WakeMeOnLan.exe /wakeup ${interaction.options.getString('name',true)}`, {windowsHide:true}, (err:Error)=>{
-          if (err) i.edit(removeUsername(err.message))
+        exec(`cd "../../Desktop/System Tools/wakemeonlan" && WakeMeOnLan.exe /wakeup ${interaction.options.getString('name')}`, {windowsHide:true}, (err:Error)=>{
+          if (err) i.edit(client.removeUsername(err.message))
           else i.edit('Your device should be awake by now!\n||Don\'t blame me if it isn\'t on.||')
         })
       }
@@ -156,7 +143,11 @@ export default {
       .setDescription('Restart the bot for technical reasons'))
     .addSubcommand(x=>x
       .setName('update')
-      .setDescription('Pull from repository and restart'))
+      .setDescription('Pull from repository and restart')
+      .addBooleanOption(x=>x
+        .setName('restart')
+        .setDescription('Restart the bot after pulling from repository')
+      ))
     .addSubcommand(x=>x
       .setName('wake_device')
       .setDescription('Remotely wake up a device in the same network as the bot')
@@ -167,6 +158,10 @@ export default {
     .addSubcommand(x=>x
       .setName('statsgraph')
       .setDescription('Edit the number of data points to pull')
+      .addStringOption(x=>x
+        .setName('server')
+        .setDescription('Server name')
+        .setRequired(true))
       .addIntegerOption(x=>x
         .setName('number')
         .setDescription('Number of data points to pull')
