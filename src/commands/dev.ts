@@ -147,6 +147,7 @@ export default {
       .addBooleanOption(x=>x
         .setName('restart')
         .setDescription('Restart the bot after pulling from repository')
+        .setRequired(true)
       ))
     .addSubcommand(x=>x
       .setName('wake_device')
