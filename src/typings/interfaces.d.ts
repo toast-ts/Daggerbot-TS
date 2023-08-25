@@ -135,11 +135,11 @@ export interface Config {
   LRSstart: number,
   whitelistedServers: Array<string>,
   MPStatsLocation: {
-    main: {
+    mainServer: {
       channel: string
       message: string
     },
-    second: {
+    secondServer: {
       channel: string
       message: string
     }
