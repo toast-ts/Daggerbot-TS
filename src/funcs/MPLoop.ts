@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
-import TClient from './client';
+import TClient from '../client';
 import {writeFileSync, readFileSync} from 'node:fs';
-import {FSPlayer, FSData, FSCareerSavegame, TServer} from './typings/interfaces';
+import {FSPlayer, FSData, FSCareerSavegame, TServer} from '../typings/interfaces';
 
 export default async(client:TClient, Channel:string, Message:string, Server:TServer, ServerName:string)=>{
   let MPLoopPrefix = '[MPLoop] ';
