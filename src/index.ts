@@ -7,27 +7,6 @@ import {Player} from 'discord-player';
 const player = Player.singleton(client);
 import {writeFileSync, readFileSync} from 'node:fs';
 
-client.on('ready', async()=>{
-  await client.guilds.fetch(client.config.mainServer.id).then(async guild=>{
-    await guild.members.fetch();
-    setInterval(()=>{
-      client.user.setPresence(client.config.botPresence);
-      guild.invites.fetch().then(invites=>invites.forEach(inv=>client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId, channel: inv.channel.name})))
-    },300000)
-  });
-  if (client.config.botSwitches.registerCommands){
-    console.log('Total commands: '+client.registry.length) //Debugging reasons.
-    client.config.whitelistedServers.forEach(guildId=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
-      console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
-      (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
-    }))
-  };
-  console.log(`${client.user.username} has logged into Discord API`);
-  console.log(client.config.botSwitches, client.config.whitelistedServers);
-  (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send({content: `${client.user.username} is active`, embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`\`\`\`json\n${Object.entries(client.config.botSwitches).map(x=>`${x[0]}: ${x[1]}`).join('\n')}\`\`\``)]});
-  console.timeEnd('Startup')
-})
-
 // Error handler
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
   if ([
@@ -42,7 +21,6 @@ process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection')
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
 client.on('error', (error: Error)=>DZ(error, 'clientError'));
-//client.on('debug', console.log).on('warn', console.log);
 
 // Audio Player event handling
 if (client.config.botSwitches.music){
@@ -59,14 +37,11 @@ if (client.config.botSwitches.music){
     if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.').then(()=>setTimeout(()=>queue.connection.disconnect(), 15000))
   });
   player.events.on('playerPause', queue=>queue.channel.send({embeds:[playerEmbed(client.config.embedColor, 'Player has been paused.\nRun the command to unpause it')]}));
-  /* player.events.on('debug', (queue,message)=>{
-    console.log(client.logTime(), message)
-  }) */
   player.events.on('playerError', (queue, error)=>DZ(error, 'playerError')); // I don't know if both of these actually works, because most
   player.events.on('error', (queue, error)=>DZ(error, 'playerInternalError')); // errors from the player is coming from unhandledRejection
 }
 
-// YouTube Upload notification and Daggerwin MP loop
+// YouTube Upload notification and MP loop
 if (client.config.botSwitches.mpstats) setInterval(async()=>{
   const serverlake = (await client.MPServer._content.findById(client.config.mainServer.id));
   for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPLoop(client, locArea.channel, locArea.message, serverlake[locName], locName)
