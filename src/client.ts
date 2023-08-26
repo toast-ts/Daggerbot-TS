@@ -8,7 +8,7 @@ import punishments from './models/punishments.js';
 import tags from './models/tagSystem.js';
 import bonkCount from './models/bonkCount.js';
 import MPServer from './models/MPServer.js';
-import DatabaseServer from './DatabaseServer.js';
+import DatabaseServer from './funcs/DatabaseServer.js';
 import xjs from 'xml-js';
 import moment from 'moment';
 const tokens = JSON.parse(readFileSync('src/tokens.json', 'utf8'));
