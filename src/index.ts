@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import TClient from './client.js';
 const client = new TClient;
 client.init();
-import MPLoop from './MPLoop.js';
+import MPLoop from './funcs/MPLoop.js';
 import {Player} from 'discord-player';
 const player = Player.singleton(client);
 import {writeFileSync, readFileSync} from 'node:fs';
