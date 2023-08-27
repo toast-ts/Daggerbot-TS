@@ -5,7 +5,7 @@ export default {
     if (message.author.bot) return;
     if (!message.inGuild()) return (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({content: `<:fish_unamused:1083675172407623711> <@${client.config.whitelist[0]}>\n**${message.author.username}** tried to send me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
 
-    const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?1234567890]/g, '').split(' ');
+    const msgarr = message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]/g, '').split(' ');
     let automodded: boolean;
 
     //const Whitelist = [] // Array of channel ids for automod to be disabled in (Disables bannedWords and advertisement, mind you.)
