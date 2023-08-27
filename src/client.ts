@@ -178,7 +178,7 @@ export default class TClient extends Client {
     let Data:any;
 
     try {
-      await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {signal: AbortSignal.timeout(6000),headers:{'User-Agent':`Daggerbot - Notification/fetch`}}).then(async xml=>Data = this.xjs.xml2js(await xml.text(), {compact: true}))
+      await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {signal: AbortSignal.timeout(6000),headers:{'User-Agent':`Daggerbot - Notification/undici`}}).then(async xml=>Data = this.xjs.xml2js(await xml.text(), {compact: true}))
     } catch(err){
       console.log(this.logTime(), `${YTChannelName} YT fail`)
     }
