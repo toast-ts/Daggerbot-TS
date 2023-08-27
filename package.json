@@ -23,7 +23,8 @@
   ],
   "engines": {
     "node": ">=18.17.0",
-    "yarn": ">=3.6.1"
+    "yarn": ">=3.6.1",
+    "npm": "please use yarn instead of npm"
   },
   "packageManager": "yarn@3.6.3",
   "dependencies": {
