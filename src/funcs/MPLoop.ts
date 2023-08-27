@@ -19,7 +19,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   }
 
   const HITALL = async()=>{
-    let sessionInit = {signal: AbortSignal.timeout(7500),headers:{'User-Agent':`Daggerbot - HITALL/fetch`}};
+    let sessionInit = {signal: AbortSignal.timeout(7500),headers:{'User-Agent':`Daggerbot - HITALL/undici`}};
     try {
       const hitDSS = await fetch(Server.ip+'/feed/dedicated-server-stats.json?code='+Server.code, sessionInit).then(r=>r.json() as Promise<FSData>);
       const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(client.xjs.xml2js(await r.text(), {compact: true}) as any).careerSavegame as FSCareerSavegame);
