@@ -14,7 +14,7 @@ export default class Response {
   } as const
 
   static create(client:TClient, message:Discord.Message, channel:Discord.Snowflake, keyword:string) {
-    if (message.channelId != channel || message.type != 0) throw new Error('Invalid channel or message type.');
+    if (message.channelId != channel || message.type != 0) return;
     this.respond(client, message, keyword);
   }
   static respond(client:TClient, message:Discord.Message, responseKeyword:string) {
