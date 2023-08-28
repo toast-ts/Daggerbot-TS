@@ -24,7 +24,6 @@ export default async(client:TClient)=>{
     .on('disconnecting', ()=>console.log(client.logTime(), `${LogPrefix} Disconnecting from MongoDB`))
     .on('disconnected', ()=>console.log(client.logTime(), `${LogPrefix} Disconnected from MongoDB`))
     .on('close', ()=>console.log(client.logTime(), `${LogPrefix} MongoDB has closed the connection`))
-    .on('reconnected', ()=>console.log(client.logTime(), `${LogPrefix} Connection to MongoDB has been re-established`))
     .on('all', ()=>console.log(client.logTime(), `${LogPrefix} Successfully established a connection to all members`))
     .on('fullsetup', ()=>console.log(client.logTime(), `${LogPrefix} Successfully established a connection to Primary server & atleast one member`))
     .on('error', ((err:mongoose.Error)=>console.error(client.logTime(), `${LogPrefix} Encountered an error in MongoDB: ${err.message}`)));
