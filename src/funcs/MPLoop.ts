@@ -84,7 +84,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
           {name: 'Timescale', value: isNaN(Number(hitCSG.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(hitCSG.settings?.timeScale._text), 0, 'x'), inline: true}
         );
         const playersEmbed = new client.embed().setColor(client.config.embedColor).setTitle(hitDSS.server.name).setDescription(hitDSS.slots.used < 1 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${hitDSS.slots.used}/${hitDSS.slots.capacity}`});
-        msg.edit({content:'This embed updates every 30 seconds.',embeds:[serverDetails, playersEmbed]});
+        msg.edit({content:'This embed updates every 35 seconds.',embeds:[serverDetails, playersEmbed]});
       }
     } catch(err) {
       msg.edit({content: null, embeds: [new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time')]});
@@ -92,5 +92,5 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
     }
   }
   HITALL();
-// Hit dem servers in the head every 30 seconds.
+// Hit dem servers in the head every 35 seconds.
 }
