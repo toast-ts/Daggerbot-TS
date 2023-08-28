@@ -746,7 +746,7 @@ __metadata:
     mongoose: 7.4.5
     ms: 2.1.3
     prism-media: 1.3.5
-    systeminformation: 5.20.0
+    systeminformation: 5.21.0
     typescript: 5.2.2
     xml-js: 1.6.11
     youtube-sr: 4.3.4
@@ -2175,12 +2175,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.20.0":
-  version: 5.20.0
-  resolution: "systeminformation@npm:5.20.0"
+"systeminformation@npm:5.21.0":
+  version: 5.21.0
+  resolution: "systeminformation@npm:5.21.0"
   bin:
     systeminformation: lib/cli.js
-  checksum: e6da86f65dc7e3eef85e75a0f63228b965b2039c7d3259c07b9bca471565df2e095ee2103d479d17e7689c46117182b3877bed22d6bd7a537ad9c8609bc550ae
+  checksum: 0d6f22ed92c6e92167a27af5dcc5f1a9c0b2b82a33f9e674f9b2a6c1ebb79141ba405b8bde8e624101766c5d7ef087f50c45411d00690513e38f77e654f468cf
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
