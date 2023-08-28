@@ -12,7 +12,7 @@ const serverChoices = [
 
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (client.uptime < 30000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.')
+    if (client.uptime < 35000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.')
     const serverSelector = interaction.options.getString('server');
     if (interaction.channelId === '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
