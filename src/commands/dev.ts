@@ -18,7 +18,7 @@ export default {
           output = await eval(code);
         } catch (err: any) {
           error = true
-          const embed = new client.embed().setColor('#ff0000').setTitle('__Eval__').addFields(
+          const embed = new client.embed().setColor('#630D12').setTitle('__Eval__').addFields(
             {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1010)}\n\`\`\``},
             {name: 'Output', value: `\`\`\`\n${err}\`\`\``}
           )
