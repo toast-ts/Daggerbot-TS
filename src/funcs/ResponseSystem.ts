@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from 'src/client';
+import TClient from '../client.js';
 
 /* function ResponseMadeBy(id:string){  <-- Will be enabled once autoresponse suggestion comes in.
   return `╰ *Response made by <@${id}>*`;
