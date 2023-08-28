@@ -71,7 +71,7 @@ export default {
         theyBrokeIt: ['break', 'broke', 'broken'],
         deadChat: ['dead chat', 'chat is dead', 'dead server', 'inactive chat', 'inactive channel']
       }
-      const GeneralChatID = '929807948748832801';
+      const GeneralChatID = '468835415093411863';
       Response.create(client, message, GeneralChatID, 'morning');
       Response.create(client, message, GeneralChatID, 'afternoon');
       Response.create(client, message, GeneralChatID, 'evening');
