@@ -5,6 +5,7 @@ client.init();
 import MPLoop from './funcs/MPLoop.js';
 import {Player} from 'discord-player';
 const player = Player.singleton(client);
+import MessageTool from './helpers/MessageTool.js';
 import {writeFileSync, readFileSync} from 'node:fs';
 
 // Error handler
@@ -24,19 +25,13 @@ client.on('error', (error: Error)=>DZ(error, 'clientError'));
 
 // Audio Player event handling
 if (client.config.botSwitches.music){
-  const playerEmbed =(color:Discord.ColorResolvable,title:string,thumbnail?:string,footer?:string)=>{
-    const embed = new client.embed().setColor(color).setTitle(title);
-    if (thumbnail) embed.setThumbnail(thumbnail);
-    if (footer) embed.setFooter({text:footer})
-    return embed
-  }
-  player.events.on('playerStart', (queue,track)=>queue.channel.send({embeds:[playerEmbed(client.config.embedColor, `Next up: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
-  player.events.on('audioTrackAdd', (queue,track)=>queue.channel.send({embeds:[playerEmbed(client.config.embedColorGreen, `Added: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
-  player.events.on('audioTrackRemove', (queue, track)=>queue.channel.send({embeds:[playerEmbed(client.config.embedColor, `Removed: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
+  player.events.on('playerStart', (queue,track)=>queue.channel.send({embeds:[MessageTool.embedStruct(client.config.embedColor, `Next up: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
+  player.events.on('audioTrackAdd', (queue,track)=>queue.channel.send({embeds:[MessageTool.embedStruct(client.config.embedColorGreen, `Added: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
+  player.events.on('audioTrackRemove', (queue, track)=>queue.channel.send({embeds:[MessageTool.embedStruct(client.config.embedColor, `Removed: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
   player.events.on('emptyQueue', queue=>{
     if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.').then(()=>setTimeout(()=>queue.connection.disconnect(), 15000))
   });
-  player.events.on('playerPause', queue=>queue.channel.send({embeds:[playerEmbed(client.config.embedColor, 'Player has been paused.\nRun the command to unpause it')]}));
+  player.events.on('playerPause', queue=>queue.channel.send({embeds:[MessageTool.embedStruct(client.config.embedColor, 'Player has been paused.\nRun the command to unpause it')]}));
   player.events.on('playerError', (queue, error)=>DZ(error, 'playerError')); // I don't know if both of these actually works, because most
   player.events.on('error', (queue, error)=>DZ(error, 'playerInternalError')); // errors from the player is coming from unhandledRejection
 }
