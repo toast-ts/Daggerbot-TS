@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import {Octokit} from '@octokit/rest';
 import {createTokenAuth} from '@octokit/auth-token';
 import {exec} from 'node:child_process';
+import MessageTool from '../helpers/MessageTool.js';
 import fs from 'node:fs';
 import util from 'node:util';
 import TClient from '../client.js';
@@ -92,13 +93,13 @@ export default {
         if (name) currentActivities[0].name = name;
         if (url) currentActivities[0].url = url;
         client.user.setPresence(client.config.botPresence);
-        interaction.reply([
+        interaction.reply(MessageTool.concatMessage(
           'Presence updated:',
           `Status: **${client.config.botPresence.status}**`,
           `Type: **${convertType(currentActivities[0].type)}**`,
           `Name: **${currentActivities[0].name}**`,
           `URL: \`${currentActivities[0].url}\``
-        ].join('\n'))
+        ))
       },
       statsgraph: ()=>{
         client.statsGraph = -(interaction.options.getInteger('number', true));

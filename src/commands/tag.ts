@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async autocomplete(client: TClient, interaction: Discord.AutocompleteInteraction){
     const array = (await client.tags?._content.find())?.map(x=>x._id).filter(c=>c.startsWith(interaction.options.getFocused()));
@@ -22,13 +23,13 @@ export default {
         const targetMember = interaction.options.getMember('target_user');
         if (targetMember) targetField = `*This tag is for <@${targetMember.id}>*`;
         const embedTemplate = new client.embed().setColor(client.config.embedColor).setTitle(await tagMeta.title()).setDescription(await tagMeta.message()).setFooter({text: `Tag creator: ${await tagMeta.creatorName()}`});
-        const messageTemplate = [
+        const messageTemplate = MessageTool.concatMessage(
           targetField ? targetField : '',
           `**${await tagMeta.title()}**`,
           await tagMeta.message(),
           '',
           `Tag creator: **${await tagMeta.creatorName()}**`
-        ].join('\n');
+        );
         if (await tagMeta.isEmbedTrue()) return interaction.reply({content: targetField ? targetField : null, embeds: [embedTemplate], allowedMentions:{parse:['users']}});
         else return interaction.reply({content: messageTemplate, allowedMentions:{parse:['users']}})
       },
