@@ -3,6 +3,8 @@ import {Octokit} from '@octokit/rest';
 import {createTokenAuth} from '@octokit/auth-token';
 import {exec} from 'node:child_process';
 import MessageTool from '../helpers/MessageTool.js';
+import UsernameHelper from '../helpers/UsernameHelper.js';
+import FormatTime from '../helpers/FormatTime.js';
 import fs from 'node:fs';
 import util from 'node:util';
 import TClient from '../client.js';
@@ -27,7 +29,7 @@ export default {
             const filter = (x:any)=>x.content === 'stack' && x.author.id === interaction.user.id
             const messagecollector = (interaction.channel as Discord.TextChannel).createMessageCollector({filter, max: 1, time: 60000});
             messagecollector.on('collect', collected=>{
-              collected.reply({content: `\`\`\`\n${client.removeUsername(err.stack)}\n\`\`\``, allowedMentions: {repliedUser: false}});
+              collected.reply({content: `\`\`\`\n${UsernameHelper.stripName(err.stack)}\n\`\`\``, allowedMentions: {repliedUser: false}});
             });
           });
         }
@@ -40,7 +42,7 @@ export default {
         ].forEach(x=>output = output.replace(new RegExp(x as string,'g'),':noblank: No token?'));
         const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
           {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
-          {name: 'Output', value: `\`\`\`${client.removeUsername(output).slice(0,1016)}\n\`\`\``}
+          {name: 'Output', value: `\`\`\`${UsernameHelper.stripName(output).slice(0,1016)}\n\`\`\``}
         );
         interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
       },
@@ -63,11 +65,11 @@ export default {
           }
         };
         exec('git pull',{windowsHide:true},(err:Error,stdout)=>{
-          if (err) clarkson.edit(`\`\`\`${client.removeUsername(err.message)}\`\`\``)
+          if (err) clarkson.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
           else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
           else clarkson.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
-            if (err) clarkson.edit(`\`\`\`${client.removeUsername(err.message)}\`\`\``)
-            if (interaction.options.getBoolean('restart')) clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}));
+            if (err) clarkson.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
+            if (interaction.options.getBoolean('restart')) clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${FormatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}));
             else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!`)
           }))
         })
@@ -112,15 +114,15 @@ export default {
       restart: async()=>{
         const i = await interaction.reply({content: 'Compiling TypeScript files...', fetchReply: true});
         exec('yarn tsc',{windowsHide:true},(err:Error)=>{
-          if (err) i.edit(`\`\`\`${client.removeUsername(err.message)}\`\`\``)
-          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${client.formatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
+          if (err) i.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
+          else i.edit(`Successfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${FormatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}))
         })
       },
       file: ()=>interaction.reply({files:[`./src/database/${interaction.options.getString('name')}.json`]}).catch(()=>'Filesize is too large, upload cancelled.'),
       wake_device: async()=>{
         const i = await interaction.reply({content: 'Spawning a task...', fetchReply: true});
         exec(`cd "../../Desktop/System Tools/wakemeonlan" && WakeMeOnLan.exe /wakeup ${interaction.options.getString('name')}`, {windowsHide:true}, (err:Error)=>{
-          if (err) i.edit(client.removeUsername(err.message))
+          if (err) i.edit(UsernameHelper.stripName(err.message))
           else i.edit('Your device should be awake by now!\n||Don\'t blame me if it isn\'t on.||')
         })
       }

@@ -1,8 +1,9 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import Punish from '../funcs/Punish.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    client.punish(interaction, 'softban');
+    Punish(client, interaction, 'softban');
   },
   data: new Discord.SlashCommandBuilder()
   .setName('softban')

@@ -4,10 +4,6 @@ export interface UserLevels {
   messages: number,
   level: number
 }
-export interface formatTimeOpt {
-  longNames: boolean,
-  commas: boolean
-}
 export interface punOpt {
   time?: string,
   reason?: string,
