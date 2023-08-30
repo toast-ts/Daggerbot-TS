@@ -116,7 +116,7 @@ export interface Tokens {
   main: string
   beta: string
   toast: string
-  dontlookatme: {
+  spotify: {
     client: string,
     secret: string
   }
