@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const replyInDM = interaction.options.getString('message');
@@ -20,10 +21,10 @@ export default {
           .setTitle(`Suggestion ID: ${suggestionID}`)
           .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
           .setFooter({text: `Timestamp: ${timeFormatting}`})
-          .setDescription([
+          .setDescription(MessageTool.concatMessage(
             '> **Suggestion:**',
             suggestionText
-          ].join('\n'));
+          ));
         if (suggestionImage) notifEmbed.setImage(suggestionImage.url);
         webhook.send({embeds: [notifEmbed], username: `${client.user.username} Notification`, avatarURL: client.user.avatarURL({size: 256})}
         ).catch(e=>{
