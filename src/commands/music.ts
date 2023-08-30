@@ -7,7 +7,7 @@ export default {
     if (!client.config.botSwitches.music && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
     if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('Music module is close to being completed, some parts may be incomplete or broken, so it has been restricted to staff for time-being.');
     const player = Player.singleton(client);
-    await player.extractors.register(SpotifyExtractor,{clientId: client.tokens.dontlookatme.client, clientSecret: client.tokens.dontlookatme.secret});
+    await player.extractors.register(SpotifyExtractor,{clientId: client.tokens.spotify.client, clientSecret: client.tokens.spotify.secret});
     if (!interaction.member.voice.channel) return interaction.reply('Please join a voice channel first to use the command.');
     player.nodes.create(interaction.guildId, {
       metadata: {
