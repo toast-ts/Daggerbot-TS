@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client';
+import FormatPlayer from '../helpers/FormatPlayer.js';
 import {writeFileSync, readFileSync} from 'node:fs';
 import {FSPlayer, FSData, FSCareerSavegame, TServer} from '../typings/interfaces';
 
@@ -11,12 +12,6 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
   const serverErrorEmbed = new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time');
   const genericEmbed = new client.embed();
-
-  const decoPlayer = (player:FSPlayer)=>{
-    let decorator = player.isAdmin ? ':detective:' : '';
-    decorator += player.name.includes('Toast') ? '<:toastv2:1132681026662056079>' : '';
-    return decorator
-  }
 
   const HITALL = async()=>{
     let sessionInit = {signal: AbortSignal.timeout(8200),headers:{'User-Agent':`Daggerbot - HITALL/undici`}};
@@ -42,17 +37,17 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
 
       // Join/Leave log
       function playerLogEmbed(player:FSPlayer,joinLog:boolean){
-        const logEmbed = new client.embed().setDescription(`**${player.name}${decoPlayer(player)}** ${joinLog ? 'joined' : 'left'} **${client.MPServerCache[ServerName].name}** at <t:${Math.round(Date.now()/1000)}:t>`);
+        const logEmbed = new client.embed().setDescription(`**${player.name}${FormatPlayer.decoratePlayerIcons(player)}** ${joinLog ? 'joined' : 'left'} **${client.MPServerCache[ServerName].name}** at <t:${Math.round(Date.now()/1000)}:t>`);
         if (joinLog) return logEmbed.setColor(client.config.embedColorGreen);
-        else if (player.uptime > 0) return logEmbed.setColor(client.config.embedColorRed).setFooter({text:`Farmed for ${client.formatPlayerUptime(player.uptime)}`});
+        else if (player.uptime > 0) return logEmbed.setColor(client.config.embedColorRed).setFooter({text:`Farmed for ${FormatPlayer.uptimeFormat(player.uptime)}`});
         else return logEmbed.setColor(client.config.embedColorRed);
       }
 
       const serverLog = client.channels.resolve(client.config.mainServer.channels.fs_server_log) as Discord.TextChannel;
       const playersOnServer = hitDSS.slots?.players.filter(x=>x.isUsed);
       const playersInCache = client.MPServerCache[ServerName].players;
-      if (!playersOnServer ?? playersOnServer === undefined) return new Error('[MPLoop] Empty array, ignoring...'); // For the love of god, stop throwing errors everytime.
-      playersOnServer.forEach(player=>playerData.push(`**${player.name}${decoPlayer(player)}**\nFarming for ${client.formatPlayerUptime(player.uptime)}`));
+      if (!playersOnServer ?? playersOnServer === undefined) return console.log('[MPLoop] Empty array, ignoring...'); // For the love of god, stop throwing errors everytime.
+      playersOnServer.forEach(player=>playerData.push(`**${player.name}${FormatPlayer.decoratePlayerIcons(player)}**\nFarming for ${FormatPlayer.uptimeFormat(player.uptime)}`));
 
       // Player leaving
       for (const player of playersInCache.filter(x=>!playersOnServer.some(y=>y.name === x.name))){

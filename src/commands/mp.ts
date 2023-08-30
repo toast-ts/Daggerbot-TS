@@ -2,9 +2,10 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import path from 'node:path';
 import canvas from 'canvas';
+import FormatPlayer from '../helpers/FormatPlayer.js';
 import MessageTool from '../helpers/MessageTool.js';
 import {readFileSync} from 'node:fs';
-import {FSData} from 'src/typings/interfaces.js';
+import {FSData} from '../typings/interfaces.js';
 
 const serverChoices = [
   {name: 'Main Server', value: 'mainServer'},
@@ -149,11 +150,7 @@ export default {
         else if (endpoint.slots.used > 8) Color = client.config.embedColorYellow;
         else Color = client.config.embedColorGreen;
 
-        for (const player of endpoint.slots.players.filter(x=>x.isUsed)){
-          let decorator = player.isAdmin ? ':detective:' : '';
-          decorator += player.name.includes('Toast') ? '<:toastv2:1132681026662056079>' : '';
-          playerData.push(`**${player.name}${decorator}**\nFarming for ${client.formatPlayerUptime(player.uptime)}`)
-        }
+        for (const player of endpoint.slots.players.filter(x=>x.isUsed)) playerData.push(`**${player.name}${FormatPlayer.decoratePlayerIcons(player)}**\nFarming for ${FormatPlayer.uptimeFormat(player.uptime)}`)
 
         const slot = `${endpoint.slots.used}/${endpoint.slots.capacity}`;
         const ingameTime = `${('0'+Math.floor((endpoint.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((endpoint.server.dayTime/60/1000)%60)).slice(-2)}`;

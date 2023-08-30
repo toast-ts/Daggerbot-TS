@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import mongoose from 'mongoose';
 import ms from 'ms';
+import FormatTime from '../helpers/FormatTime.js';
 import {Punishment} from '../typings/interfaces.js';
 
 const Schema = mongoose.model('punishments', new mongoose.Schema({
@@ -36,7 +37,7 @@ export default class punishments extends Schema {
         {name: '\u200b', value: '\u200b', inline: true},
         {name: '🔹 Reason', value: `\`${punishment.reason}\``, inline: true})
       .setColor(this.client.config.embedColor).setTimestamp(punishment.time)
-    if (punishment.duration) embed.addFields({name: '🔹 Duration', value: this.client.formatTime(punishment.duration, 100), inline: true}, {name: '\u200b', value: '\u200b', inline: true})
+    if (punishment.duration) embed.addFields({name: '🔹 Duration', value: `${FormatTime(punishment.duration, 100)}`, inline: true}, {name: '\u200b', value: '\u200b', inline: true})
     if (punishment.cancels) {
       const cancels = await this._content.findById(punishment.cancels);
       embed.addFields({name: '🔹 Overwrites', value: `This case overwrites Case #${cancels.id}\n\`${cancels.reason}\``})
@@ -72,7 +73,7 @@ export default class punishments extends Schema {
     if (type == 'mute') timeInMillis = time ? ms(time) : 2419140000; // Timeouts have a limit of 4 weeks
     else timeInMillis = time ? ms(time) : null;
 
-    const durationText = timeInMillis ? ` for ${this.client.formatTime(timeInMillis, 4, {longNames:true,commas:true})}` : '';
+    const durationText = timeInMillis ? ` for ${FormatTime(timeInMillis, 4, {longNames:true,commas:true})}` : '';
     if (time) embed.addFields({name: 'Duration', value: durationText});
     
     if (GuildMember){

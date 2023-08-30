@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from './client.js';
 const client = new TClient;
 client.init();
+import YTLoop from './funcs/YTLoop.js';
 import MPLoop from './funcs/MPLoop.js';
 import {Player} from 'discord-player';
 const player = Player.singleton(client);
@@ -10,11 +11,7 @@ import {writeFileSync, readFileSync} from 'node:fs';
 
 // Error handler
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
-  if ([
-    'ConnectTimeoutError: Connect Timeout Error', 'getaddrinfo EAI_AGAIN discord.com',
-    '[Error: 30130000:error:0A000410:SSL', '[Error: F8200000:error:0A000410:SSL',
-    'HTTPError: Internal Server Error'
-  ].includes(error.message)) return;
+  if (JSON.parse(readFileSync('src/errorBlocklist.json', 'utf8')).includes(error.message)) return;// I wonder if my idea works, if not then please run me over with a bulldozer.
   console.error(error);
   (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
 }
@@ -41,9 +38,9 @@ if (client.config.botSwitches.mpstats) setInterval(async()=>{
   const serverlake = (await client.MPServer._content.findById(client.config.mainServer.id));
   for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPLoop(client, locArea.channel, locArea.message, serverlake[locName], locName)
 }, 35000);
-setInterval(async()=>{
-	client.YTLoop('UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702'); // 528967918772551702 = #videos-and-streams
-	client.YTLoop('UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567') // 767444045520961567 = #machinery-restorer
+setInterval(async()=>{// Ping notification is currently WIP, it might be active in production but I want to see how it goes with role mentions first so I can make any further changes.
+	YTLoop(client, 'UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702', '1011341005389307925'); // 528967918772551702 = #videos-and-streams; 1011341005389307925 = Bot Tech;
+	YTLoop(client, 'UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567', '989591094524276796') // 767444045520961567 = #machinery-restorer; 989591094524276796 = Temp;
 }, 300000)
 
 // Event loop for punishments and daily msgs
