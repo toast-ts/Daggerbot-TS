@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async run(client:TClient, member:Discord.GuildMember){    
     if (member.partial || member.guild?.id != client.config.mainServer.id) return;
@@ -27,10 +28,10 @@ export default {
       {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.username}**\nChannel: **#${usedInvite.channel.name}**` : 'No invite data could be fetched.'}
     )]});
     if (await client.punishments._content.findOne({'member': member.user.id, type: 'mute', expired: undefined})){
-      (client.channels.resolve(client.config.mainServer.channels.dcmod_chat) as Discord.TextChannel).send({embeds: [new client.embed().setColor(client.config.embedColorYellow).setTitle('Case evasion detected').setDescription([
+      (client.channels.resolve(client.config.mainServer.channels.dcmod_chat) as Discord.TextChannel).send({embeds: [new client.embed().setColor(client.config.embedColorYellow).setTitle('Case evasion detected').setDescription(MessageTool.concatMessage(
         `**${member.user.username}** (\`${member.user.id}\`) has been detected for case evasion.`,
         'Timeout has been automatically added. (25 days)'
-      ].join('\n')).setTimestamp()]});
+      )).setTimestamp()]});
       await client.punishments.addPunishment('mute', {time: '25d'}, client.user.id, '[AUTOMOD] Case evasion', member.user, member)
     } 
   }

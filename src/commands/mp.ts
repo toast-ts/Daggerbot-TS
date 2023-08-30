@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import path from 'node:path';
 import canvas from 'canvas';
+import MessageTool from '../helpers/MessageTool.js';
 import {readFileSync} from 'node:fs';
 import {FSData} from 'src/typings/interfaces.js';
 
@@ -178,7 +179,7 @@ export default {
       info: async()=>{
         if (!endpoint) return console.log('Endpoint failed - info')
         if (endpoint.server.name.length < 1) embed.setFooter({text: 'Server is currently offline.'})
-        interaction.reply({embeds: [embed.setColor(client.config.embedColor).setDescription([
+        interaction.reply({embeds: [embed.setColor(client.config.embedColor).setDescription(MessageTool.concatMessage(
           `**Server name**: \`${endpoint?.server.name.length === 0 ? '\u200b' : endpoint.server.name}\``,
           '**Password:** `mf4700`',
           '**Crossplay server**',
@@ -186,7 +187,7 @@ export default {
           `**Mods:** [Click here](${database[serverSelector].ip}/mods.html) **|** [Direct Download](${database[serverSelector].ip}/all_mods_download?onlyActive=true)`,
           '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
           'Please see <#543494084363288637> for additional information.'
-        ].join('\n'))]});
+        ))]});
       },
       /* url: async()=>{
         if (client.config.mainServer.id == interaction.guildId) {
