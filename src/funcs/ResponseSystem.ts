@@ -6,21 +6,20 @@ import TClient from '../client.js';
 } */
 
 export default class Response {
-  static readonly incomingArrays = {
+  private static readonly incomingArrays = {
     morning: ['good morning all', 'good morning everyone', 'good morning lads', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody', 'morning yall', 'morning y\'all'],
     afternoon: ['good afternoon', 'afternoon all', 'afternoon everyone'],
     evening: ['good evening', 'evening all', 'evening everyone', 'evening lads'],
     night: ['night all', 'night everyone', 'night guys', 'goodnight', 'good night']
   } as const
-
   static create(client:TClient, message:Discord.Message, channel:Discord.Snowflake, keyword:string) {
     if (message.channelId != channel || message.type != 0) return;
     this.respond(client, message, keyword);
   }
-  static respond(client:TClient, message:Discord.Message, responseKeyword:string) {
+  protected static respond(client:TClient, message:Discord.Message, responseKeyword:string) {
     if (this.incomingArrays[responseKeyword].some(m=>message.content.toLowerCase().startsWith(m))) return message.reply(`${this.outgoingArrays(client, message)[responseKeyword][Math.floor(Math.random() * this.outgoingArrays(client, message)[responseKeyword].length)]}`)
   }
-  static outgoingArrays(client:TClient, message:Discord.Message) {
+  private static outgoingArrays(client:TClient, message:Discord.Message) {
     const PersonnyMcPerson = `**${message.member.displayName}**`;
     return {
       morning: [
