@@ -26,5 +26,5 @@ export default async(client:TClient)=>{
     .on('close', ()=>console.log(client.logTime(), `${LogPrefix} MongoDB has closed the connection`))
     .on('all', ()=>console.log(client.logTime(), `${LogPrefix} Successfully established a connection to all members`))
     .on('fullsetup', ()=>console.log(client.logTime(), `${LogPrefix} Successfully established a connection to Primary server & atleast one member`))
-    .on('error', ((err:mongoose.Error)=>console.error(client.logTime(), `${LogPrefix} Encountered an error in MongoDB: ${err.message}`)));
+    .on('error', (err:mongoose.Error)=>console.error(client.logTime(), `${LogPrefix} Encountered an error in MongoDB: ${err.message}`));
 }
