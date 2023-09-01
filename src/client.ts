@@ -1,6 +1,15 @@
+interface repeatedMessages {
+  [key: string]: {data: Discord.Collection<number,{type:string,channel:string}>,timeout: NodeJS.Timeout}
+}
+type MPServerCache = Record<string,{
+  players: FSPlayer[],
+  status: 'online' | 'offline' | null,
+  name: string | null
+}>
+type YouTubeCache = Record<string,string>
 import Discord from 'discord.js';
 import {readFileSync, readdirSync} from 'node:fs';
-import {Tokens, Config, repeatedMessages, type MPServerCache} from './typings/interfaces';
+import {Tokens, Config, FSPlayer} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
 import suggestion from './models/suggestion.js';
@@ -29,11 +38,10 @@ export default class TClient extends Discord.Client {
   registry: Array<Discord.ApplicationCommandDataResolvable>;
   config: Config;
   tokens: Tokens;
-  YTCache: any;
+  YTCache: YouTubeCache = {};
   embed: typeof Discord.EmbedBuilder;
-  collection: any;
-  messageCollector: any;
-  attachmentBuilder: any;
+  collection: typeof Discord.Collection;
+  attachmentBuilder: typeof Discord.AttachmentBuilder;
   moment: typeof moment;
   xjs: typeof xjs;
   userLevels: userLevels;
@@ -67,10 +75,9 @@ export default class TClient extends Discord.Client {
     this.YTCache = {
       'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
       'UCguI73--UraJpso4NizXNzA': undefined // Machinery Restorer
-    }
+    } as YouTubeCache;
     this.embed = Discord.EmbedBuilder;
     this.collection = Discord.Collection;
-    this.messageCollector = Discord.MessageCollector;
     this.attachmentBuilder = Discord.AttachmentBuilder;
     this.moment = moment;
     this.xjs = xjs;
@@ -83,12 +90,12 @@ export default class TClient extends Discord.Client {
     this.suggestion = new suggestion(this);
     this.tags = new tags(this);
     this.repeatedMessages = {};
-    this.setMaxListeners(45);
+    this.setMaxListeners(62);
     this.statsGraph = -120;
   }
   async init(){
     console.time('Startup');
-    await DatabaseServer(this);
+    DatabaseServer.connect(this);
     this.login(this.tokens.main);
     for (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);

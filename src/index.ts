@@ -2,8 +2,8 @@ import Discord from 'discord.js';
 import TClient from './client.js';
 const client = new TClient;
 client.init();
-import YTLoop from './funcs/YTLoop.js';
-import MPLoop from './funcs/MPLoop.js';
+import YTModule from './funcs/YTModule.js';
+import MPModule from './funcs/MPModule.js';
 import {Player} from 'discord-player';
 const player = Player.singleton(client);
 import MessageTool from './helpers/MessageTool.js';
@@ -36,18 +36,18 @@ if (client.config.botSwitches.music){
 // YouTube Upload notification and MP loop
 if (client.config.botSwitches.mpstats) setInterval(async()=>{
   const serverlake = (await client.MPServer._content.findById(client.config.mainServer.id));
-  for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPLoop(client, locArea.channel, locArea.message, serverlake[locName], locName)
+  for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPModule(client, locArea.channel, locArea.message, serverlake[locName], locName)
 }, 35000);
 setInterval(async()=>{// Ping notification is currently WIP, it might be active in production but I want to see how it goes with role mentions first so I can make any further changes.
-	YTLoop(client, 'UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702', '1011341005389307925'); // 528967918772551702 = #videos-and-streams; 1011341005389307925 = Bot Tech;
-	YTLoop(client, 'UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567', '989591094524276796') // 767444045520961567 = #machinery-restorer; 989591094524276796 = Temp;
+	YTModule(client, 'UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702', '1011341005389307925'); // 528967918772551702 = #videos-and-streams; 1011341005389307925 = Bot Tech;
+	YTModule(client, 'UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567', '989591094524276796') // 767444045520961567 = #machinery-restorer; 989591094524276796 = Temp;
 }, 300000)
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
   const now = Date.now();
 
-  const punishments = await client.punishments._content.find({});
+  const punishments = await client.punishments._content.find();
   punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
     console.log(client.logTime(), `${punishment.member}\'s ${punishment.type} should expire now`);
     console.log(client.logTime(), await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!'));

@@ -26,6 +26,7 @@
     "yarn": ">=3.6.1",
     "npm": "please use yarn instead of npm"
   },
+  "engineStrict": true,
   "packageManager": "yarn@3.6.3",
   "dependencies": {
     "@discord-player/extractor": "4.4.1",
