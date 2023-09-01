@@ -45,9 +45,9 @@ export default {
         )
       if (member.premiumSinceTimestamp !== null) embed.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
       if (!presence) embed.addFields({name: `🔹 Status: ⚫`, value: '\u200b'})
-      if (member.presence) embed.addFields({name: `🔹 Status: ${member.presence.status}`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
+      if (member.presence) embed.addFields({name: `🔹 Status:`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
       embedArray.push(embed)
-      if (member.presence.activities.find(a=>a.type === 2)/*  && member.presence.activities.find(a=>a.type === 2)?.assets */) {
+      if (member.presence.activities.find(a=>a.type === 2)) {
         const spotifyStatus = member.presence?.activities.find(a=>a.name === 'Spotify') as Discord.Activity;
         const spotifyEmbed = new client.embed()
           .setColor('#1DB954') // Thanks Copilot, I never knew I needed this shade of green. It's actually looks like Spotify's color.
