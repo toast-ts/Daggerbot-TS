@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import mongoose from 'mongoose';
 import ms from 'ms';
 import FormatTime from '../helpers/FormatTime.js';
-import {Punishment} from '../typings/interfaces.js';
+import {Punishment} from '../typings/interfaces';
 
 const Schema = mongoose.model('punishments', new mongoose.Schema({
   _id: {type: Number, required: true},
