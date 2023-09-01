@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-  bot:
-    container_name: 'Daggerbot'
-    image: 'git.toast-server.net/toast/daggerbot-ts:alpine'
-    volumes:
-      - .:/bot
-    network_mode: host
