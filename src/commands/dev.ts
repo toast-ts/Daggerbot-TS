@@ -50,7 +50,7 @@ export default {
         const SummonAuthentication = createTokenAuth(client.tokens.octokit);
         const {token} = await SummonAuthentication();
         var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
-        const clarkson = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
+        const hammond = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
         const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
         const github = {
           fetchCommit: {
@@ -65,12 +65,12 @@ export default {
           }
         };
         exec('git pull',{windowsHide:true},(err:Error,stdout)=>{
-          if (err) clarkson.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
-          else if (stdout.includes('Already up to date')) clarkson.edit('I am already up to date with the upstream repository.')
-          else clarkson.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
-            if (err) clarkson.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
-            if (interaction.options.getBoolean('restart')) clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${FormatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}));
-            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg.length === 0 ? 'No commit message' : github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!`)
+          if (err) hammond.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
+          else if (stdout.includes('Already up to date')) hammond.edit('I am already up to date with the upstream repository.')
+          else hammond.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
+            if (err) hammond.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
+            if (interaction.options.getBoolean('restart')) hammond.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${FormatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}));
+            else hammond.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg.length === 0 ? 'No commit message' : github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!`)
           }))
         })
       },
