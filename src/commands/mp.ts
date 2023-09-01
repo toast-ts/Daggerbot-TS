@@ -5,7 +5,7 @@ import canvas from 'canvas';
 import FormatPlayer from '../helpers/FormatPlayer.js';
 import MessageTool from '../helpers/MessageTool.js';
 import {readFileSync} from 'node:fs';
-import {FSData} from '../typings/interfaces.js';
+import {FSData} from '../typings/interfaces';
 
 const serverChoices = [
   {name: 'Main Server', value: 'mainServer'},

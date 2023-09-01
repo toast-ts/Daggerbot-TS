@@ -1,0 +1,1 @@
+export default (prefix:string)=>{ return `[${prefix}]` };

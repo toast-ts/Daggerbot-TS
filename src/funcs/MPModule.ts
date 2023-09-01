@@ -1,11 +1,15 @@
+interface TServer {
+  ip: string
+  code: string
+}
 import Discord from 'discord.js';
 import TClient from '../client';
 import FormatPlayer from '../helpers/FormatPlayer.js';
+import LogPrefix from '../helpers/LogPrefix.js';
 import {writeFileSync, readFileSync} from 'node:fs';
-import {FSPlayer, FSData, FSCareerSavegame, TServer} from '../typings/interfaces';
+import {FSPlayer, FSData, FSCareerSavegame} from '../typings/interfaces';
 
 export default async(client:TClient, Channel:string, Message:string, Server:TServer, ServerName:string)=>{
-  let MPLoopPrefix = '[MPLoop] ';
   let isServerOnline = false;
   let playerData:Array<string> = [];
   let noContentImage = 'https://cdn.discordapp.com/attachments/1118960531135541318/1140906691236479036/68efx1.png';
@@ -20,7 +24,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(client.xjs.xml2js(await r.text(), {compact: true}) as any).careerSavegame as FSCareerSavegame);
 
       if (!hitDSS ?? !hitCSG){
-        if (hitDSS && !hitDSS.slots) return new Error(`${MPLoopPrefix}DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
+        if (hitDSS && !hitDSS.slots) return new Error(`${LogPrefix('MPLoop')} DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
         if (hitDSS && !hitCSG) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
         else return msg.edit({embeds: [serverErrorEmbed]});
       }

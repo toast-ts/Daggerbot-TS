@@ -1,17 +1,5 @@
 import Discord from 'discord.js';
 
-export interface UserLevels {
-  messages: number,
-  level: number
-}
-export interface punOpt {
-  time?: string,
-  reason?: string,
-  interaction?: Discord.ChatInputCommandInteraction<"cached">
-}
-export interface repeatedMessages {
-  [key:string]: {data: Discord.Collection<number,{type:string,channel:string}>, timeout: NodeJS.Timeout}
-}
 export interface Punishment {
   _id: number;
   type: string;
@@ -186,13 +174,4 @@ export interface Config {
       dcmod_chat: string
     }
   }
-}
-export type MPServerCache = Record<string,{
-  players: FSPlayer[],
-  status: 'online' | 'offline' | null,
-  name: string | null
-}>
-export interface TServer {
-  ip: string
-  code: string
 }
