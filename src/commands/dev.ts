@@ -70,7 +70,7 @@ export default {
           else clarkson.edit('Compiling TypeScript files...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
             if (err) clarkson.edit(`\`\`\`${UsernameHelper.stripName(err.message)}\`\`\``)
             if (interaction.options.getBoolean('restart')) clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!\nUptime before restarting: **${FormatTime(client.uptime, 3, {commas: true, longNames: true})}**`).then(()=>exec('pm2 restart Daggerbot', {windowsHide:true}));
-            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!`)
+            else clarkson.edit(`[Commit:](<${github.fetchCommit.url}>) **${github.fetchCommit.msg.length === 0 ? 'No commit message' : github.fetchCommit.msg}**\nCommit author: **${github.fetchCommit.author}**\n\n__Commit changes__\nTotal: **${github.fetchChanges.total}**\nAdditions: **${github.fetchChanges.addition}**\nDeletions: **${github.fetchChanges.deletion}**\n\nSuccessfully compiled TypeScript files into JavaScript!`)
           }))
         })
       },
