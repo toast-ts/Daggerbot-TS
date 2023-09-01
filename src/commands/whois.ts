@@ -44,9 +44,22 @@ export default {
           {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: member.roles.cache.size > 1 ? member.roles.cache.filter(x=>x.id !== interaction.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}
         )
       if (member.premiumSinceTimestamp !== null) embed.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
-      if (!presence) embed.addFields({name: `🔹 Status: Unavailable to be fetched`, value: '\u200b'})
+      if (!presence) embed.addFields({name: `🔹 Status: ⚫`, value: '\u200b'})
       if (member.presence) embed.addFields({name: `🔹 Status: ${member.presence.status}`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
       embedArray.push(embed)
+      if (member.presence.activities.find(a=>a.type === 2)/*  && member.presence.activities.find(a=>a.type === 2)?.assets */) {
+        const spotifyStatus = member.presence?.activities.find(a=>a.name === 'Spotify') as Discord.Activity;
+        const spotifyEmbed = new client.embed()
+          .setColor('#1DB954') // Thanks Copilot, I never knew I needed this shade of green. It's actually looks like Spotify's color.
+          .setThumbnail(spotifyStatus?.assets.largeImageURL())
+          .setAuthor({name: 'Spotify', iconURL: 'https://cdn.discordapp.com/emojis/510214342034325504.webp?quality=lossless'})
+          .addFields(
+            {name: 'Artist', value: spotifyStatus?.state, inline: true},
+            {name: 'Album', value: spotifyStatus?.details, inline: true},
+            {name: 'Started', value: `<t:${Math.round(spotifyStatus?.timestamps.start as unknown as number/1000)}>\n<t:${Math.round(spotifyStatus?.timestamps.start as unknown as number/1000)}:R>`, inline: false}
+          )
+        embedArray.push(spotifyEmbed)
+      }
       interaction.reply({embeds: embedArray})
     }
   },
