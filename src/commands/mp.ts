@@ -4,6 +4,7 @@ import path from 'node:path';
 import canvas from 'canvas';
 import FormatPlayer from '../helpers/FormatPlayer.js';
 import MessageTool from '../helpers/MessageTool.js';
+import LogPrefix from '../helpers/LogPrefix.js';
 import {readFileSync} from 'node:fs';
 import {FSData} from '../typings/interfaces';
 
@@ -186,7 +187,7 @@ export default {
           'Please see <#543494084363288637> for additional information.'
         ))]});
       },
-      /* url: async()=>{
+      url: async()=>{
         if (client.config.mainServer.id == interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
         }
@@ -194,59 +195,26 @@ export default {
         if (!address){
           try {
             const Url = await client.MPServer._content.findById(interaction.guildId);
-            if (interaction.options.getString('server').includes('mainServer')) {
-              if (Url.mainServer.ip && Url.mainServer.code) return interaction.reply(Url.mainServer.ip+'/feed/dedicated-server-stats.json?code='+Url.mainServer.code)
-            } else {
-              if (Url.secondServer.ip && Url.secondServer.code) return interaction.reply(Url.secondServer.ip+'/feed/dedicated-server-stats.json?code='+Url.secondServer.code)
-            }
+            if (Url[serverSelector].ip && Url[serverSelector].code) return interaction.reply(Url[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+Url[serverSelector].code)
           } catch(err){
-            console.log(`MPDB :: ${err}`);
+            console.log(client.logTime(), `${LogPrefix('MPDB')} ${err}`);
             interaction.reply(`\`\`\`${err}\`\`\``)
           }
         } else {
           if (!address.match(/dedicated-server-stats/)) return interaction.reply('The URL does not match `dedicated-server-stats.xml`');
           const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=');
           try {
-            if (interaction.options.getString('server').includes('mainServer')) {
-              console.log(`MPDB :: Main Server\'s URL for ${interaction.guild.name} has been modified by ${interaction.member.displayName} (${interaction.member.id})`);
-              await client.MPServer._content.create({_id: interaction.guildId, mainServer: { ip: newURL[0], code: newURL[1] }, secondServer: { ip: 'unknown', code: 'unknown' }})
-              .then(()=>interaction.reply('This guild is not found in database, therefore I have created it for you.'))
-              .catch((err:Error)=>interaction.reply(`I ran into a brick wall while creating the server data:\n${err.message}`))
-            } else {
-              console.log(`MPDB :: Second Server\'s URL for ${interaction.guild.name} has been modified by ${interaction.member.displayName} (${interaction.member.id})`)
-              await client.MPServer._content.findOneAndUpdate({_id: interaction.guildId},{$set: {secondServer: {ip: newURL[0], code: newURL[1]}}})
-              .then(()=>interaction.reply('URL for second server successfully updated.'))
-              .catch((err:Error)=>interaction.reply(`I got hit by a flying fish while updating the server data:\n${err.message}`))
-            }
-          } catch(err) {
-            if (interaction.options.getString('server').includes('mainServer')) {
-              const affected = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {$set: {mainServer:{ip: newURL[0], code: newURL[1]}}})
-              if (affected) return interaction.reply('URL for Main Server successfully updated.')
-            } else {
-              const affected = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {$set: {secondServer:{ip: newURL[0], code: newURL[1]}}})
-              if (affected) return interaction.reply('URL for Second Server successfully updated.')
-            }
+            console.log(client.logTime(), `${LogPrefix('MPDB')} ${serverSelector}\'s URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
+            const affected = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {$set: {[serverSelector]: {ip: newURL[0], code: newURL[1]}}})
+            if (affected) return interaction.reply('URL successfully updated.')
+          } catch (err) {
+            console.log(client.logTime(), `${LogPrefix('MPDB')} ${serverSelector}\'s URL for ${interaction.guild.name} has been created by ${interaction.member.displayName} (${interaction.member.id})`);
+            await client.MPServer._content.create({_id: interaction.guildId, [serverSelector]: { ip: newURL[0], code: newURL[1] }})
+            .then(()=>interaction.reply('This server doesn\'t have any data in the database, therefore I have created it for you.'))
+            .catch((err:Error)=>interaction.reply(`I got hit by a flying brick while trying to populate the server data:\n\`\`\`${err.message}\`\`\``))
           }
         }
-      },
-      maintenance: ()=>{
-        if (client.config.mainServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
-        }
-        const maintenanceMessage = interaction.options.getString('message');
-        const activePlayersChannel = '739084625862852715';
-        const channel = (client.channels.cache.get(activePlayersChannel) as Discord.TextChannel);
-        console.log(channel.permissionsFor(interaction.guildId).has('SendMessages'));
-        if (channel.permissionOverwrites.cache.get(interaction.guildId).deny.has('SendMessages')) {
-          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: true}, {type: 0, reason: `Unlocked by ${interaction.member.displayName}`});
-          channel.send({embeds: [new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTitle('🔓 Channel unlocked').setDescription(`**Reason:**\n${maintenanceMessage}`).setTimestamp()]});
-          interaction.reply({content: `<#${activePlayersChannel}> has been unlocked!`, ephemeral: true});
-        } else if (channel.permissionOverwrites.cache.get(interaction.guildId).allow.has('SendMessages')) {
-          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: false}, {type: 0, reason: `Locked by ${interaction.member.displayName}`});
-          channel.send({embeds: [new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTitle('🔒 Channel locked').setDescription(`**Reason:**\n${maintenanceMessage}`).setTimestamp()]});
-          interaction.reply({content: `<#${activePlayersChannel}> has been locked!`, ephemeral: true});
-        }
-      } */
+      }
     })[interaction.options.getSubcommand()]();
   },
   data: new Discord.SlashCommandBuilder()
@@ -259,7 +227,7 @@ export default {
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(serverChoices[0])))
+      .setChoices(serverChoices[0], serverChoices[1])))
   .addSubcommand(x=>x
     .setName('players')
     .setDescription('Display players on server')
@@ -267,19 +235,19 @@ export default {
       .setName('server')
       .setDescription('The server to display players for')
       .setRequired(true)
-      .setChoices(serverChoices[0])))
-  /* .addSubcommand(x=>x
+      .setChoices(serverChoices[0], serverChoices[1])))
+  .addSubcommand(x=>x
     .setName('url')
     .setDescription('View or update the server URL')
     .addStringOption(x=>x
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(serverChoices[0]))
+      .setChoices(serverChoices[0], serverChoices[1]))
     .addStringOption(x=>x
       .setName('address')
       .setDescription('The URL to the dedicated-server-stats.json file')
-      .setRequired(false))) */
+      .setRequired(false)))
   .addSubcommand(x=>x
     .setName('info')
     .setDescription('Display server information')
@@ -287,12 +255,5 @@ export default {
       .setName('server')
       .setDescription('The server to display information for')
       .setRequired(true)
-      .setChoices(serverChoices[0])))
-  /* .addSubcommand(x=>x
-    .setName('maintenance')
-    .setDescription('Toggle maintenance mode for #mp-active-players')
-    .addStringOption(x=>x
-      .setName('message')
-      .setDescription('The message to display in the channel')
-      .setRequired(true))) */
+      .setChoices(serverChoices[0], serverChoices[1])))
 }
