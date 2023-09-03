@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import mongoose from 'mongoose';
+import LogPrefix from '../helpers/LogPrefix.js';
 
 const Schema = mongoose.model('userLevels', new mongoose.Schema({
   _id: {type: String},
@@ -24,7 +25,7 @@ export default class userLevels extends Schema {
       if (userData.messages >= this.algorithm(userData.level+2)){
         while (userData.messages > this.algorithm(userData.level+1)){
           const newData = await this._content.findByIdAndUpdate(userid, {level:userData.level++}, {new: true});
-          console.log(this.client.logTime(), `${userid} extended to level ${newData.level}`);
+          console.log(this.client.logTime(), LogPrefix('LevelSystem'), `${userid} extended to level ${newData.level}`);
         }
       } else if (userData.messages >= this.algorithm(userData.level+1)) {
         const newData = await this._content.findByIdAndUpdate(userid, {level:userData.level+1}, {new: true});

@@ -10,7 +10,7 @@ export default {
     const activePlayersChannel = '739084625862852715';
     const channel = (client.channels.cache.get(activePlayersChannel) as Discord.TextChannel);
     const embed = new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTimestamp();
-    console.log(channel.permissionsFor(interaction.guildId).has('SendMessages'));
+
     if (channel.permissionsFor(interaction.guildId).has('SendMessages')) {
       channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: false}, {type: 0, reason: `Locked by ${interaction.member.displayName}`});
       channel.send({embeds: [embed.setTitle('🔒 Channel locked').setDescription(`**Reason:**\n${maintenanceMessage}`)]});
