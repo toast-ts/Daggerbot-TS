@@ -197,18 +197,18 @@ export default {
             const Url = await client.MPServer._content.findById(interaction.guildId);
             if (Url[serverSelector].ip && Url[serverSelector].code) return interaction.reply(Url[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+Url[serverSelector].code)
           } catch(err){
-            console.log(client.logTime(), `${LogPrefix('MPDB')} ${err}`);
+            console.log(client.logTime(), LogPrefix('MPDB'), err);
             interaction.reply(`\`\`\`${err}\`\`\``)
           }
         } else {
           if (!address.match(/dedicated-server-stats/)) return interaction.reply('The URL does not match `dedicated-server-stats.xml`');
           const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=');
           try {
-            console.log(client.logTime(), `${LogPrefix('MPDB')} ${serverSelector}\'s URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
+            console.log(client.logTime(), LogPrefix('MPDB'), `${serverSelector}\'s URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
             const affected = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {$set: {[serverSelector]: {ip: newURL[0], code: newURL[1]}}})
             if (affected) return interaction.reply('URL successfully updated.')
           } catch (err) {
-            console.log(client.logTime(), `${LogPrefix('MPDB')} ${serverSelector}\'s URL for ${interaction.guild.name} has been created by ${interaction.member.displayName} (${interaction.member.id})`);
+            console.log(client.logTime(), LogPrefix('MPDB'), `${serverSelector}\'s URL for ${interaction.guild.name} has been created by ${interaction.member.displayName} (${interaction.member.id})`);
             await client.MPServer._content.create({_id: interaction.guildId, [serverSelector]: { ip: newURL[0], code: newURL[1] }})
             .then(()=>interaction.reply('This server doesn\'t have any data in the database, therefore I have created it for you.'))
             .catch((err:Error)=>interaction.reply(`I got hit by a flying brick while trying to populate the server data:\n\`\`\`${err.message}\`\`\``))
