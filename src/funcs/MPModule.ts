@@ -80,7 +80,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
           {name: 'Current map', value: hitDSS.server.mapName, inline: true},
           {name: 'Server version', value: hitDSS.server.version, inline: true},
           {name: 'In-game Time', value: `${('0'+Math.floor((hitDSS.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((hitDSS.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-          {name: 'Slot Usage', value: isNaN(Number(hitCSG.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(hitCSG.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
+          {name: 'Slot Usage', value: isNaN(Number(hitCSG?.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(hitCSG.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
           {name: 'Autosave Interval', value: isNaN(Number(hitCSG.settings?.autoSaveInterval._text)) === true ? 'Unavailable' : Number(hitCSG.settings?.autoSaveInterval._text).toFixed(0)+' mins', inline:true},
           {name: 'Timescale', value: isNaN(Number(hitCSG.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(hitCSG.settings?.timeScale._text), 0, 'x'), inline: true}
         );
