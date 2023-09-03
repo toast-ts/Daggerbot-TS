@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Response from '../funcs/ResponseSystem.js';
+import LogPrefix from '../helpers/LogPrefix.js';
 export default {
   async run(client:TClient, message:Discord.Message){
     if (message.author.bot) return;
@@ -38,9 +39,10 @@ export default {
     }
 
     if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.mainServer.roles.admin) && message.guildId == client.config.mainServer.id){
+      const automodFailReason = 'msg got possibly deleted by another bot.';
       if (await client.bannedWords._content.findById(msgarr)/*  && !Whitelist.includes(message.channelId) */){
         automodded = true;
-        message.delete().catch(()=>console.log('bannedWords automod; msg got possibly deleted by another bot.'));
+        message.delete().catch(()=>console.log(LogPrefix('AUTOMOD-BANNEDWORDS'), automodFailReason));
         message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 10000));
         await repeatedMessages(30000, 3, 'bw', '30m', 'Constant swearing');
       } else if (message.content.toLowerCase().includes('discord.gg/') && !client.isStaff(message.member as Discord.GuildMember)){
@@ -48,7 +50,7 @@ export default {
         const validInvite = await client.fetchInvite(url).catch(()=>undefined);
         if (validInvite && validInvite.guild?.id !== client.config.mainServer.id){
           automodded = true;
-          message.delete().catch(()=>console.log('Advertisement automod; msg got possibly deleted by another bot.'));
+          message.delete().catch(()=>console.log(LogPrefix('AUTOMOD-ADVERT'), automodFailReason));
           message.channel.send('Please don\'t advertise other Discord servers.').then(x=>setTimeout(()=>x.delete(), 15000));
           await repeatedMessages(60000, 2, 'adv', '1h', 'Discord advertisement');
         }

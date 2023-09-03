@@ -24,7 +24,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(client.xjs.xml2js(await r.text(), {compact: true}) as any).careerSavegame as FSCareerSavegame);
 
       if (!hitDSS ?? !hitCSG){
-        if (hitDSS && !hitDSS.slots) return console.log(`${LogPrefix('MPLoop')} DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
+        if (hitDSS && !hitDSS.slots) return console.log(LogPrefix('MPModule'), `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
         if (hitDSS && !hitCSG.slotSystem) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
         else return msg.edit({embeds: [serverErrorEmbed]});
       }
@@ -52,7 +52,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       const serverLog = client.channels.resolve(client.config.mainServer.channels.fs_server_log) as Discord.TextChannel;
       const playersOnServer = hitDSS.slots?.players.filter(x=>x.isUsed);
       const playersInCache = client.MPServerCache[ServerName].players;
-      if (!playersOnServer ?? playersOnServer === undefined) return console.log('[MPLoop] Empty array, ignoring...'); // For the love of god, stop throwing errors everytime.
+      if (!playersOnServer ?? playersOnServer === undefined) return console.log(LogPrefix('MPModule'), 'Empty array, ignoring...'); // For the love of god, stop throwing errors everytime.
       playersOnServer.forEach(player=>playerData.push(`**${player.name}${FormatPlayer.decoratePlayerIcons(player)}**\nFarming for ${FormatPlayer.uptimeFormat(player.uptime)}`));
 
       // Player leaving
@@ -90,7 +90,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
     } catch(err) {
       if (err.message === 'The operation was aborted due to timeout') return msg.edit({content: 'Connection timed out.', embeds: [serverErrorEmbed]});
       msg.edit({content: null, embeds: [serverErrorEmbed]});
-      console.log(client.logTime(), `Failed to make a request for ${ServerName}:`, err.message)
+      console.log(client.logTime(), LogPrefix('MPModule'),`Failed to make a request for ${ServerName}:`, err.message)
     }
   }
   HITALL();

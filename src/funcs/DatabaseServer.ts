@@ -5,7 +5,7 @@ import LogPrefix from '../helpers/LogPrefix.js';
 const connection:mongoose.Connection = mongoose.connection;
 export default class DatabaseServer {
   static connect(client: TClient) {
-    const Logger = (logType:'log'|'error', msg:string)=>console[logType](client.logTime(), `${LogPrefix('DATABASE')} ${msg}`);
+    const Logger = (logType:'log'|'error', msg:string)=>console[logType](client.logTime(), LogPrefix('DATABASE'), msg);
 
     connection.set('strictQuery', true);
     connection.openUri(client.tokens.mongodb_uri, {

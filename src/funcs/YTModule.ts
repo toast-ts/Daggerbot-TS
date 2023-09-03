@@ -1,12 +1,13 @@
 import {TextChannel} from 'discord.js';
 import TClient from '../client.js';
+import LogPrefix from '../helpers/LogPrefix.js';
 
 export default async(client: TClient, YTChannelID: string, YTChannelName: string, DiscordChannelID: string, DiscordRoleID: string)=>{
   let Data: any;
   try {
     await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {signal: AbortSignal.timeout(8000), headers: {'User-Agent': 'Daggerbot - Notification/undici'}}).then(async xml=>Data = client.xjs.xml2js(await xml.text(), {compact: true}))
   } catch(err){
-    console.log(client.logTime(), `Failed to fetch "${YTChannelName}" from YouTube`)
+    console.log(client.logTime(), LogPrefix('YTModule'), `Failed to fetch "${YTChannelName}" from YouTube`)
   }
 
   if (!Data) return;
