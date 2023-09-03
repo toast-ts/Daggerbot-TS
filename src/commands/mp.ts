@@ -20,7 +20,7 @@ export default {
     if (interaction.channelId === '468835769092669461' && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
     const database = await client.MPServer._content.findById(interaction.guildId);
-    const endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':`Daggerbot - MPdata/undici`}}).then(r=>r.json() as Promise<FSData>);
+    const endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':'Daggerbot - MPdata/undici'}}).then(r=>r.json() as Promise<FSData>);
     const embed = new client.embed();
     ({
       players: async()=>{
@@ -243,7 +243,7 @@ export default {
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(serverChoices[0]))
+      .setChoices(serverChoices[0], serverChoices[1]))
     .addStringOption(x=>x
       .setName('address')
       .setDescription('The URL to the dedicated-server-stats.json file')

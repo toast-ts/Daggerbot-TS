@@ -3,7 +3,7 @@ interface TServer {
   code: string
 }
 import Discord from 'discord.js';
-import TClient from '../client';
+import TClient from '../client.js';
 import FormatPlayer from '../helpers/FormatPlayer.js';
 import LogPrefix from '../helpers/LogPrefix.js';
 import {writeFileSync, readFileSync} from 'node:fs';
@@ -18,20 +18,22 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   const genericEmbed = new client.embed();
 
   const HITALL = async()=>{
-    let sessionInit = {signal: AbortSignal.timeout(8200),headers:{'User-Agent':`Daggerbot - HITALL/undici`}};
+    let sessionInit = {signal: AbortSignal.timeout(8200),headers:{'User-Agent':'Daggerbot - HITALL/undici'}};
     try {
       const hitDSS = await fetch(Server.ip+'/feed/dedicated-server-stats.json?code='+Server.code, sessionInit).then(r=>r.json() as Promise<FSData>);
       const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(client.xjs.xml2js(await r.text(), {compact: true}) as any).careerSavegame as FSCareerSavegame);
 
       if (!hitDSS ?? !hitCSG){
-        if (hitDSS && !hitDSS.slots) return new Error(`${LogPrefix('MPLoop')} DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
-        if (hitDSS && !hitCSG) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
+        if (hitDSS && !hitDSS.slots) return console.log(`${LogPrefix('MPLoop')} DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
+        if (hitDSS && !hitCSG.slotSystem) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
         else return msg.edit({embeds: [serverErrorEmbed]});
       }
 
-      // Truncate unnecessary parts of the name for the serverLog embed
-      client.MPServerCache[ServerName].name = hitDSS.server.name === 'Official Daggerwin Game Server' ? 'Daggerwin' : hitDSS.server.name === 'undefined' ? 'undefined' : client.MPServerCache[ServerName].name;
-      //Second server name is unknown, will come back and update this later.
+      // Truncate unnecessary parts of the name for the MPServerCache
+      // This is a mess, but it works.
+      for (const filter of ['Official Daggerwin Game Server', 'Daggerwin Multifarm']) {
+        if (hitDSS.server.name.includes(filter)) client.MPServerCache[ServerName].name = ['Daggerwin', 'DagMF'][['Official Daggerwin Game Server', 'Daggerwin Multifarm'].indexOf(filter)];
+      }
 
       //Timescale formatting
       function formatTimescale(number:number,digits:number,icon:string){
@@ -86,10 +88,10 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
         msg.edit({content:'This embed updates every 35 seconds.',embeds:[serverDetails, playersEmbed]});
       }
     } catch(err) {
-      msg.edit({content: null, embeds: [new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time')]});
-      console.log(client.logTime(), `Failed to make a request for ${ServerName}`)
+      if (err.message === 'The operation was aborted due to timeout') return msg.edit({content: 'Connection timed out.', embeds: [serverErrorEmbed]});
+      msg.edit({content: null, embeds: [serverErrorEmbed]});
+      console.log(client.logTime(), `Failed to make a request for ${ServerName}:`, err.message)
     }
   }
   HITALL();
-// Hit dem servers in the head every 35 seconds.
 }
