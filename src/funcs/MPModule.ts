@@ -25,7 +25,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
 
       if (!hitDSS ?? !hitCSG){
         if (hitDSS && !hitDSS.slots) return console.log(LogPrefix('MPModule'), `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
-        if (hitDSS && !hitCSG.slotSystem) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
+        if (hitDSS && !hitCSG) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
         else return msg.edit({embeds: [serverErrorEmbed]});
       }
 
