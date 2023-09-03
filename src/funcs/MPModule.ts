@@ -81,8 +81,8 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
           {name: 'Server version', value: hitDSS.server.version, inline: true},
           {name: 'In-game Time', value: `${('0'+Math.floor((hitDSS.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((hitDSS.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
           {name: 'Slot Usage', value: isNaN(Number(hitCSG?.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(hitCSG.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
-          {name: 'Autosave Interval', value: isNaN(Number(hitCSG.settings?.autoSaveInterval._text)) === true ? 'Unavailable' : Number(hitCSG.settings?.autoSaveInterval._text).toFixed(0)+' mins', inline:true},
-          {name: 'Timescale', value: isNaN(Number(hitCSG.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(hitCSG.settings?.timeScale._text), 0, 'x'), inline: true}
+          {name: 'Autosave Interval', value: isNaN(Number(hitCSG?.settings?.autoSaveInterval._text)) === true ? 'Unavailable' : Number(hitCSG.settings?.autoSaveInterval._text).toFixed(0)+' mins', inline:true},
+          {name: 'Timescale', value: isNaN(Number(hitCSG?.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(hitCSG.settings?.timeScale._text), 0, 'x'), inline: true}
         );
         const playersEmbed = new client.embed().setColor(client.config.embedColor).setTitle(hitDSS.server.name).setDescription(hitDSS.slots.used < 1 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${hitDSS.slots.used}/${hitDSS.slots.capacity}`});
         msg.edit({content:'This embed updates every 35 seconds.',embeds:[serverDetails, playersEmbed]});
