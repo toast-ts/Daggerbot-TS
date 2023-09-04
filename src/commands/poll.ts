@@ -16,7 +16,7 @@ export default {
         const msg = await (interaction.guild.channels.cache.get(channelId) as Discord.TextChannel).send({embeds: [
         new client.embed()
           .setColor(client.config.embedColor)
-          .setTitle('Voting for next map!')
+          .setTitle('Vote for next map!')
           .setDescription(map_names.map((map,i)=>`${i+1}. **${map}**`).join('\n'))
           .setFooter({text: `Poll started by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})
         ]});
@@ -29,7 +29,7 @@ export default {
         const msg = await (interaction.guild.channels.cache.get(channelId) as Discord.TextChannel).messages.fetch(interaction.options.getString('message_id', true));
         if (!msg) return interaction.reply('Message not found, please make sure you have the correct message ID.');
 
-        if (msg.embeds[0].title !== 'Voting for next map!') return interaction.reply('This message is not a poll!');
+        if (msg.embeds[0].title !== 'Vote for next map!') return interaction.reply('This message is not a poll!');
         if (msg.embeds[0].footer?.text?.startsWith('Poll ended by')) return interaction.reply('This poll has already ended!');
         if (msg.reactions.cache.size < 2) return interaction.reply('This poll has not been voted on yet!');
 
