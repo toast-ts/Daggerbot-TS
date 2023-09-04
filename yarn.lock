@@ -12,9 +12,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discord-player/extractor@npm:4.4.1":
-  version: 4.4.1
-  resolution: "@discord-player/extractor@npm:4.4.1"
+"@discord-player/extractor@npm:4.4.2":
+  version: 4.4.2
+  resolution: "@discord-player/extractor@npm:4.4.2"
   dependencies:
     file-type: ^16.5.4
     genius-lyrics: ^4.4.3
@@ -22,9 +22,9 @@ __metadata:
     node-html-parser: ^6.1.4
     reverbnation-scraper: ^2.0.0
     soundcloud.ts: ^0.5.0
-    spotify-url-info: ^3.2.5
+    spotify-url-info: ^3.2.6
     youtube-sr: ^4.3.4
-  checksum: 5a2a2315dc88c70285a9b70b3bd4a12e50eca14ad95b9d25c98599e0465acd7e3ba1c05adbf54a71d13a4bb04bce70dfe1b4cbad361d77b741fc864d5d7dc258
+  checksum: 9009c5d1d9be3f4eeda850d4dff580612678e25d7034de64fc85ed3756889f03b23655e1f510a3057c955292fe8857cb938cd950924061decee8c9a7ed31657e
   languageName: node
   linkType: hard
 
@@ -32,6 +32,13 @@ __metadata:
   version: 0.1.0
   resolution: "@discord-player/ffmpeg@npm:0.1.0"
   checksum: 95653c0f7888799657ab0268f3e5f53ed910d12b56dbd7b280f8f7a27a492d4a9324c60ae76a450e37f61daca5581ef185216fed828b0317c92bfa4b236561a3
+  languageName: node
+  linkType: hard
+
+"@discord-player/opus@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@discord-player/opus@npm:0.1.2"
+  checksum: 41ceb8f64e5ee071789ca0042445664a02a62b5184b0e652f86c3851f4785c324cd2b3223791d690f6dcf33c6d0e7e5b20a88fb75781a3d96645558ec1cbcc19
   languageName: node
   linkType: hard
 
@@ -132,19 +139,6 @@ __metadata:
   version: 1.0.1
   resolution: "@discordjs/util@npm:1.0.1"
   checksum: b55d5284cd8306b0e77a303c41fa99dcc650babaf9ef2f02ea38b1f8ecc7218a7694128714343379dbf6b2a402a0851e00862c0d974ad07b8e980722f5139d73
-  languageName: node
-  linkType: hard
-
-"@discordjs/voice@latest":
-  version: 0.16.0
-  resolution: "@discordjs/voice@npm:0.16.0"
-  dependencies:
-    "@types/ws": ^8.5.4
-    discord-api-types: ^0.37.37
-    prism-media: ^1.3.5
-    tslib: ^2.5.0
-    ws: ^8.13.0
-  checksum: 521824475c5257cf2098b7e7303e44c7906c2126603c7d85de14ad5f6ec12e61e459e18af92b97a11d504db91209aeb5b3e0c324b1f4f790c20e8db925fd66e9
   languageName: node
   linkType: hard
 
@@ -402,10 +396,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.5.7":
-  version: 20.5.7
-  resolution: "@types/node@npm:20.5.7"
-  checksum: fc284c8e16ddc04569730d58e87eae349eb1c3dd9020cb79a1862d9d9add6f04e7367a236f3252db8db2572f90278e250f4cd43d27d264972b54394eaba1ed76
+"@types/node@npm:20.5.9":
+  version: 20.5.9
+  resolution: "@types/node@npm:20.5.9"
+  checksum: 717490e94131722144878b4ca1a963ede1673bb8f2ef78c2f5b50b918df6dc9b35e7f8283e5c2a7a9f137730f7c08dc6228e53d4494a94c9ee16881e6ce6caed
   languageName: node
   linkType: hard
 
@@ -426,7 +420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:^8.5.4, @types/ws@npm:^8.5.5":
+"@types/ws@npm:^8.5.5":
   version: 8.5.5
   resolution: "@types/ws@npm:8.5.5"
   dependencies:
@@ -741,21 +735,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "daggerbot-ts@workspace:."
   dependencies:
-    "@discord-player/extractor": 4.4.1
+    "@discord-player/extractor": 4.4.2
     "@discordjs/opus": 0.9.0
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.1
     "@types/ms": 0.7.31
-    "@types/node": 20.5.7
+    "@types/node": 20.5.9
     canvas: 2.11.2
-    discord-player: 6.6.2
+    discord-player: 6.6.3
     discord.js: 14.13.0
     libsodium-wrappers: 0.7.11
     moment: 2.29.4
     mongoose: 7.5.0
     ms: 2.1.3
     prism-media: 1.3.5
-    systeminformation: 5.21.1
+    systeminformation: 5.21.4
     typescript: 5.2.2
     xml-js: 1.6.11
     youtube-sr: 4.3.4
@@ -826,27 +820,43 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.37.37":
-  version: 0.37.54
-  resolution: "discord-api-types@npm:0.37.54"
-  checksum: f149961be9129673a0e3764285c8f47da22a30ea3e2466db06ffad44d1823094f7011ffe2d3d89b1b5ddd9940651afc72b3a05f84ce443a59f8480e2578dd1e1
+"discord-api-types@npm:^0.37.50":
+  version: 0.37.56
+  resolution: "discord-api-types@npm:0.37.56"
+  checksum: 797be690af70a846422f955d918a5713a2c8c37bea646e2120996522afbb47fc5893122c1ddcb8f57a285ace6e1fb0237d1e63105444ae52534f0570a2f87f34
   languageName: node
   linkType: hard
 
-"discord-player@npm:6.6.2":
-  version: 6.6.2
-  resolution: "discord-player@npm:6.6.2"
+"discord-player@npm:6.6.3":
+  version: 6.6.3
+  resolution: "discord-player@npm:6.6.3"
   dependencies:
     "@discord-player/equalizer": ^0.2.2
     "@discord-player/ffmpeg": ^0.1.0
     "@discord-player/utils": ^0.2.2
-    "@discordjs/voice": latest
+    discord-voip: ^0.1.3
+    ip: ^1.1.8
     libsodium-wrappers: ^0.7.10
   peerDependencies:
-    "@discord-player/extractor": ^4.4.1
+    "@discord-player/extractor": ^4.4.2
     discord.js: 14.x
     youtube-sr: 4.x
-  checksum: 1f3efa295c5607c31a4e488be4e4ae35c6e6a7e47c0c98016349ad2ad1eb6cee73b3c8ad6589c3ba94aa820c3eee786c795fdea1681332f4a112bccec64fb430
+  checksum: c98d8539805bf09359a4966ce9af46581839d7dbfd659eb0e992a3834962ba4b9a4a3f582f17f34d847516903a86748ebc314f181e76304f863ad700e215da9d
+  languageName: node
+  linkType: hard
+
+"discord-voip@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "discord-voip@npm:0.1.3"
+  dependencies:
+    "@discord-player/ffmpeg": ^0.1.0
+    "@discord-player/opus": ^0.1.2
+    "@types/ws": ^8.5.5
+    discord-api-types: ^0.37.50
+    prism-media: ^1.3.5
+    tslib: ^2.6.1
+    ws: ^8.13.0
+  checksum: 9dd87e18713a90bec80050ab3c1e61c4e14fe99653040cdfae3841da976efc7ed4a569d4690b35a63a96a6cc30aa756a650a9e6048d1678f2854bf116aef0ca8
   languageName: node
   linkType: hard
 
@@ -1235,6 +1245,13 @@ __metadata:
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: 4a48a733847879d6cf6691860a6b1e3f0f4754176e4d71494c41f3475553768b10f84b5ce1d40fbd0e34e6bfbb864ee35858ad4dd2cf31e02fc4a154b724d7f1
+  languageName: node
+  linkType: hard
+
+"ip@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "ip@npm:1.1.8"
+  checksum: a2ade53eb339fb0cbe9e69a44caab10d6e3784662285eb5d2677117ee4facc33a64679051c35e0dfdb1a3983a51ce2f5d2cb36446d52e10d01881789b76e28fb
   languageName: node
   linkType: hard
 
@@ -2090,7 +2107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spotify-url-info@npm:^3.2.5":
+"spotify-url-info@npm:^3.2.6":
   version: 3.2.6
   resolution: "spotify-url-info@npm:3.2.6"
   dependencies:
@@ -2175,12 +2192,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.21.1":
-  version: 5.21.1
-  resolution: "systeminformation@npm:5.21.1"
+"systeminformation@npm:5.21.4":
+  version: 5.21.4
+  resolution: "systeminformation@npm:5.21.4"
   bin:
     systeminformation: lib/cli.js
-  checksum: e08e56ea3bf0efc54c7bc0d2a675c4c181d7413d0b26fc80590433f24957e7e3c28fa35c46fae6c066bde4b73d9fccc6305c3b02616b35117df297356f793aa0
+  checksum: 2324456d1fee85efd3f5408d989afc29f4c8e1cc071f9c1082fc500cc3a4acb7d3be4e5706e706acf1558a4637bd8db028cafd5dcb3ccfd11514177ff0b870aa
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -2232,7 +2249,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.5.0, tslib@npm:^2.6.1":
+"tslib@npm:^2.6.1":
   version: 2.6.1
   resolution: "tslib@npm:2.6.1"
   checksum: b0d176d176487905b66ae4d5856647df50e37beea7571c53b8d10ba9222c074b81f1410fb91da13debaf2cbc970663609068bdebafa844ea9d69b146527c38fe
