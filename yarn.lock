@@ -12,9 +12,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discord-player/extractor@npm:4.4.1":
-  version: 4.4.1
-  resolution: "@discord-player/extractor@npm:4.4.1"
+"@discord-player/extractor@npm:4.4.2":
+  version: 4.4.2
+  resolution: "@discord-player/extractor@npm:4.4.2"
   dependencies:
     file-type: ^16.5.4
     genius-lyrics: ^4.4.3
@@ -22,9 +22,9 @@ __metadata:
     node-html-parser: ^6.1.4
     reverbnation-scraper: ^2.0.0
     soundcloud.ts: ^0.5.0
-    spotify-url-info: ^3.2.5
+    spotify-url-info: ^3.2.6
     youtube-sr: ^4.3.4
-  checksum: 5a2a2315dc88c70285a9b70b3bd4a12e50eca14ad95b9d25c98599e0465acd7e3ba1c05adbf54a71d13a4bb04bce70dfe1b4cbad361d77b741fc864d5d7dc258
+  checksum: 9009c5d1d9be3f4eeda850d4dff580612678e25d7034de64fc85ed3756889f03b23655e1f510a3057c955292fe8857cb938cd950924061decee8c9a7ed31657e
   languageName: node
   linkType: hard
 
@@ -741,7 +741,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "daggerbot-ts@workspace:."
   dependencies:
-    "@discord-player/extractor": 4.4.1
+    "@discord-player/extractor": 4.4.2
     "@discordjs/opus": 0.9.0
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.1
@@ -2090,7 +2090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spotify-url-info@npm:^3.2.5":
+"spotify-url-info@npm:^3.2.6":
   version: 3.2.6
   resolution: "spotify-url-info@npm:3.2.6"
   dependencies:
