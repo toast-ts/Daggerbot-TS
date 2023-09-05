@@ -34,7 +34,7 @@
   },
   "botPresence": {
 	  "activities": [
-		  {"name": "the monster", "url": "https://www.youtube.com/watch?v=1ewOadBo1Ws", "type": 1}
+		  {"name": "Today is September!", "url": "https://www.youtube.com/watch?v=Gs069dndIYk", "type": 1}
 	  ],
 	  "status": "online"
 	},
