@@ -122,6 +122,12 @@ export default {
           if (err) i.edit(UsernameHelper.stripName(err.message))
           else i.edit('Your device should be awake by now!\n||Don\'t blame me if it isn\'t on.||')
         })
+      },
+      dm: async()=>{
+        const member = interaction.options.getMember('member');
+        const message = interaction.options.getString('message');
+        const int = await interaction.reply({content: '*Sending...*', fetchReply: true});
+        member.send(message).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
       }
     } as any)[interaction.options.getSubcommand()]();
   },
@@ -202,5 +208,16 @@ export default {
       .addStringOption(x=>x
         .setName('name')
         .setDescription('JSON filename, don\'t include an extension')
+        .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('dm')
+      .setDescription('Reply or send a DM to a member')
+      .addUserOption(x=>x
+        .setName('member')
+        .setDescription('Member to send a DM to')
+        .setRequired(true))
+      .addStringOption(x=>x
+        .setName('message')
+        .setDescription('Message to send')
         .setRequired(true)))
 }
