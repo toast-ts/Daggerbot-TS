@@ -16,5 +16,8 @@ export default class MessageTool {
   static concatMessage(...messages:string[]){
     return messages.join('\n')
   }
+  static formatMention(mention:string, type:'user'|'channel'|'role'){
+    return `<@${type === 'role' ? '&' : type === 'channel' ? '#' : ''}${mention}>`
+  }
 }
 // I want to come up with better name instead of calling this file "MessageTool", but I am super bad at naming things.
