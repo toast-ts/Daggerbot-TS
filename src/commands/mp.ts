@@ -227,7 +227,7 @@ export default {
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(serverChoices[0])))
+      .setChoices(serverChoices[0], serverChoices[1])))
   .addSubcommand(x=>x
     .setName('players')
     .setDescription('Display players on server')
@@ -235,7 +235,7 @@ export default {
       .setName('server')
       .setDescription('The server to display players for')
       .setRequired(true)
-      .setChoices(serverChoices[0])))
+      .setChoices(serverChoices[0], serverChoices[1])))
   .addSubcommand(x=>x
     .setName('url')
     .setDescription('View or update the server URL')
@@ -255,5 +255,5 @@ export default {
       .setName('server')
       .setDescription('The server to display information for')
       .setRequired(true)
-      .setChoices(serverChoices[0])))
+      .setChoices(serverChoices[0], serverChoices[1])))
 }
