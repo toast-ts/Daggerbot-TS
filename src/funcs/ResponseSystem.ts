@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import FormatDOTY from '../helpers/FormatDOTY.js';
 
 /* function ResponseMadeBy(id:string){  <-- Will be enabled once autoresponse suggestion comes in.
   return `╰ *Response made by <@${id}>*`;
@@ -31,7 +32,7 @@ export default class Response {
         `Good grief, is it Monday already? Anyways, morning ${PersonnyMcPerson}..`, `This time I can shout! So here we go! 1..2..3\n*inhales*\nMORNING ${PersonnyMcPerson.toUpperCase()}!`,
         'Gooooood morning to you!', `Good morning to you! You know what else is good? A segue to our sponsor, breakfast!\nGet started with getting out of the bed and have some breakfast!`,
         `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`, 'Is it Friday yet? This week is getting boring already!',
-        `You have reached ${client.moment.utc().dayOfYear().toLocaleString('en-US')}th day of the year, also good morning to you as well!`, 'Good morning! Have a cookie to start your day with. :cookie:',
+        `You have reached ${FormatDOTY(client.moment.utc().dayOfYear())} day of the year, also good morning to you as well!`, 'Good morning! Have a cookie to start your day with. :cookie:',
         'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440'
       ],
       afternoon: [
