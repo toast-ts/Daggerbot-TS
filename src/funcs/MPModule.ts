@@ -32,7 +32,8 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       // Truncate unnecessary parts of the name for the MPServerCache
       // This is a mess, but it works.
       for (const filter of ['Official Daggerwin Game Server', 'Daggerwin Multifarm']) {
-        if (hitDSS.server.name.includes(filter)) client.MPServerCache[ServerName].name = ['Daggerwin', 'DagMF'][['Official Daggerwin Game Server', 'Daggerwin Multifarm'].indexOf(filter)];
+        if (hitDSS.server?.name === undefined) return;
+        if (hitDSS.server?.name.includes(filter)) client.MPServerCache[ServerName].name = ['Daggerwin', 'DagMF'][['Official Daggerwin Game Server', 'Daggerwin Multifarm'].indexOf(filter)];
       }
 
       //Timescale formatting
@@ -89,6 +90,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       }
     } catch(err) {
       if (err.message === 'The operation was aborted due to timeout') return msg.edit({content: 'Connection timed out.', embeds: [serverErrorEmbed]});
+      if (err.message === 'Cannot read properties of undefined (reading \'name\')') return msg.edit({content: 'Connection to the host has been disrupted.', embeds: [serverErrorEmbed]});
       msg.edit({content: null, embeds: [serverErrorEmbed]});
       console.log(client.logTime(), LogPrefix('MPModule'),`Failed to make a request for ${ServerName}:`, err.message)
     }
