@@ -12,9 +12,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discord-player/extractor@npm:4.4.2":
-  version: 4.4.2
-  resolution: "@discord-player/extractor@npm:4.4.2"
+"@discord-player/extractor@npm:4.4.3":
+  version: 4.4.3
+  resolution: "@discord-player/extractor@npm:4.4.3"
   dependencies:
     file-type: ^16.5.4
     genius-lyrics: ^4.4.3
@@ -24,7 +24,7 @@ __metadata:
     soundcloud.ts: ^0.5.0
     spotify-url-info: ^3.2.6
     youtube-sr: ^4.3.4
-  checksum: 9009c5d1d9be3f4eeda850d4dff580612678e25d7034de64fc85ed3756889f03b23655e1f510a3057c955292fe8857cb938cd950924061decee8c9a7ed31657e
+  checksum: 8a36952301ce493c99468ef1ba492e00c622d59b6f137cc865b1107db2824866f3ae3016bb463f27a6b1b2474a7520581a7a61fa8f2fec9f179b1bdde7ae6b54
   languageName: node
   linkType: hard
 
@@ -396,10 +396,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.5.9":
-  version: 20.5.9
-  resolution: "@types/node@npm:20.5.9"
-  checksum: 717490e94131722144878b4ca1a963ede1673bb8f2ef78c2f5b50b918df6dc9b35e7f8283e5c2a7a9f137730f7c08dc6228e53d4494a94c9ee16881e6ce6caed
+"@types/node@npm:20.6.0":
+  version: 20.6.0
+  resolution: "@types/node@npm:20.6.0"
+  checksum: 52611801af5cf151c6fac1963aa4a8a8ca2e388a9e9ed82b01b70bca762088ded5b32cc789c5564220d5d7dccba2b8dd34446a3d4fc74736805e1f2cf262e29d
   languageName: node
   linkType: hard
 
@@ -735,12 +735,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "daggerbot-ts@workspace:."
   dependencies:
-    "@discord-player/extractor": 4.4.2
+    "@discord-player/extractor": 4.4.3
     "@discordjs/opus": 0.9.0
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.1
     "@types/ms": 0.7.31
-    "@types/node": 20.5.9
+    "@types/node": 20.6.0
     canvas: 2.11.2
     discord-player: 6.6.3
     discord.js: 14.13.0
