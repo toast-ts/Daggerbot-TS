@@ -33,7 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.5.9"],\
+            ["@types/node", "npm:20.6.0"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["discord.js", "npm:14.13.0"],\
@@ -531,10 +531,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:20.5.9", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.5.9-0b27ddedcc-717490e941.zip/node_modules/@types/node/",\
+        ["npm:20.6.0", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.6.0-73d5022935-52611801af.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:20.5.9"]\
+            ["@types/node", "npm:20.6.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -921,7 +921,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.5.9"],\
+            ["@types/node", "npm:20.6.0"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["discord.js", "npm:14.13.0"],\
