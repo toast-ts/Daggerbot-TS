@@ -12,7 +12,6 @@ import {FSPlayer, FSData, FSCareerSavegame} from '../typings/interfaces';
 export default async(client:TClient, Channel:string, Message:string, Server:TServer, ServerName:string)=>{
   let isServerOnline = false;
   let playerData:Array<string> = [];
-  let noContentImage = 'https://cdn.discordapp.com/attachments/1118960531135541318/1140906691236479036/68efx1.png';
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
   const serverErrorEmbed = new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time');
   const genericEmbed = new client.embed();
@@ -25,7 +24,6 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
 
       if (!hitDSS ?? !hitCSG){
         if (hitDSS && !hitDSS.slots) return console.log(LogPrefix('MPModule'), `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
-        if (hitDSS && !hitCSG) return msg.edit({content: 'No savegame found or autosave has ran.', embeds: [genericEmbed.setColor(client.config.embedColorOrange).setImage(noContentImage)]});
         else return msg.edit({embeds: [serverErrorEmbed]});
       }
 
