@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import Response from '../funcs/ResponseSystem.js';
+import Response from '../funcs/ResponseModule.js';
+import CmdTrigger from '../funcs/CmdModule.js';
 import LogPrefix from '../helpers/LogPrefix.js';
 import Automoderator from '../funcs/Automod.js';
 
@@ -50,6 +51,7 @@ export default {
       Response.create(client, message, GeneralChatID, 'afternoon');
       Response.create(client, message, GeneralChatID, 'evening');
       Response.create(client, message, GeneralChatID, 'night');
+      CmdTrigger.registerCmds(client, message, '!!_wepanikfrfr');
 
       if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member)) message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>');
       if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19) message.reply('Please don\'t tag Monster unless it\'s important!');
@@ -59,8 +61,6 @@ export default {
       if (incomingArrays.deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png');
       if (Automoderator.scanMsg(message).includes('nawdic') && incomingArrays.theyBrokeIt.some(e=>Automoderator.scanMsg(message).includes(e)) && client.isStaff(message.member) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]});
       if (Automoderator.scanMsg(message).includes('monster') && incomingArrays.theyBrokeIt.some(e=>Automoderator.scanMsg(message).includes(e)) && client.isStaff(message.member) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Monster has broken something*').setImage('https://media.tenor.com/ZIzIjb_wvEoAAAAC/face-palm.gif').setColor(client.config.embedColor)]});
-      // Failsafe thingy (Toastproof maybe)
-      if (message.content.startsWith('!!_wepanikfrfr') && client.config.whitelist.includes(message.author.id)) (client.guilds.cache.get(message.guildId) as Discord.Guild).commands.set(client.registry).then(()=>message.reply('How did you manage to lose the commands??? Anyways, it\'s re-registered now.')).catch((e:Error)=>message.reply(`Failed to deploy slash commands:\n\`\`\`${e.message}\`\`\``));
     }
   }
 }
