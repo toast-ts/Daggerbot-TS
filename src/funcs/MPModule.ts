@@ -87,9 +87,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
         msg.edit({content:'This embed updates every 35 seconds.',embeds:[serverDetails, playersEmbed]});
       }
     } catch(err) {
-      if (err.message === 'The operation was aborted due to timeout') return msg.edit({content: 'Connection timed out.', embeds: [serverErrorEmbed]});
-      if (err.message === 'Cannot read properties of undefined (reading \'name\')') return msg.edit({content: 'Connection to the host has been disrupted.', embeds: [serverErrorEmbed]});
-      msg.edit({content: null, embeds: [serverErrorEmbed]});
+      msg.edit({content: err.message, embeds: [serverErrorEmbed]});
       console.log(client.logTime(), LogPrefix('MPModule'),`Failed to make a request for ${ServerName}:`, err.message)
     }
   }
