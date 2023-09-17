@@ -52,10 +52,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@discord-player/equalizer", [\
-        ["npm:0.2.2", {\
-          "packageLocation": "./.yarn/cache/@discord-player-equalizer-npm-0.2.2-4485821a15-33b9991a84.zip/node_modules/@discord-player/equalizer/",\
+        ["npm:0.2.3", {\
+          "packageLocation": "./.yarn/cache/@discord-player-equalizer-npm-0.2.3-e5859f85ea-6f60c41b48.zip/node_modules/@discord-player/equalizer/",\
           "packageDependencies": [\
-            ["@discord-player/equalizer", "npm:0.2.2"]\
+            ["@discord-player/equalizer", "npm:0.2.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -66,7 +66,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@discord-player/extractor", "npm:4.4.3"],\
             ["file-type", "npm:16.5.4"],\
-            ["genius-lyrics", "npm:4.4.3"],\
+            ["genius-lyrics", "npm:4.4.6"],\
             ["isomorphic-unfetch", "npm:4.0.2"],\
             ["node-html-parser", "npm:6.1.5"],\
             ["reverbnation-scraper", "npm:2.0.0"],\
@@ -781,37 +781,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["cheerio", [\
-        ["npm:1.0.0-rc.12", {\
-          "packageLocation": "./.yarn/cache/cheerio-npm-1.0.0-rc.12-6785a97c2a-5d4c1b7a53.zip/node_modules/cheerio/",\
-          "packageDependencies": [\
-            ["cheerio", "npm:1.0.0-rc.12"],\
-            ["cheerio-select", "npm:2.1.0"],\
-            ["dom-serializer", "npm:2.0.0"],\
-            ["domhandler", "npm:5.0.3"],\
-            ["domutils", "npm:3.1.0"],\
-            ["htmlparser2", "npm:8.0.2"],\
-            ["parse5", "npm:7.1.2"],\
-            ["parse5-htmlparser2-tree-adapter", "npm:7.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["cheerio-select", [\
-        ["npm:2.1.0", {\
-          "packageLocation": "./.yarn/cache/cheerio-select-npm-2.1.0-e92bc2f296-843d6d4799.zip/node_modules/cheerio-select/",\
-          "packageDependencies": [\
-            ["cheerio-select", "npm:2.1.0"],\
-            ["boolbase", "npm:1.0.0"],\
-            ["css-select", "npm:5.1.0"],\
-            ["css-what", "npm:6.1.0"],\
-            ["domelementtype", "npm:2.3.0"],\
-            ["domhandler", "npm:5.0.3"],\
-            ["domutils", "npm:3.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["chownr", [\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/chownr-npm-2.0.0-638f1c9c61-c57cf9dd07.zip/node_modules/chownr/",\
@@ -1045,7 +1014,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/discord-player-virtual-5d4dbc4bbe/0/cache/discord-player-npm-6.6.3-4a62083a91-c98d853980.zip/node_modules/discord-player/",\
           "packageDependencies": [\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
-            ["@discord-player/equalizer", "npm:0.2.2"],\
+            ["@discord-player/equalizer", "npm:0.2.3"],\
             ["@discord-player/extractor", "npm:4.4.3"],\
             ["@discord-player/ffmpeg", "npm:0.1.0"],\
             ["@discord-player/utils", "npm:0.2.2"],\
@@ -1336,12 +1305,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["genius-lyrics", [\
-        ["npm:4.4.3", {\
-          "packageLocation": "./.yarn/cache/genius-lyrics-npm-4.4.3-caaf25a1b9-5612f4b975.zip/node_modules/genius-lyrics/",\
+        ["npm:4.4.6", {\
+          "packageLocation": "./.yarn/cache/genius-lyrics-npm-4.4.6-beff04ebb7-05a7420c75.zip/node_modules/genius-lyrics/",\
           "packageDependencies": [\
-            ["genius-lyrics", "npm:4.4.3"],\
-            ["cheerio", "npm:1.0.0-rc.12"],\
-            ["undici", "npm:5.23.0"]\
+            ["genius-lyrics", "npm:4.4.6"],\
+            ["node-html-parser", "npm:6.1.10"],\
+            ["undici", "npm:5.24.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1405,19 +1374,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/himalaya-npm-1.1.0-40fd7e74ea-b07c165e78.zip/node_modules/himalaya/",\
           "packageDependencies": [\
             ["himalaya", "npm:1.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["htmlparser2", [\
-        ["npm:8.0.2", {\
-          "packageLocation": "./.yarn/cache/htmlparser2-npm-8.0.2-5d9f901bb6-29167a0f92.zip/node_modules/htmlparser2/",\
-          "packageDependencies": [\
-            ["htmlparser2", "npm:8.0.2"],\
-            ["domelementtype", "npm:2.3.0"],\
-            ["domhandler", "npm:5.0.3"],\
-            ["domutils", "npm:3.1.0"],\
-            ["entities", "npm:4.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2066,6 +2022,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["node-html-parser", [\
+        ["npm:6.1.10", {\
+          "packageLocation": "./.yarn/cache/node-html-parser-npm-6.1.10-155152e1bc-927f6a38b3.zip/node_modules/node-html-parser/",\
+          "packageDependencies": [\
+            ["node-html-parser", "npm:6.1.10"],\
+            ["css-select", "npm:5.1.0"],\
+            ["he", "npm:1.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:6.1.5", {\
           "packageLocation": "./.yarn/cache/node-html-parser-npm-6.1.5-b4e338af4b-b54257b319.zip/node_modules/node-html-parser/",\
           "packageDependencies": [\
@@ -2153,27 +2118,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["p-map", "npm:4.0.0"],\
             ["aggregate-error", "npm:3.1.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["parse5", [\
-        ["npm:7.1.2", {\
-          "packageLocation": "./.yarn/cache/parse5-npm-7.1.2-aa9a92c270-59465dd05e.zip/node_modules/parse5/",\
-          "packageDependencies": [\
-            ["parse5", "npm:7.1.2"],\
-            ["entities", "npm:4.5.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["parse5-htmlparser2-tree-adapter", [\
-        ["npm:7.0.0", {\
-          "packageLocation": "./.yarn/cache/parse5-htmlparser2-tree-adapter-npm-7.0.0-38e1b3a974-fc5d01e077.zip/node_modules/parse5-htmlparser2-tree-adapter/",\
-          "packageDependencies": [\
-            ["parse5-htmlparser2-tree-adapter", "npm:7.0.0"],\
-            ["domhandler", "npm:5.0.3"],\
-            ["parse5", "npm:7.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -2708,6 +2652,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/undici-npm-5.23.0-eb9e1b02e8-906ca4fb1d.zip/node_modules/undici/",\
           "packageDependencies": [\
             ["undici", "npm:5.23.0"],\
+            ["busboy", "npm:1.6.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.24.0", {\
+          "packageLocation": "./.yarn/cache/undici-npm-5.24.0-df83ac4dd5-0795b69e0f.zip/node_modules/undici/",\
+          "packageDependencies": [\
+            ["undici", "npm:5.24.0"],\
             ["busboy", "npm:1.6.0"]\
           ],\
           "linkType": "HARD"\
