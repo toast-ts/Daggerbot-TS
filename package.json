@@ -36,7 +36,7 @@
     "canvas": "2.11.2",
     "discord-player": "6.6.3",
     "discord.js": "14.13.0",
-    "libsodium-wrappers": "0.7.11",
+    "libsodium-wrappers": "0.7.13",
     "moment": "2.29.4",
     "mongoose": "7.5.2",
     "ms": "2.1.3",

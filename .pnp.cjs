@@ -37,7 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["discord.js", "npm:14.13.0"],\
-            ["libsodium-wrappers", "npm:0.7.11"],\
+            ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.5.2"],\
             ["ms", "npm:2.1.3"],\
@@ -894,7 +894,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["discord.js", "npm:14.13.0"],\
-            ["libsodium-wrappers", "npm:0.7.11"],\
+            ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.5.2"],\
             ["ms", "npm:2.1.3"],\
@@ -1567,6 +1567,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libsodium", "npm:0.7.11"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.7.13", {\
+          "packageLocation": "./.yarn/cache/libsodium-npm-0.7.13-1c1f114c26-75a5f70e84.zip/node_modules/libsodium/",\
+          "packageDependencies": [\
+            ["libsodium", "npm:0.7.13"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["libsodium-wrappers", [\
@@ -1575,6 +1582,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["libsodium", "npm:0.7.11"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.7.13", {\
+          "packageLocation": "./.yarn/cache/libsodium-wrappers-npm-0.7.13-ffebbdd432-d184395f7c.zip/node_modules/libsodium-wrappers/",\
+          "packageDependencies": [\
+            ["libsodium-wrappers", "npm:0.7.13"],\
+            ["libsodium", "npm:0.7.13"]\
           ],\
           "linkType": "HARD"\
         }]\
