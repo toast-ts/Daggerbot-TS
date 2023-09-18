@@ -28,21 +28,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["@discord-player/extractor", "npm:4.4.3"],\
+            ["@discord-player/extractor", "npm:4.4.4"],\
             ["@discordjs/opus", "npm:0.9.0"],\
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.6.0"],\
+            ["@types/node", "npm:20.6.2"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["discord.js", "npm:14.13.0"],\
-            ["libsodium-wrappers", "npm:0.7.11"],\
+            ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
-            ["mongoose", "npm:7.5.0"],\
+            ["mongoose", "npm:7.5.2"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
-            ["systeminformation", "npm:5.21.4"],\
+            ["systeminformation", "npm:5.21.5"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -61,10 +61,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@discord-player/extractor", [\
-        ["npm:4.4.3", {\
-          "packageLocation": "./.yarn/cache/@discord-player-extractor-npm-4.4.3-95ec427f27-8a36952301.zip/node_modules/@discord-player/extractor/",\
+        ["npm:4.4.4", {\
+          "packageLocation": "./.yarn/cache/@discord-player-extractor-npm-4.4.4-5a3f06e91c-1a12c73576.zip/node_modules/@discord-player/extractor/",\
           "packageDependencies": [\
-            ["@discord-player/extractor", "npm:4.4.3"],\
+            ["@discord-player/extractor", "npm:4.4.4"],\
             ["file-type", "npm:16.5.4"],\
             ["genius-lyrics", "npm:4.4.6"],\
             ["isomorphic-unfetch", "npm:4.0.2"],\
@@ -531,10 +531,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:20.6.0", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.6.0-73d5022935-52611801af.zip/node_modules/@types/node/",\
+        ["npm:20.6.2", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.6.2-bff5d8378f-96fe530387.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:20.6.0"]\
+            ["@types/node", "npm:20.6.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -885,21 +885,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["daggerbot-ts", "workspace:."],\
-            ["@discord-player/extractor", "npm:4.4.3"],\
+            ["@discord-player/extractor", "npm:4.4.4"],\
             ["@discordjs/opus", "npm:0.9.0"],\
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.1"],\
             ["@types/ms", "npm:0.7.31"],\
-            ["@types/node", "npm:20.6.0"],\
+            ["@types/node", "npm:20.6.2"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["discord.js", "npm:14.13.0"],\
-            ["libsodium-wrappers", "npm:0.7.11"],\
+            ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
-            ["mongoose", "npm:7.5.0"],\
+            ["mongoose", "npm:7.5.2"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
-            ["systeminformation", "npm:5.21.4"],\
+            ["systeminformation", "npm:5.21.5"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -1015,7 +1015,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
             ["@discord-player/equalizer", "npm:0.2.3"],\
-            ["@discord-player/extractor", "npm:4.4.3"],\
+            ["@discord-player/extractor", "npm:4.4.4"],\
             ["@discord-player/ffmpeg", "npm:0.1.0"],\
             ["@discord-player/utils", "npm:0.2.2"],\
             ["@types/discord-player__extractor", null],\
@@ -1567,6 +1567,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["libsodium", "npm:0.7.11"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:0.7.13", {\
+          "packageLocation": "./.yarn/cache/libsodium-npm-0.7.13-1c1f114c26-75a5f70e84.zip/node_modules/libsodium/",\
+          "packageDependencies": [\
+            ["libsodium", "npm:0.7.13"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["libsodium-wrappers", [\
@@ -1575,6 +1582,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["libsodium-wrappers", "npm:0.7.11"],\
             ["libsodium", "npm:0.7.11"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:0.7.13", {\
+          "packageLocation": "./.yarn/cache/libsodium-wrappers-npm-0.7.13-ffebbdd432-d184395f7c.zip/node_modules/libsodium-wrappers/",\
+          "packageDependencies": [\
+            ["libsodium-wrappers", "npm:0.7.13"],\
+            ["libsodium", "npm:0.7.13"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1834,10 +1849,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:dd2c4ef6f94e58af1d1910a9e458d5ca3cd2a693365aac2a33b0318c1be1170eb680a561461dbf9dbd8568b885dbf5005ce2287e0fee26acec16b0e35305f4e2#npm:5.8.1", {\
-          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-2b368f364a/0/cache/mongodb-npm-5.8.1-d655990b24-da8fc05952.zip/node_modules/mongodb/",\
+        ["virtual:7d92fa23f585aff0fa97fe4978d75df03c944ad79b0244540380ec6c8a106357c7d6d9b3ab68070c3a8c86f2a11da1ee21f66ada76827c57f3fa68965fd67465#npm:5.8.1", {\
+          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-8f7bbbddd6/0/cache/mongodb-npm-5.8.1-d655990b24-da8fc05952.zip/node_modules/mongodb/",\
           "packageDependencies": [\
-            ["mongodb", "virtual:dd2c4ef6f94e58af1d1910a9e458d5ca3cd2a693365aac2a33b0318c1be1170eb680a561461dbf9dbd8568b885dbf5005ce2287e0fee26acec16b0e35305f4e2#npm:5.8.1"],\
+            ["mongodb", "virtual:7d92fa23f585aff0fa97fe4978d75df03c944ad79b0244540380ec6c8a106357c7d6d9b3ab68070c3a8c86f2a11da1ee21f66ada76827c57f3fa68965fd67465#npm:5.8.1"],\
             ["@aws-sdk/credential-providers", null],\
             ["@mongodb-js/saslprep", "npm:1.1.0"],\
             ["@mongodb-js/zstd", null],\
@@ -1880,13 +1895,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["mongoose", [\
-        ["npm:7.5.0", {\
-          "packageLocation": "./.yarn/cache/mongoose-npm-7.5.0-dd2c4ef6f9-3e4219fd29.zip/node_modules/mongoose/",\
+        ["npm:7.5.2", {\
+          "packageLocation": "./.yarn/cache/mongoose-npm-7.5.2-7d92fa23f5-616e45aa66.zip/node_modules/mongoose/",\
           "packageDependencies": [\
-            ["mongoose", "npm:7.5.0"],\
+            ["mongoose", "npm:7.5.2"],\
             ["bson", "npm:5.4.0"],\
             ["kareem", "npm:2.5.1"],\
-            ["mongodb", "virtual:dd2c4ef6f94e58af1d1910a9e458d5ca3cd2a693365aac2a33b0318c1be1170eb680a561461dbf9dbd8568b885dbf5005ce2287e0fee26acec16b0e35305f4e2#npm:5.8.1"],\
+            ["mongodb", "virtual:7d92fa23f585aff0fa97fe4978d75df03c944ad79b0244540380ec6c8a106357c7d6d9b3ab68070c3a8c86f2a11da1ee21f66ada76827c57f3fa68965fd67465#npm:5.8.1"],\
             ["mpath", "npm:0.9.0"],\
             ["mquery", "npm:5.0.0"],\
             ["ms", "npm:2.1.3"],\
@@ -2561,10 +2576,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["systeminformation", [\
-        ["npm:5.21.4", {\
-          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.4-5c8623f45e/node_modules/systeminformation/",\
+        ["npm:5.21.5", {\
+          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.5-799dc554bd/node_modules/systeminformation/",\
           "packageDependencies": [\
-            ["systeminformation", "npm:5.21.4"]\
+            ["systeminformation", "npm:5.21.5"]\
           ],\
           "linkType": "HARD"\
         }]\
