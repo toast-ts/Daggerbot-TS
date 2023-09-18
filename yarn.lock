@@ -12,19 +12,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discord-player/extractor@npm:4.4.3":
-  version: 4.4.3
-  resolution: "@discord-player/extractor@npm:4.4.3"
+"@discord-player/extractor@npm:4.4.4":
+  version: 4.4.4
+  resolution: "@discord-player/extractor@npm:4.4.4"
   dependencies:
     file-type: ^16.5.4
-    genius-lyrics: ^4.4.3
+    genius-lyrics: ^4.4.6
     isomorphic-unfetch: ^4.0.2
     node-html-parser: ^6.1.4
     reverbnation-scraper: ^2.0.0
-    soundcloud.ts: ^0.5.0
+    soundcloud.ts: ^0.5.2
     spotify-url-info: ^3.2.6
     youtube-sr: ^4.3.4
-  checksum: 8a36952301ce493c99468ef1ba492e00c622d59b6f137cc865b1107db2824866f3ae3016bb463f27a6b1b2474a7520581a7a61fa8f2fec9f179b1bdde7ae6b54
+  checksum: 1a12c735766404baa42b6a06f1eda0d5d264dd66b021e10ee97d688dbaa39165c3b73d02b7f2c8ca02ce4a198fa639a30df2197cf6143acec69ff57213babd0f
   languageName: node
   linkType: hard
 
@@ -706,7 +706,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "daggerbot-ts@workspace:."
   dependencies:
-    "@discord-player/extractor": 4.4.3
+    "@discord-player/extractor": 4.4.4
     "@discordjs/opus": 0.9.0
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.1
@@ -1054,7 +1054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"genius-lyrics@npm:^4.4.3":
+"genius-lyrics@npm:^4.4.6":
   version: 4.4.6
   resolution: "genius-lyrics@npm:4.4.6"
   dependencies:
@@ -2048,7 +2048,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"soundcloud.ts@npm:^0.5.0":
+"soundcloud.ts@npm:^0.5.2":
   version: 0.5.2
   resolution: "soundcloud.ts@npm:0.5.2"
   dependencies:
