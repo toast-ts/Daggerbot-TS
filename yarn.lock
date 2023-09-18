@@ -12,19 +12,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@discord-player/extractor@npm:4.4.3":
-  version: 4.4.3
-  resolution: "@discord-player/extractor@npm:4.4.3"
+"@discord-player/extractor@npm:4.4.4":
+  version: 4.4.4
+  resolution: "@discord-player/extractor@npm:4.4.4"
   dependencies:
     file-type: ^16.5.4
-    genius-lyrics: ^4.4.3
+    genius-lyrics: ^4.4.6
     isomorphic-unfetch: ^4.0.2
     node-html-parser: ^6.1.4
     reverbnation-scraper: ^2.0.0
-    soundcloud.ts: ^0.5.0
+    soundcloud.ts: ^0.5.2
     spotify-url-info: ^3.2.6
     youtube-sr: ^4.3.4
-  checksum: 8a36952301ce493c99468ef1ba492e00c622d59b6f137cc865b1107db2824866f3ae3016bb463f27a6b1b2474a7520581a7a61fa8f2fec9f179b1bdde7ae6b54
+  checksum: 1a12c735766404baa42b6a06f1eda0d5d264dd66b021e10ee97d688dbaa39165c3b73d02b7f2c8ca02ce4a198fa639a30df2197cf6143acec69ff57213babd0f
   languageName: node
   linkType: hard
 
@@ -396,10 +396,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.6.0":
-  version: 20.6.0
-  resolution: "@types/node@npm:20.6.0"
-  checksum: 52611801af5cf151c6fac1963aa4a8a8ca2e388a9e9ed82b01b70bca762088ded5b32cc789c5564220d5d7dccba2b8dd34446a3d4fc74736805e1f2cf262e29d
+"@types/node@npm:20.6.2":
+  version: 20.6.2
+  resolution: "@types/node@npm:20.6.2"
+  checksum: 96fe5303872640a173f3fd43e289a451776ed5b8f0090094447c6790b43f23fb607eea8268af0829cef4d132e5afa0bfa4cd871aa7412e9042a414a698e9e971
   languageName: node
   linkType: hard
 
@@ -706,21 +706,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "daggerbot-ts@workspace:."
   dependencies:
-    "@discord-player/extractor": 4.4.3
+    "@discord-player/extractor": 4.4.4
     "@discordjs/opus": 0.9.0
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.1
     "@types/ms": 0.7.31
-    "@types/node": 20.6.0
+    "@types/node": 20.6.2
     canvas: 2.11.2
     discord-player: 6.6.3
     discord.js: 14.13.0
-    libsodium-wrappers: 0.7.11
+    libsodium-wrappers: 0.7.13
     moment: 2.29.4
-    mongoose: 7.5.0
+    mongoose: 7.5.2
     ms: 2.1.3
     prism-media: 1.3.5
-    systeminformation: 5.21.4
+    systeminformation: 5.21.5
     typescript: 5.2.2
     xml-js: 1.6.11
     youtube-sr: 4.3.4
@@ -1054,7 +1054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"genius-lyrics@npm:^4.4.3":
+"genius-lyrics@npm:^4.4.6":
   version: 4.4.6
   resolution: "genius-lyrics@npm:4.4.6"
   dependencies:
@@ -1279,7 +1279,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libsodium-wrappers@npm:0.7.11, libsodium-wrappers@npm:^0.7.10":
+"libsodium-wrappers@npm:0.7.13":
+  version: 0.7.13
+  resolution: "libsodium-wrappers@npm:0.7.13"
+  dependencies:
+    libsodium: ^0.7.13
+  checksum: d184395f7c33023414b191ef9ea2171eb1a5cb061503e886ea877590cb7adc3a4feaf794b9b08731a20515518fa23dbf1c1bfcd376e5ab01728e95cf1cb7525a
+  languageName: node
+  linkType: hard
+
+"libsodium-wrappers@npm:^0.7.10":
   version: 0.7.11
   resolution: "libsodium-wrappers@npm:0.7.11"
   dependencies:
@@ -1292,6 +1301,13 @@ __metadata:
   version: 0.7.11
   resolution: "libsodium@npm:0.7.11"
   checksum: 0a3493ac1829d1e346178b6984c4eb449dc77157c906876441386c0c653142e3fa56f623ce980bb50e580196578689298c9cd406ce6d514904090e370c6bc0f7
+  languageName: node
+  linkType: hard
+
+"libsodium@npm:^0.7.13":
+  version: 0.7.13
+  resolution: "libsodium@npm:0.7.13"
+  checksum: 75a5f70e84c197d54d9b67dcbd852abbd41cca8facd510767c7c8400a52a23da293e83eebf1693831b2c0c0498f266bd9350a8c27ec66f46a055890dff758d38
   languageName: node
   linkType: hard
 
@@ -1562,9 +1578,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:7.5.0":
-  version: 7.5.0
-  resolution: "mongoose@npm:7.5.0"
+"mongoose@npm:7.5.2":
+  version: 7.5.2
+  resolution: "mongoose@npm:7.5.2"
   dependencies:
     bson: ^5.4.0
     kareem: 2.5.1
@@ -1573,7 +1589,7 @@ __metadata:
     mquery: 5.0.0
     ms: 2.1.3
     sift: 16.0.1
-  checksum: 3e4219fd29a44efe9d1fe41134bdbafca9b44f6da58fc01be3723379954d9ca6bdd8d2bdd352ded932432b9d0e0c5146490add84eb14f4aee3743d94e6cae643
+  checksum: 616e45aa66b3d2d88c74b39c6d75b3f620dcd9b67665a74097f75453f30d446839da04ab652ed9544aa2bc0f9dcc8e15c9e91cb74886cd6a87d0907ed986d26a
   languageName: node
   linkType: hard
 
@@ -2032,7 +2048,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"soundcloud.ts@npm:^0.5.0":
+"soundcloud.ts@npm:^0.5.2":
   version: 0.5.2
   resolution: "soundcloud.ts@npm:0.5.2"
   dependencies:
@@ -2142,12 +2158,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.21.4":
-  version: 5.21.4
-  resolution: "systeminformation@npm:5.21.4"
+"systeminformation@npm:5.21.5":
+  version: 5.21.5
+  resolution: "systeminformation@npm:5.21.5"
   bin:
     systeminformation: lib/cli.js
-  checksum: 2324456d1fee85efd3f5408d989afc29f4c8e1cc071f9c1082fc500cc3a4acb7d3be4e5706e706acf1558a4637bd8db028cafd5dcb3ccfd11514177ff0b870aa
+  checksum: 52d23aae128be39645738e44e6fdbe91b5d6a2b3e3aa22265dca603bd0af9054864aefb95037a6752dd4a194512b298d76864874a773e5d923a6bb64161353e4
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
