@@ -51,7 +51,10 @@ export default {
       Response.create(client, message, GeneralChatID, 'afternoon');
       Response.create(client, message, GeneralChatID, 'evening');
       Response.create(client, message, GeneralChatID, 'night');
+
       CmdTrigger.registerCmds(client, message, '!!_wepanikfrfr');
+      CmdTrigger.MFPwTrigger(message, '!!_farmpw');
+      CmdTrigger.TriggerTest(message, '!!_test-trigger');
 
       if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member)) message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>');
       if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19) message.reply('Please don\'t tag Monster unless it\'s important!');
