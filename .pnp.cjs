@@ -42,7 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mongoose", "npm:7.5.2"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
-            ["systeminformation", "npm:5.21.5"],\
+            ["systeminformation", "npm:5.21.8"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -899,7 +899,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mongoose", "npm:7.5.2"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
-            ["systeminformation", "npm:5.21.5"],\
+            ["systeminformation", "npm:5.21.8"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -2576,10 +2576,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["systeminformation", [\
-        ["npm:5.21.5", {\
-          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.5-799dc554bd/node_modules/systeminformation/",\
+        ["npm:5.21.8", {\
+          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.8-9f288af6ae/node_modules/systeminformation/",\
           "packageDependencies": [\
-            ["systeminformation", "npm:5.21.5"]\
+            ["systeminformation", "npm:5.21.8"]\
           ],\
           "linkType": "HARD"\
         }]\
