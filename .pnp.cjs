@@ -35,7 +35,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/ms", "npm:0.7.31"],\
             ["@types/node", "npm:20.6.2"],\
             ["canvas", "npm:2.11.2"],\
-            ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
+            ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["discord.js", "npm:14.13.0"],\
             ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
@@ -892,7 +892,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/ms", "npm:0.7.31"],\
             ["@types/node", "npm:20.6.2"],\
             ["canvas", "npm:2.11.2"],\
-            ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
+            ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["discord.js", "npm:14.13.0"],\
             ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
@@ -1003,17 +1003,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["discord-player", [\
-        ["npm:6.6.3", {\
-          "packageLocation": "./.yarn/cache/discord-player-npm-6.6.3-4a62083a91-c98d853980.zip/node_modules/discord-player/",\
+        ["npm:6.6.4", {\
+          "packageLocation": "./.yarn/cache/discord-player-npm-6.6.4-d22a41dbaa-91e613faef.zip/node_modules/discord-player/",\
           "packageDependencies": [\
-            ["discord-player", "npm:6.6.3"]\
+            ["discord-player", "npm:6.6.4"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3", {\
-          "packageLocation": "./.yarn/__virtual__/discord-player-virtual-5d4dbc4bbe/0/cache/discord-player-npm-6.6.3-4a62083a91-c98d853980.zip/node_modules/discord-player/",\
+        ["virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4", {\
+          "packageLocation": "./.yarn/__virtual__/discord-player-virtual-64118aaaf9/0/cache/discord-player-npm-6.6.4-d22a41dbaa-91e613faef.zip/node_modules/discord-player/",\
           "packageDependencies": [\
-            ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.3"],\
+            ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["@discord-player/equalizer", "npm:0.2.3"],\
             ["@discord-player/extractor", "npm:4.4.4"],\
             ["@discord-player/ffmpeg", "npm:0.1.0"],\
