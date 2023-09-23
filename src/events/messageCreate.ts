@@ -46,6 +46,9 @@ export default {
         theyBrokeIt: ['break', 'broke', 'broken'],
         deadChat: ['dead chat', 'chat is dead', 'dead server', 'inactive chat', 'inactive channel']
       }
+      const outgoingArrays = {
+        guildBoost: ['Thanks for boosting our server!', 'Thanks for the boost!', 'We appreciate the boost!', `Thank you for the kind boost, <@${message.author.id}>!`],
+      }
       const GeneralChatID = '468835415093411863';
       Response.create(client, message, GeneralChatID, 'morning');
       Response.create(client, message, GeneralChatID, 'afternoon');
@@ -56,6 +59,7 @@ export default {
       CmdTrigger.MFPwTrigger(message, '!!_farmpw');
       CmdTrigger.TriggerTest(message, '!!_test-trigger');
 
+      if (message.type === 8 && message.channelId === GeneralChatID) message.reply({content: outgoingArrays.guildBoost[Math.floor(Math.random() * outgoingArrays.guildBoost.length)], allowedMentions: {parse: ['users']}})
       if (message.mentions.members.has('309373272594579456') && !client.isStaff(message.member)) message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>');
       if (message.mentions.members.has('215497515934416896') && !client.isStaff(message.member) && message.type != 19) message.reply('Please don\'t tag Monster unless it\'s important!');
       if (incomingArrays.password.some(e=>message.content.toLowerCase().includes(e))) message.reply('Password and other details can be found in <#543494084363288637>');
