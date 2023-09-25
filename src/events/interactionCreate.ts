@@ -18,15 +18,24 @@ export default {
         }
       }
     } else if (interaction.isAutocomplete()){
-      const AC = client.commands.get(interaction.commandName);
       try {
-        await AC.command.default.autocomplete(client, interaction)
+        await client.commands.get(interaction.commandName).command.default.autocomplete(client, interaction);
       } catch (error){
         return console.log('An error occurred while running autocomplete:\n', error)
       }
     } else if (interaction.isButton()){
       if (interaction.customId.startsWith('reaction-') && client.config.botSwitches.buttonRoles){
         const RoleID = interaction.customId.replace('reaction-','');
+        // Note: This is just a temporary "permanent" fix for the issue of people having both roles and less work for the mods.
+        let buttonRoleBlocked = 'Cannot have both roles! - Button Role';
+        if (interaction.member.roles.cache.has('1149139369433776269') && RoleID === '1149139583729160325') {
+          interaction.member.roles.add('1149139583729160325', buttonRoleBlocked);
+          interaction.member.roles.remove('1149139369433776269', buttonRoleBlocked);
+        } else if (interaction.member.roles.cache.has('1149139583729160325') && RoleID === '1149139369433776269') {
+          interaction.member.roles.add('1149139369433776269', buttonRoleBlocked);
+          interaction.member.roles.remove('1149139583729160325', buttonRoleBlocked);
+        }
+
         if (interaction.member.roles.cache.has(RoleID)){
           interaction.member.roles.remove(RoleID, 'Button Role');
           interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true})
