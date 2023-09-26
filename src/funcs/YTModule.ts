@@ -14,6 +14,6 @@ export default async(client: TClient, YTChannelID: string, YTChannelName: string
   if (!client.YTCache[YTChannelID]) return client.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
   if (Data.feed.entry[1]['yt:videoId']._text === client.YTCache[YTChannelID]){
     client.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
-    (client.channels.resolve(DiscordChannelID) as TextChannel).send({content: `<@&${DiscordRoleID}> (Ping notification are currently WIP, no eta when complete, the mentioned role is a placeholder for now)\n**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`, allowedMentions: {parse: ['roles']}})
+    (client.channels.resolve(DiscordChannelID) as TextChannel).send({content: `<@&${DiscordRoleID}>\n**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`, allowedMentions: {parse: ['roles']}})
   }
 }
