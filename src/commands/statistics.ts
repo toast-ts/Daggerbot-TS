@@ -15,6 +15,11 @@ function commitHashes() {
   const remoteHash = execSync('git ls-remote origin HEAD').toString().split('\t')[0].slice(0, 7);
   return { localHash, remoteHash };
 }
+function commitTimestamp() {
+  const localTimestamp = execSync('git log -1 --format=%ct').toString().trimEnd();
+  const remoteTimestamp = execSync('git show -s --format=%ct').toString().trimEnd();
+  return { localTimestamp, remoteTimestamp };
+}
 
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -53,8 +58,8 @@ export default {
     embed.addFields(
       {
         name: '> __Repository__', value: MessageTool.concatMessage(
-          `**Local:** ${commitHashes().localHash}`,
-          `**Remote:** ${commitHashes().remoteHash}`
+          `**Local:** ${commitHashes().localHash} <t:${commitTimestamp().localTimestamp}:R>`,
+          `**Remote:** ${commitHashes().remoteHash} <t:${commitTimestamp().remoteTimestamp}:R>`
         )
       },
       {name: '> __Dependencies__', value: MessageTool.concatMessage(
