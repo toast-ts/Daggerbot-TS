@@ -1,6 +1,7 @@
 import {TextChannel} from 'discord.js';
 import TClient from '../client.js';
 import LogPrefix from '../helpers/LogPrefix.js';
+import MessageTool from '../helpers/MessageTool.js';
 
 export default async(client: TClient, YTChannelID: string, YTChannelName: string, DiscordChannelID: string, DiscordRoleID: string)=>{
   let Data: any;
@@ -14,6 +15,6 @@ export default async(client: TClient, YTChannelID: string, YTChannelName: string
   if (!client.YTCache[YTChannelID]) return client.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
   if (Data.feed.entry[1]['yt:videoId']._text === client.YTCache[YTChannelID]){
     client.YTCache[YTChannelID] = Data.feed.entry[0]['yt:videoId']._text;
-    (client.channels.resolve(DiscordChannelID) as TextChannel).send({content: `<@&${DiscordRoleID}>\n**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`, allowedMentions: {parse: ['roles']}})
+    (client.channels.resolve(DiscordChannelID) as TextChannel).send({content: `${MessageTool.formatMention(DiscordRoleID, 'role')}\n**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`, allowedMentions: {parse: ['roles']}})
   }
 }
