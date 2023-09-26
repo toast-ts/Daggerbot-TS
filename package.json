@@ -49,6 +49,6 @@
   },
   "devDependencies": {
     "@types/ms": "0.7.31",
-    "@types/node": "20.6.3"
+    "@types/node": "20.6.5"
   }
 }
