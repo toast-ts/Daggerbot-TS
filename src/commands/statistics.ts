@@ -7,7 +7,15 @@ import si from 'systeminformation';
 import TClient from '../client.js';
 import os from 'node:os';
 import {readFileSync} from 'node:fs';
+import {execSync} from 'node:child_process';
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+
+function commitHashes() {
+  const localHash = execSync('git rev-parse HEAD').toString().trim().slice(0, 7);
+  const remoteHash = execSync('git ls-remote origin HEAD').toString().split('\t')[0].slice(0, 7);
+  return { localHash, remoteHash };
+}
+
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const waitForData = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true})
@@ -43,6 +51,12 @@ export default {
       embed.addFields({name: '\u200b', value: `\`\`\`\n${fieldValue}\`\`\``});
     } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
     embed.addFields(
+      {
+        name: '> __Repository__', value: MessageTool.concatMessage(
+          `**Local:** ${commitHashes().localHash}`,
+          `**Remote:** ${commitHashes().remoteHash}`
+        )
+      },
       {name: '> __Dependencies__', value: MessageTool.concatMessage(
         `**TypeScript:** ${pkg.version}`,
         `**NodeJS:** ${process.version}`,
