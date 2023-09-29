@@ -1,14 +1,24 @@
-import TClient from '../client';
 import mongoose from 'mongoose';
-import LogPrefix from '../helpers/LogPrefix.js';
+import Logger from '../helpers/Logger.js';
+import {readFileSync} from 'node:fs';
+import {Tokens} from '../typings/interfaces';
+const tokens:Tokens = JSON.parse(readFileSync('src/tokens.json', 'utf-8'));
 
 const connection:mongoose.Connection = mongoose.connection;
 export default class DatabaseServer {
-  static connect(client: TClient) {
-    const Logger = (logType:'log'|'error', msg:string)=>console[logType](client.logTime(), LogPrefix('DATABASE'), msg);
-
+  protected static eventManager() {
+    let dbPrefix = 'Database';
+    connection
+      .on('connected', ()=>Logger.forwardToConsole('log', dbPrefix, 'Connection to MongoDB has been established'))
+      .on('disconnected', ()=>Logger.forwardToConsole('log', dbPrefix, 'Connection to MongoDB has been lost'))
+      .on('close', ()=>Logger.forwardToConsole('log', dbPrefix, 'MongoDB has closed the connection'))
+      .on('all', ()=>Logger.forwardToConsole('log', dbPrefix, 'Successfully established a connection to all members'))
+      .on('fullsetup', ()=>Logger.forwardToConsole('log', dbPrefix, 'Successfully established a connection to Primary server & atleast one member'))
+      .on('error', (err:mongoose.Error)=>Logger.forwardToConsole('error', dbPrefix, `Encountered an error in MongoDB: ${err.message}`))
+  }
+  protected static connect() {
     connection.set('strictQuery', true);
-    connection.openUri(client.tokens.mongodb_uri, {
+    connection.openUri(tokens.mongodb_uri, {
       replicaSet: 'toastyy',
       autoIndex: true,
       authMechanism: 'SCRAM-SHA-256',
@@ -18,16 +28,10 @@ export default class DatabaseServer {
       socketTimeoutMS: 30000,
       tls: false,
       family: 4
-    });
-
-    connection
-    .on('connecting', ()=>Logger('log','Establishing connection to MongoDB'))
-    .on('connected', ()=>Logger('log','Connection to MongoDB has been established'))
-    .on('disconnecting', ()=>Logger('log','Disconnecting from MongoDB'))
-    .on('disconnected', ()=>Logger('log','Disconnected from MongoDB'))
-    .on('close', ()=>Logger('log','MongoDB has closed the connection'))
-    .on('all', ()=>Logger('log','Successfully established a connection to all members'))
-    .on('fullsetup', ()=>Logger('log','Successfully established a connection to Primary server & atleast one member'))
-    .on('error', (err:mongoose.Error)=>Logger('error',`Encountered an error in MongoDB: ${err.message}`));
+    })
+  }
+  static init() {
+    this.connect();    
+    this.eventManager();
   }
 }
