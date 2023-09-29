@@ -95,7 +95,7 @@ export default class TClient extends Discord.Client {
   }
   async init(){
     console.time('Startup');
-    DatabaseServer.connect(this);
+    DatabaseServer.init();
     this.login(this.tokens.main);
     for (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
@@ -116,5 +116,4 @@ export default class TClient extends Discord.Client {
   }
   isStaff = (guildMember:Discord.GuildMember)=>this.config.mainServer.staffRoles.map((x: string)=>this.config.mainServer.roles[x]).some((x: string)=>guildMember.roles.cache.has(x));
   youNeedRole = (interaction:Discord.CommandInteraction, role:string)=>interaction.reply(`This command is restricted to <@&${this.config.mainServer.roles[role]}>`);
-  logTime = ()=>`[${this.moment().format('DD/MM/YY HH:mm:ss')}]`;
 }

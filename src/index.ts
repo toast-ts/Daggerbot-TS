@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from './client.js';
 const client = new TClient;
 client.init();
+import Logger from './helpers/Logger.js';
 import YTModule from './funcs/YTModule.js';
 import MPModule from './funcs/MPModule.js';
 import {Player} from 'discord-player';
@@ -49,8 +50,8 @@ setInterval(async()=>{
 
   const punishments = await client.punishments._content.find();
   punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
-    console.log(client.logTime(), `${punishment.member}\'s ${punishment.type} should expire now`);
-    console.log(client.logTime(), await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!'));
+    Logger.forwardToConsole('log', 'Punishment', `${punishment.member}\'s ${punishment.type} should expire now`);
+    Logger.forwardToConsole('log', 'Punishment', await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!'));
   });
 
   const formattedDate = Math.floor((now - client.config.LRSstart)/1000/60/60/24);
@@ -61,7 +62,7 @@ setInterval(async()=>{
     if (total < yesterday) total = yesterday // messages went down.
     dailyMsgs.push([formattedDate, total]);
     writeFileSync('./src/database/dailyMsgs.json', JSON.stringify(dailyMsgs))
-    console.log(client.logTime(), `Pushed [${formattedDate}, ${total}] to dailyMsgs`);
+    Logger.forwardToConsole('log', 'DailyMsgs', `Pushed [${formattedDate}, ${total}]`)
     client.guilds.cache.get(client.config.mainServer.id).commands.fetch().then(commands=>(client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send(`:pencil: Pushed \`[${formattedDate}, ${total}]\` to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`));
     (client.channels.resolve(client.config.mainServer.channels.thismeanswar) as Discord.TextChannel).send({files:['./src/database/dailyMsgs.json']}).catch(fileErr=>console.log(fileErr))
   }
