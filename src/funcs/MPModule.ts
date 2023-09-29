@@ -5,7 +5,7 @@ interface TServer {
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import FormatPlayer from '../helpers/FormatPlayer.js';
-import LogPrefix from '../helpers/LogPrefix.js';
+import Logger from '../helpers/Logger.js';
 import {writeFileSync, readFileSync} from 'node:fs';
 import {FSPlayer, FSData, FSCareerSavegame} from '../typings/interfaces';
 
@@ -23,7 +23,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(client.xjs.xml2js(await r.text(), {compact: true}) as any).careerSavegame as FSCareerSavegame);
 
       if (!hitDSS ?? !hitCSG){
-        if (hitDSS && !hitDSS.slots) return console.log(LogPrefix('MPModule'), `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
+        if (hitDSS && !hitDSS.slots) return Logger.forwardToConsole('log', 'MPModule', `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
         else return msg.edit({embeds: [serverErrorEmbed]});
       }
 
@@ -51,7 +51,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       const serverLog = client.channels.resolve(client.config.mainServer.channels.fs_server_log) as Discord.TextChannel;
       const playersOnServer = hitDSS.slots?.players.filter(x=>x.isUsed);
       const playersInCache = client.MPServerCache[ServerName].players;
-      if (!playersOnServer ?? playersOnServer === undefined) return console.log(LogPrefix('MPModule'), 'Empty array, ignoring...'); // For the love of god, stop throwing errors everytime.
+      if (!playersOnServer ?? playersOnServer === undefined) return Logger.forwardToConsole('log', 'MPModule', 'Array is empty, ignoring...'); // For the love of god, stop throwing errors everytime.
       playersOnServer.forEach(player=>playerData.push(`**${player.name}${FormatPlayer.decoratePlayerIcons(player)}**\nFarming for ${FormatPlayer.uptimeFormat(player.uptime)}`));
 
       // Player leaving
@@ -88,7 +88,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       }
     } catch(err) {
       msg.edit({content: err.message, embeds: [serverErrorEmbed]});
-      console.log(client.logTime(), LogPrefix('MPModule'),`Failed to make a request for ${ServerName}:`, err.message)
+      Logger.forwardToConsole('log', 'MPModule', `Failed to make a request for ${ServerName}: ${err.message}`);
     }
   }
   HITALL();

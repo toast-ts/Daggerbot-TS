@@ -35,16 +35,3 @@ export default {
       .setDescription('The expression to be calculated')
       .setRequired(true))
 }
-
-// Copilot conversation:
-
-//Q: Why do we need to replace the string?
-//A: Because eval() is dangerous and can run any code
-//   So we need to make sure that the string is a math expression
-//   and nothing else
-
-//Q: If we receive a string like "1+1; console.log('Hello World')"
-//   will it run the console.log()?
-//A: No, because we are replacing all characters that are not
-//   numbers, operators, parenthesis, etc. So it will only run
-//   the math expression
