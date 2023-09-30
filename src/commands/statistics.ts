@@ -6,6 +6,8 @@ import FormatTime from '../helpers/FormatTime.js';
 import si from 'systeminformation';
 import TClient from '../client.js';
 import os from 'node:os';
+import {Octokit} from '@octokit/rest';
+import {createTokenAuth} from '@octokit/auth-token';
 import {readFileSync} from 'node:fs';
 import {execSync} from 'node:child_process';
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
@@ -50,11 +52,21 @@ export default {
       });
       embed.addFields({name: '\u200b', value: `\`\`\`\n${fieldValue}\`\`\``});
     } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
+    
+    const SummonAuthentication = createTokenAuth(client.tokens.octokit);
+    const {token} = await SummonAuthentication();
+    let githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
+    const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
+    const github = {
+      remoteCommit: await octokit.repos.getCommit({...githubRepo, ref: commitHashes().remoteHash}),
+      localCommit: await octokit.repos.getCommit({...githubRepo, ref: commitHashes().localHash}),
+    }
+
     embed.addFields(
       {
         name: '> __Repository__', value: MessageTool.concatMessage(
-          `**Local:** ${commitHashes().localHash}`,
-          `**Remote:** ${commitHashes().remoteHash}`
+          `**Local:** [${commitHashes().localHash}](${github.localCommit.data.html_url})`,
+          `**Remote:** [${commitHashes().remoteHash}](${github.remoteCommit.data.html_url})`,
         )
       },
       {name: '> __Dependencies__', value: MessageTool.concatMessage(
