@@ -28,7 +28,22 @@ export interface FSData {
     capacity: number,
     used: number,
     players: Array<FSPlayer>
-  }
+  },
+  vehicles: Array<FSVehicle>
+}
+interface FSVehicle {
+  name: string,
+  category: string,
+  type: string,
+  x: number,
+  y: number,
+  z: number,
+  fills: Array<FSVehicleFill>,
+  controller: string
+}
+interface FSVehicleFill {
+  type: string,
+  level: number
 }
 export interface FSPlayer {
   isUsed: boolean,
