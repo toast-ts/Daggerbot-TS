@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default {
   async autocomplete(client: TClient, interaction: Discord.AutocompleteInteraction){
-    const array = (await client.tags?._content.find())?.map(x=>x._id).filter(c=>c.startsWith(interaction.options.getFocused()));
+    const array = (await client.tags?.findInCache())?.map(x=>x._id).filter(c=>c.startsWith(interaction.options.getFocused()));
     await interaction?.respond(array?.map(c=>({name: c, value: c})));
     // If you question all those '?.', let me tell you: Discord.JS is fricking stupid and I am too stressed to find a solution for it.
   },
@@ -42,16 +42,26 @@ export default {
             name: interaction.user.username
           }
         })
-        .then(()=>interaction.reply('Tag is now created and available to use.'))
+        .then(()=>{
+          interaction.reply('Tag successfully created, should be available in a few seconds!')
+          client.tags.updateCache();
+        })
         .catch(err=>interaction.reply(`There was an error while trying to create your tag:\n\`\`\`${err}\`\`\``)),
-      delete: async()=>await client.tags._content.findByIdAndDelete(interaction.options.getString('name')).then(()=>interaction.reply('Tag successfully deleted.')).catch(err=>interaction.reply(`Failed to delete the tag:\n\`\`\`${err}\`\`\``)),
+      delete: async()=>await client.tags._content.findByIdAndDelete(interaction.options.getString('name'))
+        .then(()=>{
+          interaction.reply('Tag successfully deleted.')
+          client.tags.updateCache();
+        }).catch(err=>interaction.reply(`Failed to delete the tag:\n\`\`\`${err}\`\`\``)),
       edit: async()=>await client.tags._content.findByIdAndUpdate(interaction.options.getString('name'), {
           $set: {
             message: interaction.options.getString('new-message').replaceAll(/\\n/g, '\n'),
             embedBool: interaction.options.getBoolean('embed')
           }
         })
-        .then(()=>interaction.reply('Tag successfully updated, enjoy!'))
+        .then(()=>{
+          interaction.reply('Tag successfully updated, enjoy!')
+          client.tags.updateCache();
+        })
         .catch(err=>interaction.reply(`Tag couldn\'t be updated:\n\`\`\`${err}\`\`\``))
     } as any)[interaction.options.getSubcommand() ?? interaction.options.getSubcommandGroup()]();
   },

@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import mongoose from 'mongoose';
+import CacheServer from '../funcs/CacheServer.js';
 import ms from 'ms';
 import FormatTime from '../helpers/FormatTime.js';
 import {Punishment} from '../typings/interfaces';
@@ -26,7 +27,27 @@ export default class punishments extends Schema {
     this.client = client;
     this._content = Schema;
   }
-  createId = async()=>Math.max(...(await this._content.find({})).map(x=>x.id), 0) + 1;
+  async findInCache(): Promise<any> {
+    const cacheKey = 'punishments';
+    const cachedResult = await CacheServer.get(cacheKey);
+    let result;
+    if (cachedResult) {
+      try {
+        result = cachedResult;
+      } catch (error) {
+        console.error('Error parsing cached result:', error);
+        result = await this._content.find();
+        CacheServer.set(cacheKey, result);
+        CacheServer.expiry(cacheKey, 15);
+      }
+    } else {
+      result = await this._content.find();
+      CacheServer.set(cacheKey, result);
+      CacheServer.expiry(cacheKey, 15);
+    }
+    return result;
+  }
+  createId = async()=>Math.max(...(await this._content.find()).map(x=>x.id), 0) + 1;
   async makeModlogEntry(punishment:Punishment){
     // Format data into an embed
     const channel = ['kick', 'ban'].includes(punishment.type) ? this.client.config.mainServer.channels.bankick_log : this.client.config.mainServer.channels.logs;

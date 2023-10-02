@@ -20,7 +20,7 @@ export default {
     const serverSelector = interaction.options.getString('server');
     if (['468835769092669461', '1149238561934151690'].includes(interaction.channelId) && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
-    const database = await client.MPServer._content.findById(interaction.guildId);
+    const database = await client.MPServer.findInCache(interaction.guildId);
     const endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':'Daggerbot - MPdata/undici'}}).then(r=>r.json() as Promise<FSData>);
     const embed = new client.embed();
     ({
@@ -195,7 +195,7 @@ export default {
         const address = interaction.options.getString('address');
         if (!address){
           try {
-            const Url = await client.MPServer._content.findById(interaction.guildId);
+            const Url = await client.MPServer.findInCache(interaction.guildId);
             if (Url[serverSelector].ip && Url[serverSelector].code) return interaction.reply(Url[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+Url[serverSelector].code)
           } catch(err){
             Logger.forwardToConsole('error', 'MPDB', err);
