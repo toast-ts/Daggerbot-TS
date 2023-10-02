@@ -220,7 +220,7 @@ export default {
         if (!endpoint) return console.log('Endpoint failed - pallets');
         const filter = endpoint.vehicles.filter(v=>v.type === 'pallet');
         if (filter.length < 1) return interaction.reply('There are no pallets on the server.');
-        else interaction.reply(`There are currently ${filter.length} pallets on the server.\`\`\`\n${Object.values(PalletLibrary(endpoint)).map(t=>`${t.name.padEnd(12)}${t.size}`).join('\n')}\`\`\``)
+        else interaction.reply(`There are currently ${filter.length} pallets on the server. Here\'s the breakdown:\`\`\`\n${Object.values(PalletLibrary(endpoint)).map(t=>`${t.name.padEnd(12)}${t.size}`).join('\n')}\`\`\``)
       }
     })[interaction.options.getSubcommand()]();
   },
