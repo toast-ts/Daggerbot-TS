@@ -1,7 +1,6 @@
 import {createClient, ErrorReply} from 'redis';
 import Logger from '../helpers/Logger.js';
 import {readFileSync} from 'node:fs';
-import {promisify} from 'node:util';
 import {Tokens} from '../typings/interfaces';
 const tokens:Tokens = JSON.parse(readFileSync('src/tokens.json', 'utf-8'));
 
