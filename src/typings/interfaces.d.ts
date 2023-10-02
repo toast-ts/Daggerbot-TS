@@ -122,6 +122,7 @@ export interface Tokens {
   octokit: string
   mongodb_uri: string
   mongodb_uri_dev: string
+  redis_uri: string
 }
 export interface Config {
   embedColor: Discord.ColorResolvable,

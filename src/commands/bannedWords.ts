@@ -18,7 +18,7 @@ export default {
         interaction.reply(`Successfully removed \`${word}\` from the database.`)
       },
       view: async()=>{
-        const findAll = await client.bannedWords._content.find({});
+        const findAll = await client.bannedWords.findInCache();
         writeFileSync('src/database/bw_dump.json', JSON.stringify(findAll.map(i=>i._id), null, 2), {encoding: 'utf8', flag: 'w+'});
         interaction.reply({content: 'Here\'s the dump file from the database.', files: ['src/database/bw_dump.json'], ephemeral: true}).catch(err=>interaction.reply({content: `Ran into an error, notify <@&${client.config.mainServer.roles.bottech}> if it happens again:\n\`${err.message}\``, ephemeral: true}))
       }
