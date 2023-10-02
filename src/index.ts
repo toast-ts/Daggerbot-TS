@@ -36,7 +36,7 @@ if (client.config.botSwitches.music){
 
 // YouTube Upload notification and MP loop
 if (client.config.botSwitches.mpstats) setInterval(async()=>{
-  const serverlake = (await client.MPServer._content.findById(client.config.mainServer.id));
+  const serverlake = (await client.MPServer.findInCache(client.config.mainServer.id));
   for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPModule(client, locArea.channel, locArea.message, serverlake[locName], locName)
 }, 35000);
 setInterval(async()=>{// Ping notification is currently WIP, it might be active in production but I want to see how it goes with role mentions first so I can make any further changes.
@@ -48,7 +48,7 @@ setInterval(async()=>{// Ping notification is currently WIP, it might be active 
 setInterval(async()=>{
   const now = Date.now();
 
-  const punishments = await client.punishments._content.find();
+  const punishments = await client.punishments.findInCache();
   punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
     Logger.forwardToConsole('log', 'Punishment', `${punishment.member}\'s ${punishment.type} should expire now`);
     Logger.forwardToConsole('log', 'Punishment', await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!'));

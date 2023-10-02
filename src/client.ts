@@ -18,6 +18,7 @@ import tags from './models/tagSystem.js';
 import bonkCount from './models/bonkCount.js';
 import MPServer from './models/MPServer.js';
 import DatabaseServer from './funcs/DatabaseServer.js';
+import CacheServer from './funcs/CacheServer.js';
 import xjs from 'xml-js';
 import moment from 'moment';
 const tokens = JSON.parse(readFileSync('src/tokens.json', 'utf8'));
@@ -95,6 +96,7 @@ export default class TClient extends Discord.Client {
   }
   async init(){
     console.time('Startup');
+    CacheServer.init();
     DatabaseServer.init();
     this.login(this.tokens.main);
     for (const file of readdirSync('dist/events')){
