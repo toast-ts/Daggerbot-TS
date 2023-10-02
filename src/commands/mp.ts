@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import path from 'node:path';
 import canvas from 'canvas';
+import PalletLibrary from '../helpers/PalletLibrary.js';
 import FormatPlayer from '../helpers/FormatPlayer.js';
 import MessageTool from '../helpers/MessageTool.js';
 import Logger from '../helpers/Logger.js';
@@ -15,7 +16,7 @@ const serverChoices = [
 
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (client.uptime < 35000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.')
+    if (client.uptime < 35000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.');
     const serverSelector = interaction.options.getString('server');
     if (['468835769092669461', '1149238561934151690'].includes(interaction.channelId) && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
@@ -214,6 +215,12 @@ export default {
             .catch((err:Error)=>interaction.reply(`I got hit by a flying brick while trying to populate the server data:\n\`\`\`${err.message}\`\`\``))
           }
         }
+      },
+      pallets: async()=>{
+        if (!endpoint) return console.log('Endpoint failed - pallets');
+        const filter = endpoint.vehicles.filter(v=>v.type === 'pallet');
+        if (filter.length < 1) return interaction.reply('There are no pallets on the server.');
+        else interaction.reply(`There are currently ${filter.length} pallets on the server.\`\`\`\n${Object.values(PalletLibrary(endpoint)).map(t=>`${t.name.padEnd(12)}${t.size}`).join('\n')}\`\`\``)
       }
     })[interaction.options.getSubcommand()]();
   },
@@ -227,7 +234,7 @@ export default {
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(serverChoices[0], serverChoices[1])))
+      .setChoices(...serverChoices)))
   .addSubcommand(x=>x
     .setName('players')
     .setDescription('Display players on server')
@@ -235,7 +242,7 @@ export default {
       .setName('server')
       .setDescription('The server to display players for')
       .setRequired(true)
-      .setChoices(serverChoices[0], serverChoices[1])))
+      .setChoices(...serverChoices)))
   .addSubcommand(x=>x
     .setName('url')
     .setDescription('View or update the server URL')
@@ -243,7 +250,7 @@ export default {
       .setName('server')
       .setDescription('The server to update')
       .setRequired(true)
-      .setChoices(serverChoices[0], serverChoices[1]))
+      .setChoices(...serverChoices))
     .addStringOption(x=>x
       .setName('address')
       .setDescription('The URL to the dedicated-server-stats.json file')
@@ -255,5 +262,13 @@ export default {
       .setName('server')
       .setDescription('The server to display information for')
       .setRequired(true)
-      .setChoices(serverChoices[0], serverChoices[1])))
+      .setChoices(...serverChoices)))
+  .addSubcommand(x=>x
+    .setName('pallets')
+    .setDescription('Check total amount of pallets on the server')
+    .addStringOption(x=>x
+      .setName('server')
+      .setDescription('The server to get amount of pallets from')
+      .setRequired(true)
+      .setChoices(...serverChoices)))
 }
