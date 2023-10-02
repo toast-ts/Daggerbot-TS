@@ -38,7 +38,7 @@ export default {
         else output = '\n' + String(output);
         [
           client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.spotify.client,client.tokens.spotify.secret,
-          client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev,client.tokens.octokit
+          client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev,client.tokens.octokit,client.tokens.redis_uri
         ].forEach(x=>output = output.replace(new RegExp(x as string,'g'),':noblank: No token?'));
         const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
           {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
