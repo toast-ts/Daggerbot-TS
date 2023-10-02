@@ -2,5 +2,6 @@ services:
   cache:
     container_name: redis-cache
     image: redis/redis-stack-server:7.2.0-v2
+    restart: unless-stopped
     ports:
       - 6379:6379/tcp
