@@ -38,11 +38,11 @@ if (client.config.botSwitches.music){
 if (client.config.botSwitches.mpstats) setInterval(async()=>{
   const serverlake = (await client.MPServer.findInCache(client.config.mainServer.id));
   for await (const [locName, locArea] of Object.entries(client.config.MPStatsLocation)) await MPModule(client, locArea.channel, locArea.message, serverlake[locName], locName)
-}, 35000);
-setInterval(async()=>{// Ping notification is currently WIP, it might be active in production but I want to see how it goes with role mentions first so I can make any further changes.
+}, 35000); // 35 seconds
+setInterval(async()=>{
 	YTModule(client, 'UCQ8k8yTDLITldfWYKDs3xFg', 'Daggerwin', '528967918772551702', '1155760735612305408'); // 528967918772551702 = #videos-and-streams; 1155760735612305408 = YT Upload Ping;
 	YTModule(client, 'UCguI73--UraJpso4NizXNzA', 'Machinery Restorer', '767444045520961567', '1155760735612305408') // 767444045520961567 = #machinery-restorer; ^^
-}, 300000)
+}, 300000); // 5 minutes
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{

@@ -6,7 +6,6 @@ type MPServerCache = Record<string,{
   status: 'online' | 'offline' | null,
   name: string | null
 }>
-type YouTubeCache = Record<string,string>
 import Discord from 'discord.js';
 import {readFileSync, readdirSync} from 'node:fs';
 import {Tokens, Config, FSPlayer} from './typings/interfaces';
@@ -39,7 +38,6 @@ export default class TClient extends Discord.Client {
   registry: Array<Discord.ApplicationCommandDataResolvable>;
   config: Config;
   tokens: Tokens;
-  YTCache: YouTubeCache = {};
   embed: typeof Discord.EmbedBuilder;
   collection: typeof Discord.Collection;
   attachmentBuilder: typeof Discord.AttachmentBuilder;
@@ -73,10 +71,6 @@ export default class TClient extends Discord.Client {
     this.registry = [];
     this.config = importconfig as Config;
     this.tokens = tokens as Tokens;
-    this.YTCache = {
-      'UCQ8k8yTDLITldfWYKDs3xFg': undefined, // Daggerwin
-      'UCguI73--UraJpso4NizXNzA': undefined // Machinery Restorer
-    } as YouTubeCache;
     this.embed = Discord.EmbedBuilder;
     this.collection = Discord.Collection;
     this.attachmentBuilder = Discord.AttachmentBuilder;
