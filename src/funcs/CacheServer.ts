@@ -19,10 +19,16 @@ export default class CacheServer {
   protected static eventManager() {
     RedisClient
       .on('connect', ()=>Logger.forwardToConsole('log', Prefix, 'Connection to Redis has been established'))
-      .on('error', (err:ErrorReply)=>Logger.forwardToConsole('error', Prefix, `Encountered an error in Redis: ${err.message}`))
-    }
-  protected static async connect() {
-    await RedisClient.connect();
+      .on('error', (err:ErrorReply)=>{
+        Logger.forwardToConsole('error', Prefix, `Encountered an error in Redis: ${err.message}`)
+        setTimeout(async()=>{
+          if (!RedisClient.isReady) {
+            Logger.forwardToConsole('log', Prefix, 'Client is zombified, starting a fresh connection...');
+            RedisClient.quit();
+            await RedisClient.connect();
+          }
+        }, 1500)
+      })
   }
   static async get(key:any) {
     const cachedResult = await RedisClient.get(key);
@@ -30,19 +36,16 @@ export default class CacheServer {
     else return null
   }
   static async set(key:any, value:any) {
-    Logger.forwardToConsole('log', Prefix, `Building cache for ${key}`);
     return await RedisClient.set(key, JSON.stringify(value));
   }
   static async expiry(key:any, time:number) {
-    Logger.forwardToConsole('log', Prefix, `Setting expiration for ${key} to ${time} seconds`);
-    return await RedisClient.expire(key, time);
+    return await RedisClient.expire(key, time); // NOTE: time is in seconds, not milliseconds -- you know what you did wrong
   }
   static async delete(key:any) {
-    Logger.forwardToConsole('log', Prefix, `Deleting cache for ${key}`);
     return await RedisClient.del(key);
   }
   static init() {
-    this.connect();    
+    RedisClient.connect();
     this.eventManager();
   }
 }
