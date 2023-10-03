@@ -6,7 +6,7 @@ import MessageTool from '../helpers/MessageTool.js';
 
 export default async(client:TClient, YTChannelID:string, YTChannelName:string, DiscordChannelID:string, DiscordRoleID:string)=>{
   let Data: any;
-  let cacheExpiry: number = 14400; // Invalidate cache after sitting in Redis for 4 hours
+  let cacheExpiry: number = 7200; // Invalidate cache after sitting in Redis for 2 hours
   try {
     await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {
       signal: AbortSignal.timeout(10000),
