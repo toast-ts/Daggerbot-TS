@@ -26,13 +26,8 @@ export default class CacheServer {
   }
   static async get(key:any) {
     const cachedResult = await RedisClient.get(key);
-    if (cachedResult) {
-      Logger.forwardToConsole('log', Prefix, `Cache hit for ${key}`);
-      return JSON.parse(cachedResult);
-    } else {
-      Logger.forwardToConsole('log', Prefix, `Cache miss for ${key}`);
-      return null
-    }
+    if (cachedResult) return JSON.parse(cachedResult);
+    else return null
   }
   static async set(key:any, value:any) {
     Logger.forwardToConsole('log', Prefix, `Building cache for ${key}`);
