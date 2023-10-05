@@ -112,17 +112,10 @@ interface XMLText {
   _text: string
 }
 export interface Tokens {
-  main: string
-  beta: string
-  toast: string
   spotify: {
     client: string,
     secret: string
   }
-  octokit: string
-  mongodb_uri: string
-  mongodb_uri_dev: string
-  redis_uri: string
 }
 export interface Config {
   embedColor: Discord.ColorResolvable,

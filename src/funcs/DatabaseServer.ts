@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import Logger from '../helpers/Logger.js';
-import {readFileSync} from 'node:fs';
-import {Tokens} from '../typings/interfaces';
-const tokens:Tokens = JSON.parse(readFileSync('src/tokens.json', 'utf-8'));
+import TSClient from '../helpers/TSClient.js';
 
 const connection:mongoose.Connection = mongoose.connection;
 export default class DatabaseServer {
@@ -16,9 +14,9 @@ export default class DatabaseServer {
       .on('fullsetup', ()=>Logger.forwardToConsole('log', dbPrefix, 'Successfully established a connection to Primary server & atleast one member'))
       .on('error', (err:mongoose.Error)=>Logger.forwardToConsole('error', dbPrefix, `Encountered an error in MongoDB: ${err.message}`))
   }
-  protected static connect() {
+  protected static async connect() {
     connection.set('strictQuery', true);
-    connection.openUri(tokens.mongodb_uri, {
+    connection.openUri((await TSClient.Token()).mongodb_uri, {
       replicaSet: 'toastyy',
       autoIndex: true,
       authMechanism: 'SCRAM-SHA-256',

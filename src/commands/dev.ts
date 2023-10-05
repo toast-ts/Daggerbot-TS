@@ -5,6 +5,7 @@ import {exec} from 'node:child_process';
 import MessageTool from '../helpers/MessageTool.js';
 import UsernameHelper from '../helpers/UsernameHelper.js';
 import FormatTime from '../helpers/FormatTime.js';
+import TSClient from '../helpers/TSClient.js';
 import fs from 'node:fs';
 import util from 'node:util';
 import TClient from '../client.js';
@@ -18,7 +19,7 @@ export default {
         let output = 'error';
         let error = false;
         try {
-          output = await eval(code);
+          output = await eval(`(async()=>{${code}})()`);
         } catch (err: any) {
           error = true
           const embed = new client.embed().setColor('#630D12').setTitle('__Eval__').addFields(
@@ -36,10 +37,6 @@ export default {
         if (error) return;
         if (typeof output === 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)
         else output = '\n' + String(output);
-        [
-          client.tokens.main,client.tokens.beta,client.tokens.toast,client.tokens.spotify.client,client.tokens.spotify.secret,
-          client.tokens.mongodb_uri,client.tokens.mongodb_uri_dev,client.tokens.octokit,client.tokens.redis_uri
-        ].forEach(x=>output = output.replace(new RegExp(x as string,'g'),':noblank: No token?'));
         const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
           {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
           {name: 'Output', value: `\`\`\`${UsernameHelper.stripName(output).slice(0,1016)}\n\`\`\``}
@@ -47,7 +44,7 @@ export default {
         interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
       },
       update: async()=>{
-        const SummonAuthentication = createTokenAuth(client.tokens.octokit);
+        const SummonAuthentication = createTokenAuth((await TSClient.Token()).octokit);
         const {token} = await SummonAuthentication();
         var githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
         const hammond = await interaction.reply({content: 'Pulling from repository...', fetchReply: true});
