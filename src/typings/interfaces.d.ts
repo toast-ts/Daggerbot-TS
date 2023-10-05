@@ -111,12 +111,6 @@ export interface FSCareerSavegame {
 interface XMLText {
   _text: string
 }
-export interface Tokens {
-  spotify: {
-    client: string,
-    secret: string
-  }
-}
 export interface Config {
   embedColor: Discord.ColorResolvable,
   embedColorGreen: Discord.ColorResolvable,
