@@ -1,6 +1,5 @@
 interface TokenService_API {
   main:      string,
-  beta:      string,
   mongodb_uri: string,
   redis_uri: string,
   octokit:   string,
