@@ -468,10 +468,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.8.0":
-  version: 20.8.0
-  resolution: "@types/node@npm:20.8.0"
-  checksum: ebad6342d54238a24bf980d7750117a5d67749c9b72cbb7a974a1e932c39034aa3a810d669e007e8a5071782a253aa069a187b614407a382403c9826e837c849
+"@types/node@npm:20.8.2":
+  version: 20.8.2
+  resolution: "@types/node@npm:20.8.2"
+  checksum: 3da73e25d821bfcdb7de98589027e08bb4848e55408671c4a83ec0341e124b5313a0b20e1e4b4eff1168ea17a86f622ad73fcb04b761abd77496b9a27cbd5de5
   languageName: node
   linkType: hard
 
@@ -790,17 +790,17 @@ __metadata:
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.2
     "@types/ms": 0.7.32
-    "@types/node": 20.8.0
+    "@types/node": 20.8.2
     canvas: 2.11.2
     discord-player: 6.6.4
     discord.js: 14.13.0
     libsodium-wrappers: 0.7.13
     moment: 2.29.4
-    mongoose: 7.5.3
+    mongoose: 7.5.4
     ms: 2.1.3
     prism-media: 1.3.5
     redis: 4.6.10
-    systeminformation: 5.21.9
+    systeminformation: 5.21.10
     typescript: 5.2.2
     xml-js: 1.6.11
     youtube-sr: 4.3.4
@@ -1665,9 +1665,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:7.5.3":
-  version: 7.5.3
-  resolution: "mongoose@npm:7.5.3"
+"mongoose@npm:7.5.4":
+  version: 7.5.4
+  resolution: "mongoose@npm:7.5.4"
   dependencies:
     bson: ^5.4.0
     kareem: 2.5.1
@@ -1676,7 +1676,7 @@ __metadata:
     mquery: 5.0.0
     ms: 2.1.3
     sift: 16.0.1
-  checksum: cc2cc5c396938c88bb08867365d1e4996b6baed6be4bd2000b0826effb7b262601a421ddd7b0415d8995c9e817e3f01da0331d90406fd9916722b08d7f359312
+  checksum: e888bc5e47c7c3f0158dd93c18efedc15a7dbaa7c7c599e38aa4fccf00514280af02ae8cb40e91190d5cff8822a78c3cfd15adfd309094a3a7b3ca5ba3c6fb03
   languageName: node
   linkType: hard
 
@@ -2259,12 +2259,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.21.9":
-  version: 5.21.9
-  resolution: "systeminformation@npm:5.21.9"
+"systeminformation@npm:5.21.10":
+  version: 5.21.10
+  resolution: "systeminformation@npm:5.21.10"
   bin:
     systeminformation: lib/cli.js
-  checksum: 33f8ee313f4e15d5dfde98e071110c5ee377dace8e34d5a4775224efd4cc1005771898a99a4f20ef4948c5249ad4ad961c10f10f235a11c3042399e879677b87
+  checksum: a63dce32d3d05a383f1639a22a936dc91a700dae6821c49a2f1d072814e0bdc4f6d12a63f64200dfbc0f2a3b1edbe5945a30b345cd99a38e41084f166fa26513
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

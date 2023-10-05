@@ -33,17 +33,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
-            ["@types/node", "npm:20.8.0"],\
+            ["@types/node", "npm:20.8.2"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["discord.js", "npm:14.13.0"],\
             ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
-            ["mongoose", "npm:7.5.3"],\
+            ["mongoose", "npm:7.5.4"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
             ["redis", "npm:4.6.10"],\
-            ["systeminformation", "npm:5.21.9"],\
+            ["systeminformation", "npm:5.21.10"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -669,10 +669,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:20.8.0", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.8.0-81ffdc4953-ebad6342d5.zip/node_modules/@types/node/",\
+        ["npm:20.8.2", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.8.2-6691982ce3-3da73e25d8.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:20.8.0"]\
+            ["@types/node", "npm:20.8.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -1037,17 +1037,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
-            ["@types/node", "npm:20.8.0"],\
+            ["@types/node", "npm:20.8.2"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["discord.js", "npm:14.13.0"],\
             ["libsodium-wrappers", "npm:0.7.13"],\
             ["moment", "npm:2.29.4"],\
-            ["mongoose", "npm:7.5.3"],\
+            ["mongoose", "npm:7.5.4"],\
             ["ms", "npm:2.1.3"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
             ["redis", "npm:4.6.10"],\
-            ["systeminformation", "npm:5.21.9"],\
+            ["systeminformation", "npm:5.21.10"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"],\
             ["xml-js", "npm:1.6.11"],\
             ["youtube-sr", "npm:4.3.4"],\
@@ -2006,10 +2006,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:b89169bdb1987ec7d8689e925fd80692844d1adc3979914cfaa98e197c5b9823461efa6ff1a6de4e6adb0c14637b50dc8d59b1092e058a8bd8458636dbf0efa5#npm:5.8.1", {\
-          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-58497d4784/0/cache/mongodb-npm-5.8.1-d655990b24-da8fc05952.zip/node_modules/mongodb/",\
+        ["virtual:3ded3033d81ba8a2f252495b560c7cd93b9f3811f6b8b868c741474abfa6e74ed568da8d022d442e9383422b59ce654bd217c246dafc6fdc070c5babe38bff03#npm:5.8.1", {\
+          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-11385087bd/0/cache/mongodb-npm-5.8.1-d655990b24-da8fc05952.zip/node_modules/mongodb/",\
           "packageDependencies": [\
-            ["mongodb", "virtual:b89169bdb1987ec7d8689e925fd80692844d1adc3979914cfaa98e197c5b9823461efa6ff1a6de4e6adb0c14637b50dc8d59b1092e058a8bd8458636dbf0efa5#npm:5.8.1"],\
+            ["mongodb", "virtual:3ded3033d81ba8a2f252495b560c7cd93b9f3811f6b8b868c741474abfa6e74ed568da8d022d442e9383422b59ce654bd217c246dafc6fdc070c5babe38bff03#npm:5.8.1"],\
             ["@aws-sdk/credential-providers", null],\
             ["@mongodb-js/saslprep", "npm:1.1.0"],\
             ["@mongodb-js/zstd", null],\
@@ -2052,13 +2052,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["mongoose", [\
-        ["npm:7.5.3", {\
-          "packageLocation": "./.yarn/cache/mongoose-npm-7.5.3-b89169bdb1-cc2cc5c396.zip/node_modules/mongoose/",\
+        ["npm:7.5.4", {\
+          "packageLocation": "./.yarn/cache/mongoose-npm-7.5.4-3ded3033d8-e888bc5e47.zip/node_modules/mongoose/",\
           "packageDependencies": [\
-            ["mongoose", "npm:7.5.3"],\
+            ["mongoose", "npm:7.5.4"],\
             ["bson", "npm:5.4.0"],\
             ["kareem", "npm:2.5.1"],\
-            ["mongodb", "virtual:b89169bdb1987ec7d8689e925fd80692844d1adc3979914cfaa98e197c5b9823461efa6ff1a6de4e6adb0c14637b50dc8d59b1092e058a8bd8458636dbf0efa5#npm:5.8.1"],\
+            ["mongodb", "virtual:3ded3033d81ba8a2f252495b560c7cd93b9f3811f6b8b868c741474abfa6e74ed568da8d022d442e9383422b59ce654bd217c246dafc6fdc070c5babe38bff03#npm:5.8.1"],\
             ["mpath", "npm:0.9.0"],\
             ["mquery", "npm:5.0.0"],\
             ["ms", "npm:2.1.3"],\
@@ -2748,10 +2748,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["systeminformation", [\
-        ["npm:5.21.9", {\
-          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.9-9b8f1d514b/node_modules/systeminformation/",\
+        ["npm:5.21.10", {\
+          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.10-82d4c0439d/node_modules/systeminformation/",\
           "packageDependencies": [\
-            ["systeminformation", "npm:5.21.9"]\
+            ["systeminformation", "npm:5.21.10"]\
           ],\
           "linkType": "HARD"\
         }]\
