@@ -6,9 +6,9 @@ import MessageTool from '../helpers/MessageTool.js';
 import UsernameHelper from '../helpers/UsernameHelper.js';
 import FormatTime from '../helpers/FormatTime.js';
 import TSClient from '../helpers/TSClient.js';
+import TClient from '../client.js';
 import fs from 'node:fs';
 import util from 'node:util';
-import TClient from '../client.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
     if (!client.config.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
@@ -16,32 +16,36 @@ export default {
       eval: async()=>{
         if (!client.config.eval) return interaction.reply({content: 'Eval is currently disabled.', ephemeral: true});
         const code = interaction.options.getString('code') as string;
-        let output = 'error';
-        let error = false;
+
         try {
-          output = await eval(`(async()=>{${code}})()`);
-        } catch (err: any) {
-          error = true
-          const embed = new client.embed().setColor('#630D12').setTitle('__Eval__').addFields(
-            {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1010)}\n\`\`\``},
+          const output = await eval(interaction.options.getBoolean('async') ? `(async()=>{${code}})()` : code);
+          if (typeof output === 'object') {
+            const embed = new client.embed().setColor(client.config.embedColor).addFields(
+              {name: 'Input', value: `\`\`\`js\n${code.slice(0,1020)}\n\`\`\``},
+              {name: 'Output', value: `\`\`\`${UsernameHelper.stripName('ansi\n'+util.formatWithOptions({depth: 2, colors: true}, '%O', output)).slice(0,1016)}\n\`\`\``}
+            );
+            interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
+          } else {
+            const embed = new client.embed().setColor(client.config.embedColor).addFields(
+              {name: 'Input', value: `\`\`\`js\n${code.slice(0,1020)}\n\`\`\``},
+              {name: 'Output', value: `\`\`\`${UsernameHelper.stripName('\n' + String(output)).slice(0,1016)}\n\`\`\``}
+            );
+            interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
+          }
+        } catch (err) {
+          const embed = new client.embed().setColor('#560000').addFields(
+            {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1020)}\n\`\`\``},
             {name: 'Output', value: `\`\`\`\n${err}\`\`\``}
-          )
+          );
           interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]})).then(()=>{
-            const filter = (x:any)=>x.content === 'stack' && x.author.id === interaction.user.id
+            const filter = (x:Discord.Message)=>x.content.includes('console') && x.author.id === interaction.user.id
             const messagecollector = (interaction.channel as Discord.TextChannel).createMessageCollector({filter, max: 1, time: 60000});
             messagecollector.on('collect', collected=>{
-              collected.reply({content: `\`\`\`\n${UsernameHelper.stripName(err.stack)}\n\`\`\``, allowedMentions: {repliedUser: false}});
+              console.log(err)
+              collected.reply(`\`\`\`\n${UsernameHelper.stripName(err.stack)}\n\`\`\``);
             });
           });
         }
-        if (error) return;
-        if (typeof output === 'object') output = 'js\n'+util.formatWithOptions({depth: 1}, '%O', output)
-        else output = '\n' + String(output);
-        const embed = new client.embed().setColor(client.config.embedColor).setTitle('__Eval__').addFields(
-          {name: 'Input', value: `\`\`\`js\n${code.slice(0,1010)}\n\`\`\``},
-          {name: 'Output', value: `\`\`\`${UsernameHelper.stripName(output).slice(0,1016)}\n\`\`\``}
-        );
-        interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
       },
       update: async()=>{
         const SummonAuthentication = createTokenAuth((await TSClient.Token()).octokit);
@@ -137,7 +141,11 @@ export default {
       .addStringOption(x=>x
         .setName('code')
         .setDescription('Execute your code')
-        .setRequired(true)))
+        .setRequired(true))
+      .addBooleanOption(x=>x
+        .setName('async')
+        .setDescription('Asynchronously execute your code')
+        .setRequired(false)))
     .addSubcommand(x=>x
       .setName('logs')
       .setDescription('Retrieve the logs from host and sends it to dev server'))
