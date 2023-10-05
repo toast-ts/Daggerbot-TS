@@ -18,7 +18,7 @@ export default class Automoderator {
       client.repeatedMessages[message.author.id].timeout = setTimeout(()=>delete client.repeatedMessages[message.author.id], thresholdTime);
 
       // Message sent after (now - threshold), so purge those that were sent earlier
-      client.repeatedMessages[message.author.id].data = client.repeatedMessages[message.author.id].data.filter((x,i)=>i>=Date.now() - thresholdTime);
+      client.repeatedMessages[message.author.id].data = client.repeatedMessages[message.author.id].data.filter((_,i)=>i >= Date.now() - thresholdTime);
 
       // A spammed message is one that has been sent within the threshold parameters
       const spammedMessage = client.repeatedMessages[message.author.id].data.find(x=>{
