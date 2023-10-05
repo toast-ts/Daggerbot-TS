@@ -6,9 +6,10 @@ type MPServerCache = Record<string,{
   status: 'online' | 'offline' | null,
   name: string | null
 }>
+
 import Discord from 'discord.js';
 import {readFileSync, readdirSync} from 'node:fs';
-import {Tokens, Config, FSPlayer} from './typings/interfaces';
+import {Config, FSPlayer} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
 import suggestion from './models/suggestion.js';
@@ -20,8 +21,7 @@ import DatabaseServer from './funcs/DatabaseServer.js';
 import CacheServer from './funcs/CacheServer.js';
 import xjs from 'xml-js';
 import moment from 'moment';
-const tokens = JSON.parse(readFileSync('src/tokens.json', 'utf8'));
-// Import assertion warning workaround yes
+import TSClient from './helpers/TSClient.js';
 
 let importconfig:Config
 try{
@@ -37,7 +37,6 @@ export default class TClient extends Discord.Client {
   commands: Discord.Collection<string, any>;
   registry: Array<Discord.ApplicationCommandDataResolvable>;
   config: Config;
-  tokens: Tokens;
   embed: typeof Discord.EmbedBuilder;
   collection: typeof Discord.Collection;
   attachmentBuilder: typeof Discord.AttachmentBuilder;
@@ -70,7 +69,6 @@ export default class TClient extends Discord.Client {
     this.commands = new Discord.Collection();
     this.registry = [];
     this.config = importconfig as Config;
-    this.tokens = tokens as Tokens;
     this.embed = Discord.EmbedBuilder;
     this.collection = Discord.Collection;
     this.attachmentBuilder = Discord.AttachmentBuilder;
@@ -92,7 +90,7 @@ export default class TClient extends Discord.Client {
     console.time('Startup');
     CacheServer.init();
     DatabaseServer.init();
-    this.login(this.tokens.main);
+    this.login((await TSClient.Token()).main);
     for (const file of readdirSync('dist/events')){
       const eventFile = await import(`./events/${file}`);
       this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
