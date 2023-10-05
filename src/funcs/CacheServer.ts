@@ -1,12 +1,10 @@
 import {createClient, ErrorReply} from 'redis';
 import Logger from '../helpers/Logger.js';
-import {readFileSync} from 'node:fs';
-import {Tokens} from '../typings/interfaces';
-const tokens:Tokens = JSON.parse(readFileSync('src/tokens.json', 'utf-8'));
+import TSClient from '../helpers/TSClient.js';
 
 let Prefix = 'Cache';
 const RedisClient = createClient({
-  url: tokens.redis_uri,
+  url: (await TSClient.Token()).redis_uri,
   database: 0,
   name: 'Daggerbot',
   socket: {

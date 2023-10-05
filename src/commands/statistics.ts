@@ -5,6 +5,7 @@ import FormatBytes from '../helpers/FormatBytes.js';
 import FormatTime from '../helpers/FormatTime.js';
 import si from 'systeminformation';
 import TClient from '../client.js';
+import TSClient from '../helpers/TSClient.js';
 import os from 'node:os';
 import {Octokit} from '@octokit/rest';
 import {createTokenAuth} from '@octokit/auth-token';
@@ -53,7 +54,7 @@ export default {
       embed.addFields({name: '\u200b', value: `\`\`\`\n${fieldValue}\`\`\``});
     } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
     
-    const SummonAuthentication = createTokenAuth(client.tokens.octokit);
+    const SummonAuthentication = createTokenAuth((await TSClient.Token()).octokit);
     const {token} = await SummonAuthentication();
     let githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
     const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
