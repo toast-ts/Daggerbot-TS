@@ -12,6 +12,6 @@ interface TokenService_API {
 
 export default class TSClient {
   static async Token() {
-    return await fetch('http://localhost:36961/daggerbot').then(x=>x.json()) as Promise<TokenService_API>
+    return await fetch('http://192.168.68.18/daggerbot').then(x=>x.json()) as Promise<TokenService_API>
   }
 }
