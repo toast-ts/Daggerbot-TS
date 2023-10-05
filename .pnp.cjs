@@ -34,6 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
             ["@types/node", "npm:20.8.2"],\
+            ["@types/node-cron", "npm:3.0.9"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["discord.js", "npm:14.13.0"],\
@@ -41,6 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.5.4"],\
             ["ms", "npm:2.1.3"],\
+            ["node-cron", "npm:3.0.2"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
             ["redis", "npm:4.6.10"],\
             ["systeminformation", "npm:5.21.10"],\
@@ -677,6 +679,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/node-cron", [\
+        ["npm:3.0.9", {\
+          "packageLocation": "./.yarn/cache/@types-node-cron-npm-3.0.9-13a60c6bb4-8335eb0a45.zip/node_modules/@types/node-cron/",\
+          "packageDependencies": [\
+            ["@types/node-cron", "npm:3.0.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/webidl-conversions", [\
         ["npm:7.0.0", {\
           "packageLocation": "./.yarn/cache/@types-webidl-conversions-npm-7.0.0-0903313151-60142c7ddd.zip/node_modules/@types/webidl-conversions/",\
@@ -1038,6 +1049,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
             ["@types/node", "npm:20.8.2"],\
+            ["@types/node-cron", "npm:3.0.9"],\
             ["canvas", "npm:2.11.2"],\
             ["discord-player", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.6.4"],\
             ["discord.js", "npm:14.13.0"],\
@@ -1045,6 +1057,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["moment", "npm:2.29.4"],\
             ["mongoose", "npm:7.5.4"],\
             ["ms", "npm:2.1.3"],\
+            ["node-cron", "npm:3.0.2"],\
             ["prism-media", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:1.3.5"],\
             ["redis", "npm:4.6.10"],\
             ["systeminformation", "npm:5.21.10"],\
@@ -2131,6 +2144,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["node-cron", [\
+        ["npm:3.0.2", {\
+          "packageLocation": "./.yarn/cache/node-cron-npm-3.0.2-5ee1c1c226-dd21585c0d.zip/node_modules/node-cron/",\
+          "packageDependencies": [\
+            ["node-cron", "npm:3.0.2"],\
+            ["uuid", "npm:8.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["node-domexception", [\
         ["npm:1.0.0", {\
           "packageLocation": "./.yarn/cache/node-domexception-npm-1.0.0-e1e813b76f-ee1d37dd2a.zip/node_modules/node-domexception/",\
@@ -2895,6 +2918,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/util-deprecate-npm-1.0.2-e3fe1a219c-474acf1146.zip/node_modules/util-deprecate/",\
           "packageDependencies": [\
             ["util-deprecate", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["uuid", [\
+        ["npm:8.3.2", {\
+          "packageLocation": "./.yarn/cache/uuid-npm-8.3.2-eca0baba53-5575a8a75c.zip/node_modules/uuid/",\
+          "packageDependencies": [\
+            ["uuid", "npm:8.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
