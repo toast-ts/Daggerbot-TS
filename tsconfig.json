@@ -2,8 +2,10 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "removeComments": true,
+    "noUnusedLocals": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "noUnusedParameters": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

@@ -7,6 +7,7 @@ import YTModule from './funcs/YTModule.js';
 import MPModule from './funcs/MPModule.js';
 import {Player} from 'discord-player';
 const player = Player.singleton(client);
+import {Punishment} from './typings/interfaces';
 import MessageTool from './helpers/MessageTool.js';
 import {writeFileSync, readFileSync} from 'node:fs';
 
@@ -30,8 +31,8 @@ if (client.config.botSwitches.music){
     if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.').then(()=>setTimeout(()=>queue.connection.disconnect(), 15000))
   });
   player.events.on('playerPause', queue=>queue.channel.send({embeds:[MessageTool.embedMusic(client.config.embedColor, 'Player has been paused.\nRun the command to unpause it')]}));
-  player.events.on('playerError', (queue, error)=>DZ(error, 'playerError')); // I don't know if both of these actually works, because most
-  player.events.on('error', (queue, error)=>DZ(error, 'playerInternalError')); // errors from the player is coming from unhandledRejection
+  player.events.on('playerError', (_, error)=>DZ(error, 'playerError')); // I don't know if both of these actually works, because most
+  player.events.on('error', (_, error)=>DZ(error, 'playerInternalError')); // errors from the player is coming from unhandledRejection
 }
 
 // YouTube Upload notification and MP loop
@@ -49,7 +50,7 @@ setInterval(async()=>{
   const now = Date.now();
 
   const punishments = await client.punishments.findInCache();
-  punishments.filter(x=>x.endTime && x.endTime<= now && !x.expired).forEach(async punishment=>{
+  punishments.filter((x:Punishment)=>x.endTime && x.endTime<= now && !x.expired).forEach(async (punishment:Punishment)=>{
     Logger.forwardToConsole('log', 'Punishment', `${punishment.member}\'s ${punishment.type} should expire now`);
     Logger.forwardToConsole('log', 'Punishment', await client.punishments.removePunishment(punishment._id, client.user.id, 'Time\'s up!'));
   });
@@ -57,6 +58,8 @@ setInterval(async()=>{
   const formattedDate = Math.floor((now - client.config.LRSstart)/1000/60/60/24);
   const dailyMsgs = JSON.parse(readFileSync('./src/database/dailyMsgs.json', 'utf8'))
   if (client.config.botSwitches.dailyMsgsBackup && !dailyMsgs.some((x:Array<number>)=>x[0] === formattedDate)){
+    client.userLevels.resetAllData(); // reset all data on 1st of January every year
+
     let total = (await client.userLevels._content.find({})).reduce((a,b)=>a + b.messages, 0); // sum of all users
     const yesterday = dailyMsgs.find((x:Array<number>)=>x[0] === formattedDate - 1);
     if (total < yesterday) total = yesterday // messages went down.

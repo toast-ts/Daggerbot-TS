@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import MessageTool from '../helpers/MessageTool.js';
 import path from 'node:path';
 import {readFileSync} from 'node:fs';
 import canvas from 'canvas';
@@ -68,8 +69,15 @@ export default {
 				let previousY: Array<number> = [];
 
 			  ctx.strokeStyle = '#202225'; //'#555B63';
+        if (chosen_interval === undefined) return interaction.reply({content: MessageTool.concatMessage(
+          'No data to display for now. It is also possible that the following either happened:',
+          '- No interval was found for the graph. This is likely due to the fact that there is not enough data to generate a graph.',
+          '- The level system was recently reset.',
+          '- The graph is currently being generated in the background. Please try again in a few minutes.',
+          'If you believe this is a mistake, please contact **Toast** or the **Discord Moderation** team.'
+        ), ephemeral: true});
 			  for (let i = 0; i <= chosen_interval[1]; i++) {
-			  	const y = graphOrigin[1] + graphSize[1] - (i * (chosen_interval[0] / second_graph_top) * graphSize[1]);
+          const y = graphOrigin[1] + graphSize[1] - (i * (chosen_interval[0] / second_graph_top) * graphSize[1]);
 			  	if (y < graphOrigin[1]) continue;
 			  	const even = ((i + 1) % 2) === 0;
 			  	if (even) ctx.strokeStyle = '#2c2f33'; //'#3E4245';
@@ -146,12 +154,13 @@ export default {
 			},
       notification: async()=>{
         const findUserInMongo = await client.userLevels._content.findById(interaction.user.id);
-        if (!findUserInMongo.notificationPing ?? findUserInMongo.notificationPing === false) {
+        const textDeco = ' be pinged for level-up notification in the future.'
+        if (!findUserInMongo.notificationPing) {
           await findUserInMongo.updateOne({_id: interaction.user.id, notificationPing: true})
-          interaction.reply({content: 'You will be pinged for level-up notification in the future.', ephemeral: true})
-        } else if (findUserInMongo.notificationPing === true) {
+          interaction.reply({content: 'You will'+textDeco, ephemeral: true})
+        } else if (findUserInMongo.notificationPing) {
           await findUserInMongo.updateOne({_id: interaction.user.id, notificationPing: false})
-          interaction.reply({content: 'You won\'t be pinged for level-up notification in the future.', ephemeral: true})
+          interaction.reply({content: 'You won\'t'+textDeco, ephemeral: true})
         }
       }
 		} as any)[interaction.options.getSubcommand()]();
