@@ -1,18 +1,15 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import TSClient from '../helpers/TSClient.js';
 import {Player,useTimeline,useQueue} from 'discord-player';
 import {SpotifyExtractor} from '@discord-player/extractor';
-import {readFileSync} from 'node:fs';
-import {Tokens} from 'src/typings/interfaces';
-const token:Tokens = JSON.parse(readFileSync('src/tokens.json', 'utf8'));
-// TODO: Fix above.
 
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!client.config.botSwitches.music && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
     if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('Music module is close to being completed, some parts may be incomplete or broken, so it has been restricted to staff for time-being.');
     const player = Player.singleton(client);
-    await player.extractors.register(SpotifyExtractor,{clientId: token.spotify.client, clientSecret: token.spotify.secret});
+    await player.extractors.register(SpotifyExtractor,{clientId: (await TSClient.Token()).spotify.client, clientSecret: (await TSClient.Token()).spotify.secret});
     if (!interaction.member.voice.channel) return interaction.reply('Please join a voice channel first to use the command.');
     player.nodes.create(interaction.guildId, {
       metadata: {
