@@ -1,9 +1,10 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import FormatTime from '../helpers/FormatTime.js';
+import MessageTool from '../helpers/MessageTool.js';
 export default {
 	run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!client.isStaff(interaction.member)) return client.youNeedRole(interaction, 'dcmod');
+    if (!MessageTool.isStaff(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
     const caseId = interaction.options.getInteger('id');
     ({
       update: async()=>{
@@ -18,8 +19,8 @@ export default {
         const cancelledBy = punishment.expired ? await client.punishments._content.findOne({cancels:punishment.id}) : null;
         const cancels = punishment.cancels ? await client.punishments._content.findOne({_id:punishment.cancels}) : null;
         const embed = new client.embed().setColor(client.config.embedColor).setTimestamp(punishment.time).setTitle(`${punishment.type[0].toUpperCase()+punishment.type.slice(1)} | Case #${punishment.id}`).addFields(
-          {name: '🔹 User', value: `<@${punishment.member}> \`${punishment.member}\``, inline: true},
-          {name: '🔹 Moderator', value: `<@${punishment.moderator}> \`${punishment.moderator}\``, inline: true},
+          {name: '🔹 User', value: `${MessageTool.formatMention(punishment.member, 'user')} \`${punishment.member}\``, inline: true},
+          {name: '🔹 Moderator', value: `${MessageTool.formatMention(punishment.moderator, 'user')} \`${punishment.moderator}\``, inline: true},
           {name: '\u200b', value: '\u200b', inline: true},
           {name: '🔹 Reason', value: `\`${punishment.reason || 'Reason unspecified'}\``, inline: true})
         if (punishment.duration) embed.addFields({name: '🔹 Duration', value: `${FormatTime(punishment.duration, 100)}`})
@@ -35,7 +36,7 @@ export default {
         const userPunishment = userPunishmentData.sort((a,b)=>a.time-b.time).map((punishment)=>{
           return {
             name: `${punishment.type[0].toUpperCase()+punishment.type.slice(1)} | Case #${punishment.id}`,
-            value: `Reason: \`${punishment.reason}\`\n${punishment.duration ? `Duration: ${FormatTime(punishment.duration, 3)}\n` : ''}Moderator: <@${punishment.moderator}>${punishment.expired ? `\nOverwritten by Case #${punishments.find(x=>x.cancels===punishment._id)?._id}` : ''}${punishment.cancels ? `\nOverwrites Case #${punishment.cancels}` : ''}`
+            value: `Reason: \`${punishment.reason}\`\n${punishment.duration ? `Duration: ${FormatTime(punishment.duration, 3)}\n` : ''}Moderator: ${MessageTool.formatMention(punishment.moderator, 'user')}${punishment.expired ? `\nOverwritten by Case #${punishments.find(x=>x.cancels===punishment._id)?._id}` : ''}${punishment.cancels ? `\nOverwrites Case #${punishment.cancels}` : ''}`
           }
         });
         if (!punishments || !userPunishment) return interaction.reply(`**${user.username}** has a clean record.`)

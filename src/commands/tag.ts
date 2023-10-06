@@ -8,7 +8,7 @@ export default {
     // If you question all those '?.', let me tell you: Discord.JS is fricking stupid and I am too stressed to find a solution for it.
   },
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (interaction.options.getSubcommandGroup() === 'management' && !client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'dcmod');
+    if (interaction.options.getSubcommandGroup() === 'management' && !MessageTool.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'dcmod');
     const tagData = async()=>await client.tags._content.findOne({_id: interaction.options.getString('name')});
     const tagMeta = {
       isEmbedTrue: async()=>(await tagData()).embedBool,

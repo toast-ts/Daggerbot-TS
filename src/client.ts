@@ -88,26 +88,35 @@ export default class TClient extends Discord.Client {
   }
   async init(){
     console.time('Startup');
-    CacheServer.init();
-    DatabaseServer.init();
-    this.login((await TSClient.Token()).main);
-    for (const file of readdirSync('dist/events')){
-      const eventFile = await import(`./events/${file}`);
-      this.on(file.replace('.js',''), async(...args)=>eventFile.default.run(this,...args))
-    }
-    for (const file of readdirSync('dist/commands')){
-      const command = await import(`./commands/${file}`);
-      this.commands.set(command.default.data.name,{command, uses: 0});
-      this.registry.push(command.default.data.toJSON())
-    }
-    for (const naming of Object.keys(this.config.MPStatsLocation)){
+    await Promise.all([
+      CacheServer.init(),
+      DatabaseServer.init(),
+      this.login((await TSClient.Token()).main)
+    ]);
+
+    const eventFiles = await Promise.all(
+      readdirSync('dist/events').map(file=>import(`./events/${file}`))
+    );
+    eventFiles.forEach((eventFile, index)=>{
+      const eventName = readdirSync('dist/events')[index].replace('.js', '');
+      this.on(eventName, async(...args)=>eventFile.default.run(this, ...args));
+    });
+
+    const commandFiles = await Promise.all(
+      readdirSync('dist/commands').map(file=>import(`./commands/${file}`))
+    );
+    commandFiles.forEach(commandFile=>{
+      const {default: command} = commandFile;
+      this.commands.set(command.data.name, {command, uses: 0});
+      this.registry.push(command.data.toJSON());
+    });
+
+    Object.keys(this.config.MPStatsLocation).forEach(naming=>{
       this.MPServerCache[naming] = {
         players: [],
         status: null,
         name: null
       }
-    }
+    });
   }
-  isStaff = (guildMember:Discord.GuildMember)=>this.config.mainServer.staffRoles.map((x: string)=>this.config.mainServer.roles[x]).some((x: string)=>guildMember.roles.cache.has(x));
-  youNeedRole = (interaction:Discord.CommandInteraction, role:string)=>interaction.reply(`This command is restricted to <@&${this.config.mainServer.roles[role]}>`);
 }

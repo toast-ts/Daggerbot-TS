@@ -1,8 +1,10 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-
+import chalk from 'chalk';
 export default {
   async run(client:TClient){
+    const botSwitches = Object.entries(client.config.botSwitches).map(([k, v])=>`${chalk.yellow(k)}${chalk.black(':')} ${v}`).join('\n').replace(/true/g, chalk.green('true')).replace(/false/g, chalk.red('false'));
+
     await client.guilds.fetch(client.config.mainServer.id).then(async guild=>{
       await guild.members.fetch();
       setInterval(()=>{
@@ -19,7 +21,7 @@ export default {
     }
     console.log(`${client.user.username} has logged into Discord API`);
     console.log(client.config.botSwitches, client.config.whitelistedServers);
-    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send({content: `${client.user.username} is active`, embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`\`\`\`json\n${Object.entries(client.config.botSwitches).map(x=>`${x[0]}: ${x[1]}`).join('\n')}\`\`\``)]});
+    (client.channels.resolve(client.config.mainServer.channels.bot_status) as Discord.TextChannel).send({content: `**${client.user.username}** is active`, embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`**\`\`\`ansi\n${botSwitches}\n\`\`\`**`)]});
     console.timeEnd('Startup')
   }
 }
