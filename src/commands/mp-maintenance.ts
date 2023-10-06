@@ -1,10 +1,10 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (client.config.mainServer.id === interaction.guildId) {
-      if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
+      if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return MessageTool.youNeedRole(interaction, 'mpmanager');
     }
     const maintenanceMessage = interaction.options.getString('message');
     const activePlayersChannel = '739084625862852715';

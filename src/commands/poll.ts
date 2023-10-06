@@ -1,11 +1,11 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import {writeFileSync, existsSync, mkdirSync} from 'node:fs';
-
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (client.config.mainServer.id === interaction.guildId) {
-      if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'mpmod');
+      if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
     }
     const channelId = '1084864116776251463'; // #mp-announcements
     ({

@@ -1,4 +1,8 @@
 import Discord from 'discord.js';
+import {readFileSync} from 'node:fs';
+import {Config} from 'src/typings/interfaces';
+const config:Config = JSON.parse(readFileSync('src/config.json', 'utf8'));
+type RoleKeys = keyof typeof config.mainServer.roles;
 
 export default class MessageTool {
   static embedMusic(color:Discord.ColorResolvable, title:string, thumbnail?:string, footer?:string){
@@ -18,6 +22,12 @@ export default class MessageTool {
   }
   static formatMention(mention:string, type:'user'|'channel'|'role'){
     return `<@${type === 'role' ? '&' : type === 'channel' ? '#' : ''}${mention}>`
+  }
+  static isStaff(guildMember:Discord.GuildMember){
+    return config.mainServer.staffRoles.map((x:string)=>config.mainServer.roles[x]).some((x:string)=>guildMember.roles.cache.has(x));
+  }
+  static youNeedRole(interaction:Discord.CommandInteraction, role:RoleKeys){
+    return interaction.reply(`This command is restricted to ${this.formatMention(config.mainServer.roles[role], 'role')}`);
   }
 }
 // I want to come up with better name instead of calling this file "MessageTool", but I am super bad at naming things.

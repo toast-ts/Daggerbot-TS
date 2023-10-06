@@ -3,11 +3,11 @@ import TClient from '../client.js';
 import TSClient from '../helpers/TSClient.js';
 import {Player,useTimeline,useQueue} from 'discord-player';
 import {SpotifyExtractor} from '@discord-player/extractor';
-
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!client.config.botSwitches.music && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content:'Music module is currently disabled.',ephemeral:true});
-    if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('Music module is close to being completed, some parts may be incomplete or broken, so it has been restricted to staff for time-being.');
+    if (!MessageTool.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return interaction.reply('Music module is close to being completed, some parts may be incomplete or broken, so it has been restricted to staff for time-being.');
     const player = Player.singleton(client);
     await player.extractors.register(SpotifyExtractor,{clientId: (await TSClient.Token()).spotify.client, clientSecret: (await TSClient.Token()).spotify.secret});
     if (!interaction.member.voice.channel) return interaction.reply('Please join a voice channel first to use the command.');

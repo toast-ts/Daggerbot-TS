@@ -18,7 +18,7 @@ export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (client.uptime < 35000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.');
     const serverSelector = interaction.options.getString('server');
-    if (['468835769092669461', '1149238561934151690'].includes(interaction.channelId) && !client.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
+    if (['468835769092669461', '1149238561934151690'].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
 
     const database = await client.MPServer.findInCache(interaction.guildId);
     const endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':'Daggerbot - MPdata/undici'}}).then(r=>r.json() as Promise<FSData>);
@@ -190,7 +190,7 @@ export default {
       },
       url: async()=>{
         if (client.config.mainServer.id == interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return client.youNeedRole(interaction, 'mpmanager');
+          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         const address = interaction.options.getString('address');
         if (!address){

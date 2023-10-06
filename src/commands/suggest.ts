@@ -10,7 +10,7 @@ export default {
     const theirIdea = (await client.suggestion._content.findById(suggestionIDReply))?.idea;
     const timeFormatting = client.moment().format('DD/MM/YY h:mm A');
     const stateChanged = 'Suggestion state has been successfully updated and DM is sent.';
-    const dmFail = `Failed to send a DM to <@${userid}>, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
+    const dmFail = `Failed to send a DM to ${MessageTool.formatMention(userid, 'user')}, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
     ({
       your: async()=>{
         const webhook = await (await (client.channels.fetch(client.config.mainServer.channels.bot_suggestions) as Promise<Discord.TextChannel>)).fetchWebhooks().then(x => x.find(y => y.name === client.user.username));
@@ -36,7 +36,7 @@ export default {
       },
       approve: async()=>{
         if (client.config.mainServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
+          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
         }
         if ((await client.suggestion._content.findById(suggestionIDReply)).state === 'Rejected') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
@@ -51,7 +51,7 @@ export default {
       },
       reject: async()=>{
         if (client.config.mainServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return client.youNeedRole(interaction, 'bottech');
+          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
         }
         if ((await client.suggestion._content.findById(suggestionIDReply)).state === 'Approved') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
         (await client.users.fetch(userid)).send({embeds: [new client.embed()
