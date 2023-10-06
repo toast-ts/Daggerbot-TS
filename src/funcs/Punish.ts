@@ -1,9 +1,9 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
-
+import MessageTool from '../helpers/MessageTool.js';
 export default async(client:TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: string)=>{
-  if (!client.isStaff(interaction.member as Discord.GuildMember)) return client.youNeedRole(interaction, 'dcmod');
+  if (!MessageTool.isStaff(interaction.member as Discord.GuildMember)) return MessageTool.youNeedRole(interaction, 'dcmod');
 
   const time = interaction.options.getString('time') ?? undefined;
   const reason = interaction.options.getString('reason') ?? 'Reason unspecified';

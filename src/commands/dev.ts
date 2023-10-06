@@ -11,33 +11,48 @@ import fs from 'node:fs';
 import util from 'node:util';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
-    if (!client.config.whitelist.includes(interaction.user.id)) return client.youNeedRole(interaction, 'bottech');
+    if (!client.config.whitelist.includes(interaction.user.id)) return MessageTool.youNeedRole(interaction, 'bottech');
     ({
       eval: async()=>{
         if (!client.config.eval) return interaction.reply({content: 'Eval is currently disabled.', ephemeral: true});
         const code = interaction.options.getString('code') as string;
+        let consoleOutput:string = '';
+
+        const deleteEmbedBtn = new Discord.ButtonBuilder().setCustomId('deleteEmbed').setLabel('Delete').setStyle(Discord.ButtonStyle.Danger).setEmoji('🗑️');
+        const deleteEmbedRow = new Discord.ActionRowBuilder<Discord.ButtonBuilder>().addComponents(deleteEmbedBtn);
+        const deleteEmbedCollector = interaction.channel.createMessageComponentCollector({componentType: Discord.ComponentType.Button});
+        deleteEmbedCollector.on('collect', async i=>{
+          if (i.customId === 'deleteEmbed') deleteEmbedCollector.stop();
+        });
 
         try {
+          const consoleLog = console.log;
+          console.log = (...args: any[])=>{
+            consoleLog(...args);
+            consoleOutput += util.formatWithOptions({depth: 2, colors: true}, ...args) + '\n';
+          }
+
           const output = await eval(interaction.options.getBoolean('async') ? `(async()=>{${code}})()` : code);
+          let outVal = output !== undefined ? output : 'No output';
+          if (outVal && outVal.includes && outVal.includes(client.token)) outVal = outVal.replace(client.token, '*'.repeat(8));
+          const embedFields:Discord.APIEmbedField[] = [
+            {name: 'Input', value: `\`\`\`js\n${code.slice(0,1020)}\n\`\`\``},
+            {name: 'Output', value: `**\`\`\`${UsernameHelper.stripName(outVal === 'string' ? String(outVal) : 'ansi\n'+util.formatWithOptions({depth: 2, colors: true}, '%O', outVal)).slice(0,1012)}\n\`\`\`**`}
+          ];
+          if (consoleOutput) embedFields.push({name: 'Console', value: `**\`\`\`ansi\n${UsernameHelper.stripName(consoleOutput).slice(0,1008)}\n\`\`\`**`});
           if (typeof output === 'object') {
-            const embed = new client.embed().setColor(client.config.embedColor).addFields(
-              {name: 'Input', value: `\`\`\`js\n${code.slice(0,1020)}\n\`\`\``},
-              {name: 'Output', value: `\`\`\`${UsernameHelper.stripName('ansi\n'+util.formatWithOptions({depth: 2, colors: true}, '%O', output)).slice(0,1016)}\n\`\`\``}
-            );
-            interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
+            const embed = new client.embed().setColor(client.config.embedColor).addFields(embedFields);
+            interaction.reply({embeds: [embed], components: [deleteEmbedRow]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed], components: [deleteEmbedRow]}));
           } else {
-            const embed = new client.embed().setColor(client.config.embedColor).addFields(
-              {name: 'Input', value: `\`\`\`js\n${code.slice(0,1020)}\n\`\`\``},
-              {name: 'Output', value: `\`\`\`${UsernameHelper.stripName('\n' + String(output)).slice(0,1016)}\n\`\`\``}
-            );
-            interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]}));
+            const embed = new client.embed().setColor(client.config.embedColor).addFields(embedFields);
+            interaction.reply({embeds: [embed], components: [deleteEmbedRow]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed], components: [deleteEmbedRow]}));
           }
         } catch (err) {
           const embed = new client.embed().setColor('#560000').addFields(
             {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1020)}\n\`\`\``},
             {name: 'Output', value: `\`\`\`\n${err}\`\`\``}
           );
-          interaction.reply({embeds: [embed]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed]})).then(()=>{
+          interaction.reply({embeds: [embed], components: [deleteEmbedRow]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed], components: [deleteEmbedRow]})).then(()=>{
             const filter = (x:Discord.Message)=>x.content.includes('console') && x.author.id === interaction.user.id
             const messagecollector = (interaction.channel as Discord.TextChannel).createMessageCollector({filter, max: 1, time: 60000});
             messagecollector.on('collect', collected=>{
@@ -45,6 +60,8 @@ export default {
               collected.reply(`\`\`\`\n${UsernameHelper.stripName(err.stack)}\n\`\`\``);
             });
           });
+        } finally {
+          console.log = console.log;
         }
       },
       update: async()=>{

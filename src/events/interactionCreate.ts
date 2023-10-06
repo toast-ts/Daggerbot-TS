@@ -11,17 +11,17 @@ export default {
       if (!client.config.botSwitches.commands && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: `I am currently operating in development mode.\nPlease notify <@${client.config.whitelist[0]}> if this is a mistake.`, ephemeral: true});
       if (commandFile){
         try{
-          commandFile.command.default.run(client, interaction);
-          commandFile.command.default.autocomplete ? commandFile.command.default.autocomplete(interaction) : undefined;
+          commandFile.command.run(client, interaction);
+          commandFile.command.autocomplete ? commandFile.command.autocomplete(interaction) : undefined;
           commandFile.uses ? commandFile.uses++ : commandFile.uses = 1;
         } catch (error){
-          console.log(`An error occurred while running command "${interaction.commandName} ${interaction.options.getSubcommand(false) ?? ''}"`, error, error.stack);
-          return interaction.reply('An error occurred while executing that command.');
+          console.log(`An error occurred while running command "${interaction.commandName} ${interaction.options.getSubcommandGroup(false) ?? ''} ${interaction.options.getSubcommand(false) ?? ''}"`, error, error.stack);
+          return interaction.reply('An error occurred while running that command.');
         }
       }
     } else if (interaction.isAutocomplete()){
       try {
-        await client.commands.get(interaction.commandName).command.default.autocomplete(client, interaction);
+        await client.commands.get(interaction.commandName).command.autocomplete(client, interaction);
       } catch (error){
         return console.log('An error occurred while running autocomplete:\n', error)
       }
@@ -45,6 +45,10 @@ export default {
           interaction.member.roles.add(RoleID, 'Button Role');
           interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true})
         }
+      } else if (interaction.customId.includes('deleteEmbed')) {
+        if (!client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: '*Only whitelisted people can delete this embed.*', ephemeral: true});
+        interaction.message.edit({content: '*Deleted.*', embeds: [], components: []});
+        Logger.forwardToConsole('log', 'InteractionLog', `Embed has been deleted at ${interaction.message.url}`);
       } else Logger.forwardToConsole('log', 'InteractionLog', `Button has been pressed at ${interaction.message.url}`);
     }
   }

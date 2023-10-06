@@ -1,9 +1,10 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import {writeFileSync} from 'node:fs';
+import MessageTool from '../helpers/MessageTool.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!client.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return client.youNeedRole(interaction, 'admin')
+    if (!MessageTool.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'admin');
     const word = interaction.options.getString('word');
     const wordExists = await client.bannedWords._content.findById(word);
     ({
