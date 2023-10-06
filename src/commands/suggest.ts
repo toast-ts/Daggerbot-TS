@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
+import HookMgr from '../funcs/HookManager.js';
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const replyInDM = interaction.options.getString('message');
@@ -13,7 +14,6 @@ export default {
     const dmFail = `Failed to send a DM to ${MessageTool.formatMention(userid, 'user')}, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
     ({
       your: async()=>{
-        const webhook = await (await (client.channels.fetch(client.config.mainServer.channels.bot_suggestions) as Promise<Discord.TextChannel>)).fetchWebhooks().then(x => x.find(y => y.name === client.user.username));
         const suggestionText = interaction.options.getString('suggestion');
         const suggestionImage = interaction.options.getAttachment('image');
         const notifEmbed = new client.embed()
@@ -26,11 +26,10 @@ export default {
             suggestionText
           ));
         if (suggestionImage) notifEmbed.setImage(suggestionImage.url);
-        webhook.send({embeds: [notifEmbed], username: `${client.user.username} Notification`, avatarURL: client.user.avatarURL({size: 256})}
-        ).catch(e=>{
+        HookMgr.send(client, 'bot_suggestions', '1079621523561779272', {embeds:[notifEmbed], username: `${client.user.username} Suggestions`, avatarURL: client.user.avatarURL({size:256})}).catch(e=>{
           console.log(e.message);
           interaction.reply({content: 'Failed to send suggestion, try again later.', ephemeral: true})
-        })
+        });
         await client.suggestion._content.create({_id: suggestionID, idea: suggestionText, user: {_id: interaction.user.id, name: interaction.user.username}, state: 'Pending'});
         interaction.reply({content: `Suggestion sent, here is your suggestion ID to take note of it: \`${suggestionID}\``, ephemeral: true})
       },
