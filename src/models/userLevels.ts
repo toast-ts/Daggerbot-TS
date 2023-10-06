@@ -21,8 +21,8 @@ export default class userLevels extends Schema {
     this._content = Schema;
   }
   async resetAllData(){
-    // Every 1st of January at 00:00
-    cron.schedule('0 0 1 1 *', async()=>{
+    // Every 1st of January at 11:00 (Midnight in London, 11AM in Sydney)
+    cron.schedule('0 11 1 1 *', async()=>{
       Logger.forwardToConsole('log', 'Cron', 'Running job "resetAllData", this is activated every 1st of January');
       const countDataBeforeReset = await this._content.countDocuments();
       Logger.forwardToConsole('log', 'Cron:resetAllData', `Counted ${countDataBeforeReset.toLocaleString()} documents before reset`);
