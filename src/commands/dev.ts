@@ -29,7 +29,7 @@ export default {
           const consoleLog = console.log;
           console.log = (...args: any[])=>{
             consoleLog(...args);
-            consoleOutput += util.formatWithOptions({depth: 2, colors: true}, ...args) + '\n';
+            consoleOutput += util.formatWithOptions({depth: 3, colors: true}, ...args) + '\n';
           }
 
           const output = await eval(interaction.options.getBoolean('async') ? `(async()=>{${code}})()` : code);
@@ -37,7 +37,7 @@ export default {
           if (outVal && outVal.includes && outVal.includes(client.token)) outVal = outVal.replace(client.token, '*'.repeat(8));
           const embedFields:Discord.APIEmbedField[] = [
             {name: 'Input', value: `\`\`\`js\n${code.slice(0,1020)}\n\`\`\``},
-            {name: 'Output', value: `**\`\`\`${UsernameHelper.stripName(outVal === 'string' ? String(outVal) : 'ansi\n'+util.formatWithOptions({depth: 2, colors: true}, '%O', outVal)).slice(0,1012)}\n\`\`\`**`}
+            {name: 'Output', value: `**\`\`\`${UsernameHelper.stripName(outVal === 'string' ? String(outVal) : 'ansi\n'+util.formatWithOptions({depth: 3, colors: true}, '%O', outVal)).slice(0,1012)}\n\`\`\`**`}
           ];
           if (consoleOutput) embedFields.push({name: 'Console', value: `**\`\`\`ansi\n${UsernameHelper.stripName(consoleOutput).slice(0,1008)}\n\`\`\`**`});
           if (typeof output === 'object') {
