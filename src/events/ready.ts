@@ -1,9 +1,9 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import chalk from 'chalk';
+import ansi from 'ansi-colors';
 export default {
   async run(client:TClient){
-    const botSwitches = Object.entries(client.config.botSwitches).map(([k, v])=>`${chalk.yellow(k)}${chalk.black(':')} ${v}`).join('\n').replace(/true/g, chalk.green('true')).replace(/false/g, chalk.red('false'));
+    const botSwitches = Object.entries(client.config.botSwitches).map(([k, v])=>`${ansi.yellow(k)}${ansi.black(':')} ${v}`).join('\n').replace(/true/g, ansi.green('true')).replace(/false/g, ansi.red('false'));
 
     await client.guilds.fetch(client.config.mainServer.id).then(async guild=>{
       await guild.members.fetch();
