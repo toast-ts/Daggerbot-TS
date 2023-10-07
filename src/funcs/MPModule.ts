@@ -6,6 +6,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import FormatPlayer from '../helpers/FormatPlayer.js';
 import Logger from '../helpers/Logger.js';
+import HookMgr from './HookManager.js';
 import {writeFileSync, readFileSync} from 'node:fs';
 import {FSPlayer, FSData, FSCareerSavegame} from '../typings/interfaces';
 
@@ -14,6 +15,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
   const serverErrorEmbed = new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time');
   const genericEmbed = new client.embed();
+  const refreshIntervalText = 'Refreshes every 35 seconds.';
   let sessionInit = {signal: AbortSignal.timeout(8500),headers:{'User-Agent':'Daggerbot - HITALL/undici'}};
   
   try {
@@ -81,8 +83,54 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
         {name: 'Timescale', value: isNaN(Number(hitCSG?.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(hitCSG.settings?.timeScale._text), 0, 'x'), inline: true}
       );
       const playersEmbed = new client.embed().setColor(client.config.embedColor).setTitle(hitDSS.server.name).setDescription(hitDSS.slots.used < 1 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${hitDSS.slots.used}/${hitDSS.slots.capacity}`});
-      msg.edit({content:'This embed updates every 35 seconds.',embeds:[serverDetails, playersEmbed]});
+      msg.edit({content:refreshIntervalText,embeds:[serverDetails, playersEmbed]});
     }
+
+    // #multifarm_chat webhook
+    let dataUnavailable = 'Unavailable';
+    const growthModeTextMap = {
+      '1': 'Yes',
+      '2': 'No',
+      '3': 'Growth paused'
+    }
+    const growthModeText = growthModeTextMap[hitCSG.settings.growthMode._text] ?? dataUnavailable;
+
+    function genericMapping<T>(map: Record<string, T>, key: string, defaultValue: T): T {
+      return map[key] ?? defaultValue;
+    }
+    const genericTextMap = {
+      'false': 'Off',
+      'true': 'On'
+    }
+
+    const fuelUsageTextMap = {
+      '1': 'Low',
+      '2': 'Normal',
+      '3': 'High'
+    }
+    const fuelUsageText = fuelUsageTextMap[hitCSG.settings.fuelUsage._text] ?? dataUnavailable;
+
+    const dirtIntervalTextMap = {
+      '1': 'Off',
+      '2': 'Slow',
+      '3': 'Normal',
+      '4': 'Fast'
+    }
+    const dirtIntervalText = dirtIntervalTextMap[hitCSG.settings.dirtInterval._text] ?? dataUnavailable;
+    // Edit the embed in #multifarm_chat
+    HookMgr.edit(client, 'mf_chat', '1159998634604109897', '1160098458997370941', {
+      content: refreshIntervalText,
+      embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Savegame Settings').addFields(
+          {name: 'Seasonal Growth', value: growthModeText, inline: true},
+          {name: 'Crop Destruction', value: genericMapping(genericTextMap, hitCSG.settings.fruitDestruction._text, dataUnavailable), inline: true},
+          {name: 'Periodic Plowing', value: genericMapping(genericTextMap, hitCSG.settings.plowingRequiredEnabled._text, dataUnavailable), inline: true},
+          {name: 'Stones', value: genericMapping(genericTextMap, hitCSG.settings.stonesEnabled._text, dataUnavailable), inline: true},
+          {name: 'Lime', value: genericMapping(genericTextMap, hitCSG.settings.limeRequired._text, dataUnavailable), inline: true},
+          {name: 'Weeds', value: genericMapping(genericTextMap, hitCSG.settings.weedsEnabled._text, dataUnavailable), inline: true},
+          {name: 'Fuel Usage', value: fuelUsageText, inline: true},
+          {name: 'Dirt Interval', value: dirtIntervalText, inline: true},
+        ).setFooter({text: 'Last updated'}).setTimestamp()]
+    });
   } catch(err) {
     msg.edit({content: err.message, embeds: [serverErrorEmbed]});
     Logger.forwardToConsole('log', 'MPModule', `Failed to make a request for ${ServerName}: ${err.message}`);
