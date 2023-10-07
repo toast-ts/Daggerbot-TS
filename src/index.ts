@@ -5,10 +5,7 @@ client.init();
 import Logger from './helpers/Logger.js';
 import YTModule from './funcs/YTModule.js';
 import MPModule from './funcs/MPModule.js';
-import {Player} from 'discord-player';
-const player = Player.singleton(client);
 import {Punishment} from './typings/interfaces';
-import MessageTool from './helpers/MessageTool.js';
 import {writeFileSync, readFileSync} from 'node:fs';
 
 // Error handler
@@ -21,19 +18,6 @@ process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection')
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));
 process.on('error', (error: Error)=>DZ(error, 'nodeError'));
 client.on('error', (error: Error)=>DZ(error, 'clientError'));
-
-// Audio Player event handling
-if (client.config.botSwitches.music){
-  player.events.on('playerStart', (queue,track)=>queue.channel.send({embeds:[MessageTool.embedMusic(client.config.embedColor, `Next up: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
-  player.events.on('audioTrackAdd', (queue,track)=>queue.channel.send({embeds:[MessageTool.embedMusic(client.config.embedColorGreen, `Added: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
-  player.events.on('audioTrackRemove', (queue, track)=>queue.channel.send({embeds:[MessageTool.embedMusic(client.config.embedColor, `Removed: ${track.raw.title} - ${track.raw.author}`,track.raw.thumbnail)]}));
-  player.events.on('emptyQueue', queue=>{
-    if (queue.tracks.size < 1) return queue.channel.send('There\'s no songs left in the queue, leaving voice channel in 15 seconds.').then(()=>setTimeout(()=>queue.connection.disconnect(), 15000))
-  });
-  player.events.on('playerPause', queue=>queue.channel.send({embeds:[MessageTool.embedMusic(client.config.embedColor, 'Player has been paused.\nRun the command to unpause it')]}));
-  player.events.on('playerError', (_, error)=>DZ(error, 'playerError')); // I don't know if both of these actually works, because most
-  player.events.on('error', (_, error)=>DZ(error, 'playerInternalError')); // errors from the player is coming from unhandledRejection
-}
 
 // YouTube Upload notification and MP loop
 if (client.config.botSwitches.mpstats) setInterval(async()=>{

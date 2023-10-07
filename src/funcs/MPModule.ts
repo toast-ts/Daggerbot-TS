@@ -12,6 +12,7 @@ import {FSPlayer, FSData, FSCareerSavegame} from '../typings/interfaces';
 
 export default async(client:TClient, Channel:string, Message:string, Server:TServer, ServerName:string)=>{
   let playerData:Array<string> = [];
+  let dataUnavailable = 'Unavailable'
   const msg = await (client.channels.resolve(Channel) as Discord.TextChannel).messages.fetch(Message);
   const serverErrorEmbed = new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time');
   const genericEmbed = new client.embed();
@@ -20,7 +21,8 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   
   try {
     const hitDSS = await fetch(Server.ip+'/feed/dedicated-server-stats.json?code='+Server.code, sessionInit).then(r=>r.json() as Promise<FSData>);
-    const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(client.xjs.xml2js(await r.text(), {compact: true}) as any).careerSavegame as FSCareerSavegame);
+    const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(new client.fxp.XMLParser({ignoreAttributes: false, transformAttributeName(attributeName){return attributeName.replaceAll('@_','')}}).parse(await r.text()) as any).careerSavegame as FSCareerSavegame);
+    console.log(hitCSG.settings)
 
     if (!hitDSS ?? !hitCSG){
       if (hitDSS && !hitDSS.slots) return Logger.forwardToConsole('log', 'MPModule', `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
@@ -78,22 +80,21 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
         {name: 'Current map', value: hitDSS.server.mapName, inline: true},
         {name: 'Server version', value: hitDSS.server.version, inline: true},
         {name: 'In-game Time', value: `${('0'+Math.floor((hitDSS.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((hitDSS.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
-        {name: 'Slot Usage', value: isNaN(Number(hitCSG?.slotSystem?._attributes.slotUsage)) === true ? 'Unavailable' : Number(hitCSG.slotSystem?._attributes.slotUsage).toLocaleString('en-us'), inline: true},
-        {name: 'Autosave Interval', value: isNaN(Number(hitCSG?.settings?.autoSaveInterval._text)) === true ? 'Unavailable' : Number(hitCSG.settings?.autoSaveInterval._text).toFixed(0)+' mins', inline:true},
-        {name: 'Timescale', value: isNaN(Number(hitCSG?.settings?.timeScale._text)) === true ? 'Unavailable' : formatTimescale(Number(hitCSG.settings?.timeScale._text), 0, 'x'), inline: true}
+        {name: 'Slot Usage', value: isNaN(Number(hitCSG?.slotSystem?.slotUsage)) === true ? dataUnavailable : Number(hitCSG.slotSystem?.slotUsage).toLocaleString('en-us'), inline: true},
+        {name: 'Autosave Interval', value: isNaN(Number(hitCSG?.settings?.autoSaveInterval)) === true ? dataUnavailable : Number(hitCSG.settings?.autoSaveInterval).toFixed(0)+' mins', inline:true},
+        {name: 'Timescale', value: isNaN(Number(hitCSG?.settings?.timeScale)) === true ? dataUnavailable : formatTimescale(Number(hitCSG.settings?.timeScale), 0, 'x'), inline: true}
       );
       const playersEmbed = new client.embed().setColor(client.config.embedColor).setTitle(hitDSS.server.name).setDescription(hitDSS.slots.used < 1 ? '*No players online*' : playerData.join('\n\n')).setAuthor({name:`${hitDSS.slots.used}/${hitDSS.slots.capacity}`});
       msg.edit({content:refreshIntervalText,embeds:[serverDetails, playersEmbed]});
     }
 
     // #multifarm_chat webhook
-    let dataUnavailable = 'Unavailable';
     const growthModeTextMap = {
       '1': 'Yes',
       '2': 'No',
       '3': 'Growth paused'
     }
-    const growthModeText = growthModeTextMap[hitCSG?.settings.growthMode._text] ?? dataUnavailable;
+    const growthModeText = growthModeTextMap[hitCSG?.settings.growthMode] ?? dataUnavailable;
 
     function genericMapping<T>(map: Record<string, T>, key: string, defaultValue: T): T {
       return map[key] ?? defaultValue;
@@ -108,7 +109,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       '2': 'Normal',
       '3': 'High'
     }
-    const fuelUsageText = fuelUsageTextMap[hitCSG?.settings.fuelUsage._text] ?? dataUnavailable;
+    const fuelUsageText = fuelUsageTextMap[hitCSG?.settings.fuelUsage] ?? dataUnavailable;
 
     const dirtIntervalTextMap = {
       '1': 'Off',
@@ -116,17 +117,17 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       '3': 'Normal',
       '4': 'Fast'
     }
-    const dirtIntervalText = dirtIntervalTextMap[hitCSG?.settings.dirtInterval._text] ?? dataUnavailable;
+    const dirtIntervalText = dirtIntervalTextMap[hitCSG?.settings.dirtInterval] ?? dataUnavailable;
     // Edit the embed in #multifarm_chat
     HookMgr.edit(client, 'mf_chat', '1159998634604109897', '1160098458997370941', {
       content: refreshIntervalText,
       embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Savegame Settings').addFields(
           {name: 'Seasonal Growth', value: growthModeText, inline: true},
-          {name: 'Crop Destruction', value: genericMapping(genericTextMap, hitCSG?.settings.fruitDestruction._text, dataUnavailable), inline: true},
-          {name: 'Periodic Plowing', value: genericMapping(genericTextMap, hitCSG?.settings.plowingRequiredEnabled._text, dataUnavailable), inline: true},
-          {name: 'Stones', value: genericMapping(genericTextMap, hitCSG?.settings.stonesEnabled._text, dataUnavailable), inline: true},
-          {name: 'Lime', value: genericMapping(genericTextMap, hitCSG?.settings.limeRequired._text, dataUnavailable), inline: true},
-          {name: 'Weeds', value: genericMapping(genericTextMap, hitCSG?.settings.weedsEnabled._text, dataUnavailable), inline: true},
+          {name: 'Crop Destruction', value: genericMapping(genericTextMap, hitCSG?.settings.fruitDestruction, dataUnavailable), inline: true},
+          {name: 'Periodic Plowing', value: genericMapping(genericTextMap, hitCSG?.settings.plowingRequiredEnabled, dataUnavailable), inline: true},
+          {name: 'Stones', value: genericMapping(genericTextMap, hitCSG?.settings.stonesEnabled, dataUnavailable), inline: true},
+          {name: 'Lime', value: genericMapping(genericTextMap, hitCSG?.settings.limeRequired, dataUnavailable), inline: true},
+          {name: 'Weeds', value: genericMapping(genericTextMap, hitCSG?.settings.weedsEnabled, dataUnavailable), inline: true},
           {name: 'Fuel Usage', value: fuelUsageText, inline: true},
           {name: 'Dirt Interval', value: dirtIntervalText, inline: true},
         ).setFooter({text: 'Last updated'}).setTimestamp()]

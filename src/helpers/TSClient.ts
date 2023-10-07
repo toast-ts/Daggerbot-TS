@@ -2,11 +2,7 @@ interface TokenService_API {
   main:      string,
   mongodb_uri: string,
   redis_uri: string,
-  octokit:   string,
-  spotify: {
-    client:  string,
-    secret:  string
-  }
+  octokit:   string
 }
 
 export default class TSClient {

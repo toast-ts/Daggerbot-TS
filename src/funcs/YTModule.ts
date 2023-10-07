@@ -11,7 +11,7 @@ export default async(client:TClient, YTChannelID:string, YTChannelName:string, D
     await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${YTChannelID}`, {
       signal: AbortSignal.timeout(10000),
       headers: {'User-Agent':'Daggerbot - Notification/undici'},
-    }).then(async xml=>(Data = client.xjs.xml2js(await xml.text(), {compact: true})));
+    }).then(async xml=>(Data = new client.fxp.XMLParser({ignoreAttributes: false, transformAttributeName(attributeName){return attributeName.replaceAll('@_','')}}).parse(await xml.text()) as any));
   } catch (err) {
     Logger.forwardToConsole('log', 'YTModule', `Failed to fetch "${YTChannelName}" from YouTube`);
   }

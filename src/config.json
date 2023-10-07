@@ -1,4 +1,5 @@
 {
+  "configName": "Daggerbot",
   "embedColor": "#ff69b4",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
@@ -26,7 +27,6 @@
     "registerCommands": true,
     "commands": true,
     "logs": true,
-    "music": true,
     "buttonRoles": true,
     "automod": true,
     "mpstats": true,
@@ -34,7 +34,7 @@
   },
   "botPresence": {
 	  "activities": [
-		  {"name": "Today is October!", "url": "https://www.youtube.com/watch?v=kpGdeUE26Dk", "type": 1}
+		  {"name": "Today is October!", "url": "https://www.youtube.com/watch?v=8wx8lmN5d-I", "type": 1}
 	  ],
 	  "status": "online"
 	},

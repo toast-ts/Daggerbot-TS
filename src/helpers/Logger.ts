@@ -1,8 +1,8 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default class Logger {
   static logTime() {
-    return `[${moment().format('DD/MM/YY HH:mm:ss')}]`;
+    return `[${dayjs().format('DD/MM/YY HH:mm:ss')}]`;
   }
   static logPrefix(prefix:string) {
     return `[${prefix}]`;
