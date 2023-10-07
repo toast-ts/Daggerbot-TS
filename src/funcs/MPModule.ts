@@ -93,7 +93,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       '2': 'No',
       '3': 'Growth paused'
     }
-    const growthModeText = growthModeTextMap[hitCSG.settings.growthMode._text] ?? dataUnavailable;
+    const growthModeText = growthModeTextMap[hitCSG?.settings.growthMode._text] ?? dataUnavailable;
 
     function genericMapping<T>(map: Record<string, T>, key: string, defaultValue: T): T {
       return map[key] ?? defaultValue;
@@ -108,7 +108,7 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       '2': 'Normal',
       '3': 'High'
     }
-    const fuelUsageText = fuelUsageTextMap[hitCSG.settings.fuelUsage._text] ?? dataUnavailable;
+    const fuelUsageText = fuelUsageTextMap[hitCSG?.settings.fuelUsage._text] ?? dataUnavailable;
 
     const dirtIntervalTextMap = {
       '1': 'Off',
@@ -116,17 +116,17 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
       '3': 'Normal',
       '4': 'Fast'
     }
-    const dirtIntervalText = dirtIntervalTextMap[hitCSG.settings.dirtInterval._text] ?? dataUnavailable;
+    const dirtIntervalText = dirtIntervalTextMap[hitCSG?.settings.dirtInterval._text] ?? dataUnavailable;
     // Edit the embed in #multifarm_chat
     HookMgr.edit(client, 'mf_chat', '1159998634604109897', '1160098458997370941', {
       content: refreshIntervalText,
       embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Savegame Settings').addFields(
           {name: 'Seasonal Growth', value: growthModeText, inline: true},
-          {name: 'Crop Destruction', value: genericMapping(genericTextMap, hitCSG.settings.fruitDestruction._text, dataUnavailable), inline: true},
-          {name: 'Periodic Plowing', value: genericMapping(genericTextMap, hitCSG.settings.plowingRequiredEnabled._text, dataUnavailable), inline: true},
-          {name: 'Stones', value: genericMapping(genericTextMap, hitCSG.settings.stonesEnabled._text, dataUnavailable), inline: true},
-          {name: 'Lime', value: genericMapping(genericTextMap, hitCSG.settings.limeRequired._text, dataUnavailable), inline: true},
-          {name: 'Weeds', value: genericMapping(genericTextMap, hitCSG.settings.weedsEnabled._text, dataUnavailable), inline: true},
+          {name: 'Crop Destruction', value: genericMapping(genericTextMap, hitCSG?.settings.fruitDestruction._text, dataUnavailable), inline: true},
+          {name: 'Periodic Plowing', value: genericMapping(genericTextMap, hitCSG?.settings.plowingRequiredEnabled._text, dataUnavailable), inline: true},
+          {name: 'Stones', value: genericMapping(genericTextMap, hitCSG?.settings.stonesEnabled._text, dataUnavailable), inline: true},
+          {name: 'Lime', value: genericMapping(genericTextMap, hitCSG?.settings.limeRequired._text, dataUnavailable), inline: true},
+          {name: 'Weeds', value: genericMapping(genericTextMap, hitCSG?.settings.weedsEnabled._text, dataUnavailable), inline: true},
           {name: 'Fuel Usage', value: fuelUsageText, inline: true},
           {name: 'Dirt Interval', value: dirtIntervalText, inline: true},
         ).setFooter({text: 'Last updated'}).setTimestamp()]
