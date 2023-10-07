@@ -22,7 +22,6 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   try {
     const hitDSS = await fetch(Server.ip+'/feed/dedicated-server-stats.json?code='+Server.code, sessionInit).then(r=>r.json() as Promise<FSData>);
     const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(new client.fxp.XMLParser({ignoreAttributes: false, transformAttributeName(attributeName){return attributeName.replaceAll('@_','')}}).parse(await r.text()) as any).careerSavegame as FSCareerSavegame);
-    console.log(hitCSG.settings)
 
     if (!hitDSS ?? !hitCSG){
       if (hitDSS && !hitDSS.slots) return Logger.forwardToConsole('log', 'MPModule', `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
