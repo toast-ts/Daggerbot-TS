@@ -19,19 +19,16 @@ export default async(client:TClient, YTChannelID:string, YTChannelName:string, D
   const cacheKey = `YTCache:${YTChannelID}`;
   const cachedVideoId = await CacheServer.get(cacheKey);
   if (!cachedVideoId) {
-    const videoId = Data.feed.entry[0]['yt:videoId']._text;
-    await CacheServer.set(cacheKey, videoId).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry));
+    await CacheServer.set(cacheKey, Data.feed.entry[0]['yt:videoId']).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry));
     return;
   }
-
-  if (Data.feed.entry[1]['yt:videoId']._text === cachedVideoId) {
-    const videoId = Data.feed.entry[0]['yt:videoId']._text;
+  if (Data.feed.entry[1]['yt:videoId'] === cachedVideoId) {
     await CacheServer.delete(cacheKey).then(async()=>{
-      await CacheServer.set(cacheKey, videoId).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry))
+      await CacheServer.set(cacheKey, Data.feed.entry[0]['yt:videoId']).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry))
     });
 
     (client.channels.resolve(DiscordChannelID) as TextChannel).send({
-      content: `${MessageTool.formatMention(DiscordRoleID, 'role')}\n**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link._attributes.href}`,
+      content: `${MessageTool.formatMention(DiscordRoleID, 'role')}\n**${YTChannelName}** just uploaded a video!\n${Data.feed.entry[0].link.href}`,
       allowedMentions: {parse:['roles']},
     });
   }
