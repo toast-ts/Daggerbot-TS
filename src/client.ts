@@ -8,7 +8,8 @@ type MPServerCache = Record<string,{
 }>
 
 import Discord from 'discord.js';
-import {readFileSync, readdirSync} from 'node:fs';
+import ConfigHelper from './helpers/ConfigHelper.js';
+import {readdirSync} from 'node:fs';
 import {Config, FSPlayer} from './typings/interfaces';
 import bannedWords from './models/bannedWords.js';
 import userLevels from './models/userLevels.js';
@@ -19,18 +20,10 @@ import bonkCount from './models/bonkCount.js';
 import MPServer from './models/MPServer.js';
 import DatabaseServer from './funcs/DatabaseServer.js';
 import CacheServer from './funcs/CacheServer.js';
-import xjs from 'xml-js';
-import moment from 'moment';
+import fxp from 'fast-xml-parser';
+import dayjs from 'dayjs';
 import TSClient from './helpers/TSClient.js';
-
-let importconfig:Config
-try{
-  importconfig = JSON.parse(readFileSync('src/DB-Beta.config.json', 'utf8'));
-  console.log('Using development config :: Daggerbot Beta')
-} catch(e){
-  importconfig = JSON.parse(readFileSync('src/config.json', 'utf8'))
-  console.log('Using production config')
-}
+const importconfig = ConfigHelper.loadConfig(process.argv[2] ?? 'src/config.json');
 
 export default class TClient extends Discord.Client {
   invites: Map<any, any>;
@@ -40,8 +33,8 @@ export default class TClient extends Discord.Client {
   embed: typeof Discord.EmbedBuilder;
   collection: typeof Discord.Collection;
   attachmentBuilder: typeof Discord.AttachmentBuilder;
-  moment: typeof moment;
-  xjs: typeof xjs;
+  dayjs: typeof dayjs;
+  fxp: typeof fxp;
   userLevels: userLevels;
   punishments: punishments;
   bonkCount: bonkCount;
@@ -72,8 +65,8 @@ export default class TClient extends Discord.Client {
     this.embed = Discord.EmbedBuilder;
     this.collection = Discord.Collection;
     this.attachmentBuilder = Discord.AttachmentBuilder;
-    this.moment = moment;
-    this.xjs = xjs;
+    this.dayjs = dayjs;
+    this.fxp = fxp;
     this.userLevels = new userLevels(this);
     this.bonkCount = new bonkCount(this);
     this.punishments = new punishments(this);

@@ -9,7 +9,7 @@ export default {
     const suggestionID = (Math.random() + 1).toString(36).substring(5);
     const userid = (await client.suggestion._content.findById(suggestionIDReply))?.user._id;
     const theirIdea = (await client.suggestion._content.findById(suggestionIDReply))?.idea;
-    const timeFormatting = client.moment().format('DD/MM/YY h:mm A');
+    const timeFormatting = client.dayjs().format('DD/MM/YY h:mm A');
     const stateChanged = 'Suggestion state has been successfully updated and DM is sent.';
     const dmFail = `Failed to send a DM to ${MessageTool.formatMention(userid, 'user')}, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
     ({
