@@ -5,12 +5,6 @@ const config:Config = JSON.parse(readFileSync('src/config.json', 'utf8'));
 type RoleKeys = keyof typeof config.mainServer.roles;
 
 export default class MessageTool {
-  static embedMusic(color:Discord.ColorResolvable, title:string, thumbnail?:string, footer?:string){
-    const embed = new Discord.EmbedBuilder().setColor(color).setTitle(title);
-    if (thumbnail) embed.setThumbnail(thumbnail);
-    if (footer) embed.setFooter({text: footer});
-    return embed
-  }
   static embedStruct(color:Discord.ColorResolvable, title:string, description?:string|null, image?:string|null){
     const embed = new Discord.EmbedBuilder().setColor(color).setTitle(title);
     if (description) embed.setDescription(description);
