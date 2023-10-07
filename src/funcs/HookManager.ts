@@ -5,8 +5,11 @@ import {readFileSync} from 'node:fs';
 const config:Config = JSON.parse(readFileSync('src/config.json', 'utf-8'));
 type ChannelList = keyof typeof config.mainServer.channels;
 export default class HookMgr {
+  protected static async channelFetch(client:TClient, channel:ChannelList) {
+    return await client.channels.fetch(config.mainServer.channels[channel]) as Discord.TextChannel;
+  }
   protected static async fetch(client:TClient, channel:ChannelList, webhookId:Discord.Snowflake) {
-    const hookInstance = await (await client.channels.fetch(config.mainServer.channels[channel]) as Discord.TextChannel).fetchWebhooks().then(x=>x.find(y=>y.id===webhookId));
+    const hookInstance = await (await this.channelFetch(client, channel)).fetchWebhooks().then(x=>x.find(y=>y.id===webhookId));
     if (!hookInstance) throw new Error('[HookManager] Webhook not found.');
     return hookInstance;
   }
