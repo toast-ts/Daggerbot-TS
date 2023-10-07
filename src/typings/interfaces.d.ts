@@ -174,7 +174,8 @@ export interface Config {
       bankick_log: string,
       fs_server_log: string,
       punishment_log: string,
-      dcmod_chat: string
+      dcmod_chat: string,
+      mf_chat: string
     }
   }
 }
