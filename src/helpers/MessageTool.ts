@@ -1,7 +1,6 @@
 import Discord from 'discord.js';
-import {readFileSync} from 'node:fs';
-import {Config} from 'src/typings/interfaces';
-const config:Config = JSON.parse(readFileSync('src/config.json', 'utf8'));
+import ConfigHelper from './ConfigHelper.js';
+const config = ConfigHelper.readConfig();
 type RoleKeys = keyof typeof config.mainServer.roles;
 
 export default class MessageTool {

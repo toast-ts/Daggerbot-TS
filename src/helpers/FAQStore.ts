@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import MessageTool from './MessageTool.js';
-import {Config} from 'src/typings/interfaces';
-import {readFileSync} from 'node:fs';
-const config:Config = JSON.parse(readFileSync('src/config.json', 'utf8'));
+import ConfigHelper from './ConfigHelper.js';
+const config = ConfigHelper.readConfig();
 export default class FAQStore {
   protected static readonly errorMsg:string = 'Failed to send the message, please report to **Toast** if it continues.';
   static async reply(interaction:Discord.ChatInputCommandInteraction, title:string|null, message:string, image:string|null, useEmbed:boolean=false) {

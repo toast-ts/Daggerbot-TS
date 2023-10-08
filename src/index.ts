@@ -5,14 +5,15 @@ client.init();
 import Logger from './helpers/Logger.js';
 import YTModule from './funcs/YTModule.js';
 import MPModule from './funcs/MPModule.js';
+import UsernameHelper from './helpers/UsernameHelper.js';
 import {Punishment} from './typings/interfaces';
 import {writeFileSync, readFileSync} from 'node:fs';
 
 // Error handler
 function DZ(error:Error, type:string){// Yes, I may have shiternet but I don't need to wake up to like a hundred messages or so.
-  if (JSON.parse(readFileSync('src/errorBlocklist.json', 'utf8')).includes(error.message)) return;// I wonder if my idea works, if not then please run me over with a bulldozer.
+  if (JSON.parse(readFileSync('src/errorBlocklist.json', 'utf8')).includes(error.message)) return;
   console.error(error);
-  (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${error.stack}`.slice(0, 2500)}\`\`\``)]})
+  (client.channels.resolve(client.config.mainServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: 'Error type: ' + type}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${UsernameHelper.stripName(error.stack)}`.slice(0, 2500)}\`\`\``)]})
 }
 process.on('unhandledRejection', (error: Error)=>DZ(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>DZ(error, 'uncaughtException'));

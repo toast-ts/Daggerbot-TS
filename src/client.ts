@@ -23,7 +23,7 @@ import CacheServer from './funcs/CacheServer.js';
 import fxp from 'fast-xml-parser';
 import dayjs from 'dayjs';
 import TSClient from './helpers/TSClient.js';
-const importconfig = ConfigHelper.loadConfig(process.argv[2] ?? 'src/config.json');
+const importconfig = ConfigHelper.loadConfig();
 
 export default class TClient extends Discord.Client {
   invites: Map<any, any>;
