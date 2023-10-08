@@ -18,5 +18,5 @@
     "typeRoots": [ "./src/typings" ]
   },
   "include": [ "src/" ],
-  "exclude": [ ".yarn/cache", ".yarn/unplugged", ".git", "src/errorBlocklist.json", "src/config.json", "src/DB-Beta.config.json", "src/Toast-Testbot.config.json" ]
+  "exclude": [ ".yarn/cache", ".yarn/unplugged", ".git", "src/errorBlocklist.json", "src/config.json", "src/DB-Beta.config.json" ]
 }
