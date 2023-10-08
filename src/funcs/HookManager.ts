@@ -1,8 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import {Config} from '../typings/interfaces';
-import {readFileSync} from 'node:fs';
-const config:Config = JSON.parse(readFileSync('src/config.json', 'utf-8'));
+import ConfigHelper from '../helpers/ConfigHelper.js';
+const config = ConfigHelper.readConfig();
 type ChannelList = keyof typeof config.mainServer.channels;
 export default class HookMgr {
   protected static async channelFetch(client:TClient, channel:ChannelList) {
