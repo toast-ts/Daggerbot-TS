@@ -40,7 +40,7 @@ export default class userLevels extends Schema {
       const logText = `Resetting LRSstart to \`${newEpoch}\`, saved to config file`;
       Logger.forwardToConsole('log', 'DailyMsgs', logText);
       (this.client.channels.resolve(this.client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [new this.client.embed().setColor(this.client.config.embedColorXmas).setTitle('Happy New Years! Level System is clean!').setDescription(logText).setTimestamp()]}).catch(err=>console.log(err));
-      writeFileSync('./src/DB-Beta.config.json', JSON.stringify(this.client.config, null, 2));
+      writeFileSync('./src/config.json', JSON.stringify(this.client.config, null, 2));
       Logger.forwardToConsole('log', 'Cron:resetAllData', 'Job completed');
     })
   }
