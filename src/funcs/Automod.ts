@@ -6,7 +6,7 @@ export default class Automoderator {
     return arr.includes(message.channelId);
   }
   static scanMsg(message:Discord.Message){
-    return message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]/g, '').split(' ')
+    return message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|ing\b/g, '').split(' ')
   }
   static async repeatedMessages(client:TClient, message:Discord.Message, thresholdTime:number, thresholdAmount:number, type:string, muteTime:string, muteReason:string){
     if (client.repeatedMessages[message.author.id]){
