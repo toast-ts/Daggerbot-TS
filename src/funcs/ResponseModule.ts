@@ -18,7 +18,7 @@ export default class Response {
     this.respond(client, message, keyword);
   }
   protected static respond(client:TClient, message:Discord.Message, responseKeyword:string) {
-    if (this.incomingArrays[responseKeyword].some(m=>message.content.toLowerCase().startsWith(m))) return message.reply(`${this.outgoingArrays(client, message)[responseKeyword][Math.floor(Math.random() * this.outgoingArrays(client, message)[responseKeyword].length)]}`)
+    if (new RegExp(`^(${this.incomingArrays[responseKeyword].join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(client, message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(client, message)[responseKeyword].length)]}`)
   }
   private static outgoingArrays(client:TClient, message:Discord.Message) {
     const PersonnyMcPerson = `**${message.member.displayName}**`;
