@@ -1,8 +1,9 @@
 interface TokenService_API {
-  main:      string,
+  main:        string,
+  octokit:     string,
+  youtube:     string,
   mongodb_uri: string,
-  redis_uri: string,
-  octokit:   string
+  redis_uri:   string
 }
 
 export default class TSClient {
