@@ -76,8 +76,8 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
     } else {
       client.MPServerCache[ServerName].status = 'online';
       const serverDetails = new client.embed().setColor(client.config.embedColor).setTitle('Server details').setFields(
-        {name: 'Current map', value: hitDSS.server.mapName, inline: true},
-        {name: 'Server version', value: hitDSS.server.version, inline: true},
+        {name: 'Current map', value: hitDSS?.server?.mapName === undefined ? dataUnavailable : hitDSS.server.mapName, inline: true},
+        {name: 'Server version', value: hitDSS?.server?.version === undefined ? dataUnavailable : hitDSS.server.version, inline: true},
         {name: 'In-game Time', value: `${('0'+Math.floor((hitDSS.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((hitDSS.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true},
         {name: 'Slot Usage', value: isNaN(Number(hitCSG?.slotSystem?.slotUsage)) === true ? dataUnavailable : Number(hitCSG.slotSystem?.slotUsage).toLocaleString('en-us'), inline: true},
         {name: 'Autosave Interval', value: isNaN(Number(hitCSG?.settings?.autoSaveInterval)) === true ? dataUnavailable : Number(hitCSG.settings?.autoSaveInterval).toFixed(0)+' mins', inline:true},
