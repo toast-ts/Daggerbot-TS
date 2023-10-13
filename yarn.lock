@@ -386,10 +386,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.8.3":
-  version: 20.8.3
-  resolution: "@types/node@npm:20.8.3"
-  checksum: bfb88b341faeb19f8fd37306a3bf433721b876c6491d10fcb0b13fd26601fa36ee45113dd82b1e1c23e3c957dff5b99f81a16493cefa03abe797e41a2487a4f7
+"@types/node@npm:20.8.5":
+  version: 20.8.5
+  resolution: "@types/node@npm:20.8.5"
+  dependencies:
+    undici-types: ~5.25.1
+  checksum: 4bca4e4f6307a6f5dc78812015eca9c5a998b35fcf3ba4058c9851d3dde2b22c914fa25a85b804eab5af2ab95375d15943dce8e9ba5e01d15f4bf516ca0d2816
   languageName: node
   linkType: hard
 
@@ -560,13 +562,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^5.4.0":
-  version: 5.4.0
-  resolution: "bson@npm:5.4.0"
-  checksum: 1c07e3d09f139d414bd226bf7f4e9aaa7a726e0c9718c55b53bb23ffa2805cac8b66e4fa46b424c73a35c6e292ed5f7432df5c76ea5d08052642b2ac9e0399e3
-  languageName: node
-  linkType: hard
-
 "bson@npm:^5.5.0":
   version: 5.5.0
   resolution: "bson@npm:5.5.0"
@@ -693,14 +688,14 @@ __metadata:
     "@octokit/auth-token": 4.0.0
     "@octokit/rest": 20.0.2
     "@types/ms": 0.7.32
-    "@types/node": 20.8.3
+    "@types/node": 20.8.5
     "@types/node-cron": 3.0.9
     ansi-colors: 4.1.3
     canvas: 2.11.2
     dayjs: 1.11.10
     discord.js: 14.13.0
     fast-xml-parser: 4.3.2
-    mongoose: 7.6.0
+    mongoose: 7.6.1
     ms: 2.1.3
     node-cron: 3.0.2
     redis: 4.6.10
@@ -1356,18 +1351,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:7.6.0":
-  version: 7.6.0
-  resolution: "mongoose@npm:7.6.0"
+"mongoose@npm:7.6.1":
+  version: 7.6.1
+  resolution: "mongoose@npm:7.6.1"
   dependencies:
-    bson: ^5.4.0
+    bson: ^5.5.0
     kareem: 2.5.1
     mongodb: 5.9.0
     mpath: 0.9.0
     mquery: 5.0.0
     ms: 2.1.3
     sift: 16.0.1
-  checksum: 5178fdc1c8ec5158bdeb16a100c8a47a1866276b7ac4406ca5d3c0bf4fbf3e27fd5e69b86e0bf5cb8bbeca40a119fff4d4bb1852f0bf18292949493e43cbb8d5
+  checksum: ed296c8dc8995ed98a6df166a885837c69af6a55b7aee5a01eff3c79527c32c8b1740b15ff40e325280743c0d20490b2be0ab934189f05fdfd85fab837f64c38
   languageName: node
   linkType: hard
 
@@ -1892,6 +1887,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 0f4da2f15e6f1245e49db15801dbee52f2bbfb267e1c39225afdab5afee1a72839cd86000e65ee9d7e4dfaff12239d28beaf5ee431357fcced15fb08583d72ca
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.25.1":
+  version: 5.25.3
+  resolution: "undici-types@npm:5.25.3"
+  checksum: ec9d2cc36520cbd9fbe3b3b6c682a87fe5be214699e1f57d1e3d9a2cb5be422e62735f06e0067dc325fd3dd7404c697e4d479f9147dc8a804e049e29f357f2ff
   languageName: node
   linkType: hard
 
