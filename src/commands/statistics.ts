@@ -1,3 +1,7 @@
+interface CommitHashes {
+  localHash: string,
+  remoteHash: string
+}
 import Discord from 'discord.js';
 import pkg from 'typescript';
 import MessageTool from '../helpers/MessageTool.js';
@@ -10,14 +14,11 @@ import os from 'node:os';
 import {Octokit} from '@octokit/rest';
 import {createTokenAuth} from '@octokit/auth-token';
 import {readFileSync} from 'node:fs';
-import {execSync} from 'node:child_process';
+import {Worker} from 'node:worker_threads';
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 
-function commitHashes() {
-  const localHash = execSync('git rev-parse HEAD').toString().trim().slice(0, 7);
-  const remoteHash = execSync('git ls-remote origin HEAD').toString().split('\t')[0].slice(0, 7);
-  return { localHash, remoteHash };
-}
+const workerThread = new Worker(new URL('../helpers/CommitHashes.js', import.meta.url));
+const hashData = await new Promise<CommitHashes>(resolve=>workerThread.on('message', (data:CommitHashes)=>resolve(data)));
 
 export default {
   async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -59,15 +60,15 @@ export default {
     let githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
     const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
     const github = {
-      remoteCommit: await octokit.repos.getCommit({...githubRepo, ref: commitHashes().remoteHash}),
-      localCommit: await octokit.repos.getCommit({...githubRepo, ref: commitHashes().localHash}),
+      remoteCommit: await octokit.repos.getCommit({...githubRepo, ref: hashData.remoteHash}),
+      localCommit: await octokit.repos.getCommit({...githubRepo, ref: hashData.localHash}),
     }
 
     embed.addFields(
       {
         name: '> __Repository__', value: MessageTool.concatMessage(
-          `**Local:** [${commitHashes().localHash}](${github.localCommit.data.html_url})`,
-          `**Remote:** [${commitHashes().remoteHash}](${github.remoteCommit.data.html_url})`,
+          `**Local:** [${hashData.localHash}](${github.localCommit.data.html_url})`,
+          `**Remote:** [${hashData.remoteHash}](${github.remoteCommit.data.html_url})`
         )
       },
       {name: '> __Dependencies__', value: MessageTool.concatMessage(
