@@ -31,7 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
-            ["@types/node", "npm:20.8.5"],\
+            ["@types/node", "npm:20.8.6"],\
             ["@types/node-cron", "npm:3.0.9"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
@@ -566,10 +566,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:20.8.5", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.8.5-e81f847ee3-4bca4e4f63.zip/node_modules/@types/node/",\
+        ["npm:20.8.6", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.8.6-856e50b60a-ccfb7ac482.zip/node_modules/@types/node/",\
           "packageDependencies": [\
-            ["@types/node", "npm:20.8.5"],\
+            ["@types/node", "npm:20.8.6"],\
             ["undici-types", "npm:5.25.3"]\
           ],\
           "linkType": "HARD"\
@@ -919,7 +919,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
-            ["@types/node", "npm:20.8.5"],\
+            ["@types/node", "npm:20.8.6"],\
             ["@types/node-cron", "npm:3.0.9"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
