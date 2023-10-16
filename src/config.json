@@ -24,7 +24,7 @@
   },
   "botSwitches": {
     "dailyMsgsBackup": true,
-    "registerCommands": true,
+    "registerCommands": false,
     "commands": true,
     "logs": true,
     "buttonRoles": true,
