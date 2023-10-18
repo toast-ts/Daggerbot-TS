@@ -4,7 +4,7 @@ import MessageTool from '../helpers/MessageTool.js';
 import FAQStore from '../helpers/FAQStore.js';
 export default {
   run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    const CDN =(filename:string)=>'https://oooo.ur-a-boykisser.ovh/r/'+filename+'.png';
+    const CDN =(filename:string)=>'https://cdn.toast-server.net/daggerwin/'+filename+'.png';
     const verifyFaq = MessageTool.concatMessage(
       '```ansi',
       '[34m[1mSteam[0m (Top panel)',
