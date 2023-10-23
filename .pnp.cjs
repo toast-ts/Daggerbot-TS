@@ -32,7 +32,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
             ["@types/node", "npm:20.8.7"],\
-            ["@types/node-cron", "npm:3.0.9"],\
+            ["@types/node-cron", "npm:3.0.10"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
             ["dayjs", "npm:1.11.10"],\
@@ -576,10 +576,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node-cron", [\
-        ["npm:3.0.9", {\
-          "packageLocation": "./.yarn/cache/@types-node-cron-npm-3.0.9-13a60c6bb4-8335eb0a45.zip/node_modules/@types/node-cron/",\
+        ["npm:3.0.10", {\
+          "packageLocation": "./.yarn/cache/@types-node-cron-npm-3.0.10-ee9d167302-d1e7618208.zip/node_modules/@types/node-cron/",\
           "packageDependencies": [\
-            ["@types/node-cron", "npm:3.0.9"]\
+            ["@types/node-cron", "npm:3.0.10"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -920,7 +920,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.32"],\
             ["@types/node", "npm:20.8.7"],\
-            ["@types/node-cron", "npm:3.0.9"],\
+            ["@types/node-cron", "npm:3.0.10"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
             ["dayjs", "npm:1.11.10"],\
