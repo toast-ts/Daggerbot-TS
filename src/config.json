@@ -1,6 +1,6 @@
 {
   "configName": "Daggerbot",
-  "embedColor": "#ff69b4",
+  "embedColor": "#0052cf",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
   "embedColorOrange": "#cc5210",
@@ -34,7 +34,7 @@
   },
   "botPresence": {
 	  "activities": [
-		  {"name": "Today is October!", "url": "https://www.youtube.com/watch?v=8wx8lmN5d-I", "type": 1}
+		  {"name": "Today is November!", "url": "https://www.youtube.com/watch?v=y242XIPPykg", "type": 1}
 	  ],
 	  "status": "online"
 	},
