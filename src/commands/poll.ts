@@ -13,13 +13,13 @@ export default {
         const map_names = interaction.options.getString('map_names', true).split('|');
         if (map_names.length > 10) return interaction.reply('You can only have up to 10 maps in a poll!');
 
-        const msg = await (interaction.guild.channels.cache.get(channelId) as Discord.TextChannel).send({embeds: [
+        const msg = await (interaction.guild.channels.cache.get(channelId) as Discord.TextChannel).send({content: MessageTool.formatMention(client.config.mainServer.roles.mpplayer, 'role'), embeds: [
         new client.embed()
           .setColor(client.config.embedColor)
           .setTitle('Vote for next map!')
           .setDescription(map_names.map((map,i)=>`${i+1}. **${map}**`).join('\n'))
           .setFooter({text: `Poll started by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})
-        ]});
+        ], allowedMentions: {parse: ['roles']}});
         await interaction.reply(`Successfully created a poll in <#${channelId}>`)
 
         const numbers = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
