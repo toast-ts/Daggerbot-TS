@@ -37,7 +37,7 @@ export default {
         writeFileSync(`src/database/polls/pollResults-${msg.id}.json`, JSON.stringify({
           map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3)),
           votes: msg.reactions.cache.map(x=>x.count)
-        }));
+        }, null, 2));
         (client.channels.cache.get('516344221452599306') as Discord.TextChannel).send({files: [`src/database/polls/pollResults-${msg.id}.json`]});
 
         msg.edit({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]});
