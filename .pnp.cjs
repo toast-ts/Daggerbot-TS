@@ -30,7 +30,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
-            ["@types/ms", "npm:0.7.33"],\
+            ["@types/ms", "npm:0.7.34"],\
             ["@types/node", "npm:20.8.8"],\
             ["@types/node-cron", "npm:3.0.10"],\
             ["ansi-colors", "npm:4.1.3"],\
@@ -550,10 +550,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/ms", [\
-        ["npm:0.7.33", {\
-          "packageLocation": "./.yarn/cache/@types-ms-npm-0.7.33-9d77d99f80-2cb5af611a.zip/node_modules/@types/ms/",\
+        ["npm:0.7.34", {\
+          "packageLocation": "./.yarn/cache/@types-ms-npm-0.7.34-46f5141bfd-f38d36e7b6.zip/node_modules/@types/ms/",\
           "packageDependencies": [\
-            ["@types/ms", "npm:0.7.33"]\
+            ["@types/ms", "npm:0.7.34"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -918,7 +918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["daggerbot-ts", "workspace:."],\
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
-            ["@types/ms", "npm:0.7.33"],\
+            ["@types/ms", "npm:0.7.34"],\
             ["@types/node", "npm:20.8.8"],\
             ["@types/node-cron", "npm:3.0.10"],\
             ["ansi-colors", "npm:4.1.3"],\

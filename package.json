@@ -43,7 +43,7 @@
     "systeminformation": "5.21.13"
   },
   "devDependencies": {
-    "@types/ms": "0.7.33",
+    "@types/ms": "0.7.34",
     "@types/node": "20.8.8",
     "@types/node-cron": "3.0.10",
     "typescript": "5.2.2"
