@@ -372,10 +372,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-cron@npm:3.0.10":
-  version: 3.0.10
-  resolution: "@types/node-cron@npm:3.0.10"
-  checksum: d1e7618208a17130ac0f134b21db3cb0185a9a8112c3cc4d5dc9c1deb154c41e711d38a475c2c39b8823c738b438623bf4a84bdcb9a507e76bdccb6fed44a8b2
+"@types/node-cron@npm:3.0.11":
+  version: 3.0.11
+  resolution: "@types/node-cron@npm:3.0.11"
+  checksum: a73f69bcca52a5f3b1671cfb00a8e4a1d150d0aef36a611564a2f94e66b6981bade577e267ceeeca6fcee241768902d55eb8cf3a81f9ef4ed767a23112fdb16d
   languageName: node
   linkType: hard
 
@@ -689,7 +689,7 @@ __metadata:
     "@octokit/rest": 20.0.2
     "@types/ms": 0.7.33
     "@types/node": 20.8.8
-    "@types/node-cron": 3.0.10
+    "@types/node-cron": 3.0.11
     ansi-colors: 4.1.3
     canvas: 2.11.2
     dayjs: 1.11.10
@@ -697,7 +697,7 @@ __metadata:
     fast-xml-parser: 4.3.2
     mongoose: 7.6.3
     ms: 2.1.3
-    node-cron: 3.0.2
+    node-cron: 3.0.3
     redis: 4.6.10
     systeminformation: 5.21.13
     typescript: 5.2.2
@@ -1412,12 +1412,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-cron@npm:3.0.2":
-  version: 3.0.2
-  resolution: "node-cron@npm:3.0.2"
+"node-cron@npm:3.0.3":
+  version: 3.0.3
+  resolution: "node-cron@npm:3.0.3"
   dependencies:
     uuid: 8.3.2
-  checksum: dd21585c0d4069a0752022dad9b8380a4393c4783ec78355ffa99ff32b018c3743a35d4ebf9d7c7863949e94e302b440f58c884eb4960e71c7260d817e2d3f25
+  checksum: 351c37491ebf717d0ae69cc941465de118e5c2ef5d48bc3f87c98556241b060f100402c8a618c7b86f9f626b44756b20d8b5385b70e52f80716f21e55db0f1c5
   languageName: node
   linkType: hard
 

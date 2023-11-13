@@ -32,7 +32,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.33"],\
             ["@types/node", "npm:20.8.8"],\
-            ["@types/node-cron", "npm:3.0.10"],\
+            ["@types/node-cron", "npm:3.0.11"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
             ["dayjs", "npm:1.11.10"],\
@@ -40,7 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fast-xml-parser", "npm:4.3.2"],\
             ["mongoose", "npm:7.6.3"],\
             ["ms", "npm:2.1.3"],\
-            ["node-cron", "npm:3.0.2"],\
+            ["node-cron", "npm:3.0.3"],\
             ["redis", "npm:4.6.10"],\
             ["systeminformation", "npm:5.21.13"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
@@ -576,10 +576,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node-cron", [\
-        ["npm:3.0.10", {\
-          "packageLocation": "./.yarn/cache/@types-node-cron-npm-3.0.10-ee9d167302-d1e7618208.zip/node_modules/@types/node-cron/",\
+        ["npm:3.0.11", {\
+          "packageLocation": "./.yarn/cache/@types-node-cron-npm-3.0.11-6930d3a671-a73f69bcca.zip/node_modules/@types/node-cron/",\
           "packageDependencies": [\
-            ["@types/node-cron", "npm:3.0.10"]\
+            ["@types/node-cron", "npm:3.0.11"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -920,7 +920,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.33"],\
             ["@types/node", "npm:20.8.8"],\
-            ["@types/node-cron", "npm:3.0.10"],\
+            ["@types/node-cron", "npm:3.0.11"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
             ["dayjs", "npm:1.11.10"],\
@@ -928,7 +928,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fast-xml-parser", "npm:4.3.2"],\
             ["mongoose", "npm:7.6.3"],\
             ["ms", "npm:2.1.3"],\
-            ["node-cron", "npm:3.0.2"],\
+            ["node-cron", "npm:3.0.3"],\
             ["redis", "npm:4.6.10"],\
             ["systeminformation", "npm:5.21.13"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
@@ -1749,10 +1749,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["node-cron", [\
-        ["npm:3.0.2", {\
-          "packageLocation": "./.yarn/cache/node-cron-npm-3.0.2-5ee1c1c226-dd21585c0d.zip/node_modules/node-cron/",\
+        ["npm:3.0.3", {\
+          "packageLocation": "./.yarn/cache/node-cron-npm-3.0.3-fd539f5b81-351c37491e.zip/node_modules/node-cron/",\
           "packageDependencies": [\
-            ["node-cron", "npm:3.0.2"],\
+            ["node-cron", "npm:3.0.3"],\
             ["uuid", "npm:8.3.2"]\
           ],\
           "linkType": "HARD"\
