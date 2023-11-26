@@ -17,11 +17,11 @@ export default async(client:TClient, Channel:string, Message:string, Server:TSer
   const serverErrorEmbed = new client.embed().setColor(client.config.embedColorRed).setTitle('Host did not respond back in time');
   const genericEmbed = new client.embed();
   const refreshIntervalText = 'Refreshes every 35 seconds.';
-  let sessionInit = {signal: AbortSignal.timeout(8500),headers:{'User-Agent':'Daggerbot - HITALL/undici'}};
+  let sessionInit = {signal: AbortSignal.timeout(8500),headers:{'User-Agent':`${client.user.username} - MPModule/undici`}};
   
   try {
     const hitDSS = await fetch(Server.ip+'/feed/dedicated-server-stats.json?code='+Server.code, sessionInit).then(r=>r.json() as Promise<FSData>);
-    const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(new client.fxp.XMLParser({ignoreAttributes: false, transformAttributeName(attributeName){return attributeName.replaceAll('@_','')}}).parse(await r.text()) as any).careerSavegame as FSCareerSavegame);
+    const hitCSG = await fetch(Server.ip+'/feed/dedicated-server-savegame.html?code='+Server.code+'&file=careerSavegame', sessionInit).then(async r=>(new client.fxp.XMLParser({ignoreAttributes: false, attributeNamePrefix: ''}).parse(await r.text()) as any).careerSavegame as FSCareerSavegame);
 
     if (!hitDSS ?? !hitCSG){
       if (hitDSS && !hitDSS.slots) return Logger.forwardToConsole('log', 'MPModule', `DSS failed with unknown slots table for ${client.MPServerCache[ServerName].name}`);
