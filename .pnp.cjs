@@ -31,7 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.33"],\
-            ["@types/node", "npm:20.8.8"],\
+            ["@types/node", "npm:20.10.0"],\
             ["@types/node-cron", "npm:3.0.10"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
@@ -559,18 +559,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@types/node", [\
+        ["npm:20.10.0", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.10.0-22577c30ff-face395140.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:20.10.0"],\
+            ["undici-types", "npm:5.26.5"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:20.4.8", {\
           "packageLocation": "./.yarn/cache/@types-node-npm-20.4.8-f8f2d8d349-86a3963c0c.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:20.4.8"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:20.8.8", {\
-          "packageLocation": "./.yarn/cache/@types-node-npm-20.8.8-8e65100064-028a9606e4.zip/node_modules/@types/node/",\
-          "packageDependencies": [\
-            ["@types/node", "npm:20.8.8"],\
-            ["undici-types", "npm:5.25.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -919,7 +919,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@octokit/auth-token", "npm:4.0.0"],\
             ["@octokit/rest", "npm:20.0.2"],\
             ["@types/ms", "npm:0.7.33"],\
-            ["@types/node", "npm:20.8.8"],\
+            ["@types/node", "npm:20.10.0"],\
             ["@types/node-cron", "npm:3.0.10"],\
             ["ansi-colors", "npm:4.1.3"],\
             ["canvas", "npm:2.11.2"],\
@@ -2275,10 +2275,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["undici-types", [\
-        ["npm:5.25.3", {\
-          "packageLocation": "./.yarn/cache/undici-types-npm-5.25.3-2ac9eafc9e-ec9d2cc365.zip/node_modules/undici-types/",\
+        ["npm:5.26.5", {\
+          "packageLocation": "./.yarn/cache/undici-types-npm-5.26.5-de4f7c7bb9-3192ef6f3f.zip/node_modules/undici-types/",\
           "packageDependencies": [\
-            ["undici-types", "npm:5.25.3"]\
+            ["undici-types", "npm:5.26.5"]\
           ],\
           "linkType": "HARD"\
         }]\
