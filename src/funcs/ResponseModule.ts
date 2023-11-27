@@ -8,7 +8,7 @@ import FormatDOTY from '../helpers/FormatDOTY.js';
 
 export default class Response {
   private static readonly incomingArrays = {
-    morning: ['good morning all', 'good morning everyone', 'good morning lads', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody', 'morning yall', 'morning y\'all'],
+    morning: ['good morning all', 'good morning everyone', 'good morning lads', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody', 'morning yall', 'morning y\'all', 'good morning my neighbors'],
     afternoon: ['good afternoon', 'afternoon all', 'afternoon everyone'],
     evening: ['good evening', 'evening all', 'evening everyone', 'evening lads'],
     night: ['night all', 'night everyone', 'night guys', 'goodnight', 'good night']
