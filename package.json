@@ -40,7 +40,7 @@
     "ms": "2.1.3",
     "node-cron": "3.0.2",
     "redis": "4.6.10",
-    "systeminformation": "5.21.13"
+    "systeminformation": "5.21.20"
   },
   "devDependencies": {
     "@types/ms": "0.7.33",
