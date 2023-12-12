@@ -18,6 +18,6 @@ export default class HookMgr {
   }
   static async edit(client:TClient, channel:ChannelList, webhookId:Discord.Snowflake, messageId:Discord.Snowflake, message:string|Discord.MessagePayload|Discord.WebhookMessageEditOptions) {
     const hook = await this.fetch(client, channel, webhookId);
-    return hook.editMessage(messageId, message).catch(err=>(client.channels.resolve(config.mainServer.channels.errors) as Discord.TextChannel).send(`Failed to edit a webhook message in <#${channel}>:\n\`\`\`\n${err.message}\n\`\`\``));
+    return hook.editMessage(messageId, message).catch(err=>(client.channels.resolve(config.mainServer.channels.errors) as Discord.TextChannel).send(`Failed to edit a webhook message in #${channel}:\n\`\`\`\n${err.message}\n\`\`\``));
   }
 }
