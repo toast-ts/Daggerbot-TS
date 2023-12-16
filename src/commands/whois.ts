@@ -55,7 +55,7 @@ export default {
           .setAuthor({name: 'Spotify', iconURL: 'https://cdn.discordapp.com/emojis/510214342034325504.webp?quality=lossless'})
           .addFields(
             {name: 'Artist', value: spotifyStatus?.state, inline: true},
-            {name: 'Album', value: spotifyStatus?.details, inline: true},
+            {name: 'Title', value: spotifyStatus?.details, inline: true},
             {name: 'Started', value: `<t:${Math.round(spotifyStatus?.timestamps.start as unknown as number/1000)}>\n<t:${Math.round(spotifyStatus?.timestamps.start as unknown as number/1000)}:R>`, inline: false}
           )
         embedArray.push(spotifyEmbed)
