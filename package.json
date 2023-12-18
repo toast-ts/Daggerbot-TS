@@ -3,10 +3,9 @@
   "description": "TypeScript version of the original JavaScript-based bot for Official Daggerwin Discord.",
   "main": "dist/index.js",
   "type": "module",
-  "homepage": "https://github.com/AnxietyisReal/Daggerbot-TS",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS.git"
+    "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS/tree/old"
   },
   "author": "Toast",
   "license": "ISC",
