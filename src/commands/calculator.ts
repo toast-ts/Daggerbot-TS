@@ -1,10 +1,10 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
-import FormatTime from '../helpers/FormatTime.js';
+import Formatters from '../helpers/Formatters.js';
 
-export default {
-  run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+export default class Calculator {
+  static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const now = Date.now();
     const exp = interaction.options.getString('expression', true).replace(/[^-()\d/*+.]/g, '');
     try {
@@ -22,12 +22,12 @@ export default {
             '-- Siri, 2015'
           ));
       };
-      interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).addFields({name: 'Expression', value: `\`\`\`js\n${exp}\n\`\`\``},{name: 'Answer', value: `\`\`\`js\n${result}\n\`\`\``}).setFooter({text: `Time taken: ${FormatTime(Date.now() - now, 3)}`})]})
+      interaction.reply({embeds:[new client.embed().setColor(client.config.embedColor).addFields({name: 'Expression', value: `\`\`\`js\n${exp}\n\`\`\``},{name: 'Answer', value: `\`\`\`js\n${result}\n\`\`\``}).setFooter({text: `Time taken: ${Formatters.timeFormat(Date.now() - now, 3)}`})]})
     } catch {
       interaction.reply('The given expression is invalid.');
     }
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('calculator')
     .setDescription('Calculate a math expression or simple 2+2')
     .addStringOption(x=>x

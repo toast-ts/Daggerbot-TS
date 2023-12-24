@@ -1,12 +1,5 @@
-.vscode
 # Yarn stuff
-.yarn/cache/
-.yarn/unplugged/
-.yarn/sdks/
-.yarn/install-state.gz
-# NodeJS stuff
-.ncurc.json
-# Bot stuff
-dist/
-src/database/
+.yarn
+# TypeScript stuff
+dist
 src/*.json

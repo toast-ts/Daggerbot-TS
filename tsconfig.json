@@ -15,7 +15,7 @@
     "rootDir": "src/",
     "outDir": "dist/",
     "moduleResolution": "bundler",
-    "typeRoots": [ "./src/typings" ]
+    "typeRoots": [ "./src/interfaces.d.ts" ]
   },
   "include": [ "src/" ],
   "exclude": [ ".yarn/cache", ".yarn/unplugged", ".git", "src/errorBlocklist.json", "src/config.json", "src/DB-Beta.config.json" ]

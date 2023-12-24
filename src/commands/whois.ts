@@ -10,8 +10,8 @@ function convert(status?:Discord.ClientPresenceStatus){
   else return '⚫'
 }
 
-export default {
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+export default class Whois {
+  static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const member = interaction.options.getMember('member') as Discord.GuildMember;
     if (member === null){
       const user = interaction.options.getUser('member') as Discord.User;
@@ -34,8 +34,8 @@ export default {
       const embed = new client.embed()
         .setColor(member.displayColor || client.config.embedColor)
         .setURL(`https://discord.com/users/${member.user.id}`)
-        .setThumbnail(member.user.avatarURL({size:2048}) || member.user.defaultAvatarURL)
-        .setImage(member.user.bannerURL({size:1024}) as string)
+        .setThumbnail(member.avatarURL({size:2048}) || member.user.avatarURL({size:2048}) || member.user.defaultAvatarURL)
+        .setImage(member.user.bannerURL({size:1024}) || null)
         .setTitle(`${title} Info: ${member.user.username}`)
         .setDescription(`<@${member.user.id}>\n\`${member.user.id}\``)
         .addFields(
@@ -62,8 +62,8 @@ export default {
       }
       interaction.reply({embeds: embedArray})
     }
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('whois')
     .setDescription('View your own or someone else\'s information')
     .addUserOption(x=>x

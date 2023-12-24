@@ -1,27 +1,37 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import FormatDOTY from '../helpers/FormatDOTY.js';
-
-/* function ResponseMadeBy(id:string){  <-- Will be enabled once autoresponse suggestion comes in.
-  return `╰ *Response made by <@${id}>*`;
-} */
+import Formatters from '../helpers/Formatters.js';
 
 export default class Response {
-  private static readonly incomingArrays = {
-    morning: ['good morning all', 'good morning everyone', 'good morning lads', 'morning all', 'morning everyone', 'morning lads', 'morning guys', 'good morning everybody', 'morning yall', 'morning y\'all', 'good morning my neighbors', 'good morning yall', 'good morning y\'all'],
-    afternoon: ['good afternoon', 'afternoon all', 'afternoon everyone'],
-    evening: ['good evening', 'evening all', 'evening everyone', 'evening lads'],
-    night: ['night all', 'night everyone', 'night guys', 'goodnight', 'good night']
-  } as const
+  protected static readonly incomingArrays = {
+    morning: {// Prefixes are optional in the user's message.
+      prefix: ['good'],
+      suffix: ['all', 'everyone', 'lads', 'guys', 'everybody', 'yall', 'y\'all', 'my neighbors']
+    },
+    afternoon: {
+      prefix: ['good'],
+      suffix: ['all', 'everyone', 'lads']
+    },
+    evening: {
+      prefix: ['good'],
+      suffix: ['all', 'everyone', 'lads', 'yall', 'y\'all']
+    },
+    night: {
+      prefix: ['good'],
+      suffix: ['all', 'everyone', 'guys', 'yall', 'y\'all']
+    }
+  }
   static create(client:TClient, message:Discord.Message, channel:Discord.Snowflake, keyword:string) {
     if (message.channelId != channel || message.type != 0) return;
     this.respond(client, message, keyword);
   }
-  protected static respond(client:TClient, message:Discord.Message, responseKeyword:string) {
-    if (new RegExp(`^(${this.incomingArrays[responseKeyword].join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(client, message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(client, message)[responseKeyword].length)]}`)
+  protected static async respond(client:TClient, message:Discord.Message, responseKeyword:string) {
+    if (message.type === Discord.MessageType.Reply) return;
+    if (new RegExp(`^(${this.incomingArrays[responseKeyword].prefix.join('|')})?\\s?${responseKeyword} (${this.incomingArrays[responseKeyword].suffix.join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(client, message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(client, message)[responseKeyword].length)]}`).catch(()=>null)
   }
-  private static outgoingArrays(client:TClient, message:Discord.Message) {
+  protected static outgoingArrays(client:TClient, message:Discord.Message) {
     const PersonnyMcPerson = `**${message.member.displayName}**`;
+    // const responseCreator =(id:Discord.Snowflake)=>`\n╰*Response made by <@${id}>*`;
     return {
       morning: [
         `Morning ${PersonnyMcPerson}, did you sleep great?`, `Good morning ${PersonnyMcPerson}!`, `Hope you enjoyed your breakfast, ${PersonnyMcPerson}!`,
@@ -32,8 +42,8 @@ export default class Response {
         `Good grief, is it Monday already? Anyways, morning ${PersonnyMcPerson}..`, `This time I can shout! So here we go! 1..2..3\n*inhales*\nMORNING ${PersonnyMcPerson.toUpperCase()}!`,
         'Gooooood morning to you!', `Good morning to you! You know what else is good? A segue to our sponsor, breakfast!\nGet started with getting out of the bed and have some breakfast!`,
         `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`, 'Is it Friday yet? This week is getting boring already!',
-        `You have reached ${FormatDOTY(Math.floor(client.dayjs().diff(client.dayjs().startOf('year'), 'day', true))+1)} day of the year, also good morning to you as well!`, 'Good morning! Have a cookie to start your day with. :cookie:',
-        'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440'
+        `You have reached ${Formatters.DayOfTheYear(Math.floor(client.dayjs().diff(client.dayjs().startOf('year'), 'day', true))+1)} day of the year, also good morning to you as well!`,
+        'Good morning! Have a cookie to start your day with. :cookie:', 'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440'
       ],
       afternoon: [
         `Afternoon ${PersonnyMcPerson}!`, `What a nice day outside, ${PersonnyMcPerson}`, `Good afternoon ${PersonnyMcPerson}`,
@@ -51,10 +61,12 @@ export default class Response {
         `Good night ${PersonnyMcPerson}!`, `Night ${PersonnyMcPerson}!`, `Sweet dreams, ${PersonnyMcPerson}.`, `Don't fall out of sky in your dreamworld, ${PersonnyMcPerson}!`,
         'Nighty night!', `I hope tomorrow is a good day for you, ${PersonnyMcPerson}!`, `Have a good sleep, ${PersonnyMcPerson}!`, `I :b:et you a cookie if you actually slept through the night! ${PersonnyMcPerson}`,
         `Sleep well ${PersonnyMcPerson}.`, `Gn ${PersonnyMcPerson}.`, `Close your eyelids and sleep, ${PersonnyMcPerson}.`, `Good night ${PersonnyMcPerson} and hope your pillow is nice and cold!`,
-        `# Night ${PersonnyMcPerson}!`, `You should try maintaining your sleep schedule if you're that really tired, ${PersonnyMcPerson}.`
+        `# Night ${PersonnyMcPerson}!`, `You should try maintaining your sleep schedule if you're really that tired, ${PersonnyMcPerson}.`
       ]
-    } as const
+    }
   }
 }
-// ty Noinkin for coming up with this suggestion/idea plus with bit of help <3
-// 𝘢𝘭𝘴𝘰 𝘪𝘮 𝘯𝘰𝘵 𝘢 𝘣𝘰𝘺 :)
+/*
+  ty Noinkin for coming up with this suggestion/idea plus with bit of help <3
+  Rewritten by Toast on 28/11/2023
+*/

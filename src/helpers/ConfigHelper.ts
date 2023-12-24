@@ -1,5 +1,5 @@
 import {readFileSync} from 'node:fs';
-import {Config} from '../typings/interfaces';
+import {Config} from '../interfaces';
 export default class ConfigHelper {
   static loadConfig() {
     let importconfig:Config;
@@ -12,7 +12,6 @@ export default class ConfigHelper {
     }
     return importconfig;
   }
-  static readConfig() {
-    return JSON.parse(readFileSync(process.argv[2] ?? 'src/config.json', 'utf8')) as Config;
-  }
+  static readConfig =()=>JSON.parse(readFileSync(process.argv[2] ?? 'src/config.json', 'utf8')) as Config;
+  static isDevMode =()=>this.readConfig().configName.includes('Beta');
 }

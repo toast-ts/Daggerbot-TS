@@ -1,7 +1,7 @@
-import Discord from 'discord.js';
+import {ColorResolvable, PresenceData} from 'discord.js';
 
 export interface Punishment {
-  _id: number;
+  case_id: number;
   type: string;
   member: string;
   moderator: string;
@@ -27,9 +27,9 @@ export interface FSData {
   slots: {
     capacity: number,
     used: number,
-    players: Array<FSPlayer>
+    players: FSPlayer[]
   },
-  vehicles: Array<FSVehicle>
+  vehicles: FSVehicle[]
 }
 interface FSVehicle {
   name: string,
@@ -38,7 +38,7 @@ interface FSVehicle {
   x: number,
   y: number,
   z: number,
-  fills: Array<FSVehicleFill>,
+  fills: FSVehicleFill[],
   controller: string
 }
 interface FSVehicleFill {
@@ -46,7 +46,7 @@ interface FSVehicleFill {
   level: number
 }
 export interface FSPlayer {
-  isUsed: boolean,
+  isUsed?: boolean,
   isAdmin: boolean,
   uptime: number,
   name: string
@@ -108,42 +108,31 @@ export interface FSCareerSavegame {
 }
 export interface Config {
   configName: string,
-  embedColor: Discord.ColorResolvable,
-  embedColorGreen: Discord.ColorResolvable,
-  embedColorOrange: Discord.ColorResolvable,
-  embedColorYellow: Discord.ColorResolvable,
-  embedColorRed: Discord.ColorResolvable,
-  embedColorBCA: Discord.ColorResolvable,
-  embedColorXmas: Discord.ColorResolvable,
+  embedColor: ColorResolvable,
+  embedColorGreen: ColorResolvable,
+  embedColorYellow: ColorResolvable,
+  embedColorRed: ColorResolvable,
+  embedColorInvis: ColorResolvable,
+  embedColorBCA: ColorResolvable,
+  embedColorXmas: ColorResolvable,
   LRSstart: number,
-  whitelistedServers: Array<string>,
-  MPStatsLocation: {
-    mainServer: {
-      channel: string
-      message: string
-    },
-    secondServer: {
-      channel: string
-      message: string
-    }
-  },
+  whitelistedServers: string[],
   botSwitches: {
     dailyMsgsBackup: boolean,
     registerCommands: boolean,
     commands: boolean,
     logs: boolean,
+    mpSys: boolean,
     buttonRoles: boolean,
     automod: boolean,
-    mpstats: boolean,
     autores: boolean
   },
-  botPresence: Discord.PresenceData,
-  eval: boolean,
-  whitelist: Array<string>,
-  contribList: Array<string>,
-  mainServer: {
+  botPresence: PresenceData,
+  whitelist: string[],
+  contribList: string[],
+  dcServer: {
     id: string,
-    staffRoles: Array<string>,
+    staffRoles: string[],
     roles: {
       admin: string,
       bottech: string,
@@ -158,7 +147,6 @@ export interface Config {
       vtcmember: string
     },
     channels: {
-      console: string,
       errors: string,
       thismeanswar: string,
       bot_suggestions: string,
@@ -167,10 +155,9 @@ export interface Config {
       welcome: string,
       botcommands: string,
       bankick_log: string,
-      fs_server_log: string,
       punishment_log: string,
       dcmod_chat: string,
-      mf_chat: string
+      mpmod_chat: string
     }
   }
 }

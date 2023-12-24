@@ -1,7 +1,25 @@
 <p align="center">
-  <img width="650" height="240" src="https://cdn.discordapp.com/attachments/1118960531135541318/1151036641717260348/Daggerbot-TS-repo.gif">
-  <h1 align="center">Daggerbot-TS Description</h1>
-  <p align="center">
-    This is a 1st generation bot that is a TypeScript-based bot converted from JavaScript at <s><a href="https://github.com/SpaceManBuzz/DaggerBot-">SpaceManBuzz/DaggerBot-</a></s> (now archived and privated)
-  </p>
+  <img width="630" height="250" src="https://cdn.toast-server.net/daggerwin/DaggerbotV3-Repo.gif">
+  <h1 align="center">Daggerbot V3 Description</h1>
 </p>
+This is a repository for V3 revision that has been transitioned and rewritten from V2 bot to be more robust and reliable with today's standards.
+
+This revision took **4 months** (Late September to Mid December) working on and off to do literally everything that needed a rewrite so badly that it cannot be done in V2.
+
+**Q:** So what are the changes if it almost looks the same as V2?  
+**A:** Here's the bullet points of the changes so far;
+- Reworked some of the files
+- Commands and events are now classes
+- Bot no longer stores short-term and long-term data locally
+- Transitioned MongoDB schemas to PostgreSQL models
+- MPModule got a facelift and rewritten from scratch
+- Moved the module files to another directory called `modules`
+- Renamed `funcs` to `components` as I don't think `funcs` directory makes sense anymore at this point.
+
+If you're looking for V2 revision, it has been moved to a [branch called `old`](https://github.com/AnxietyisReal/Daggerbot-TS/tree/old).
+
+This is a revision history of how far we come in development cycle;
+| Revision | Language | Library | Commands |
+|---------|----------|-----------|----------|
+| V1      | JavaScript | Discord.JS v13 | Message commands |
+| V2-V3   | TypeScript | Discord.JS v14 | Slash/message commands |
