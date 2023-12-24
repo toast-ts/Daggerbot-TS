@@ -1,13 +1,14 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
-
-export default {
-  async run(client:TClient, interaction:Discord.BaseInteraction){
+export default class InteractionCreate {
+  static async run(client:TClient, interaction:Discord.BaseInteraction){
     if (!interaction.inGuild() || !interaction.inCachedGuild()) return;
+    const logPrefix = 'Interaction';
+
     if (interaction.isChatInputCommand()){
       const commandFile = client.commands.get(interaction.commandName);
-      Logger.forwardToConsole('log', 'InteractionLog', `${interaction.user.username} used /${interaction.commandName} ${interaction.options.getSubcommandGroup(false) ?? ''} ${interaction.options.getSubcommand(false) ?? ''} in #${interaction.channel.name}`);
+      Logger.console('log', logPrefix, `${interaction.user.username} used /${interaction.commandName} ${interaction.options.getSubcommandGroup(false) ?? ''} ${interaction.options.getSubcommand(false) ?? ''} in #${interaction.channel.name}`.replace(/\s\s+/g, ' ').trim());
       if (!client.config.botSwitches.commands && !client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: `I am currently operating in development mode.\nPlease notify <@${client.config.whitelist[0]}> if this is a mistake.`, ephemeral: true});
       if (commandFile){
         try{
@@ -28,28 +29,20 @@ export default {
     } else if (interaction.isButton()){
       if (interaction.customId.startsWith('reaction-') && client.config.botSwitches.buttonRoles){
         const RoleID = interaction.customId.replace('reaction-','');
-        // Note: This is just a temporary "permanent" fix for the issue of people having both roles and less work for the mods.
-        let buttonRoleBlocked = 'Cannot have both roles! - Button Role';
-        if (interaction.member.roles.cache.has('1149139369433776269') && RoleID === '1149139583729160325') {
-          interaction.member.roles.add('1149139583729160325', buttonRoleBlocked);
-          interaction.member.roles.remove('1149139369433776269', buttonRoleBlocked);
-        } else if (interaction.member.roles.cache.has('1149139583729160325') && RoleID === '1149139369433776269') {
-          interaction.member.roles.add('1149139369433776269', buttonRoleBlocked);
-          interaction.member.roles.remove('1149139583729160325', buttonRoleBlocked);
-        }
 
-        if (interaction.member.roles.cache.has(RoleID)){
-          interaction.member.roles.remove(RoleID, 'Button Role');
-          interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true})
-        } else {
-          interaction.member.roles.add(RoleID, 'Button Role');
-          interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true})
-        }
-      } else if (interaction.customId.includes('deleteEmbed')) {
-        if (!client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: '*Only whitelisted people can delete this embed.*', ephemeral: true});
-        interaction.message.edit({content: '*Deleted.*', embeds: [], components: []});
-        Logger.forwardToConsole('log', 'InteractionLog', `Embed has been deleted at ${interaction.message.url}`);
-      } else Logger.forwardToConsole('log', 'InteractionLog', `Button has been pressed at ${interaction.message.url}`);
+        let roleConflictMsg = 'Cannot have both roles! - Button Role';
+        const WestFarm = '1149139369433776269';
+        const EastFarm = '1149139583729160325';
+        if (interaction.member.roles.cache.has(WestFarm) && RoleID === EastFarm) interaction.member.roles.set([EastFarm], roleConflictMsg);
+        else if (interaction.member.roles.cache.has(EastFarm) && RoleID === WestFarm) interaction.member.roles.set([WestFarm], roleConflictMsg);
+
+        if (interaction.member.roles.cache.has(RoleID)) interaction.member.roles.remove(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true}));
+        else interaction.member.roles.add(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true}));
+      } else if (interaction.customId.includes('deleteEvalEmbed')) {
+        if (!client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'You are not whitelisted, therefore you cannot delete this message.', ephemeral: true});
+        interaction.message.delete();
+        Logger.console('log', logPrefix, `Eval embed has been deleted in #${interaction.message.channel.name} by ${interaction.member.displayName}`);
+      } else Logger.console('log', logPrefix, `Button has been pressed at ${interaction.message.url}`);
     }
   }
 }

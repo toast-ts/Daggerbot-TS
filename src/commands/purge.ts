@@ -1,11 +1,9 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
-export default {
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (client.config.mainServer.id === interaction.guildId) {
-      if (!MessageTool.isStaff(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
-    }
+export default class Purge {
+  static async run(_client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+    if (!MessageTool.isStaff(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
     const amount = interaction.options.getInteger('amount') as number;
     if (amount > 100) return interaction.reply({content: 'Discord API limits purging up to 100 messages.', ephemeral: true})
     const user = interaction.options.getUser('user');
@@ -23,8 +21,8 @@ export default {
       })
     }
     await interaction.reply({content: `Successfully purged ${amount} messages.`, ephemeral: true})
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('purge')
     .setDescription('Purge the amount of messages in this channel')
     .addIntegerOption(x=>x

@@ -1,274 +1,326 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import path from 'node:path';
-import canvas from 'canvas';
-import PalletLibrary from '../helpers/PalletLibrary.js';
-import FormatPlayer from '../helpers/FormatPlayer.js';
-import MessageTool from '../helpers/MessageTool.js';
 import Logger from '../helpers/Logger.js';
-import {readFileSync} from 'node:fs';
-import {FSData} from '../typings/interfaces';
+import CanvasBuilder from '../components/CanvasGraph.js';
+import RanIntoHumor from '../helpers/RanIntoHumor.js';
+import MessageTool from '../helpers/MessageTool.js';
+import PalletLibrary from '../helpers/PalletLibrary.js';
+import {FSData} from '../interfaces';
+import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat} from '../modules/MPModule.js';
 
-const serverChoices = [
-  {name: 'Main Server', value: 'mainServer'},
-  {name: 'Second Server', value: 'secondServer'}
-]
+async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
+  const db = await client.MPServer.findInCache();
+  const {dss} = await requestServerData(client, db.find(x=>x.serverName === serverName));
+  if (!dss) return interaction.reply('Ran into a '+RanIntoHumor+' while trying to retrieve server data, please try again later.');
+  return dss as FSData;
+}
 
-export default {
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (client.uptime < 35000) return interaction.reply('I have just restarted, please wait for MPLoop to finish initializing.');
-    const serverSelector = interaction.options.getString('server');
-    if (['468835769092669461', '1149238561934151690'].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply('Please use <#739084625862852715> for `/mp status/players` commands to prevent clutter in this channel.').then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
-
-    const database = await client.MPServer.findInCache(interaction.guildId);
-    const endpoint = await fetch(database[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+database[serverSelector].code, {signal: AbortSignal.timeout(7500),headers:{'User-Agent':'Daggerbot - MPdata/undici'}}).then(r=>r.json() as Promise<FSData>);
-    const embed = new client.embed();
+const logPrefix = 'MPDB';
+const channels = {
+  activePlayers: '739084625862852715',
+  announcements: '1084864116776251463',
+  mainMpChat: '468835769092669461',
+  mfMpChat: '1149238561934151690',
+  serverInfo: '543494084363288637',
+}
+export default class MP {
+  static async autocomplete(client: TClient, interaction: Discord.AutocompleteInteraction<'cached'>) {
+    const serversInCache = await client.MPServer?.findInCache();
+    const filterByActive = serversInCache?.filter(x=>x.isActive)?.map(x=>x.serverName);
+    await interaction?.respond(filterByActive?.map(server=>({name: server, value: server})));
+  }
+  static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
+    if (client.config.botSwitches.mpSys === false) return interaction.reply({embeds: [mpModuleDisabled(client)]});
+    if (client.uptime < refreshTimerSecs) return interaction.reply('MPModule isn\'t initialized yet, please wait a moment and try again.');
+    if ([channels.mainMpChat, channels.mfMpChat].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply(`Please use <#${channels.activePlayers}> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
+    const choiceSelector = interaction.options.getString('server');
     ({
       players: async()=>{
-        const data = JSON.parse(readFileSync(path.join(`src/database/${client.MPServerCache[serverSelector].name}PlayerData.json`), {encoding: 'utf8'})).slice(client.statsGraph);
-        // handle negative days
-        for (const [i, change] of data.entries()) if (change < 0) data[i] = data[i - 1] || data[i + 1] || 0;
+        const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
+        if (!DSS) return console.log('Endpoint failed - players');
 
-        const first_graph_top = 16;
-        const second_graph_top = 16;
-        const textSize = 40;
-        const img = canvas.createCanvas(1500, 750);
-        const ctx = img.getContext('2d');
-        const graphOrigin = [15, 65];
-        const graphSize = [1300, 630];
-        const nodeWidth = graphSize[0] / (data.length - 1);
-        ctx.fillStyle = '#36393f';
-        ctx.fillRect(0, 0, img.width, img.height);
-
-        // grey horizontal lines
-        ctx.lineWidth = 5;
-
-        const interval_candidates: [number, number, number][] = [];
-        for (let i = 4; i < 10; i++) {
-          const interval = first_graph_top / i;
-          if (Number.isInteger(interval)) {
-            let intervalString = interval.toString();
-            const reference_number = i * Math.max(intervalString.split('').filter(x => x === '0').length / intervalString.length, 0.3) * (['1', '2', '4', '5', '6', '8'].includes(intervalString[0]) ? 1.5 : 0.67)
-            interval_candidates.push([interval, i, reference_number]);
-          }
+        const PDArr = await client.MPServer.fetchPlayerData(choiceSelector);
+        const canvas = await new CanvasBuilder().generateGraph(PDArr.slice(client.statsGraph), 'players');
+        const players:string[] = [];
+        let embedColor:Discord.ColorResolvable;
+        switch (true){
+          case DSS?.slots?.used === DSS?.slots.capacity:
+            embedColor = client.config.embedColorRed;
+            break;
+          case DSS?.slots?.used > 8:
+            embedColor = client.config.embedColorYellow;
+            break;
+          default:
+            embedColor = client.config.embedColorGreen;
         }
-        const chosen_interval = interval_candidates.sort((a, b) => b[2] - a[2])[0];
-        const previousY: number[] = [];
-        ctx.strokeStyle = '#202225';
+        for (const player of DSS.slots.players.filter(x=>x.isUsed)) players.push(playtimeStat(player))
 
-        for (let i = 0; i <= chosen_interval[1]; i++) {
-          const y = graphOrigin[1] + graphSize[1] - (i * (chosen_interval[0] / second_graph_top) * graphSize[1]);
-          if (y < graphOrigin[1]) continue;
-          const even = ((i + 1) % 2) === 0;
-          if (even) ctx.strokeStyle = '#2c2f33';
-          ctx.beginPath();
-          ctx.lineTo(graphOrigin[0], y);
-          ctx.lineTo(graphOrigin[0] + graphSize[0], y);
-          ctx.stroke();
-          ctx.closePath();
-          if (even) ctx.strokeStyle = '#202225';
-          previousY.push(y, i * chosen_interval[0]);
-        }
+        let attachmentName:string = 'MPModule.jpg';
+        await interaction.reply({embeds:[new client.embed()
+          .setTitle(DSS.server?.name.length > 0 ? DSS.server.name : 'Offline')
+          .setColor(embedColor)
+          .setDescription(DSS?.slots?.used < 1 ? '*Nobody is playing*' : players.join('\n\n'))
+          .setImage('attachment://'+attachmentName)
+          .setAuthor({name: `${DSS.slots.used}/${DSS.slots.capacity}`})
+          .setFooter({text: 'Current time: '+`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`})
+        ], files: [new client.attachment(canvas.toBuffer(), {name: attachmentName})]})
+      },
+      details: async()=>{
+        const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
+        if (!DSS) return console.log('Endpoint failed - details');
+        const db = await client.MPServer.findInCache();
+        const server = db.find(x=>x.serverName === choiceSelector);
 
-        // 30d mark
-        ctx.setLineDash([8, 16]);
-        ctx.beginPath();
-        const lastMonthStart = graphOrigin[0] + (nodeWidth * (data.length - 60));
-        ctx.lineTo(lastMonthStart, graphOrigin[1]);
-        ctx.lineTo(lastMonthStart, graphOrigin[1] + graphSize[1]);
-        ctx.stroke();
-        ctx.closePath();
-        ctx.setLineDash([]);
-
-        // draw points
-        ctx.lineWidth = 5;
-
-        const gradient = ctx.createLinearGradient(0, graphOrigin[1], 0, graphOrigin[1] + graphSize[1]);
-        gradient.addColorStop(1 / 16, '#e62c3b'); // Red
-        gradient.addColorStop(5 / 16, '#ffea00'); // Yellow
-        gradient.addColorStop(12 / 16, '#57f287'); // Green
-
-        let lastCoords: number[] = [];
-
-        for (let [i, curPC /* current player count */] of data.entries()) {
-          if (curPC < 0) curPC = 0;
-          const x = i * nodeWidth + graphOrigin[0];
-          const y = ((1 - (curPC / second_graph_top)) * graphSize[1]) + graphOrigin[1];
-          const nexPC /* next player count */ = data[i + 1];
-          const prvPC /* previous player count */ = data[i - 1];
-          ctx.strokeStyle = gradient;
-          ctx.beginPath();
-          if (lastCoords.length) ctx.moveTo(lastCoords[0], lastCoords[1]);
-          // if the line being drawn is horizontal, make it go until it has to go down
-          if (y === lastCoords[1]) {
-            let newX = x;
-            for (let j = i + 1; j <= data.length; j++) {
-              if (data[j] === curPC) newX += nodeWidth;
-              else break;
-            }
-            ctx.lineTo(newX, y);
-          } else ctx.lineTo(x, y);
-            lastCoords = [x, y];
-            ctx.stroke();
-            ctx.closePath();
-
-          if (curPC !== prvPC || curPC !== nexPC) { // Ball if vertical different to next or prev point
-            // ball
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(x, y, ctx.lineWidth * 1.3, 0, 2 * Math.PI)
-            ctx.closePath();
-            ctx.fill();
-          };
-        }
-
-        // draw text
-        ctx.font = '400 ' + textSize + 'px sans-serif';
-        ctx.fillStyle = 'white';
-
-        // highest value
-        if (!isNaN(previousY.at(-2) as number)) {
-          const maxx = graphOrigin[0] + graphSize[0] + textSize / 2;
-          const maxy = (previousY.at(-2) as number) + (textSize / 3);
-          ctx.fillText((previousY.at(-1) as number).toLocaleString('en-US'), maxx, maxy);
-        }
-
-        // lowest value
-        const lowx = graphOrigin[0] + graphSize[0] + textSize / 2;
-        const lowy = graphOrigin[1] + graphSize[1] + (textSize / 3);
-        ctx.fillText('0 players', lowx, lowy);
-
-        // 30d
-        ctx.fillText('30 min ago', lastMonthStart, graphOrigin[1] - (textSize / 2));
-
-        // time ->
-        const tx = graphOrigin[0] + (textSize / 2);
-        const ty = graphOrigin[1] + graphSize[1] + (textSize);
-        ctx.fillText('time ->', tx, ty);
-
-        const playerData: string[] = [];
-        let Color = client.config.embedColor;
-        if (endpoint.slots.used === endpoint.slots.capacity) Color = client.config.embedColorRed;
-        else if (endpoint.slots.used > 8) Color = client.config.embedColorYellow;
-        else Color = client.config.embedColorGreen;
-
-        for (const player of endpoint.slots.players.filter(x=>x.isUsed)) playerData.push(`**${player.name}${FormatPlayer.decoratePlayerIcons(player)}**\nFarming for ${FormatPlayer.uptimeFormat(player.uptime)}`)
-
-        const slot = `${endpoint.slots.used}/${endpoint.slots.capacity}`;
-        const ingameTime = `${('0'+Math.floor((endpoint.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((endpoint.server.dayTime/60/1000)%60)).slice(-2)}`;
-        interaction.reply({embeds:[new client.embed().setColor(Color).setTitle(endpoint.server.name.length > 0 ? endpoint.server.name : 'Offline').setDescription(endpoint.slots.used < 1 ? '*No players online*' : playerData.join('\n\n')).setImage('attachment://FSStats.png').setAuthor({name:slot}).setFooter({text: 'Current time: '+ingameTime})], files: [new client.attachmentBuilder(img.toBuffer(),{name:'FSStats.png'})]})
+        const dEmbed = new client.embed().setColor(client.config.embedColor).setAuthor({name: 'Crossplay server'}).setDescription(MessageTool.concatMessage(
+          `**Name:** \`${DSS?.server.name.length > 0 ? DSS.server.name : '\u200b'}\``,
+          `**Password:** \`mf4700\``,
+          `**Map:** \`${DSS.server.mapName.length > 0 ? DSS.server.mapName : 'No map'}\``,
+          `**Mods:** [Click here](http://${server.ip}/mods.html) **|** [Direct link](http://${server.ip}/all_mods_download?onlyActive=true)`,
+          '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
+          `Please see <#${channels.serverInfo}> for more additional information and rules.`
+        ));
+        if (DSS.server.name.length < 1) dEmbed.setFooter({text: 'Server is currently offline'});
+        await interaction.reply({embeds: [dEmbed]})
       },
       status: async()=>{
-        if (!endpoint) return console.log('Endpoint failed - status');
-        try {
-          if (endpoint.server.name.length > 1){
-            interaction.reply({embeds: [embed.setTitle('Status/Details').setColor(client.config.embedColor).addFields(
-              {name: 'Server name', value: `${endpoint?.server.name.length === 0 ? '\u200b' : `\`${endpoint?.server.name}\``}`, inline: true},
-              {name: 'Players', value: `${endpoint.slots.used} out of ${endpoint.slots.capacity}`, inline: true},
-              {name: 'Current map', value: `${endpoint?.server.mapName.length === 0 ? '\u200b' : endpoint.server.mapName}`, inline: true},
-              {name: 'Version', value: `${endpoint?.server.version.length === 0 ? '\u200b' : endpoint.server.version}`, inline: true},
-              {name: 'In-game Time', value: `${('0' + Math.floor((endpoint.server.dayTime/3600/1000))).slice(-2)}:${('0' + Math.floor((endpoint.server.dayTime/60/1000)%60)).slice(-2)}`, inline: true}
-            )]})
-          } else if (endpoint.server.name.length === 0) interaction.reply('Server is currently offline.')
-        } catch (err){
-          console.log(err)
-          interaction.reply('Ah, you caught a rare one... Please notify <@&'+client.config.mainServer.roles.bottech+'>')
-        }
-      },
-      info: async()=>{
-        if (!endpoint) return console.log('Endpoint failed - info')
-        if (endpoint.server.name.length < 1) embed.setFooter({text: 'Server is currently offline.'})
-        interaction.reply({embeds: [embed.setColor(client.config.embedColor).setDescription(MessageTool.concatMessage(
-          `**Server name**: \`${endpoint?.server.name.length === 0 ? '\u200b' : endpoint.server.name}\``,
-          '**Password:** `mf4700`',
-          '**Crossplay server**',
-          `**Map:** ${endpoint.server.mapName.length < 1 ? 'Null Island' : endpoint.server.mapName}`,
-          `**Mods:** [Click here](${database[serverSelector].ip}/mods.html) **|** [Direct Download](${database[serverSelector].ip}/all_mods_download?onlyActive=true)`,
-          '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
-          'Please see <#543494084363288637> for additional information.'
-        ))]});
-      },
-      url: async()=>{
-        if (client.config.mainServer.id == interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.mainServer.roles.bottech) && !interaction.member.roles.cache.has(client.config.mainServer.roles.admin)) return MessageTool.youNeedRole(interaction, 'mpmanager');
-        }
-        const address = interaction.options.getString('address');
-        if (!address){
-          try {
-            const Url = await client.MPServer.findInCache(interaction.guildId);
-            if (Url[serverSelector].ip && Url[serverSelector].code) return interaction.reply(Url[serverSelector].ip+'/feed/dedicated-server-stats.json?code='+Url[serverSelector].code)
-          } catch(err){
-            Logger.forwardToConsole('error', 'MPDB', err);
-            interaction.reply(`\`\`\`${err}\`\`\``)
-          }
-        } else {
-          if (!address.match(/dedicated-server-stats/)) return interaction.reply('The URL does not match `dedicated-server-stats.xml`');
-          const newURL = address.replace('xml','json').split('/feed/dedicated-server-stats.json?code=');
-          try {
-            Logger.forwardToConsole('log', 'MPDB', `${serverSelector}\'s URL for ${interaction.guild.name} has been updated by ${interaction.member.displayName} (${interaction.member.id})`);
-            const affected = await client.MPServer._content.findByIdAndUpdate({_id: interaction.guildId}, {$set: {[serverSelector]: {ip: newURL[0], code: newURL[1]}}})
-            if (affected) return interaction.reply('URL successfully updated.')
-          } catch (err) {
-            Logger.forwardToConsole('log', 'MPDB', `${serverSelector}\'s URL for ${interaction.guild.name} has been created by ${interaction.member.displayName} (${interaction.member.id})`);
-            await client.MPServer._content.create({_id: interaction.guildId, [serverSelector]: { ip: newURL[0], code: newURL[1] }})
-            .then(()=>interaction.reply('This server doesn\'t have any data in the database, therefore I have created it for you.'))
-            .catch((err:Error)=>interaction.reply(`I got hit by a flying brick while trying to populate the server data:\n\`\`\`${err.message}\`\`\``))
-          }
-        }
+        const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
+        if (!DSS) return console.log('Endpoint failed - status');
+        if (DSS.server.name.length > 0) {
+          await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
+            {name: 'Name', value: `\`${DSS?.server.name}\``, inline: true},
+            {name: 'Players', value: `${DSS.slots.used}/${DSS.slots.capacity}`, inline: true},
+            {name: 'Map', value: DSS?.server.mapName, inline: true}
+          ).setFooter({text: `Version: ${DSS?.server.version} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]})
+        } else return interaction.reply('Server is currently offline.')
       },
       pallets: async()=>{
-        if (!endpoint) return console.log('Endpoint failed - pallets');
-        const filter = endpoint.vehicles.filter(v=>v.type === 'pallet');
-        if (filter.length < 1) return interaction.reply('There are no pallets on the server.');
-        else interaction.reply(`There are currently ${filter.length} pallets on the server. Here\'s the breakdown:\`\`\`\n${Object.values(PalletLibrary(endpoint)).map(t=>`${t.name.padEnd(12)}${t.size}`).join('\n')}\`\`\``)
+        const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
+        if (!DSS) return console.log('Endpoint failed - pallets');
+        const filter = DSS?.vehicles.filter(x=>x.category === 'PALLETS');
+        if (filter.length < 1) return interaction.reply('No pallets found on the server.');
+        else {
+          const getLongestName = Object.entries(PalletLibrary(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
+          await interaction.reply(MessageTool.concatMessage(
+            `There are currently **${filter.length}** pallets on the server. Here\'s the breakdown:\`\`\``,
+            Object.entries(PalletLibrary(DSS)).map(([name, count])=>`${name.padEnd(getLongestName+3)}${count}`).join('\n'),
+            '```'
+          ))
+        }
+      },
+      maintenance: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+        }
+
+        const reason = interaction.options.getString('reason');
+        const channel = interaction.guild.channels.cache.get(channels.activePlayers) as Discord.TextChannel;
+        const embed = new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTimestamp();
+
+        if (channel.permissionsFor(interaction.guildId).has('SendMessages')) {
+          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: false}, {type: 0, reason: `Locked by ${interaction.member.displayName}`});
+          channel.send({embeds: [embed.setTitle('🔒 Locked').setDescription(`**Reason:**\n${reason}`)]});
+          interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} locked successfully`, ephemeral: true});
+        } else {
+          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: true}, {type: 0, reason: `Unlocked by ${interaction.member.displayName}`});
+          channel.send({embeds: [embed.setTitle('🔓 Unlocked').setDescription(`**Reason:**\n${reason}`)]});
+          interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} unlocked successfully`, ephemeral: true});
+        }
+      },
+      start: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+        }
+        const map_names = interaction.options.getString('map_names', true).split('|');
+        if (map_names.length > 10) return interaction.reply('You can only have up to 10 maps in a poll!');
+
+        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).send({content: MessageTool.formatMention(client.config.dcServer.roles.mpplayer, 'role'), embeds: [
+        new client.embed()
+          .setColor(client.config.embedColor)
+          .setTitle('Vote for next map!')
+          .setDescription(map_names.map((map,i)=>`${i+1}. **${map}**`).join('\n'))
+          .setFooter({text: `Poll started by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})
+        ], allowedMentions: {parse: ['roles']}});
+        await interaction.reply(`Successfully created a poll in <#${channels.announcements}>`)
+        this.reactionSystem(msg, map_names.length);
+      },
+      end: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+        }
+        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).messages.fetch(interaction.options.getString('message_id', true));
+        if (!msg) return interaction.reply('Message not found, please make sure you have the correct message ID.');
+
+        if (msg.embeds[0].title !== 'Vote for next map!') return interaction.reply('This message is not a poll!');
+        if (msg.embeds[0].footer?.text?.startsWith('Poll ended by')) return interaction.reply('This poll has already ended!');
+
+        const pollResults = Buffer.from(JSON.stringify({
+          map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3)),
+          votes: msg.reactions.cache.map(x=>x.count)
+        }, null, 2));
+        (client.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).send({files: [new client.attachment(pollResults, {name: `pollResults-${msg.id}.json`})]});
+
+        msg.edit({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]}).then(()=>msg.reactions.removeAll());
+        await interaction.reply(`Successfully ended the [poll](<https://discord.com/channels/${interaction.guildId}/${channels.announcements}/${msg.id}>) in <#${channels.announcements}>`)
+      },
+      maps: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+        }
+        const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch('1141293129673232435');
+        interaction.reply({embeds: [suggestionPool.embeds[0]]});
+      }, // Server management group
+      create_server: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
+        }
+        const dedicatedServerStatsURL = interaction.options.getString('dss-url');
+        if (!dedicatedServerStatsURL) {
+          const fetchUrls = await client.MPServer.findInCache();
+          const urlByName = fetchUrls.find(x=>x.serverName === choiceSelector);
+          if (urlByName) return await interaction.reply(`http://${urlByName.ip}/feed/dedicated-server-stats.json?code=${urlByName.code}`);
+        } else {
+          if (!dedicatedServerStatsURL.match(/http.*dedicated-server-stats/)) return interaction.reply(`Improper URL provided, you sent: \`${dedicatedServerStatsURL}\`\nFormat: \`http://<ip>:<port>/feed/dedicated-server-stats.xml?code=<MD5-Code>\`\nI can accept either XML or JSON variants, no need to panic.`);
+          const stripURL = dedicatedServerStatsURL.replace(/http:\/\//, '').replace(/\.xml|\.json/g, '.json').split('/feed/dedicated-server-stats.json?code=')
+          const stripped = {
+            ip: stripURL[0],
+            code: stripURL[1]
+          };
+
+          Logger.console('log', logPrefix, `Updating the IP for "${choiceSelector}" to ${stripped.ip}`)
+          await client.MPServer.addServer(choiceSelector, stripped.ip, stripped.code);
+          await interaction.reply(`**${choiceSelector}**'s entry has been successfully created!`);
+        }
+      },
+      remove_server: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
+        }
+        try {
+          Logger.console('log', logPrefix, `Removing "${choiceSelector}" from database`)
+          await client.MPServer.removeServer(choiceSelector);
+          await interaction.reply(`**${choiceSelector}**'s entry has been successfully removed!`);
+        } catch {
+          Logger.console('log', logPrefix, `Failed to remove "${choiceSelector}", it probably does not exist or something went very wrong`)
+          await interaction.reply(`**${choiceSelector}**'s entry does not exist!`);
+        }
+      },
+      visibility_toggle: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
+        }
+        const toggleFlag = interaction.options.getBoolean('is_active');
+        const submitFlagUpdate = await client.MPServer.toggleServerUsability(choiceSelector, toggleFlag);
+        Logger.console('log', logPrefix, `Toggling isActive flag for ${choiceSelector} to ${toggleFlag}`);
+        let visibilityTxt = `**${choiceSelector}** is now `;
+        if (toggleFlag) {
+          submitFlagUpdate
+          await interaction.reply(visibilityTxt += 'visible to public');
+        } else if (!toggleFlag) {
+          submitFlagUpdate
+          await interaction.reply(visibilityTxt += 'hidden from public');
+        }
       }
-    })[interaction.options.getSubcommand()]();
-  },
-  data: new Discord.SlashCommandBuilder()
-  .setName('mp')
-  .setDescription('Display MP status and other things')
-  .addSubcommand(x=>x
-    .setName('status')
-    .setDescription('Display server status')
-    .addStringOption(x=>x
-      .setName('server')
-      .setDescription('The server to update')
-      .setRequired(true)
-      .setChoices(...serverChoices)))
-  .addSubcommand(x=>x
-    .setName('players')
-    .setDescription('Display players on server')
-    .addStringOption(x=>x
-      .setName('server')
-      .setDescription('The server to display players for')
-      .setRequired(true)
-      .setChoices(...serverChoices)))
-  .addSubcommand(x=>x
-    .setName('url')
-    .setDescription('View or update the server URL')
-    .addStringOption(x=>x
-      .setName('server')
-      .setDescription('The server to update')
-      .setRequired(true)
-      .setChoices(...serverChoices))
-    .addStringOption(x=>x
-      .setName('address')
-      .setDescription('The URL to the dedicated-server-stats.json file')
-      .setRequired(false)))
-  .addSubcommand(x=>x
-    .setName('info')
-    .setDescription('Display server information')
-    .addStringOption(x=>x
-      .setName('server')
-      .setDescription('The server to display information for')
-      .setRequired(true)
-      .setChoices(...serverChoices)))
-  .addSubcommand(x=>x
-    .setName('pallets')
-    .setDescription('Check total amount of pallets on the server')
-    .addStringOption(x=>x
-      .setName('server')
-      .setDescription('The server to get amount of pallets from')
-      .setRequired(true)
-      .setChoices(...serverChoices)))
+    })[interaction.options.getSubcommand() ?? interaction.options.getSubcommandGroup()]();
+  }
+  private static async reactionSystem(message:Discord.Message, length:number) {
+    const numbersArr = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+    await Promise.all(numbersArr.slice(0, length).map(emote=>message.react(emote)));
+  }
+  static data = new Discord.SlashCommandBuilder()
+    .setName('mp')
+    .setDescription('Get information from the FSMP server(s)')
+    .addSubcommand(x=>x
+      .setName('players')
+      .setDescription('Fetches the player list from the requested server')
+      .addStringOption(x=>x
+        .setName('server')
+        .setDescription('The server to fetch the player list from')
+        .setAutocomplete(true)
+        .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('details')
+      .setDescription('Fetches the information about the requested server')
+      .addStringOption(x=>x
+        .setName('server')
+        .setDescription('The server to fetch the information from')
+        .setAutocomplete(true)
+        .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('status')
+      .setDescription('Display the status of the requested server')
+      .addStringOption(x=>x
+        .setName('server')
+        .setDescription('The server to fetch the status from')
+        .setAutocomplete(true)
+        .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('pallets')
+      .setDescription('Fetches how many pallets are on the requested server')
+      .addStringOption(x=>x
+        .setName('server')
+        .setDescription('The server to fetch the pallet count from')
+        .setAutocomplete(true)
+        .setRequired(true)))
+    .addSubcommandGroup(x=>x
+      .setName('server_mgmnt')
+      .setDescription('Manage the server entries in database, e.g toggling server visiblity, adding/removing, etc.')
+      .addSubcommand(x=>x
+        .setName('create_server')
+        .setDescription('View or update the URL for the requested server')
+        .addStringOption(x=>x
+          .setName('server')
+          .setDescription('The server to create or update')
+          .setAutocomplete(true)
+          .setRequired(true))
+        .addStringOption(x=>x
+          .setName('dss-url')
+          .setDescription('The URL to the dedicated-server-stats')
+          .setRequired(false)))
+      .addSubcommand(x=>x
+        .setName('remove_server')
+        .setDescription('Remove the requested server from database')
+        .addStringOption(x=>x
+          .setName('server')
+          .setDescription('The server to be removed')
+          .setAutocomplete(true)
+          .setRequired(true)))
+      .addSubcommand(x=>x
+        .setName('visibility_toggle')
+        .setDescription('Toggle isActive flag for the requested server')
+        .addStringOption(x=>x
+          .setName('server')
+          .setDescription('The server to toggle the flag')
+          .setAutocomplete(true)
+          .setRequired(true))
+        .addBooleanOption(x=>x
+          .setName('is_active')
+          .setDescription('Whether to hide or show the server from the public view')
+          .setRequired(true))))
+    .addSubcommand(x=>x
+      .setName('maintenance')
+      .setDescription('Toggle the maintenance mode for #mp-active-players channel')
+      .addStringOption(x=>x
+        .setName('reason')
+        .setDescription('The message to send to the channel after toggling')
+        .setRequired(true)))
+    .addSubcommandGroup(x=>x
+      .setName('poll')
+      .setDescription('Create or end a map poll in #mp-announcements channel')
+      .addSubcommand(x=>x
+        .setName('start')
+        .setDescription('Start a map poll')
+        .addStringOption(x=>x
+          .setName('map_names')
+          .setDescription('Map names separated by |\'s, up to 10 maps!')
+          .setRequired(true)))
+      .addSubcommand(x=>x
+        .setName('end')
+        .setDescription('End a map poll')
+        .addStringOption(x=>x
+          .setName('message_id')
+          .setDescription('Message ID of the poll')
+          .setRequired(true)))
+      .addSubcommand(x=>x
+        .setName('maps')
+        .setDescription('Fetch the list of maps currently in the suggestion pool')))
 }

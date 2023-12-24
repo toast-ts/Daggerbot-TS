@@ -1,23 +1,43 @@
-import TClient from '../client.js';
-import mongoose from 'mongoose';
+import DatabaseServer from '../components/DatabaseServer.js';
+import {Model, DataTypes} from 'sequelize';
 
-const Schema = mongoose.model('bonkCount', new mongoose.Schema({
-  _id: {type: String, required:true},
-  value: {type: Number, required:true}
-}, {versionKey: false}));
+class bonkCount extends Model {
+  declare public id: string;
+  declare public count: number;
+}
 
-export default class bonkCount extends Schema {
-  client: TClient;
-  _content: typeof Schema;
-  constructor(client:TClient){
-    super();
-    this.client = client;
-    this._content = Schema;
+export class BonkCountSvc {
+  private model: typeof bonkCount;
+
+  constructor(){
+    this.model = bonkCount;
+    this.model.init({
+      id: {
+        type: DataTypes.STRING,
+        unique: true,
+        primaryKey: true
+      },
+      count: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      }
+    }, {
+      tableName: 'bonkcount',
+      createdAt: false,
+      updatedAt: false,
+      sequelize: DatabaseServer.seq
+    });
+    this.model.sync();
   }
-  async _incrementUser(userid: string){
-    const amount = await this._content.findById(userid)
-    if (amount) await this._content.findByIdAndUpdate(userid, {value: amount.value + 1})
-    else await this._content.create({_id: userid, value: 1})
+  async hitCountIncremental(userId:string) {
+    const getUser = await this.model.findByPk(userId);
+    if (getUser) getUser.increment('count');
+    else await this.model.create({id: userId, count: 1});
     return this;
+  }
+  async fetchUser(userId:string) {
+    const getUser = await this.model.findByPk(userId);
+    if (getUser) return getUser.dataValues;
+    else return 0;
   }
 }

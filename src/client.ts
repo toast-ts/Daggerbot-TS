@@ -1,52 +1,49 @@
-interface repeatedMessages {
-  [key: string]: {data: Discord.Collection<number,{type:string,channel:string}>,timeout: NodeJS.Timeout}
+interface IRepeatedMessages {
+  [key:string]: {
+    type:string;
+    count:number;
+    firstTime:number;
+    timeout:NodeJS.Timeout;
+  }
 }
-type MPServerCache = Record<string,{
-  players: FSPlayer[],
-  status: 'online' | 'offline' | null,
-  name: string | null
-}>
-
 import Discord from 'discord.js';
 import ConfigHelper from './helpers/ConfigHelper.js';
 import {readdirSync} from 'node:fs';
-import {Config, FSPlayer} from './typings/interfaces';
-import bannedWords from './models/bannedWords.js';
-import userLevels from './models/userLevels.js';
-import suggestion from './models/suggestion.js';
-import punishments from './models/punishments.js';
-import tags from './models/tagSystem.js';
-import bonkCount from './models/bonkCount.js';
-import MPServer from './models/MPServer.js';
-import DatabaseServer from './funcs/DatabaseServer.js';
-import CacheServer from './funcs/CacheServer.js';
+import {Config} from './interfaces';
+import {
+  DailyMsgsSvc, UserLevelsSvc, BonkCountSvc,
+  MPServerSvc, PunishmentsSvc, ProhibitedWordsSvc,
+  SuggestionsSvc, TagSystemSvc, YouTubeChannelsSvc
+} from './models/IMPORTS.js';
+import DatabaseServer from './components/DatabaseServer.js';
+import CacheServer from './components/CacheServer.js';
 import fxp from 'fast-xml-parser';
 import dayjs from 'dayjs';
 import TSClient from './helpers/TSClient.js';
-const importconfig = ConfigHelper.loadConfig();
 
 export default class TClient extends Discord.Client {
-  invites: Map<any, any>;
-  commands: Discord.Collection<string, any>;
-  registry: Array<Discord.ApplicationCommandDataResolvable>;
-  config: Config;
-  embed: typeof Discord.EmbedBuilder;
-  collection: typeof Discord.Collection;
-  attachmentBuilder: typeof Discord.AttachmentBuilder;
-  dayjs: typeof dayjs;
-  fxp: typeof fxp;
-  userLevels: userLevels;
-  punishments: punishments;
-  bonkCount: bonkCount;
-  bannedWords: bannedWords;
-  MPServer: MPServer;
-  MPServerCache: MPServerCache = {};
-  suggestion: suggestion;
-  tags: tags;
-  repeatedMessages: repeatedMessages;
-  statsGraph: number;
+  public invites: Map<any, any> = new Map();
+  public commands: Discord.Collection<string, any> = new Discord.Collection();
+  public registry: Array<Discord.ApplicationCommandDataResolvable> = [];
+  public config: Config;
+  public embed: typeof Discord.EmbedBuilder = Discord.EmbedBuilder;
+  public collection: typeof Discord.Collection = Discord.Collection;
+  public attachment: typeof Discord.AttachmentBuilder = Discord.AttachmentBuilder;
+  public dayjs: typeof dayjs = dayjs;
+  public fxp: typeof fxp = fxp;
+  public dailyMsgs: DailyMsgsSvc = new DailyMsgsSvc();
+  public userLevels: UserLevelsSvc = new UserLevelsSvc(this);
+  public punishments: PunishmentsSvc = new PunishmentsSvc(this);
+  public bonkCount: BonkCountSvc = new BonkCountSvc();
+  public prohibitedWords: ProhibitedWordsSvc = new ProhibitedWordsSvc();
+  public MPServer: MPServerSvc = new MPServerSvc();
+  public suggestions: SuggestionsSvc = new SuggestionsSvc();
+  public tags: TagSystemSvc = new TagSystemSvc();
+  public ytChannels: YouTubeChannelsSvc = new YouTubeChannelsSvc();
+  public repeatedMessages: IRepeatedMessages = {};
+  public statsGraph: number = -120;
 
-  constructor(){
+  constructor() {
     super({
       intents: [
         Discord.GatewayIntentBits.Guilds, Discord.GatewayIntentBits.GuildMembers,
@@ -56,60 +53,31 @@ export default class TClient extends Discord.Client {
         Discord.GatewayIntentBits.DirectMessages
       ], partials: [
         Discord.Partials.Channel, Discord.Partials.Reaction, Discord.Partials.Message
-      ], allowedMentions: {users:[],roles:[]}
+      ], allowedMentions: {users:[], roles:[]}
     })
-    this.invites = new Map();
-    this.commands = new Discord.Collection();
-    this.registry = [];
-    this.config = importconfig as Config;
-    this.embed = Discord.EmbedBuilder;
-    this.collection = Discord.Collection;
-    this.attachmentBuilder = Discord.AttachmentBuilder;
-    this.dayjs = dayjs;
-    this.fxp = fxp;
-    this.userLevels = new userLevels(this);
-    this.bonkCount = new bonkCount(this);
-    this.punishments = new punishments(this);
-    this.bannedWords = new bannedWords(this);
-    this.MPServer = new MPServer(this);
-    this.MPServerCache = {} as MPServerCache;
-    this.suggestion = new suggestion(this);
-    this.tags = new tags(this);
-    this.repeatedMessages = {};
-    this.setMaxListeners(62);
-    this.statsGraph = -120;
+    this.config = ConfigHelper.loadConfig() as Config;
+    this.setMaxListeners(50);
   }
-  async init(){
+  async init() {
     console.time('Startup');
-    await Promise.all([
-      CacheServer.init(),
-      DatabaseServer.init(),
-      this.login((await TSClient.Token()).main)
-    ]);
 
-    const eventFiles = await Promise.all(
-      readdirSync('dist/events').map(file=>import(`./events/${file}`))
-    );
+    const eventFiles = await Promise.all(readdirSync('dist/events').map(file=>import(`./events/${file}`)));
     eventFiles.forEach((eventFile, index)=>{
       const eventName = readdirSync('dist/events')[index].replace('.js', '');
       this.on(eventName, async(...args)=>eventFile.default.run(this, ...args));
     });
 
-    const commandFiles = await Promise.all(
-      readdirSync('dist/commands').map(file=>import(`./commands/${file}`))
-    );
+    const commandFiles = await Promise.all(readdirSync('dist/commands').map(file=>import(`./commands/${file}`)));
     commandFiles.forEach(commandFile=>{
       const {default: command} = commandFile;
       this.commands.set(command.data.name, {command, uses: 0});
       this.registry.push(command.data.toJSON());
     });
 
-    Object.keys(this.config.MPStatsLocation).forEach(naming=>{
-      this.MPServerCache[naming] = {
-        players: [],
-        status: null,
-        name: null
-      }
-    });
+    await Promise.all([
+      CacheServer.init(),
+      DatabaseServer.init(),
+      this.login((await TSClient()).main)
+    ]);
   }
 }

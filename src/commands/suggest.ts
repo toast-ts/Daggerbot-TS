@@ -1,106 +1,77 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
-import HookMgr from '../funcs/HookManager.js';
-export default {
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    const replyInDM = interaction.options.getString('message');
-    const suggestionIDReply = interaction.options.getString('id');
-    const suggestionID = (Math.random() + 1).toString(36).substring(5);
-    const userid = (await client.suggestion._content.findById(suggestionIDReply))?.user._id;
-    const theirIdea = (await client.suggestion._content.findById(suggestionIDReply))?.idea;
-    const timeFormatting = client.dayjs().format('DD/MM/YY h:mm A');
-    const stateChanged = 'Suggestion state has been successfully updated and DM is sent.';
-    const dmFail = `Failed to send a DM to ${MessageTool.formatMention(userid, 'user')}, they possibly have it turned off or blocked me.\nSuggestion ID: **${suggestionIDReply}**`;
+import HookMgr from '../components/HookManager.js';
+export default class Suggest {
+  static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
+    const idVal = interaction.options.getInteger('id');
     ({
-      your: async()=>{
-        const suggestionText = interaction.options.getString('suggestion');
-        const suggestionImage = interaction.options.getAttachment('image');
-        const notifEmbed = new client.embed()
-          .setColor(client.config.embedColor)
-          .setTitle(`Suggestion ID: ${suggestionID}`)
-          .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
-          .setFooter({text: `Timestamp: ${timeFormatting}`})
-          .setDescription(MessageTool.concatMessage(
-            '> **Suggestion:**',
-            suggestionText
-          ));
-        if (suggestionImage) notifEmbed.setImage(suggestionImage.url);
-        HookMgr.send(client, 'bot_suggestions', '1079621523561779272', {embeds:[notifEmbed], username: `${client.user.username} Suggestions`, avatarURL: client.user.avatarURL({size:256})}).catch(e=>{
-          console.log(e.message);
-          interaction.reply({content: 'Failed to send suggestion, try again later.', ephemeral: true})
-        });
-        await client.suggestion._content.create({_id: suggestionID, idea: suggestionText, user: {_id: interaction.user.id, name: interaction.user.username}, state: 'Pending'});
-        interaction.reply({content: `Suggestion sent, here is your suggestion ID to take note of it: \`${suggestionID}\``, ephemeral: true})
+      create: async()=>{
+        const suggestion = interaction.options.getString('suggestion', true);
+        const newSugg = await client.suggestions.create(interaction.user.id, suggestion);
+        this.newWebhookMessage(client, newSugg.dataValues.id, suggestion, interaction.user.username);
+        return interaction.reply({content: `Your suggestion has been sent to bot developers. \`#${newSugg.dataValues.id}\``, ephemeral: true});
       },
-      approve: async()=>{
-        if (client.config.mainServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
+      delete: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
         }
-        if ((await client.suggestion._content.findById(suggestionIDReply)).state === 'Rejected') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
-        (await client.users.fetch(userid)).send({embeds: [new client.embed()
-          .setColor(client.config.embedColorGreen)
-          .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
-          .setTitle('Your suggestion has been approved.')
-          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM}`)
-          .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
-        ]}).catch((err:Discord.DiscordjsErrorCodes)=>{if (err) return (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(dmFail)});
-        await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Approved'});
-        return interaction.reply({embeds:[new client.embed().setColor(client.config.embedColorGreen).setTitle(`Suggestion approved | ${suggestionIDReply}`).setDescription(stateChanged)]});
+        const sugg = await this.deleteSuggestion(client, idVal);
+        if (sugg) return interaction.reply(`Suggestion \`#${idVal}\` has been deleted.`);
+        else return interaction.reply(`Suggestion \`#${idVal}\` does not exist.`);
       },
-      reject: async()=>{
-        if (client.config.mainServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.mainServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
+      update: async()=>{
+        if (client.config.dcServer.id === interaction.guildId) {
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
         }
-        if ((await client.suggestion._content.findById(suggestionIDReply)).state === 'Approved') return interaction.reply({content: 'This suggestion\'s state is locked and cannot be modified.', ephemeral: true});
-        (await client.users.fetch(userid)).send({embeds: [new client.embed()
-          .setColor(client.config.embedColorRed)
-          .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 256})})
-          .setTitle('Your suggestion has been rejected.')
-          .setDescription(`> **Your suggestion:**\n${theirIdea}\n> **Their message:**\n${replyInDM}`)
-          .setFooter({text: `Timestamp: ${timeFormatting} | Suggestion ID: ${suggestionIDReply}`})
-        ]}).catch((err:Discord.DiscordjsErrorCodes)=>{if (err) return (client.channels.resolve('1040018521746325586') as Discord.TextChannel).send(dmFail)});
-        await client.suggestion._content.findByIdAndUpdate(suggestionIDReply, {state: 'Rejected'});
-        return interaction.reply({embeds:[new client.embed().setColor(client.config.embedColorRed).setTitle(`Suggestion rejected | ${suggestionIDReply}`).setDescription(stateChanged)]});
+        const status = interaction.options.getString('status', true);
+        await this.updateSuggestion(client, idVal, status as 'Accepted'|'Rejected');
+        client.users.fetch((await client.suggestions.fetchById(idVal)).dataValues.userid).then(x=>x.send(`Your suggestion \`#${idVal}\` has been updated to \`${status}\` by **${interaction.user.username}**`)).catch(()=>interaction.channel.send(`Unable to send DM to user of suggestion \`#${idVal}\``))
+        return await interaction.reply(`Suggestion \`#${idVal}\` has been updated to \`${status}\`.`);
       }
     } as any)[interaction.options.getSubcommand()]();
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static async updateSuggestion(client:TClient, id:number, status: 'Accepted'|'Rejected') {
+    return await client.suggestions.updateStatus(id, status);
+  }
+  static async deleteSuggestion(client:TClient, id:number) {
+    return await client.suggestions.delete(id);
+  }
+  static newWebhookMessage(client:TClient, id:number, suggestion:string, username:string) {
+    const hook = new HookMgr(client, 'bot_suggestions', '1079621523561779272');
+    if (hook) return hook.send({embeds: [new client.embed().setColor(client.config.embedColor).setTitle(`Suggestion #${id}`).setAuthor({name: username}).setDescription(`\`\`\`${suggestion}\`\`\``)]});
+    else throw new Error('[SUGGESTION-HOOK] Provided webhook cannot be fetched, not sending message.')
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('suggest')
-    .setDescription('Want to suggest ideas/thoughts to bot techs? Suggest it here')
+    .setDescription('Want to suggest something to the bot devs? You can do so!')
     .addSubcommand(x=>x
-      .setName('your')
-      .setDescription('What do you want to suggest?')
+      .setName('create')
+      .setDescription('Create a new suggestion for your idea')
       .addStringOption(x=>x
         .setName('suggestion')
-        .setDescription('Suggest something to bot techs. (You will be DM\'d by bot if your idea was approved/rejected)')
-        .setMaxLength(1024)
-        .setRequired(true))
-      .addAttachmentOption(x=>x
-        .setName('image')
-        .setDescription('If your idea seems complicated or prefer to show what your idea may look like then attach the image.')))
+        .setDescription('Your precious idea')
+        .setRequired(true)))
     .addSubcommand(x=>x
-      .setName('approve')
-      .setDescription('[Bot Tech] Approve the suggestion sent by the user')
-      .addStringOption(x=>x
+      .setName('delete')
+      .setDescription('Delete a suggestion (Bot Tech only)')
+      .addIntegerOption(x=>x
         .setName('id')
-        .setDescription('User\'s suggestion ID')
-        .setRequired(true))
-      .addStringOption(x=>x
-        .setName('message')
-        .setDescription('(Optional) Include a message with your approval')
-        .setRequired(true)
-        .setMaxLength(256)))
+        .setDescription('The ID of the suggestion')
+        .setRequired(true)))
     .addSubcommand(x=>x
-      .setName('reject')
-      .setDescription('[Bot Tech] Reject the suggestion sent by the user')
-      .addStringOption(x=>x
+      .setName('update')
+      .setDescription('Update a suggestion (Bot Tech only)')
+      .addIntegerOption(x=>x
         .setName('id')
-        .setDescription('User\'s suggestion ID')
+        .setDescription('The ID of the suggestion')
         .setRequired(true))
       .addStringOption(x=>x
-        .setName('message')
-        .setDescription('(Optional) Include a message with your rejection')
+        .setName('status')
+        .setDescription('The status of the suggestion (Accepted/Rejected)')
         .setRequired(true)
-        .setMaxLength(256)))
+        .setChoices(
+          {name: 'Accept', value: 'Accepted'},
+          {name: 'Reject', value: 'Rejected'}
+        )))
 }

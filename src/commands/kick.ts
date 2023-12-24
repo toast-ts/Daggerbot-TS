@@ -1,13 +1,13 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import Punish from '../funcs/Punish.js';
-export default {
-  run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+import Punish from '../components/Punish.js';
+export default class Kick {
+  static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     Punish(client, interaction, 'kick');
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('kick')
-    .setDescription('Boot a member from the server')
+    .setDescription('Kick a member from the server')
     .addUserOption(x=>x
       .setName('member')
       .setDescription('Which member to kick?')

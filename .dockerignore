@@ -1,0 +1,10 @@
+botStartup.bat
+.ncurc.json
+.gitignore
+README.md
+.github
+.vscode
+.yarn/sdks
+dist/
+docker-compose.yml
+startWithYarn.cjs

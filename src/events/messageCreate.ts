@@ -1,35 +1,36 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import Response from '../funcs/ResponseModule.js';
-import CmdTrigger from '../funcs/CmdModule.js';
+import Response from '../modules/ResponseModule.js';
+import CmdTrigger from '../modules/CmdModule.js';
 import Logger from '../helpers/Logger.js';
-import Automoderator from '../funcs/Automod.js';
+import ConfigHelper from '../helpers/ConfigHelper.js';
+import Automoderator from '../components/Automod.js';
 import MessageTool from '../helpers/MessageTool.js';
-export default {
-  async run(client:TClient, message:Discord.Message){
+export default class MessageCreate {
+  static async run(client:TClient, message:Discord.Message){
     if (message.author.bot) return;
-    if (!message.inGuild()) return (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({content: `<:fish_unamused:1083675172407623711> ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) tried to send me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
+    if (!message.inGuild()) return (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({content: `<:fish_unamused:1083675172407623711> ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) tried to send me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
     let automodded: boolean;
 
-    if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.mainServer.roles.admin) && message.guildId === client.config.mainServer.id){
+    if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id){
       const automodFailReason = 'msg got possibly deleted by another bot.';
-      if (await client.bannedWords._content.findById(Automoderator.scanMsg(message))/*  && !Whitelist.includes(message.channelId) */){
+      if (await client.prohibitedWords.findWord(Automoderator.scanMsg(message))/*  && !Whitelist.includes(message.channelId) */) {
         automodded = true;
-        message.delete().catch(()=>Logger.forwardToConsole('log', 'AUTOMOD-BANNEDWORDS', automodFailReason));
+        message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PROHIBITEDWORDS', automodFailReason));
         message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 10000));
-        await Automoderator.repeatedMessages(client, message, 30000, 3, 'bw', '30m', 'Constant swears');
-      } else if (message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember)){
+        await Automoderator.repeatedMessages(client, message, 30000, 3, 'bw', '30m', 'Prohibited word spam');
+      } else if (message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember)) {
         const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.includes('discord.gg/'))).catch(()=>null);
-        if (validInvite && validInvite.guild?.id !== client.config.mainServer.id){
+        if (validInvite && validInvite.guild?.id !== client.config.dcServer.id) {
           automodded = true;
-          message.delete().catch(()=>Logger.forwardToConsole('log', 'AUTOMOD-ADVERT', automodFailReason));
+          message.delete().catch(()=>Logger.console('log', 'AUTOMOD:ADVERTISEMENT', automodFailReason));
           message.channel.send('Please don\'t advertise other Discord servers.').then(x=>setTimeout(()=>x.delete(), 15000));
-          await Automoderator.repeatedMessages(client, message, 60000, 2, 'adv', '1h', 'Discord Advertisement');
+          await Automoderator.repeatedMessages(client, message, 60000, 2, 'adv', '1h', 'Discord advertisement');
         }
       }
     }
 
-    if (message.guildId === client.config.mainServer.id && !automodded) client.userLevels.incrementUser(message.author.id)
+    if (message.guildId === client.config.dcServer.id && !automodded) client.userLevels.messageIncremental(message.author.id);
     // Mop gifs from banned channels without Monster having to mop them.
     const bannedChannels = [
       '516344221452599306', // #mp-moderators
@@ -48,7 +49,7 @@ export default {
       const outgoingArrays = {
         guildBoost: ['Thanks for boosting our server!', 'Thanks for the boost!', 'We appreciate the boost!', `Thank you for the kind boost, <@${message.author.id}>!`],
       }
-      const GeneralChatID = '468835415093411863';
+      const GeneralChatID = ConfigHelper.isDevMode() ? '1160707096493441056' : '468835415093411863';
       Response.create(client, message, GeneralChatID, 'morning');
       Response.create(client, message, GeneralChatID, 'afternoon');
       Response.create(client, message, GeneralChatID, 'evening');
@@ -57,15 +58,36 @@ export default {
       CmdTrigger.registerCmds(client, message, 'wepanikfrfr');
       CmdTrigger.MFPwTrigger(message, 'farmpw');
 
-      if (message.type === 8 && message.channelId === GeneralChatID) message.channel.send({content: outgoingArrays.guildBoost[Math.floor(Math.random() * outgoingArrays.guildBoost.length)], allowedMentions: {parse: ['users']}})
+      let picStorage = {
+        cantRead: 'https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931',
+        amAlive: 'https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579',
+        deadChat: 'https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png',
+      };
+      let ModsGoGetThisPerson = [// I find this variable amusing but also can't think of anything better so not changing it.
+        {
+          user: 'nawdic',
+          img: 'https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif',
+          title: '*Nawdic has done an oopsie*',
+        },
+        {
+          user: 'monster',
+          img: 'https://media.tenor.com/ZIzIjb_wvEoAAAAC/face-palm.gif',
+          title: '*Monster has broken something*',
+        }
+      ];
+
+      if (message.type === Discord.MessageType.GuildBoost && message.channelId === GeneralChatID) message.channel.send({content: outgoingArrays.guildBoost[Math.floor(Math.random() * outgoingArrays.guildBoost.length)], allowedMentions: {parse: ['users']}})
       if (message.mentions.members.has('309373272594579456') && !MessageTool.isStaff(message.member)) message.reply('Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>');
-      if (message.mentions.members.has('215497515934416896') && !MessageTool.isStaff(message.member) && message.type != 19) message.reply('Please don\'t tag Monster unless it\'s important!');
+      if (message.mentions.members.has('215497515934416896') && !MessageTool.isStaff(message.member) && message.type != Discord.MessageType.Reply) message.reply('Please don\'t tag Monster unless it\'s important!');
       if (incomingArrays.password.some(e=>message.content.toLowerCase().includes(e))) message.reply('Password and other details can be found in <#543494084363288637>');
-      if (incomingArrays.cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931');
-      if (message.content.toLowerCase().includes('is daggerbot working')) message.reply('https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579');
-      if (incomingArrays.deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply('https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png');
-      if (Automoderator.scanMsg(message).includes('nawdic') && incomingArrays.theyBrokeIt.some(e=>Automoderator.scanMsg(message).includes(e)) && MessageTool.isStaff(message.member) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Nawdic has done an oopsie*').setImage('https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif').setColor(client.config.embedColor)]});
-      if (Automoderator.scanMsg(message).includes('monster') && incomingArrays.theyBrokeIt.some(e=>Automoderator.scanMsg(message).includes(e)) && MessageTool.isStaff(message.member) && message.channelId !== '516344221452599306') message.reply({embeds: [new client.embed().setTitle('*Monster has broken something*').setImage('https://media.tenor.com/ZIzIjb_wvEoAAAAC/face-palm.gif').setColor(client.config.embedColor)]});
+      if (incomingArrays.cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.cantRead);
+      if (message.content.toLowerCase().includes('is daggerbot working')) message.reply(picStorage.amAlive);
+      if (incomingArrays.deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.deadChat);
+
+      for (const thisPerson of ModsGoGetThisPerson) {
+        if (incomingArrays.theyBrokeIt.some(x=>Automoderator.scanMsg(message).includes(x) && Automoderator.scanMsg(message).includes(thisPerson.user)) && MessageTool.isStaff(message.member) && message.channelId !== client.config.dcServer.channels.mpmod_chat)
+          message.reply({embeds: [new client.embed().setTitle(thisPerson.title).setImage(thisPerson.img).setColor(client.config.embedColor)]});
+      }
     }
   }
 }

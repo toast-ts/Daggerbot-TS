@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-export default {
-  run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+export default class RoleInfo {
+  static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const role = interaction.options.getRole('role') as Discord.Role;
     const permissions = role.permissions.toArray();
     interaction.reply({embeds: [new client.embed().setColor(role.color || '#fefefe').setThumbnail(role?.iconURL()).setTitle(`Role Info: ${role.name}`).addFields(
@@ -10,9 +10,9 @@ export default {
       {name: '🔹 Creation Date', value: `<t:${Math.round(role.createdTimestamp/1000)}>\n<t:${Math.round(role.createdTimestamp/1000)}:R>`, inline: true},
       {name: '🔹 Misc', value: `Hoist: \`${role.hoist}\`\nMentionable: \`${role.mentionable}\`\nPosition: \`${role.position}\` from bottom\nMembers: \`${role.members.size}\`\n${role.members.size < 21 ? role.members.map((e:Discord.GuildMember)=>`**${e.user.username}**`).join('\n') || '' : ''}`, inline: true},
       {name: '🔹 Permissions', value: `${permissions.includes('Administrator') ? ['Administrator'] : permissions.join(', ').replace(/([a-z])([A-Z])/g, '$1 $2') || 'No permissions'}`, inline: true}
-    )]})//                                                                                     https://stackoverflow.com/a/15343790 - For anonymous programmer, you know who I am talking to. You're welcome...
-  },
-  data: new Discord.SlashCommandBuilder()
+    )]})
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('roleinfo')
     .setDescription('View information about the selected role')
     .addRoleOption(x=>x

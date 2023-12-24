@@ -1,128 +1,85 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import MessageTool from '../helpers/MessageTool.js';
-export default {
-  async autocomplete(client: TClient, interaction: Discord.AutocompleteInteraction){
-    const array = (await client.tags?.findInCache())?.map(x=>x._id).filter(c=>c.startsWith(interaction.options.getFocused()));
-    await interaction?.respond(array?.map(c=>({name: c, value: c})));
-    // If you question all those '?.', let me tell you: Discord.JS is fricking stupid and I am too stressed to find a solution for it.
-  },
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (interaction.options.getSubcommandGroup() === 'management' && !MessageTool.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'dcmod');
-    const tagData = async()=>await client.tags._content.findOne({_id: interaction.options.getString('name')});
-    const tagMeta = {
-      isEmbedTrue: async()=>(await tagData()).embedBool,
-      title: async()=>(await tagData())._id,
-      message: async()=>(await tagData()).message,
-      creatorName: async()=>(await client.users.fetch((await tagData()).user._id)).displayName
-    };
+export default class Tag {
+  static async autocomplete(client:TClient, interaction:Discord.AutocompleteInteraction<'cached'>) {
+    const tagsInCache = await client.tags?.findInCache();
+    const filterArray = tagsInCache?.map(x=>x.tagname).filter(x=>x.startsWith(interaction.options.getFocused()));
+    await interaction?.respond(filterArray?.map(tag=>({name: tag, value: tag})));
+  }
+  static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
+    const tagName = interaction.options.getString('tag-name');
+    const tagMsg = interaction.options.getString('message');
     ({
-      send: async()=>{
-        if (!await tagData()) return interaction.reply({content:'This tag is not available in the database.',ephemeral:true});
-        let targetField = '';
-        const targetMember = interaction.options.getMember('target_user');
-        if (targetMember) targetField = `*This tag is for <@${targetMember.id}>*`;
-        const embedTemplate = new client.embed().setColor(client.config.embedColor).setTitle(await tagMeta.title()).setDescription(await tagMeta.message()).setFooter({text: `Tag creator: ${await tagMeta.creatorName()}`});
-        const messageTemplate = MessageTool.concatMessage(
-          targetField ? targetField : '',
-          `**${await tagMeta.title()}**`,
-          await tagMeta.message(),
-          '',
-          `Tag creator: **${await tagMeta.creatorName()}**`
-        );
-        if (await tagMeta.isEmbedTrue()) return interaction.reply({content: targetField ? targetField : null, embeds: [embedTemplate], allowedMentions:{parse:['users']}});
-        else return interaction.reply({content: messageTemplate, allowedMentions:{parse:['users']}})
+      send: async()=>await client.tags.sendTag(interaction, tagName, interaction.options.getMember('target')?.id),
+      create: async()=>{
+        const newTag = await client.tags.createTag(interaction.member.id, tagName, tagMsg, interaction.options.getBoolean('toggle-embed'));
+        await interaction.reply(newTag ? 'Tag successfully created, should be available in the list soon!' : 'Tag already exists, try again with a different name.');
       },
-      create: async()=>await client.tags._content.create({
-          _id: interaction.options.getString('name'),
-          message: interaction.options.getString('message').replaceAll(/\\n/g, '\n'),
-          embedBool: interaction.options.getBoolean('embed'),
-          user: {
-            _id: interaction.member.id,
-            name: interaction.user.username
-          }
-        })
-        .then(()=>{
-          interaction.reply('Tag successfully created, should be available in a few seconds!')
-          client.tags.updateCache();
-        })
-        .catch(err=>interaction.reply(`There was an error while trying to create your tag:\n\`\`\`${err}\`\`\``)),
-      delete: async()=>await client.tags._content.findByIdAndDelete(interaction.options.getString('name'))
-        .then(()=>{
-          interaction.reply('Tag successfully deleted.')
-          client.tags.updateCache();
-        }).catch(err=>interaction.reply(`Failed to delete the tag:\n\`\`\`${err}\`\`\``)),
-      edit: async()=>await client.tags._content.findByIdAndUpdate(interaction.options.getString('name'), {
-          $set: {
-            message: interaction.options.getString('new-message').replaceAll(/\\n/g, '\n'),
-            embedBool: interaction.options.getBoolean('embed')
-          }
-        })
-        .then(()=>{
-          interaction.reply('Tag successfully updated, enjoy!')
-          client.tags.updateCache();
-        })
-        .catch(err=>interaction.reply(`Tag couldn\'t be updated:\n\`\`\`${err}\`\`\``))
+      delete: async()=>{
+        await client.tags.deleteTag(tagName);
+        return interaction.reply('Tag successfully deleted.');
+      },
+      modify: async()=>{
+        await client.tags.modifyTag(tagName, interaction.options.getString('new-message'));
+        return interaction.reply('Tag successfully modified.')
+      }
     } as any)[interaction.options.getSubcommand() ?? interaction.options.getSubcommandGroup()]();
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('tag')
-    .setDescription('Send user the resources/FAQ provided in the tag')
+    .setDescription('Send a tag containing the resources/FAQ provided in tag to the user')
     .addSubcommand(x=>x
       .setName('send')
       .setDescription('Send a resource tag')
       .addStringOption(x=>x
-        .setName('name')
+        .setName('tag-name')
         .setDescription('Name of an existing tag to send')
         .setAutocomplete(true)
         .setRequired(true))
       .addUserOption(x=>x
-        .setName('target_user')
-        .setDescription('Directly mention the target with this tag')))
+        .setName('target')
+        .setDescription('Directly mention the member with this tag')
+        .setRequired(false)))
     .addSubcommandGroup(x=>x
-      .setName('management')
-      .setDescription('Add a new tag or delete/edit your current tag')
+      .setName('tools')
+      .setDescription('Management tools for the tags system (Discord mods & Bot Tech only)')
       .addSubcommand(x=>x
         .setName('create')
         .setDescription('Create a new tag')
         .addStringOption(x=>x
-          .setName('name')
-          .setDescription('Name of your tag, must be within 3-25 characters')
-          .setMinLength(3)
-          .setMaxLength(25)
+          .setName('tag-name')
+          .setDescription('Name of the tag, must be within 4-32 characters')
+          .setMinLength(4)
+          .setMaxLength(32)
           .setRequired(true))
         .addStringOption(x=>x
           .setName('message')
-          .setDescription('Message to be included in your tag; e.g, you\'re giving the user some instructions, newline: \\n')
-          .setMinLength(6)
-          .setMaxLength(2048)
+          .setDescription('Message to be included in your tag, newline: \\n')
+          .setMaxLength(1990)
           .setRequired(true))
         .addBooleanOption(x=>x
-          .setName('embed')
-          .setDescription('Toggle this option if you want your message to be inside the embed or not')
+          .setName('toggle-embed')
+          .setDescription('Message will be sent in an embed description if enabled')
           .setRequired(true)))
       .addSubcommand(x=>x
         .setName('delete')
-        .setDescription('Delete a tag')
+        .setDescription('Delete an existing tag')
         .addStringOption(x=>x
-          .setName('name')
+          .setName('tag-name')
           .setDescription('Name of the tag to be deleted')
           .setAutocomplete(true)
           .setRequired(true)))
       .addSubcommand(x=>x
-        .setName('edit')
-        .setDescription('Edit an existing tag')
+        .setName('modify')
+        .setDescription('Modify an existing tag')
         .addStringOption(x=>x
-          .setName('name')
-          .setDescription('Name of the tag to be edited')
+          .setName('tag-name')
+          .setDescription('Name of the tag to be modified')
           .setAutocomplete(true)
           .setRequired(true))
         .addStringOption(x=>x
           .setName('new-message')
           .setDescription('Replace the current tag\'s message with a new one, newline: \\n')
-          .setRequired(true))
-        .addBooleanOption(x=>x
-          .setName('embed')
-          .setDescription('Toggle this option on an existing tag to be updated with embed or not')
+          .setMaxLength(1990)
           .setRequired(true))))
 }

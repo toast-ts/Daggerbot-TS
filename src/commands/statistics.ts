@@ -1,94 +1,83 @@
-interface CommitHashes {
-  localHash: string,
-  remoteHash: string
-}
 import Discord from 'discord.js';
-import pkg from 'typescript';
-import MessageTool from '../helpers/MessageTool.js';
-import FormatBytes from '../helpers/FormatBytes.js';
-import FormatTime from '../helpers/FormatTime.js';
-import si from 'systeminformation';
 import TClient from '../client.js';
-import TSClient from '../helpers/TSClient.js';
+import Formatters from '../helpers/Formatters.js';
+import MessageTool from '../helpers/MessageTool.js';
+import GitHub from '../helpers/GitHub.js';
+import si from 'systeminformation';
 import os from 'node:os';
-import {Octokit} from '@octokit/rest';
-import {createTokenAuth} from '@octokit/auth-token';
-import {readFileSync} from 'node:fs';
-import {Worker} from 'node:worker_threads';
-const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
-
-const workerThread = new Worker(new URL('../helpers/CommitHashes.js', import.meta.url));
-const hashData = await new Promise<CommitHashes>(resolve=>workerThread.on('message', (data:CommitHashes)=>resolve(data)));
-
-export default {
-  async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    const waitForData = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true})
-    const cpu = await si.cpu();
-    const ram = await si.mem();
-    const osInfo = await si.osInfo();
-    const currentLoad = await si.currentLoad();
-
-    const columns = ['Command name', 'Count'];
-    const includedCommands = client.commands.filter(x=>x.uses).sort((a,b)=>b.uses - a.uses);
-    if (includedCommands.size === 0) return interaction.reply(`No commands have been used yet.\nUptime: **${FormatTime(client.uptime, 3, {longNames: true, commas: true})}**`);
-    const nameLength = Math.max(...includedCommands.map(x=>x.command.data.name.length), columns[0].length) + 2;
-    const amountLength = Math.max(...includedCommands.map(x=>x.uses.toString().length), columns[1].length) + 1;
-    const rows = [`${columns[0] + ' '.repeat(nameLength - columns[0].length)}|${' '.repeat(amountLength - columns[1].length) + columns[1]}\n`, '-'.repeat(nameLength) + '-'.repeat(amountLength) + '\n'];
-    includedCommands.forEach(command=>{
-      const name = command.command.data.name;
-      const count = command.uses.toString();
-      rows.push(`${name + ' '.repeat(nameLength - name.length)}${' '.repeat(amountLength - count.length) + count}\n`);
-    });
-    const embed = new client.embed().setColor(client.config.embedColor).setTitle('Statistics: Command Usage')
-    .setDescription(MessageTool.concatMessage(
-      'List of commands that have been used in this session, ordered by amount of use. Table contains command name and amount of uses.',
-      `Total amount of commands used in this session: ${client.commands.filter(x=>x.uses).map(x=>x.uses).reduce((a,b)=>a+b, 0)}`
+import ts from 'typescript';
+import {readFileSync} from 'fs';
+export default class Statistics {
+  static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
+    const initialMsg = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true});
+    const repoData = await GitHub.LocalRepository();
+    const embed = new client.embed().setColor(client.config.embedColor).setTitle('Statistics').setDescription(MessageTool.concatMessage(
+      'This is a list of commands ordered by their names and how many times they had been used in this session.',
+      'Underneath is a list of main dependencies and their versions as well as the bot/host statistics.'
     ));
-    if (rows.join('').length > 1024){
-      let fieldValue = '';
-      rows.forEach(row=>{
-        if (fieldValue.length + row.length > 1024){
-          embed.addFields({name: '\u200b', value: `\`\`\`\n${fieldValue}\`\`\``});
-          fieldValue = row;
-        } else fieldValue += row
-      });
-      embed.addFields({name: '\u200b', value: `\`\`\`\n${fieldValue}\`\`\``});
-    } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
-    
-    const SummonAuthentication = createTokenAuth((await TSClient.Token()).octokit);
-    const {token} = await SummonAuthentication();
-    let githubRepo = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
-    const octokit = new Octokit({auth: token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
-    const github = {
-      remoteCommit: await octokit.repos.getCommit({...githubRepo, ref: hashData.remoteHash}),
-      localCommit: await octokit.repos.getCommit({...githubRepo, ref: hashData.localHash}),
-    }
+    const systemInfo = {
+      cpu: await si.cpu(),
+      mem: await si.mem(),
+      osInfo: await si.osInfo(),
+      currLoad: await si.currentLoad()
+    };
 
+    const col = ['Command', 'Uses'];
+    const cmdUses = client.commands.filter(x=>x.uses).sort((a,b)=>b.uses - a.uses);
+
+    const nameLen = Math.max(...cmdUses.map(x=>x.command.data.name.length), col[0].length) + 2;
+    const usesLen = Math.max(...cmdUses.map(x=>x.uses.toString().length), col[1].length) + 1;
+
+    const rows = [`${col[0] + ' '.repeat(nameLen-col[0].length)}|${' '.repeat(usesLen-col[1].length) + col[1]}\n`, '-'.repeat(nameLen) + '-'.repeat(usesLen) + '\n'];
+    cmdUses.forEach(cmd=>{
+      const name = cmd.command.data.name;
+      const uses = cmd.uses.toString();
+      rows.push(`${name+' '.repeat(nameLen-name.length)}${' '.repeat(usesLen-uses.length)+uses}\n`);
+    });
+    if (rows.join('').length > 1024) {
+      let field = '';
+      rows.forEach(r=>{
+        if (field.length+r.length > 1024) {
+          embed.addFields({name: '\u200b', value: `\`\`\`\n${field}\`\`\``});
+          field = r;
+        }
+      });
+      embed.addFields({name: '\u200b', value: `\`\`\`\n${field}\`\`\``});
+    } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
+
+    const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
     embed.addFields(
-      {
-        name: '> __Repository__', value: MessageTool.concatMessage(
-          `**Local:** [${hashData.localHash}](${github.localCommit.data.html_url})`,
-          `**Remote:** [${hashData.remoteHash}](${github.remoteCommit.data.html_url})`
-        )
-      },
-      {name: '> __Dependencies__', value: MessageTool.concatMessage(
-        `**TypeScript:** ${pkg.version}`,
-        `**NodeJS:** ${process.version}`,
-        `**DiscordJS:** ${Discord.version}`,
-        `**Yarn:** ${packageJson.packageManager.slice(5)}`
+      {name: '🔹 *Dependencies*', value: MessageTool.concatMessage(
+        `>>> **Yarn:** ${pkg.packageManager.split('@')[1].split('+')[0]}`,
+        `**Node.js:** ${process.version.slice(1)}`,
+        `**Discord.js:** ${pkg.dependencies['discord.js']}`,
+        `**TypeScript:** ${ts.version}`,
+        `**Postgres:** ${pkg.dependencies.pg}`,
+        `**Redis:** ${pkg.dependencies.redis}`
       )},
-      {name: '> __Host__', value: MessageTool.concatMessage(
-        `**Operating System:** ${osInfo.distro + ' ' + osInfo.release}`,
-        `**CPU:** ${cpu.manufacturer} ${cpu.brand}`,
-        `**Memory:** ${FormatBytes(ram.used)}/${FormatBytes(ram.total)}`,
-        `**Process:** ${FormatBytes(process.memoryUsage().heapUsed)}/${FormatBytes(process.memoryUsage().heapTotal)}`,
-        `**Load Usage:**\nUser: ${currentLoad.currentLoadUser.toFixed(1)}%\nSystem: ${currentLoad.currentLoadSystem.toFixed(1)}%`,
-        `**Uptime:**\nHost: ${FormatTime((os.uptime()*1000), 2, {longNames: true, commas: true})}\nBot: ${FormatTime(client.uptime, 2, {commas: true, longNames: true})}`
+      {name: '🔹 *Host*', value: MessageTool.concatMessage(
+        `>>> **OS:** ${systemInfo.osInfo.distro} ${systemInfo.osInfo.release}`,
+        `**CPU:** ${systemInfo.cpu.manufacturer} ${systemInfo.cpu.brand} ∙ ${systemInfo.cpu.speed} GHz`,
+        '**RAM**',
+        `╰ **Host:** ${this.progressBar(systemInfo.mem.used, systemInfo.mem.total)} (${Formatters.byteFormat(systemInfo.mem.used)}/${Formatters.byteFormat(systemInfo.mem.total)})`,
+        `╰ **Bot:** ${this.progressBar(process.memoryUsage().heapUsed, process.memoryUsage().heapTotal)} (${Formatters.byteFormat(process.memoryUsage().heapUsed)}/${Formatters.byteFormat(process.memoryUsage().heapTotal)})`,
+        '**Uptime**',
+        `╰ **Host:** ${Formatters.timeFormat(os.uptime()*1000, 3, {longNames: true, commas: true})}`,
+        `╰ **Bot:** ${Formatters.timeFormat(process.uptime()*1000, 3, {longNames: true, commas: true})}`,
+        '**Load Usage**',
+        `╰ **User:** ${this.progressBar(systemInfo.currLoad.currentLoadUser, 100)} (${systemInfo.currLoad.currentLoadUser.toFixed(2)}%)`,
+        `╰ **Sys:** ${this.progressBar(systemInfo.currLoad.currentLoadSystem, 100)} (${systemInfo.currLoad.currentLoadSystem.toFixed(2)}%)`
       )}
-    );
-    waitForData.edit({content:null,embeds:[embed]}).then(x=>x.edit({embeds:[new client.embed(x.embeds[0].data).setFooter({text: `Load time: ${FormatTime(x.createdTimestamp - interaction.createdTimestamp, 2, {longNames: true, commas: true})}`})]}))  
-  },
-  data: new Discord.SlashCommandBuilder()
+    ).setFooter({text: `Version: ${repoData.hash.slice(0,7)} ∙ ${repoData.message}`});
+    initialMsg.edit({content: null, embeds: [embed]});
+  }
+  private static progressBar(used:number, total:number):string {
+    const length:number = 10;
+    const percent = used/total;
+    const bar = '▓'.repeat(Math.round(percent*length)) + '░'.repeat(length-Math.round(percent*length));
+    return `${bar} ${Math.round(percent*100)}%`;
+  }
+  static data = new Discord.SlashCommandBuilder()
     .setName('statistics')
-    .setDescription('See a list of commands ordered by their usage or host stats')
+    .setDescription('List of commands used in current session and host statistics')
 }

@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "npm: yarn dev",
+      "detail": "yarn tsc && yarn node . src/DB-Beta.config.json"
+    }
+  ]
+}

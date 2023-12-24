@@ -1,35 +1,25 @@
 {
   "configName": "Daggerbot",
-  "embedColor": "#FFFFFF",
+  "embedColor": "#0052cf",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
-  "embedColorOrange": "#cc5210",
   "embedColorYellow": "#ffea00",
   "embedColorRed": "#e62c3b",
+  "embedColorInvis": "#2f3136",
   "embedColorBCA": "#ff69b4",
-  "embedColorXmas": "#FFFFFF",
+  "embedColorXmas": "#ffffff",
   "LRSstart": 1661236321433,
   "whitelistedServers": [
-    "929807948748832798", "468835415093411861", "1058183358267543552", "549114074273677314"
+    "929807948748832798", "468835415093411861"
   ],
-  "MPStatsLocation": {
-    "mainServer": {
-      "channel": "543494084363288637",
-      "message": "1023699243183112192"
-    },
-    "secondServer": {
-      "channel": "543494084363288637",
-      "message": "1149141188079779900"
-    }
-  },
   "botSwitches": {
     "dailyMsgsBackup": true,
-    "registerCommands": false,
+    "registerCommands": true,
     "commands": true,
     "logs": true,
+    "mpSys": true,
     "buttonRoles": true,
     "automod": true,
-    "mpstats": true,
     "autores": true
   },
   "botPresence": {
@@ -38,13 +28,12 @@
 	  ],
 	  "status": "online"
 	},
-  "eval": true,
   "whitelist": [
     "190407856527376384",
-    "633345781780185099",
     "215497515934416896",
     "141304507249197057",
-    "309373272594579456"
+    "309373272594579456",
+    "301350210926280704"
   ],
   "contribList": [
     "190407856527376384",
@@ -54,7 +43,7 @@
     "178941218510602240",
     "700641965787709520"
   ],
-  "mainServer": {
+  "dcServer": {
     "id": "468835415093411861",
     "staffRoles": [
       "admin",
@@ -79,7 +68,6 @@
       "vtcmember": "802282391652663338"
     },
     "channels": {
-      "console": "1011318687065710663",
       "errors": "1009754872188506192",
       "thismeanswar": "1091300529696673792",
       "bot_suggestions": "1040018521746325586",
@@ -88,10 +76,9 @@
       "welcome": "621134751897616406",
       "botcommands": "468888722210029588",
       "bankick_log": "1048341961901363352",
-      "fs_server_log": "1104632399771488317",
       "punishment_log": "1102751034754998302",
       "dcmod_chat": "742324777934520350",
-      "mf_chat": "1149238561934151690"
+      "mpmod_chat": "516344221452599306"
     }
   }
 }

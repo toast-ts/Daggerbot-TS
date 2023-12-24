@@ -1,8 +1,8 @@
 import Discord, { AuditLogEvent } from 'discord.js';
 import TClient from '../client.js';
-export default {
-  async run(client:TClient, member:Discord.GuildMember){
-    if (member.guild?.id != client.config.mainServer.id) return;
+export default class GuildBanAdd {
+  static async run(client:TClient, member:Discord.GuildMember){
+    if (member.guild?.id != client.config.dcServer.id) return;
     const banLog = (await member.guild.fetchAuditLogs({ limit: 1, type: AuditLogEvent.MemberBanAdd })).entries.first();
     if (!banLog) return console.log(`Member was banned from ${member.guild.name} but no audit log for this member.`)
     const {executor, target, reason } = banLog;
@@ -11,8 +11,8 @@ export default {
         {name: '🔹 Moderator', value: `<@${executor.id}>\n\`${executor.id}\``},
         {name: '🔹 Reason', value: `${reason === null ? 'Reason unspecified': reason}`}
       );
-      if (!await client.userLevels._content.findById(member.user.id)) embed.setFooter({text:'Rank data has been wiped.'});
-      (client.channels.resolve(client.config.mainServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]})
+      if (!await client.userLevels.fetchUser(member.user.id)) embed.setFooter({text: 'Rank data has been wiped.'});
+      (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]})
     } else console.log(`User was banned from "${member.guild.name}" but no audit log could be fetched.`)
   }
 }

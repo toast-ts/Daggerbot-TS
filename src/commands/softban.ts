@@ -1,11 +1,11 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import Punish from '../funcs/Punish.js';
-export default {
-  run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
+import Punish from '../components/Punish.js';
+export default class Softban {
+  static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     Punish(client, interaction, 'softban');
-  },
-  data: new Discord.SlashCommandBuilder()
+  }
+  static data = new Discord.SlashCommandBuilder()
   .setName('softban')
   .setDescription('Softban a member from the server')
   .addUserOption(x=>x
