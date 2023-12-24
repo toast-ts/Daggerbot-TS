@@ -42,7 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ms", "npm:2.1.3"],\
             ["node-cron", "npm:3.0.2"],\
             ["redis", "npm:4.6.10"],\
-            ["systeminformation", "npm:5.21.13"],\
+            ["systeminformation", "npm:5.21.22"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
           ],\
           "linkType": "SOFT"\
@@ -930,7 +930,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ms", "npm:2.1.3"],\
             ["node-cron", "npm:3.0.2"],\
             ["redis", "npm:4.6.10"],\
-            ["systeminformation", "npm:5.21.13"],\
+            ["systeminformation", "npm:5.21.22"],\
             ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
           ],\
           "linkType": "SOFT"\
@@ -2197,10 +2197,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["systeminformation", [\
-        ["npm:5.21.13", {\
-          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.13-7de5a7c741/node_modules/systeminformation/",\
+        ["npm:5.21.22", {\
+          "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.22-d3fd9f8974/node_modules/systeminformation/",\
           "packageDependencies": [\
-            ["systeminformation", "npm:5.21.13"]\
+            ["systeminformation", "npm:5.21.22"]\
           ],\
           "linkType": "HARD"\
         }]\

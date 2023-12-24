@@ -699,7 +699,7 @@ __metadata:
     ms: 2.1.3
     node-cron: 3.0.2
     redis: 4.6.10
-    systeminformation: 5.21.13
+    systeminformation: 5.21.22
     typescript: 5.2.2
   languageName: unknown
   linkType: soft
@@ -1816,12 +1816,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.21.13":
-  version: 5.21.13
-  resolution: "systeminformation@npm:5.21.13"
+"systeminformation@npm:5.21.22":
+  version: 5.21.22
+  resolution: "systeminformation@npm:5.21.22"
   bin:
     systeminformation: lib/cli.js
-  checksum: 76c9a7bcba7d0646cf5b0ff62cfdc9ae68e3d5b80d7fcd5c4043c383f74ecc99c26fbbb14fd2bb816f3fa5c03641f86c9917b1df393f632a3b1a43cdf2f52892
+  checksum: 051b3f1abbabc3e0d1448df9a3d39ae705fc73efe1ac477c71106d3ae6d144681d5610fd6a7dfcf563c800b955bae7253b824b780b50cb05cba69f2222f72513
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
