@@ -1,5 +1,5 @@
 import {createCanvas, Canvas, CanvasRenderingContext2D} from 'canvas';
-import {Config} from '../interfaces';
+import {Config} from 'src/interfaces';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 export default class CanvasBuilder {
   private canvas: Canvas;

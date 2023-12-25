@@ -1,4 +1,4 @@
-import {FSData} from '../interfaces';
+import {FSData} from 'src/interfaces';
 
 export default function(data:FSData) {
   const pallets = data.vehicles.filter(x=>x.category === 'PALLETS');

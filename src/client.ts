@@ -9,7 +9,7 @@ interface IRepeatedMessages {
 import Discord from 'discord.js';
 import ConfigHelper from './helpers/ConfigHelper.js';
 import {readdirSync} from 'node:fs';
-import {Config} from './interfaces';
+import {Config} from 'src/interfaces';
 import {
   DailyMsgsSvc, UserLevelsSvc, BonkCountSvc,
   MPServerSvc, PunishmentsSvc, ProhibitedWordsSvc,
@@ -24,7 +24,7 @@ import TSClient from './helpers/TSClient.js';
 export default class TClient extends Discord.Client {
   public invites: Map<any, any> = new Map();
   public commands: Discord.Collection<string, any> = new Discord.Collection();
-  public registry: Array<Discord.ApplicationCommandDataResolvable> = [];
+  public registry: Discord.ApplicationCommandDataResolvable[] = [];
   public config: Config;
   public embed: typeof Discord.EmbedBuilder = Discord.EmbedBuilder;
   public collection: typeof Discord.Collection = Discord.Collection;

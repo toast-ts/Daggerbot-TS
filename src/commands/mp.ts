@@ -5,7 +5,7 @@ import CanvasBuilder from '../components/CanvasGraph.js';
 import RanIntoHumor from '../helpers/RanIntoHumor.js';
 import MessageTool from '../helpers/MessageTool.js';
 import PalletLibrary from '../helpers/PalletLibrary.js';
-import {FSData} from '../interfaces';
+import {FSData} from 'src/interfaces';
 import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat} from '../modules/MPModule.js';
 
 async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
@@ -60,9 +60,9 @@ export default class MP {
           .setTitle(DSS.server?.name.length > 0 ? DSS.server.name : 'Offline')
           .setColor(embedColor)
           .setDescription(DSS?.slots?.used < 1 ? '*Nobody is playing*' : players.join('\n\n'))
-          .setImage('attachment://'+attachmentName)
+          .setImage(`attachment://${attachmentName}`)
           .setAuthor({name: `${DSS.slots.used}/${DSS.slots.capacity}`})
-          .setFooter({text: 'Current time: '+`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`})
+          .setFooter({text: `Current time: ${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`})
         ], files: [new client.attachment(canvas.toBuffer(), {name: attachmentName})]})
       },
       details: async()=>{
@@ -73,7 +73,7 @@ export default class MP {
 
         const dEmbed = new client.embed().setColor(client.config.embedColor).setAuthor({name: 'Crossplay server'}).setDescription(MessageTool.concatMessage(
           `**Name:** \`${DSS?.server.name.length > 0 ? DSS.server.name : '\u200b'}\``,
-          `**Password:** \`mf4700\``,
+          '**Password:** `mf4700`',
           `**Map:** \`${DSS.server.mapName.length > 0 ? DSS.server.mapName : 'No map'}\``,
           `**Mods:** [Click here](http://${server.ip}/mods.html) **|** [Direct link](http://${server.ip}/all_mods_download?onlyActive=true)`,
           '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',

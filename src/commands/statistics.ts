@@ -6,7 +6,7 @@ import GitHub from '../helpers/GitHub.js';
 import si from 'systeminformation';
 import os from 'node:os';
 import ts from 'typescript';
-import {readFileSync} from 'fs';
+import {readFileSync} from 'node:fs';
 export default class Statistics {
   static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
     const initialMsg = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true});

@@ -1,5 +1,5 @@
 import {readFileSync} from 'node:fs';
-import {Config} from '../interfaces';
+import {Config} from 'src/interfaces';
 export default class ConfigHelper {
   static loadConfig() {
     let importconfig:Config;

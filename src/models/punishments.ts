@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import ms from 'ms';
-import {Punishment} from '../interfaces';
+import {Punishment} from 'src/interfaces';
 import DatabaseServer from '../components/DatabaseServer.js';
 import {Model, DataTypes} from 'sequelize';
 import CacheServer from '../components/CacheServer.js';
@@ -119,7 +119,7 @@ export class PunishmentsSvc {
         `**${member.user.username}** (\`${member.user.id}\`) has been detected for case evasion.`,
         'Timeout has been automatically added. (25 days)'
       )).setTimestamp()]});
-      await this.punishmentAdd('mute', {time: '25d'}, this.client.user.id, '[AUTOMOD] Case evasion', member.user, member)
+      await this.punishmentAdd('mute', {time: '25d'}, this.client.user.id, 'AUTOMOD:Case evasion', member.user, member)
     }
   }
   async findInCache():Promise<any> {
@@ -134,7 +134,7 @@ export class PunishmentsSvc {
     return result;
   }
   async createModlog(punishment:Punishment) {
-    const channel = ['kick', 'ban', 'softban'].includes(punishment.type) ? this.client.config.dcServer.channels.bankick_log : this.client.config.dcServer.channels.logs;
+    const channel = ['kick', 'ban'].includes(punishment.type) ? this.client.config.dcServer.channels.bankick_log : this.client.config.dcServer.channels.logs;
     const embed = new this.client.embed()
       .setColor(this.client.config.embedColor)
       .setTitle(`${punishment.type[0].toUpperCase() + punishment.type.slice(1)} | Case #${punishment.case_id}`)

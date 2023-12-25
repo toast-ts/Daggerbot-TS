@@ -44,8 +44,8 @@ export default class Whois {
           {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: member.roles.cache.size > 1 ? member.roles.cache.filter(x=>x.id !== interaction.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}
         )
       if (member.premiumSinceTimestamp !== null) embed.addFields({name: '🔹 Server Boosting since', value: `<t:${Math.round(member.premiumSinceTimestamp/1000)}>\n<t:${Math.round(member.premiumSinceTimestamp/1000)}:R>`, inline: true})
-      if (!presence) embed.addFields({name: `🔹 Status: ⚫`, value: '\u200b'})
-      if (member.presence) embed.addFields({name: `🔹 Status:`, value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
+      if (!presence) embed.addFields({name: '🔹 Status: ⚫', value: '\u200b'})
+      if (member.presence) embed.addFields({name: '🔹 Status:', value: `${member.presence.status === 'offline' ? '⚫' : `Desktop: ${convert(presence.desktop)}\nWeb: ${convert(presence.web)}\nMobile: ${convert(presence.mobile)}`}`, inline: true})
       embedArray.push(embed)
       if (member.presence?.activities.find(a=>a.type === 2)) {
         const spotifyStatus = member.presence?.activities.find(a=>a.name === 'Spotify') as Discord.Activity;

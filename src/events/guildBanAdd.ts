@@ -1,9 +1,9 @@
-import Discord, { AuditLogEvent } from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default class GuildBanAdd {
   static async run(client:TClient, member:Discord.GuildMember){
     if (member.guild?.id != client.config.dcServer.id) return;
-    const banLog = (await member.guild.fetchAuditLogs({ limit: 1, type: AuditLogEvent.MemberBanAdd })).entries.first();
+    const banLog = (await member.guild.fetchAuditLogs({ limit: 1, type: Discord.AuditLogEvent.MemberBanAdd })).entries.first();
     if (!banLog) return console.log(`Member was banned from ${member.guild.name} but no audit log for this member.`)
     const {executor, target, reason } = banLog;
     if (target.id === member.user.id) {

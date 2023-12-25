@@ -6,7 +6,7 @@ import FormatPlayer from '../helpers/FormatPlayer.js';
 import Logger from '../helpers/Logger.js';
 import HookMgr from '../components/HookManager.js';
 import {IServer} from '../models/MPServer.js';
-import {FSPlayer, FSData, FSCareerSavegame} from '../interfaces.js';
+import {FSPlayer, FSData, FSCareerSavegame} from 'src/interfaces';
 
 let loggingPrefix:string = 'MPModule';
 let dataUnavailable:string = 'Unavailable';

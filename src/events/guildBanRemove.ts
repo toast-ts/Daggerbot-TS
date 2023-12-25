@@ -1,9 +1,9 @@
-import Discord, { AuditLogEvent } from 'discord.js';
+import Discord from 'discord.js';
 import TClient from '../client.js';
 export default class GuildBanRemove {
   static async run(client:TClient, member:Discord.GuildMember){
     if (member.guild?.id != client.config.dcServer.id) return;
-    const unbanLog = (await member.guild.fetchAuditLogs({limit: 1, type: AuditLogEvent.MemberBanRemove})).entries.first();
+    const unbanLog = (await member.guild.fetchAuditLogs({limit: 1, type: Discord.AuditLogEvent.MemberBanRemove})).entries.first();
     if (!unbanLog) return console.log(`User was unbanned from ${member.guild.name} but no audit log for this user.`)
     const { executor, target, reason } = unbanLog;
     if (target.id === member.user.id) (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [
