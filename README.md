@@ -1,6 +1,7 @@
 <p align="center">
-  <img width="630" height="250" src="https://cdn.toast-server.net/daggerwin/DaggerbotV3-Repo.gif">
+  <img width="630" height="250" src="https://github.com/AnxietyisReal/Daggerbot-TS/assets/96593068/87a3c8b2-2209-42f0-851c-6cdebf9ef740">
   <h1 align="center">Daggerbot V3 Description</h1>
+
 </p>
 This is a repository for V3 revision that has been transitioned and rewritten from V2 bot to be more robust and reliable with today's standards.
 
