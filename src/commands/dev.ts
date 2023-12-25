@@ -129,7 +129,7 @@ export default class Developer {
         const member = interaction.options.getMember('member');
         const message = interaction.options.getString('message');
         const int = await interaction.reply({content: '*Sending...*', fetchReply: true});
-        member.send(message).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
+        member.send(`${message}\n╰ ${interaction.member.displayName}`).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
       }
     } as any)[interaction.options.getSubcommand()]();
   }
