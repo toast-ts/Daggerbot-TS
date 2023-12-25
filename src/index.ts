@@ -6,7 +6,7 @@ import Logger from './helpers/Logger.js';
 import YTModule from './modules/YTModule.js';
 import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
-import {Punishment} from './interfaces';
+import {Punishment} from 'src/interfaces';
 import {readFileSync} from 'node:fs';
 
 // Error handler
@@ -21,7 +21,7 @@ process.on('error', (error: Error)=>_(error, 'processError'));
 client.on('error', (error: Error)=>_(error, 'clientError'));
 
 // Interval timers for modules
-setInterval(async()=>await MPModule(client), refreshTimerSecs); // Second param got moved to inside MPModule function to reduce the amount of failure rates.
+setInterval(async()=>await MPModule(client), refreshTimerSecs);
 setInterval(()=>YTModule(client), 180000); // 3 minutes
 
 // Event loop for punishments and daily msgs
