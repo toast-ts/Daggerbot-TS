@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 import DatabaseServer from '../components/DatabaseServer.js';
 import {Model, DataTypes} from 'sequelize';
-import {writeFileSync} from 'node:fs';
+import {writeFileSync, readFileSync, existsSync} from 'node:fs';
 import cron from 'node-cron';
 import Logger from '../helpers/Logger.js';
 
@@ -104,6 +104,19 @@ export class UserLevelsSvc {
       Logger.console('log', 'Cron:resetAllData', 'Job completed');
     })
   }
-  algorithm = (level:number)=>level*level*18;
+  algorithm = (level:number)=>level*level*15;
   // Algorithm for determining levels. If adjusting, recommended to only change the integer at the end of equation.
+
+  // Deadge on 1.6k users in database...
+  async migrate() {
+    let file:string = 'src/userLevels.json';
+    if (!existsSync(file)) return Error(`File not found, have you tried checking if it exists? (${file})`);
+
+    await this.model.bulkCreate(JSON.parse(readFileSync(file, 'utf8')).map(x=>({
+      id: x._id,
+      messages: x.messages,
+      level: x.level,
+      pingToggle: x.notificationPing
+    })));
+  }
 }
