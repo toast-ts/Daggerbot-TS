@@ -71,7 +71,7 @@ export default class Rank {
         .setDescription('Which member do you want to view?')))
     .addSubcommand(x=>x
       .setName('leaderboard')
-      .setDescription('View top 10 users on leaderboard'))
+      .setDescription('View top 15 users on leaderboard'))
     .addSubcommand(x=>x
       .setName('notification')
       .setDescription('Allow the bot to ping you or not when you level up'))
