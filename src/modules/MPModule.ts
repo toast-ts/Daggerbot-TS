@@ -16,7 +16,7 @@ let refreshIntrvlTxt:string = `Refreshes every ${refreshTimerSecs/1000} seconds.
 
 export default async(client:TClient)=>{
   const message = await (client.channels.resolve(isBotInDevMode ? '1091300529696673792' : '543494084363288637') as Discord.TextChannel).messages.fetch(isBotInDevMode ? '1104563309451161742' : '1149141188079779900');
-  if (client.config.botSwitches.mpSys === false) return message.edit({content: null, embeds: [mpModuleDisabled(client)]});
+  if (!client.config.botSwitches.mpSys) return message.edit({content: null, embeds: [mpModuleDisabled(client)]});
 
   async function newServerEntry(server:IServer) {
     const serverData = await requestServerData(client, server);
