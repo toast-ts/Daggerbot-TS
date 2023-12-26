@@ -109,12 +109,12 @@ export class MPServerSvc {
     } else return false;
   }
   async findInCache(): Promise<IServer[]> {
-    const cachedResult = await CacheServer.getJSON(cacheKey);
+    const cachedResult = await CacheServer.get(cacheKey, true);
     let result;
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();
-      CacheServer.setJSON(cacheKey, result).then(()=>CacheServer.expiry(cacheKey, 1800));
+      CacheServer.set(cacheKey, result, true).then(()=>CacheServer.expiry(cacheKey, 1800));
     }
     return result;
   }

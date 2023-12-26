@@ -88,12 +88,12 @@ export class TagSystemSvc {
   }
   async findInCache(): Promise<Tags[]> {
     const cacheKey = 'tags';
-    const cachedResult = await CacheServer.getJSON(cacheKey);
+    const cachedResult = await CacheServer.get(cacheKey, true);
     let result;
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();
-      CacheServer.setJSON(cacheKey, result).then(()=>CacheServer.expiry(cacheKey, 240));
+      CacheServer.set(cacheKey, result, true).then(()=>CacheServer.expiry(cacheKey, 240));
     }
     return result;
   }
