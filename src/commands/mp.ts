@@ -87,9 +87,9 @@ export default class MP {
         if (!DSS) return console.log('Endpoint failed - status');
         if (DSS.server.name.length > 0) {
           await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
-            {name: 'Name', value: `\`${DSS?.server.name}\``, inline: true},
-            {name: 'Players', value: `${DSS.slots.used}/${DSS.slots.capacity}`, inline: true},
-            {name: 'Map', value: DSS?.server.mapName, inline: true}
+            {name: 'Name', value: `\`${DSS?.server.name}\``},
+            {name: 'Players', value: `${DSS.slots.used}/${DSS.slots.capacity}`},
+            {name: 'Map', value: DSS?.server.mapName}
           ).setFooter({text: `Version: ${DSS?.server.version} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]})
         } else return interaction.reply('Server is currently offline.')
       },
