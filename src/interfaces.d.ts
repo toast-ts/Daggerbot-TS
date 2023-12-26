@@ -157,7 +157,8 @@ export interface Config {
       bankick_log: string,
       punishment_log: string,
       dcmod_chat: string,
-      mpmod_chat: string
+      mpmod_chat: string,
+      multifarm_chat: string
     }
   }
 }
