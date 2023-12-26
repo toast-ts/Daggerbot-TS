@@ -20,7 +20,6 @@ const channels = {
   activePlayers: '739084625862852715',
   announcements: '1084864116776251463',
   mainMpChat: '468835769092669461',
-  mfMpChat: '1149238561934151690',
   serverInfo: '543494084363288637',
 }
 export default class MP {
@@ -32,7 +31,7 @@ export default class MP {
   static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
     if (client.config.botSwitches.mpSys === false) return interaction.reply({embeds: [mpModuleDisabled(client)]});
     if (client.uptime < refreshTimerSecs) return interaction.reply('MPModule isn\'t initialized yet, please wait a moment and try again.');
-    if ([channels.mainMpChat, channels.mfMpChat].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply(`Please use <#${channels.activePlayers}> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
+    if ([channels.mainMpChat, client.config.dcServer.channels.multifarm_chat].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply(`Please use <#${channels.activePlayers}> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
     const choiceSelector = interaction.options.getString('server');
     ({
       players: async()=>{
@@ -40,7 +39,7 @@ export default class MP {
         if (!DSS) return console.log('Endpoint failed - players');
 
         const PDArr = await client.MPServer.fetchPlayerData(choiceSelector);
-        const canvas = await new CanvasBuilder().generateGraph(PDArr.slice(client.statsGraph), 'players');
+        const canvas = await new CanvasBuilder().generateGraph(PDArr.slice(-120), 'players');
         const players:string[] = [];
         let embedColor:Discord.ColorResolvable;
         switch (true){

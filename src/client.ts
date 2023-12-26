@@ -41,7 +41,6 @@ export default class TClient extends Discord.Client {
   public tags: TagSystemSvc = new TagSystemSvc();
   public ytChannels: YouTubeChannelsSvc = new YouTubeChannelsSvc();
   public repeatedMessages: IRepeatedMessages = {};
-  public statsGraph: number = -120;
 
   constructor() {
     super({
