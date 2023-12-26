@@ -35,13 +35,13 @@ export default async(client:TClient)=>{
   const getVideoId = (index:number)=>Data.items[index].snippet.thumbnails.default.url.split('/')[4];
   const videoUrl = `https://www.youtube.com/watch?v=${getVideoId(0)}`;
   const cacheKey = `YTCache:${YTChannelID}`;
-  const cachedVideoId = await CacheServer.get(cacheKey);
+  const cachedVideoId = await CacheServer.get(cacheKey, false);
   if (!cachedVideoId) {
-    await CacheServer.set(cacheKey, getVideoId(0)).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry));
+    await CacheServer.set(cacheKey, getVideoId(0), false).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry));
     return;
   }
   if (getVideoId(1) === cachedVideoId) {
-    await CacheServer.delete(cacheKey).then(async()=>await CacheServer.set(cacheKey, getVideoId(0)).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry)));
+    await CacheServer.delete(cacheKey).then(async()=>await CacheServer.set(cacheKey, getVideoId(0), false).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry)));
 
     (client.channels.resolve(DiscordChannelID) as TextChannel).send({
       content: `${MessageTool.formatMention(DiscordRoleID, 'role')}\n**${YTChannelName}** just uploaded a video!\n${videoUrl}`, allowedMentions: {parse: ['roles']},

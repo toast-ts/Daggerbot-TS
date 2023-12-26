@@ -124,12 +124,12 @@ export class PunishmentsSvc {
   }
   async findInCache():Promise<any> {
     const cacheKey = 'punishments';
-    const cachedResult = await CacheServer.getJSON(cacheKey);
+    const cachedResult = await CacheServer.get(cacheKey, true);
     let result;
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();
-      CacheServer.setJSON(cacheKey, result).then(()=>CacheServer.expiry(cacheKey, 20));
+      CacheServer.set(cacheKey, result, true).then(()=>CacheServer.expiry(cacheKey, 20));
     }
     return result;
   }

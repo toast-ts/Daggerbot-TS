@@ -2,7 +2,6 @@ import {createClient, ErrorReply} from 'redis';
 import Logger from '../helpers/Logger.js';
 import TSClient from '../helpers/TSClient.js';
 
-let Prefix = 'Cache';
 const RedisClient = createClient({
   url: (await TSClient()).redis_uri,
   database: 0,
@@ -11,35 +10,32 @@ const RedisClient = createClient({
 });
 
 export default class CacheServer {
+  protected static prefix = 'Cache';
   protected static eventManager() {
     RedisClient
-      .on('connect', ()=>Logger.console('log', Prefix, 'Connection to Redis has been established'))
+      .on('connect', ()=>Logger.console('log', this.prefix, 'Connection to Redis has been established'))
       .on('error', (err:ErrorReply)=>{
-        Logger.console('error', Prefix, `Encountered an error in Redis: ${err.message}`)
+        Logger.console('error', this.prefix, `Encountered an error in Redis: ${err.message}`)
         setTimeout(async()=>{
           if (!RedisClient.isReady) {
-            Logger.console('log', Prefix, 'Client is zombified, starting a fresh connection...');
+            Logger.console('log', this.prefix, 'Client is zombified, starting a fresh connection...');
             RedisClient.quit();
             await RedisClient.connect();
           }
         }, 1500)
       })
   }
-  public static async get(key:any) {
-    const cachedResult = await RedisClient.get(key);
-    if (cachedResult) return JSON.parse(cachedResult);
-    else return null
+  public static async get(key:any, jsonMode:boolean):Promise<any> {
+    let cachedResult:any;
+    if (jsonMode) cachedResult = await RedisClient.json.get(key);
+    else {
+      cachedResult = await RedisClient.get(key);
+      if (cachedResult) cachedResult = JSON.parse(cachedResult);
+    }
   }
-  public static async set(key:any, value:any) {
-    return await RedisClient.set(key, JSON.stringify(value));
-  }
-  public static async getJSON(key:any) {
-    const cachedResult = await RedisClient.json.get(key);
-    if (cachedResult) return cachedResult;
-    else return null
-  }
-  public static async setJSON(key:any, value:any) {
-    return await RedisClient.json.set(key, '.', value);
+  public static async set(key:any, value:any, jsonMode:boolean):Promise<any> {
+    if (jsonMode) return await RedisClient.json.set(key, '.', value);
+    else return await RedisClient.set(key, JSON.stringify(value));
   }
   public static async expiry(key:any, time:number) {
     return await RedisClient.expire(key, time); // NOTE: time is in seconds, not milliseconds -- you know what you did wrong
@@ -52,7 +48,8 @@ export default class CacheServer {
       RedisClient.connect();
       this.eventManager();
     } catch {
-      console.error('Cannot initialize RedisClient -- is Redis running?')
+      console.error('Cannot initialize RedisClient -- is Redis running?');
+      process.exit(1);
     }
   }
 }
