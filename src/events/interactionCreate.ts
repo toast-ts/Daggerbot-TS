@@ -31,10 +31,10 @@ export default class InteractionCreate {
         const RoleID = interaction.customId.replace('reaction-','');
 
         let roleConflictMsg = 'Cannot have both roles! - Button Role';
-        const WestFarm = '1149139369433776269';
-        const EastFarm = '1149139583729160325';
-        if (interaction.member.roles.cache.has(WestFarm) && RoleID === EastFarm) interaction.member.roles.set([EastFarm], roleConflictMsg);
-        else if (interaction.member.roles.cache.has(EastFarm) && RoleID === WestFarm) interaction.member.roles.set([WestFarm], roleConflictMsg);
+        const MFFarm1 = '1149139369433776269';
+        const MFFarm2 = '1149139583729160325';
+        if (interaction.member.roles.cache.has(MFFarm1) && RoleID === MFFarm2) interaction.member.roles.remove(MFFarm1, roleConflictMsg);
+        else if (interaction.member.roles.cache.has(MFFarm2) && RoleID === MFFarm1) interaction.member.roles.remove(MFFarm2, roleConflictMsg);
 
         if (interaction.member.roles.cache.has(RoleID)) interaction.member.roles.remove(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true}));
         else interaction.member.roles.add(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true}));
