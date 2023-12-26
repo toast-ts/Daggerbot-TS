@@ -124,7 +124,7 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
     {name: 'Fuel Usage', value: getMappedValue(txtMapping.fuelUsage, csg?.settings.fuelUsage, dataUnavailable), inline: true},
     {name: 'Dirt Interval', value: getMappedValue(txtMapping.dirtInterval, csg?.settings.dirtInterval, dataUnavailable), inline: true}
   ];
-  return new HookMgr(client, 'thismeanswar', webhookId).edit(messageId, {
+  return new HookMgr(client, 'multifarm_chat', webhookId).edit(messageId, {
     content: refreshIntrvlTxt, embeds: [
       new client.embed().setColor(client.config.embedColor).setTitle(`Savegame Settings - ${csg?.settings?.mapTitle}`).addFields(fields).setFooter({text: 'Last updated'}).setTimestamp()
     ]
