@@ -47,11 +47,10 @@ export default class TClient extends Discord.Client {
       intents: [
         Discord.GatewayIntentBits.Guilds, Discord.GatewayIntentBits.GuildMembers,
         Discord.GatewayIntentBits.GuildModeration, Discord.GatewayIntentBits.GuildInvites,
-        Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildPresences,
-        Discord.GatewayIntentBits.MessageContent, Discord.GatewayIntentBits.GuildMessages,
-        Discord.GatewayIntentBits.DirectMessages
+        Discord.GatewayIntentBits.GuildPresences, Discord.GatewayIntentBits.MessageContent,
+        Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.DirectMessages
       ], partials: [
-        Discord.Partials.Channel, Discord.Partials.Reaction, Discord.Partials.Message
+        Discord.Partials.Channel, Discord.Partials.Message
       ], allowedMentions: {users:[], roles:[]}
     })
     this.config = ConfigHelper.loadConfig() as Config;
