@@ -71,7 +71,7 @@ export default class Developer {
           deletion: repoData.stats.deletions.toLocaleString('en-US')
         };
         const msgBody = MessageTool.concatMessage(
-          `[Commit pulled](<${repoData.commit.url}>)`,
+          `[Commit pulled](<${repoData.html_url}>)`,
           `Message: **${repoData.commit.message.length === 0 ? '*No commit message*' : repoData.commit.message}**`,
           `Author: **${repoData.commit.author.name}**`,
           'Changes',
