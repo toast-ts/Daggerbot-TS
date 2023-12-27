@@ -112,8 +112,9 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
     }
   };
   const getMappedValue =<T>(map:Record<string, T>, key:string, fallback:T):T=>map[key] ?? fallback;
-  const {csg} = await requestServerData(client, server);
-  if (!csg) return Logger.console('log', loggingPrefix, 'Couldn\'t get data for webhook');
+  const data = await requestServerData(client, server);
+  if (!data) return Logger.console('log', loggingPrefix, 'Couldn\'t get data for webhook');
+  const {csg} = data;// :tutelBRUH: (https://cdn.discordapp.com/emojis/1155276126176956486.webp)
   const fields:Discord.APIEmbedField[] = [
     {name: 'Seasonal Growth', value: getMappedValue(txtMapping.growthMode, csg?.settings.growthMode, dataUnavailable), inline: true},
     {name: 'Crop Destruction', value: getMappedValue(txtMapping.genericBools, csg?.settings.fruitDestruction, dataUnavailable), inline: true},
