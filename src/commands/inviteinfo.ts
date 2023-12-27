@@ -7,7 +7,7 @@ export default class InviteInfo {
       await interaction.reply({embeds:[new client.embed()
         .setColor(client.config.embedColor).setURL(`https://discord.gg/${inviteData.code}`).setTitle(inviteData.guild.name).setDescription(MessageTool.concatMessage(
           `ID: \`${inviteData.guild.id}\``,
-          `Description: \`\`\`${inviteData.guild.description != null ? inviteData.guild.description : 'No description set.'}`,
+          `Description: \`\`\`${inviteData.guild.description != null ? inviteData.guild.description : 'No description set'}`,
           `\`\`\`Total server boosts: \`${inviteData.guild.premiumSubscriptionCount}\``,
           `Total members: \`${inviteData.presenceCount}\`**/**\`${inviteData.memberCount}\``,
           `Channel: \`#${inviteData.channel.name}\``,
