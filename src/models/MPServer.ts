@@ -55,9 +55,6 @@ export class MPServerSvc {
     })
     this.model.sync();
   }
-  async getServers() {
-    return await this.model.findAll();
-  }
   async fetchPlayerData(serverName:string) {
     const findServerByName = await this.model.findOne({where: {serverName: serverName}});
     if (findServerByName) return findServerByName.dataValues.playerData;
@@ -117,15 +114,5 @@ export class MPServerSvc {
       CacheServer.set(cacheKey, result, true).then(()=>CacheServer.expiry(cacheKey, 1800));
     }
     return result;
-  }
-  async getServerData(serverName:string):Promise<IServer> {
-    return new Promise(async resolve=>{
-      const serverInfo = await this.findInCache();
-
-      for (let i = 0; i < serverInfo.length; i++) {
-        if (serverInfo[i].serverName === serverName) resolve(serverInfo[i]);
-        break;
-      }
-    })
   }
 }
