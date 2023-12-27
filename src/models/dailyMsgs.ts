@@ -38,10 +38,6 @@ export class DailyMsgsSvc {
     return await this.model.findAll();
     // Fetch every rows from database.
   }
-  async fetchSpecificDay(dayId:number) {
-    return await this.model.findOne({where: {day: dayId}});
-    // Fetch a specific row from database by id column.
-  }
   async newDay(formattedDate:number, total:number) {
     if (await this.model.findOne({where: {day: formattedDate}})) return console.log('This day already exists!')
     return await this.model.create({day: formattedDate, total: total});
