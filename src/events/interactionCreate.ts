@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
+import MessageTool from '../helpers/MessageTool.js';
 export default class InteractionCreate {
   static async run(client:TClient, interaction:Discord.BaseInteraction){
     if (!interaction.inGuild() || !interaction.inCachedGuild()) return;
@@ -30,19 +31,27 @@ export default class InteractionCreate {
       if (interaction.customId.startsWith('reaction-') && client.config.botSwitches.buttonRoles){
         const RoleID = interaction.customId.replace('reaction-','');
 
-        let roleConflictMsg = 'Cannot have both roles! - Button Role';
         const MFFarm1 = '1149139369433776269';
         const MFFarm2 = '1149139583729160325';
-        if (interaction.member.roles.cache.has(MFFarm1) && RoleID === MFFarm2) interaction.member.roles.remove(MFFarm1, roleConflictMsg);
-        else if (interaction.member.roles.cache.has(MFFarm2) && RoleID === MFFarm1) interaction.member.roles.remove(MFFarm2, roleConflictMsg);
 
         if (interaction.member.roles.cache.has(RoleID)) interaction.member.roles.remove(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true}));
-        else interaction.member.roles.add(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true}));
+        else interaction.member.roles.add(RoleID, 'Button Role').then(()=>{
+          this.roleConflictHandler(interaction, MFFarm1, MFFarm2, RoleID);
+          interaction.reply({content: `You have been added to <@&${RoleID}>`, ephemeral: true, fetchReply: true})
+        });
       } else if (interaction.customId.includes('deleteEvalEmbed')) {
         if (!client.config.whitelist.includes(interaction.user.id)) return interaction.reply({content: 'You are not whitelisted, therefore you cannot delete this message.', ephemeral: true});
         interaction.message.delete();
         Logger.console('log', logPrefix, `Eval embed has been deleted in #${interaction.message.channel.name} by ${interaction.member.displayName}`);
       } else Logger.console('log', logPrefix, `Button has been pressed at ${interaction.message.url}`);
+    }
+  }
+  static roleConflictHandler(interaction:Discord.ButtonInteraction<'cached'>, role1:Discord.Snowflake, role2:Discord.Snowflake, newRole:Discord.Snowflake) {
+    if (interaction.member.roles.cache.has(role1) && interaction.member.roles.cache.has(role2)) {
+      const roleToRemove = newRole === role1 ? role2 : role1;
+      interaction.member.roles.remove(roleToRemove, 'Cannot have both roles! - Button Role').then(()=>interaction.editReply({
+        content: `You cannot have both farm roles, so you have been removed from ${MessageTool.formatMention(roleToRemove, 'role')} and added to ${MessageTool.formatMention(newRole, 'role')}`}
+      ));
     }
   }
 }
