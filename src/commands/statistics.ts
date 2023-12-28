@@ -52,6 +52,7 @@ export default class Statistics {
         `**Node.js:** ${process.version.slice(1)}`,
         `**Discord.js:** ${pkg.dependencies['discord.js']}`,
         `**TypeScript:** ${ts.version}`,
+        `**TokenService:** ${pkg.dependencies['@toast/tokenservice-client']}`,
         `**Postgres:** ${pkg.dependencies.pg}`,
         `**Redis:** ${pkg.dependencies.redis}`
       )},
