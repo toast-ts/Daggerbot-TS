@@ -98,7 +98,7 @@ export class MPServerSvc {
     const findServerByName = await this.model.findOne({where: {serverName: serverName}});
     if (findServerByName) {
       let PD = findServerByName.dataValues.playerData;
-      if (PD.length > 256) PD = [];
+      if (PD.length > 1920) PD = []; //Selfnote: 86400/45 = 1920, where 86400 is seconds in a day and 45 is the MPModule's refresh interval.
       PD.push(playerCount);
       const updatePD = await this.model.update({playerData: PD}, {where: {serverName: serverName}});
       if (updatePD) true;
