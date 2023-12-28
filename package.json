@@ -8,7 +8,7 @@
     "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS.git"
   },
   "scripts": {
-    "dev": "yarn tsc && yarn node . src/DB-Beta.config.json",
+    "dev": "yarn tsc && yarn node . src/DB-Beta.config.json daggerbotbeta",
     "sdk": "yarn dlx @yarnpkg/sdks vscode"
   },
   "author": "Toast",
