@@ -32,6 +32,7 @@ export default class CacheServer {
       cachedResult = await RedisClient.get(key);
       if (cachedResult) cachedResult = JSON.parse(cachedResult);
     }
+    return cachedResult;
   }
   public static async set(key:any, value:any, jsonMode:boolean):Promise<any> {
     if (jsonMode) return await RedisClient.json.set(key, '.', value);
