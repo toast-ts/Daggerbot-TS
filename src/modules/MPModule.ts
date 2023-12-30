@@ -78,7 +78,7 @@ export default async(client:TClient)=>{
   // Fetch the list of servers from Redis and submit the array to newServerEntry, note that the server's
   // embed can appear in different order on each cache pull, that's how Redis displays the servers in the array.
   const cachedServers = await client.MPServer.findInCache();
-  let srvEmbedArray = await Promise.all(cachedServers.map(srv=>newServerEntry(srv)));
+  let srvEmbedArray = await Promise.all(cachedServers.filter(s=>s.isActive).map(srv=>newServerEntry(srv)));
   message.edit({content: refreshIntrvlTxt, embeds: srvEmbedArray});
 
   // Locate the Multifarm server via port and call the webhook with that server's details. (Adddi's server)
