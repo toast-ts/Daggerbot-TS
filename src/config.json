@@ -24,7 +24,7 @@
   },
   "botPresence": {
 	  "activities": [
-		  {"name": "Today is December!", "url": "https://www.youtube.com/watch?v=uimgSQE1Vnc", "type": 1}
+		  {"name": "Today is January!", "url": "https://www.youtube.com/watch?v=UPSSUSLlwjY", "type": 1}
 	  ],
 	  "status": "online"
 	},
