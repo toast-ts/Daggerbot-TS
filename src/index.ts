@@ -44,7 +44,7 @@ setInterval(async()=>{
       await client.dailyMsgs.newDay(formattedDate, total);
       Logger.console('log', 'DailyMsgs', `Pushed [${formattedDate}, ${total}]`)
 
-      // Send notification to #bot-logs that the data has been pushed to database.
+      // Send notification to #bot-log that the data has been pushed to database.
       const commands = await client.guilds.cache.get(client.config.dcServer.id)?.commands.fetch();
       if (commands) (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [
         new client.embed().setDescription(`Pushed the following\ndata to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`).setFields(
