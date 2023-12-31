@@ -78,7 +78,7 @@ export class UserLevelsSvc {
     cron.schedule('0 11 1 1 *', async()=>{
       Logger.console('log', 'Cron', 'Running job "resetAllData", this is activated every 1st of January');
       const performCountBeforeReset = await this.model.count();
-      Logger.console('log', 'Cron:resetAllData', `Counted ${performCountBeforeReset.toLocaleString()} documents before reset`);
+      Logger.console('log', 'Cron:resetAllData', `Counted ${performCountBeforeReset.toLocaleString()} members before reset`);
       await this.client.dailyMsgs.nukeDays();
       await this.model.drop().then(async()=>await this.model.sync());
 
@@ -87,7 +87,7 @@ export class UserLevelsSvc {
         .setColor('#A3FFE3').setTitle('Yearly data reset has begun!')
         .setDescription(MessageTool.concatMessage(
           'I have gone ahead and reset everyone\'s rank data.',
-          `There was ${Intl.NumberFormat('en-US').format(performCountBeforeReset)} documents in database before reset.`
+          `There was ${Intl.NumberFormat('en-US').format(performCountBeforeReset)} members in database before reset.`
         )).setTimestamp()
       ]});
 
