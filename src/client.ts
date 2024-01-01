@@ -17,8 +17,6 @@ import {
 } from './models/IMPORTS.js';
 import DatabaseServer from './components/DatabaseServer.js';
 import CacheServer from './components/CacheServer.js';
-import fxp from 'fast-xml-parser';
-import dayjs from 'dayjs';
 import TSClient from './helpers/TSClient.js';
 
 export default class TClient extends Discord.Client {
@@ -29,8 +27,6 @@ export default class TClient extends Discord.Client {
   public embed: typeof Discord.EmbedBuilder = Discord.EmbedBuilder;
   public collection: typeof Discord.Collection = Discord.Collection;
   public attachment: typeof Discord.AttachmentBuilder = Discord.AttachmentBuilder;
-  public dayjs: typeof dayjs = dayjs;
-  public fxp: typeof fxp = fxp;
   public dailyMsgs: DailyMsgsSvc = new DailyMsgsSvc();
   public userLevels: UserLevelsSvc = new UserLevelsSvc(this);
   public punishments: PunishmentsSvc = new PunishmentsSvc(this);

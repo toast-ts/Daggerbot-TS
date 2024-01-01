@@ -3,9 +3,6 @@ import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
 export default class Automoderator {
   private static lockQuery:Set<Discord.Snowflake> = new Set();
-  static Whitelist(message:Discord.Message, ...arr:string[]) {// Array of channel ids for automod to be disabled in (Disables prohibitedWords and advertisement, mind you.)
-    return arr.includes(message.channelId);
-  }
   static scanMsg(message:Discord.Message) {
     return message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|[]|ing\b/g, '').split(' ').join('');
   }
