@@ -25,7 +25,7 @@ export default class Academy {
       query: async()=>{
         const answer = interaction.options.getString('answer');
         const queryFound = this.yaml_file.articles.find(x=>x.embed.title === answer);
-        interaction.reply({embeds: [new client.embed()
+        interaction.reply({content: 'This command is a trial run, it may stay or be removed in near future.', embeds: [new client.embed()
           .setColor(client.config.embedColor)
           .setTitle(queryFound.embed.title)
           .setURL(`https://www.farming-simulator.com/newsArticle.php?news_id=${queryFound.embed.id}`)
