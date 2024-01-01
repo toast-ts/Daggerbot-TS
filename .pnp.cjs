@@ -45,7 +45,7 @@ const RAW_RUNTIME_STATE =
           ["pg-hstore", "npm:2.3.4"],\
           ["redis", "npm:4.6.12"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.35.2"],\
-          ["simple-git", "npm:3.21.0"],\
+          ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.22"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
           ["undici", "npm:6.2.1"]\
@@ -1010,7 +1010,7 @@ const RAW_RUNTIME_STATE =
           ["pg-hstore", "npm:2.3.4"],\
           ["redis", "npm:4.6.12"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.35.2"],\
-          ["simple-git", "npm:3.21.0"],\
+          ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.22"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
           ["undici", "npm:6.2.1"]\
@@ -2398,10 +2398,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["simple-git", [\
-      ["npm:3.21.0", {\
-        "packageLocation": "./.yarn/cache/simple-git-npm-3.21.0-692f82a4a3-6b644151a4.zip/node_modules/simple-git/",\
+      ["npm:3.22.0", {\
+        "packageLocation": "./.yarn/cache/simple-git-npm-3.22.0-42ea3caec2-309e7f0b73.zip/node_modules/simple-git/",\
         "packageDependencies": [\
-          ["simple-git", "npm:3.21.0"],\
+          ["simple-git", "npm:3.22.0"],\
           ["@kwsites/file-exists", "npm:1.1.1"],\
           ["@kwsites/promise-deferred", "npm:1.1.1"],\
           ["debug", "virtual:428f325a939c2653ad822eb3d75efb02ac311523dd0d4f9645afc39ea00bd86eceac35a9d59c9b6977d76b670a4ef0ae057ea572338a44729aa592711a8c05a3#npm:4.3.4"]\
