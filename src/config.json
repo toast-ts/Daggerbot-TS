@@ -1,6 +1,6 @@
 {
   "configName": "Daggerbot",
-  "embedColor": "#ffffff",
+  "embedColor": "#0052cf",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
   "embedColorYellow": "#ffea00",
@@ -8,9 +8,10 @@
   "embedColorInvis": "#2f3136",
   "embedColorBCA": "#ff69b4",
   "embedColorXmas": "#ffffff",
-  "LRSstart": 1661236321433,
+  "LRSstart": 1704067200631,
   "whitelistedServers": [
-    "929807948748832798", "468835415093411861"
+    "929807948748832798",
+    "468835415093411861"
   ],
   "botSwitches": {
     "dailyMsgsBackup": true,
@@ -23,11 +24,15 @@
     "autores": true
   },
   "botPresence": {
-	  "activities": [
-		  {"name": "Today is January!", "url": "https://www.youtube.com/watch?v=UPSSUSLlwjY", "type": 1}
-	  ],
-	  "status": "online"
-	},
+    "activities": [
+      {
+        "name": "Today is January!",
+        "url": "https://www.youtube.com/watch?v=UPSSUSLlwjY",
+        "type": 1
+      }
+    ],
+    "status": "online"
+  },
   "whitelist": [
     "190407856527376384",
     "215497515934416896",
