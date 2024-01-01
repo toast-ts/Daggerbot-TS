@@ -7,7 +7,6 @@ import {Model, DataTypes} from 'sequelize';
 import CacheServer from '../components/CacheServer.js';
 import MessageTool from '../helpers/MessageTool.js';
 import Formatters from '../helpers/Formatters.js';
-import {readFileSync, existsSync} from 'node:fs';
 
 class punishments extends Model {
   declare public case_id: number;
@@ -78,23 +77,6 @@ export class PunishmentsSvc {
       sequelize: DatabaseServer.seq
     });
     this.model.sync();
-  }
-  async migrate() {
-    let file:string = 'src/punishments.json';
-    if (!existsSync(file)) return Error(`File not found, have you tried checking if it exists? (${file})`);
-
-    await this.model.bulkCreate(JSON.parse(readFileSync(file, 'utf8')).map(x=>({
-      case_id: x._id,
-      type: x.type,
-      member: x.member,
-      moderator: x.moderator,
-      expired: x.expired,
-      time: x.time ? Number(x.time.$numberLong) : undefined,
-      reason: x.reason,
-      endTime: x.endTime ? Number(x.endTime.$numberLong) : undefined,
-      cancels: x.cancels,
-      duration: x.duration ? (typeof x.duration === 'object' ? Number(x.duration.$numberLong) : x.duration) : undefined
-    })));
   }
   async updateReason(caseId:number, reason:string) {
     const findCase = this.findCase(caseId);

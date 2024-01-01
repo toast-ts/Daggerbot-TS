@@ -3,7 +3,6 @@ import MessageTool from '../helpers/MessageTool.js';
 import CacheServer from '../components/CacheServer.js';
 import DatabaseServer from '../components/DatabaseServer.js';
 import {Model, DataTypes} from 'sequelize';
-import {readFileSync, existsSync} from 'node:fs';
 import {ChatInputCommandInteraction, Snowflake} from 'discord.js';
 
 class tagsystem extends Model {
@@ -50,17 +49,6 @@ export class TagSystemSvc {
       sequelize: DatabaseServer.seq
     });
     this.model.sync();
-  }
-  async migrate() {
-    let file:string = 'src/tags.json';
-    if (!existsSync(file)) return Error(`File not found, have you tried checking if it exists? (${file})`);
-
-    await this.model.bulkCreate(JSON.parse(readFileSync(file, 'utf8')).map(x=>({
-      tagname: x._id,
-      message: x.message,
-      embedFlag: x.embedBool,
-      userid: x.user._id
-    })));
   }
   async createTag(userid:string, tagName:string, message:string, embedFlag:boolean) {
     CacheServer.delete('tags');
