@@ -52,7 +52,7 @@ export default class Academy {
       ]}),
       update: async()=>{
         if (!client.config.whitelist.includes(interaction.user.id)) return MessageTool.youNeedRole(interaction, 'bottech');
-        const articles = await Undici.fetch('https://raw.githubusercontent.com/AnxietyisReal/Daggerbot-TS/master/src/articles.yml').then(x=>x.text());
+        const articles = await Undici.fetch('https://raw.githubusercontent.com/AnxietyisReal/Daggerbot-TS/master/src/articles.yaml').then(x=>x.text());
         writeFileSync('src/articles.yml', articles, 'utf8');
         await interaction.reply({embeds: [new client.embed()
           .setColor(client.config.embedColorGreen)
