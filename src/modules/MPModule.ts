@@ -6,6 +6,7 @@ import FormatPlayer from '../helpers/FormatPlayer.js';
 import Logger from '../helpers/Logger.js';
 import HookMgr from '../components/HookManager.js';
 import {IServer} from '../models/MPServer.js';
+import {XMLParser} from 'fast-xml-parser';
 import {FSPlayer, FSData, FSCareerSavegame} from 'src/interfaces';
 
 let loggingPrefix:string = 'MPModule';
@@ -154,7 +155,7 @@ export async function requestServerData(client:TClient, server:IServer):Promise<
   try {
     const [DSSR, CSGR] = await Promise.allSettled([
       retryReqs('http://'+server.ip+'/feed/dedicated-server-stats.json?code='+server.code, 3).then(x=>x.json() as Promise<FSData>),
-      retryReqs('http://'+server.ip+'/feed/dedicated-server-savegame.html?code='+server.code+'&file=careerSavegame', 3).then(async x=>(new client.fxp.XMLParser({ignoreAttributes: false, attributeNamePrefix: ''}).parse(await x.text())).careerSavegame as FSCareerSavegame)
+      retryReqs('http://'+server.ip+'/feed/dedicated-server-savegame.html?code='+server.code+'&file=careerSavegame', 3).then(async x=>(new XMLParser({ignoreAttributes: false, attributeNamePrefix: ''}).parse(await x.text())).careerSavegame as FSCareerSavegame)
     ]);
     const dss = DSSR.status === 'fulfilled' && DSSR.value && DSSR.value.server ? DSSR.value : null;
     const csg = CSGR.status === 'fulfilled' && CSGR.value && CSGR.value.slotSystem ? CSGR.value : null;

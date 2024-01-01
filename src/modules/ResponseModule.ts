@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import TClient from '../client.js';
+import dayjs from 'dayjs';
 import Formatters from '../helpers/Formatters.js';
 
 export default class Response {
@@ -21,15 +21,15 @@ export default class Response {
       suffix: ['all', 'everyone', 'guys', 'yall', 'y\'all']
     }
   }
-  static create(client:TClient, message:Discord.Message, channel:Discord.Snowflake, keyword:string) {
+  static create(message:Discord.Message, channel:Discord.Snowflake, keyword:string) {
     if (message.channelId != channel || message.type != 0) return;
-    this.respond(client, message, keyword);
+    this.respond(message, keyword);
   }
-  protected static async respond(client:TClient, message:Discord.Message, responseKeyword:string) {
+  protected static async respond(message:Discord.Message, responseKeyword:string) {
     if (message.type === Discord.MessageType.Reply) return;
-    if (new RegExp(`^(${this.incomingArrays[responseKeyword].prefix.join('|')})?\\s?${responseKeyword} (${this.incomingArrays[responseKeyword].suffix.join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(client, message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(client, message)[responseKeyword].length)]}`).catch(()=>null)
+    if (new RegExp(`^(${this.incomingArrays[responseKeyword].prefix.join('|')})?\\s?${responseKeyword} (${this.incomingArrays[responseKeyword].suffix.join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(message)[responseKeyword].length)]}`).catch(()=>null)
   }
-  protected static outgoingArrays(client:TClient, message:Discord.Message) {
+  protected static outgoingArrays(message:Discord.Message) {
     const PersonnyMcPerson = `**${message.member.displayName}**`;
     // const responseCreator =(id:Discord.Snowflake)=>`\n╰*Response made by <@${id}>*`;
     return {
@@ -42,7 +42,7 @@ export default class Response {
         `Good grief, is it Monday already? Anyways, morning ${PersonnyMcPerson}..`, `This time I can shout! So here we go! 1..2..3\n*inhales*\nMORNING ${PersonnyMcPerson.toUpperCase()}!`,
         'Gooooood morning to you!', `Good morning to you! You know what else is good? A segue to our sponsor, breakfast!\nGet started with getting out of the bed and have some breakfast!`,
         `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`, 'Is it Friday yet? This week is getting boring already!',
-        `You have reached ${Formatters.DayOfTheYear(Math.floor(client.dayjs().diff(client.dayjs().startOf('year'), 'day', true))+1)} day of the year, also good morning to you as well!`,
+        `You have reached ${Formatters.DayOfTheYear(Math.floor(dayjs().diff(dayjs().startOf('year'), 'day', true))+1)} day of the year, also good morning to you as well!`,
         'Good morning! Have a cookie to start your day with. :cookie:', 'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440'
       ],
       afternoon: [
