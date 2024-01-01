@@ -54,7 +54,7 @@ export default class MessageCreate {
       Response.create(client, message, GeneralChatID, 'evening');
       Response.create(client, message, GeneralChatID, 'night');
 
-      CmdTrigger.registerCmds(client, message, 'wepanikfrfr');
+      CmdTrigger.registerCmds(client, message, 'register');
       CmdTrigger.MFPwTrigger(message, 'farmpw');
 
       let picStorage = {
