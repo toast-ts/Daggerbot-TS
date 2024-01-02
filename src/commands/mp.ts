@@ -208,16 +208,8 @@ export default class MP {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         const toggleFlag = interaction.options.getBoolean('is_active');
-        const submitFlagUpdate = await client.MPServer.toggleServerUsability(choiceSelector, toggleFlag);
-        Logger.console('log', logPrefix, `Toggling isActive flag for ${choiceSelector} to ${toggleFlag}`);
-        let visibilityTxt = `**${choiceSelector}** is now `;
-        if (toggleFlag) {
-          submitFlagUpdate
-          await interaction.reply(visibilityTxt += 'visible to public');
-        } else if (!toggleFlag) {
-          submitFlagUpdate
-          await interaction.reply(visibilityTxt += 'hidden from public');
-        }
+        Logger.console('log', logPrefix, `Toggling isActive flag for "${choiceSelector}" to ${toggleFlag}`);
+        await client.MPServer.toggleServerUsability(choiceSelector, toggleFlag).then(async()=>await interaction.reply(`**${choiceSelector}** is now ${toggleFlag ? 'visible to' : 'hidden from'} public`));
       }
     })[interaction.options.getSubcommand() ?? interaction.options.getSubcommandGroup()]();
   }
