@@ -37,14 +37,13 @@ export default async(client:TClient)=>{
       timeScale: isNaN(Number(csg?.settings?.timeScale)) ? dataUnavailable : formatTimescale(Number(csg?.settings?.timeScale), 0, 'x')
     }
 
-    function slotUsageFillbar(curr:number, max:number, barLength:number):string {
-      const filled = Math.floor(curr/max*barLength);
-      return '▏' + '━'.repeat(filled) + '▪' + '╍'.repeat(barLength-filled) + '▕';
+    function slotUsageFillbar(curr:number, max:number):string {
+      let barLen:number = 10;
+      const filled = Math.floor(curr/max*barLen);
+      return '▏' + '━'.repeat(filled) + '▪' + '╍'.repeat(barLen-filled) + '▕';
     }
-    const slotUsage = {
-      consoleLimit: Number(csg?.slotSystem?.slotUsage) >= 2600 ? 4400 : 2600,
-      text: `**${Intl.NumberFormat('en-us').format(Number(dataObj.slotSys))}**/**${Intl.NumberFormat('en-us').format(Number(csg?.slotSystem?.slotUsage) >= 2600 ? 4400 : 2600)}**`,
-    }
+    const consoleLimit = Number(csg?.slotSystem?.slotUsage) >= 2600 ? 4400 : 2600;
+    const slotUsageRatio = `**${Intl.NumberFormat('en-us').format(Number(dataObj.slotSys))}**/**${Intl.NumberFormat('en-us').format(consoleLimit)}**`;
 
     // Format the raw players data into Discord format
     let playerData:string[] = [];
@@ -65,7 +64,7 @@ export default async(client:TClient)=>{
       {name: 'Map', value: dataObj.map, inline: true},
       {name: 'Version', value: dataObj.version, inline: true},
       {name: 'Time', value: dataObj.time, inline: true},
-      {name: 'Slot usage', value: isNaN(Number(dataObj.slotSys)) ? dataUnavailable : `${slotUsage.text}\n\`${slotUsageFillbar(Number(csg?.slotSystem?.slotUsage), slotUsage.consoleLimit, 10)}\``, inline: true},
+      {name: 'Slot usage', value: isNaN(Number(dataObj.slotSys)) ? dataUnavailable : `${slotUsageRatio}\n\`${slotUsageFillbar(Number(csg?.slotSystem?.slotUsage), consoleLimit)}\``, inline: true},
       {name: 'Autosave', value: dataObj.autoSave+' mins', inline: true},
       {name: 'Timescale', value: dataObj.timeScale, inline: true}
     ];
@@ -91,26 +90,10 @@ export default async(client:TClient)=>{
 
 async function multifarmWebhook(client:TClient, server:IServer, webhookId:string, messageId:string) {
   const txtMapping = {
-    genericBools: {
-      'false': 'Off',
-      'true': 'On'
-    },
-    growthMode: {
-      '1': 'Yes',
-      '2': 'No',
-      '3': 'Growth paused'
-    },
-    fuelUsage: {
-      '1': 'Low',
-      '2': 'Normal',
-      '3': 'High'
-    },
-    dirtInterval: {
-      '1': 'Off',
-      '2': 'Slow',
-      '3': 'Normal',
-      '4': 'Fast'
-    }
+    genericBools: { 'false': 'Off', 'true': 'On' },
+    growthMode: { '1': 'Yes', '2': 'No', '3': 'Growth paused' },
+    fuelUsage: { '1': 'Low', '2': 'Normal', '3': 'High' },
+    dirtInterval: { '1': 'Off', '2': 'Slow', '3': 'Normal', '4': 'Fast' }
   };
   const getMappedValue =<T>(map:Record<string, T>, key:string, fallback:T):T=>map[key] ?? fallback;
   const data = await requestServerData(client, server);
@@ -127,8 +110,8 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
     {name: 'Dirt Interval', value: getMappedValue(txtMapping.dirtInterval, csg?.settings.dirtInterval, dataUnavailable), inline: true}
   ];
   return new HookMgr(client, 'multifarm_chat', webhookId).edit(messageId, {
-    content: refreshIntrvlTxt, embeds: [
-      new client.embed().setColor(client.config.embedColor).setTitle(`Savegame Settings - ${csg?.settings?.mapTitle}`).addFields(fields).setFooter({text: 'Last updated'}).setTimestamp()
+    content: refreshIntrvlTxt, embeds: [new client.embed()
+      .setColor(client.config.embedColor).setTitle(`Savegame Settings - ${csg?.settings?.mapTitle}`).addFields(fields).setFooter({text: 'Last updated'}).setTimestamp()
     ]
   })
 }
@@ -138,8 +121,9 @@ async function storePlayerCount(client:TClient, server:IServer, playerCount:numb
 }
 
 export async function requestServerData(client:TClient, server:IServer):Promise<{dss:FSData, csg:FSCareerSavegame}|undefined>{
-  async function retryReqs(url:string, maxRetries:number) {
+  async function retryReqs(url:string) {
     // Attempt to reduce the failure rate of the requests before giving up and retrying in next refresh.
+    let maxRetries:number = 3;
     for (let i = 0; i < maxRetries; i++) {
       try {
         const data = await Undici.fetch(url, {keepalive: true, signal: AbortSignal.timeout(12000), headers: {'User-Agent': `${client.user.username} - MPModule/undici`}});
@@ -154,8 +138,8 @@ export async function requestServerData(client:TClient, server:IServer):Promise<
   }
   try {
     const [DSSR, CSGR] = await Promise.allSettled([
-      retryReqs('http://'+server.ip+'/feed/dedicated-server-stats.json?code='+server.code, 3).then(x=>x.json() as Promise<FSData>),
-      retryReqs('http://'+server.ip+'/feed/dedicated-server-savegame.html?code='+server.code+'&file=careerSavegame', 3).then(async x=>(new XMLParser({ignoreAttributes: false, attributeNamePrefix: ''}).parse(await x.text())).careerSavegame as FSCareerSavegame)
+      retryReqs('http://'+server.ip+'/feed/dedicated-server-stats.json?code='+server.code).then(x=>x.json() as Promise<FSData>),
+      retryReqs('http://'+server.ip+'/feed/dedicated-server-savegame.html?code='+server.code+'&file=careerSavegame').then(async x=>(new XMLParser({ignoreAttributes: false, attributeNamePrefix: ''}).parse(await x.text())).careerSavegame as FSCareerSavegame)
     ]);
     const dss = DSSR.status === 'fulfilled' && DSSR.value && DSSR.value.server ? DSSR.value : null;
     const csg = CSGR.status === 'fulfilled' && CSGR.value && CSGR.value.slotSystem ? CSGR.value : null;
