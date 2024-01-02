@@ -18,10 +18,6 @@ export default class Developer {
 
         const deleteEmbedBtn = new Discord.ButtonBuilder().setCustomId('deleteEvalEmbed').setLabel('Delete').setStyle(Discord.ButtonStyle.Danger).setEmoji('🗑️');
         const deleteEmbedRow = new Discord.ActionRowBuilder<Discord.ButtonBuilder>().addComponents(deleteEmbedBtn);
-        const deleteEmbedCollector = interaction.channel.createMessageComponentCollector({componentType: Discord.ComponentType.Button});
-        deleteEmbedCollector.on('collect', async i=>{
-          if (i.customId === 'deleteEvalEmbed') deleteEmbedCollector.stop();
-        });
 
         try {
           const consoleLog = console.log;
@@ -29,7 +25,7 @@ export default class Developer {
             consoleLog(...args);
             consoleOutput += util.formatWithOptions({depth: 3, colors: true}, ...args) + '\n';
           }
-
+          // If using async/await mode, end the code with a return statement for the output to be displayed in the embed.
           const output = await eval(interaction.options.getBoolean('async') ? `(async()=>{${code}})()` : code);
           let outVal = output;
           if (outVal && outVal.includes && outVal.includes(client.token)) outVal = outVal.replace(client.token, '*'.repeat(8));
@@ -38,13 +34,9 @@ export default class Developer {
             {name: 'Output', value: `**\`\`\`${UsernameHelper(outVal === 'string' ? String(outVal) : 'ansi\n'+util.formatWithOptions({depth: 3, colors: true}, '%O', outVal)).slice(0,1012)}\n\`\`\`**`}
           ];
           if (consoleOutput) embedFields.push({name: 'Console', value: `**\`\`\`ansi\n${UsernameHelper(consoleOutput).slice(0,1008)}\n\`\`\`**`});
-          if (typeof output === 'object') {
-            const embed = new client.embed().setColor(client.config.embedColor).addFields(embedFields);
-            interaction.reply({embeds: [embed], components: [deleteEmbedRow]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed], components: [deleteEmbedRow]}));
-          } else {
-            const embed = new client.embed().setColor(client.config.embedColor).addFields(embedFields);
-            interaction.reply({embeds: [embed], components: [deleteEmbedRow]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed], components: [deleteEmbedRow]}));
-          }
+
+          const embed = new client.embed().setColor(client.config.embedColor).addFields(embedFields);
+          interaction.reply({embeds: [embed], components: [deleteEmbedRow]}).catch(()=>(interaction.channel as Discord.TextChannel).send({embeds: [embed], components: [deleteEmbedRow]}));
         } catch (err) {
           const embed = new client.embed().setColor('#560000').addFields(
             {name: 'Input', value: `\`\`\`js\n${code.slice(0, 1020)}\n\`\`\``},
