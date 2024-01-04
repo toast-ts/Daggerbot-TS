@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default class ProhibitedWords {
   static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!MessageTool.isStaff(interaction.member)) return MessageTool.youNeedRole(interaction, 'admin');
+    if (!MessageTool.isStaff(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'admin');
     const word = interaction.options.getString('word');
     const wordExists = await client.prohibitedWords.findWord(word);
     ({
