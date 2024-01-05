@@ -27,6 +27,8 @@ export default class Response {
   }
   protected static async respond(message:Discord.Message, responseKeyword:string) {
     if (message.type === Discord.MessageType.Reply) return;
+    // Special case for "see you later"
+    if (responseKeyword === 'evening' && /^see you later\b/i.test(message.content)) return message.reply(`${this.outgoingArrays(message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(message)[responseKeyword].length)]}`).catch(()=>null);
     if (new RegExp(`^(${this.incomingArrays[responseKeyword].prefix.join('|')})?\\s?${responseKeyword} (${this.incomingArrays[responseKeyword].suffix.join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(message)[responseKeyword].length)]}`).catch(()=>null)
   }
   protected static outgoingArrays(message:Discord.Message) {
