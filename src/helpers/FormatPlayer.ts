@@ -15,7 +15,7 @@ export default class FormatPlayer {
       Days = Math.floor(Hours/24);
       Hours = Hours-Days*24;
     }
-  
+
     return (Days > 0 ? Days+' d ':'')+(Hours > 0 ? Hours+' h ':'')+(Minutes > 0 ? Minutes+' m':'')
   }
   static decoratePlayerIcons(player:FSPlayer) {
