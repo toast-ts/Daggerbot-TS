@@ -20,6 +20,9 @@ export default async(client:TClient)=>{
     DiscordChannelID = channel.dataValues.dcchannel;
     DiscordRoleID = channel.dataValues.dcrole;
 
+    if (!YTChannelID) return;
+    if (!DiscordChannelID ?? !DiscordRoleID) throw new Error('[YTModule] Discord channel/role ID is missing.');
+
     try {
       await Undici.request(`https://youtube.googleapis.com/youtube/v3/activities?part=snippet&channelId=${YTChannelID}&maxResults=2&key=${(await TSClient()).youtube}`, {
         signal: AbortSignal.timeout(10000),
