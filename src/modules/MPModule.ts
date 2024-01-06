@@ -21,7 +21,10 @@ export default async(client:TClient)=>{
 
   async function newServerEntry(server:IServer) {
     const serverData = await requestServerData(client, server);
-    if (!serverData) return new client.embed().setColor(client.config.embedColorRed).setTitle('Server didn\'t respond').setFooter({text: 'Last updated'}).setTimestamp();
+    if (!serverData) {
+      Logger.console('log', loggingPrefix, `${server.serverName} seems to be unavailable to take requests at this time`)
+      return new client.embed().setColor(client.config.embedColorRed).setTitle('Server didn\'t respond').setFooter({text: 'Last updated'}).setTimestamp();
+    };
     const {dss, csg} = serverData;
     if (dss === null ?? csg === null ?? !dss ?? !csg ?? !dss.slots ?? !csg.slotSystem) return new client.embed().setColor(client.config.embedColorRed).setTitle(`${server.serverName} did not respond`).setFooter({text: 'Last updated'}).setTimestamp();
     // Skip the server if the parts of the data is missing.
@@ -85,7 +88,7 @@ export default async(client:TClient)=>{
   let hookId = isBotInDevMode ? '1098524887557099520' : '1159998634604109897';
   let msgId = isBotInDevMode ? '1159855742535352462' : '1160098458997370941';
   const mfServer = cachedServers.find(s=>s.ip.split(':')[1] === '18001' && s.isActive);
-  if (mfServer) multifarmWebhook(client, mfServer, hookId, msgId);
+  if (mfServer && mfServer.isActive) multifarmWebhook(client, mfServer, hookId, msgId);
 }
 
 async function multifarmWebhook(client:TClient, server:IServer, webhookId:string, messageId:string) {
