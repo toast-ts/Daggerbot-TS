@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 export default class GuildMemberAdd {
-  static async run(client:TClient, member:Discord.GuildMember){    
+  static async run(client:TClient, member:Discord.GuildMember){
     if (member.partial || member.guild?.id != client.config.dcServer.id) return;
     const index = member.guild.memberCount;
     const suffix = (index=>{
