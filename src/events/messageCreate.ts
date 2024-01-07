@@ -44,7 +44,7 @@ export default class MessageCreate {
         cantRead: ['i cant read', 'i can\'t read', 'cant read', 'can\'t read'],
         theyBrokeIt: ['break', 'broke', 'broken'],
         deadChat: ['dead chat', 'chat is dead', 'dead server', 'inactive chat', 'inactive channel'],
-        mpsrv: ['is anyone online', 'is the server up']
+        mpsrv: ['is anyone online', 'is the server up', 'is anyone going on']
       }
       const outgoingArrays = {
         guildBoost: ['Thanks for boosting our server!', 'Thanks for the boost!', 'We appreciate the boost!', `Thank you for the kind boost, <@${message.author.id}>!`],
@@ -83,7 +83,7 @@ export default class MessageCreate {
       if (incomingArrays.cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.cantRead);
       if (message.content.toLowerCase().includes('is daggerbot working')) message.reply(picStorage.amAlive);
       if (incomingArrays.deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.deadChat);
-      if (message.channelId === '543494084363288637' && incomingArrays.mpsrv.some(e=>message.content.toLowerCase().includes(e))) message.reply('You can take a look at the embeds in <#543494084363288637> to see if anyone is on the server.');
+      if (message.channelId === '468835769092669461' && incomingArrays.mpsrv.some(e=>message.content.toLowerCase().includes(e))) message.reply('You can take a look at the embeds in <#543494084363288637> to see if anyone is on the server.');
 
       for (const thisPerson of ModsGoGetThisPerson) {
         if (incomingArrays.theyBrokeIt.some(x=>Automoderator.scanMsg(message).includes(x) && Automoderator.scanMsg(message).includes(thisPerson.user)) && MessageTool.isStaff(message.member) && message.channelId !== client.config.dcServer.channels.mpmod_chat)
