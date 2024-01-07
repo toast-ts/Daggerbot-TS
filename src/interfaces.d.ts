@@ -159,6 +159,7 @@ export interface Config {
       dcmod_chat: string,
       mpmod_chat: string,
       multifarm_chat: string
+      pw_list: string
     }
   }
 }
