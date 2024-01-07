@@ -48,8 +48,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.22"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.2.1"],\
-          ["yaml", "npm:2.3.4"]\
+          ["undici", "npm:6.2.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -1014,8 +1013,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.22"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.2.1"],\
-          ["yaml", "npm:2.3.4"]\
+          ["undici", "npm:6.2.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -2803,15 +2801,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/yallist-npm-4.0.0-b493d9e907-4cb02b42b8.zip/node_modules/yallist/",\
         "packageDependencies": [\
           ["yallist", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["yaml", [\
-      ["npm:2.3.4", {\
-        "packageLocation": "./.yarn/cache/yaml-npm-2.3.4-8bb6dc2c0d-f8207ce430.zip/node_modules/yaml/",\
-        "packageDependencies": [\
-          ["yaml", "npm:2.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
