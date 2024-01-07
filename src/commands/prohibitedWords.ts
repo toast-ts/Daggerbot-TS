@@ -1,5 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import HookMgr from '../components/HookManager.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default class ProhibitedWords {
   static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
@@ -22,6 +23,14 @@ export default class ProhibitedWords {
         else {
           await client.prohibitedWords.insertWord(word);
           interaction.reply({ephemeral: true, content: `Successfully added \`${word}\` to the list`});
+          await this.notify(client, {
+            embeds: [new client.embed()
+              .setColor(client.config.embedColorGreen)
+              .setDescription(`**${interaction.user.tag}** has added \`${word}\` to the list`)
+              .setFooter({text: `Total: ${(await client.prohibitedWords.getAllWords()).length}`})
+              .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({size: 2048})})
+            ]
+          });
         }
       },
       remove: async()=>{
@@ -29,6 +38,14 @@ export default class ProhibitedWords {
         else {
           await client.prohibitedWords.removeWord(word);
           interaction.reply({ephemeral: true, content: `Successfully removed \`${word}\` from the list`});
+          await this.notify(client, {
+            embeds: [new client.embed()
+              .setColor(client.config.embedColorRed)
+              .setDescription(`**${interaction.user.tag}** has removed \`${word}\` from the list`)
+              .setFooter({text: `Total: ${(await client.prohibitedWords.getAllWords()).length}`})
+              .setAuthor({name: interaction.user.tag, iconURL: interaction.user.displayAvatarURL({size: 2048})})
+            ]
+          });
         }
       },
       import: async()=>{
@@ -39,6 +56,9 @@ export default class ProhibitedWords {
         else interaction.reply({ephemeral: true, content: `Failed to import the list from \`${file.name}\` into the database`});
       }
     } as any)[interaction.options.getSubcommand()]();
+  }
+  private static async notify(client:TClient, message:Discord.MessageCreateOptions) {
+    return new HookMgr(client, 'pw_list', '1193424631059714128').send(message);
   }
   static data = new Discord.SlashCommandBuilder()
     .setName('pw')
