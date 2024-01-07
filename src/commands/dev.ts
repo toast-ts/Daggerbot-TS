@@ -67,8 +67,8 @@ export default class Developer {
           `Message: **${repoData.commit.message.length === 0 ? '*No commit message*' : repoData.commit.message}**`,
           `Author: **${repoData.commit.author.name}**`,
           'Changes',
-          `╰ ${commitStats.addition.length > 1 ? `Additions:` : 'Addition:'} **${commitStats.addition}**`,
-          `╰ ${commitStats.deletion.length > 1 ? `Deletions:` : 'Deletion:'} **${commitStats.deletion}**`,
+          `╰ Additions: **${commitStats.addition}**`,
+          `╰ Deletions: **${commitStats.deletion}**`,
           `╰ Total: **${commitStats.total}**`
         );
         exec('git pull', {windowsHide:true}, (err:Error, stdout)=>{
