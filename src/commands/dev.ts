@@ -122,6 +122,22 @@ export default class Developer {
         const message = interaction.options.getString('message');
         const int = await interaction.reply({content: '*Sending...*', fetchReply: true});
         client.users.cache.get(member.id).send(`${message}\n╰ ${interaction.member.displayName}`).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
+      },
+      modify_rank_msgs: async()=>{
+        const member = interaction.options.getMember('member');
+        const messages = interaction.options.getInteger('new-messages-count');
+        const oldData = await client.userLevels.fetchUser(member.id);
+        const newData = await client.userLevels.modifyUser(member.id, messages);
+        await interaction.reply({embeds:[new client.embed()
+          .setColor(client.config.embedColorGreen)
+          .setDescription(MessageTool.concatMessage(
+            `Successfully modified the messages count of **${member.displayName}**`,
+            `╰ Old: **${oldData.dataValues.messages.toLocaleString('en-US')}**`,
+            `╰ New: **${newData.messages.toLocaleString('en-US')}**`,
+            `╰ Difference: **${(newData.messages - oldData.dataValues.messages).toLocaleString('en-US')}**`,
+            'Although if you set the number too high or low, it will have a bigger impact on the leaderboard graph.'
+          ))
+        ]})
       }
     } as any)[interaction.options.getSubcommand()]();
   }
@@ -190,4 +206,17 @@ export default class Developer {
         .setName('message')
         .setDescription('Message to send')
         .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('modify_rank_msgs')
+      .setDescription('Modify the messages count of a member')
+      .addUserOption(x=>x
+        .setName('member')
+        .setDescription('Member to modify the messages count of')
+        .setRequired(true))
+      .addIntegerOption(x=>x
+        .setName('new-messages-count')
+        .setDescription('Replace the messages count of the member with this number')
+        .setRequired(true)
+        .setMinValue(5)
+        .setMaxValue(1999999999)))
 }
