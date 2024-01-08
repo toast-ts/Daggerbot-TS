@@ -31,10 +31,8 @@ export default class MessageCreate {
     }
 
     if (message.guildId === client.config.dcServer.id && !automodded) client.userLevels.messageIncremental(message.author.id);
-    // Mop gifs from banned channels without Monster having to mop them.
-    const bannedChannels = [
-      '742324777934520350', // #discord-moderators
-    ]
+    // Mop gifs from banned channels without admins having to mop them.
+    const bannedChannels = []
     if (['tenor.com/view', 'giphy.com/gifs', 'giphy.com/media'].some(e=>message.content.toLowerCase().includes(e)) && bannedChannels.includes(message.channelId)) message.reply('Gifs are not allowed in this channel.').then(()=>message.delete())
 
     // Autoresponse:tm:
