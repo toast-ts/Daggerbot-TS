@@ -56,6 +56,10 @@ export class UserLevelsSvc {
   async deleteUser(userId:string) {
     return await this.model.destroy({where: {id: userId}});
   }
+  async modifyUser(userId:string, updatedMessages:number) {
+    await this.model.update({messages: updatedMessages}, {where: {id: userId}});
+    return (await this.model.findByPk(userId)).dataValues;
+  }
   async messageIncremental(userId:string) {
     const data = await this.model.findByPk(userId);
     if (data) {
