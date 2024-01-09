@@ -87,11 +87,13 @@ export default async(client:TClient)=>{
   // Locate the Multifarm server via port and call the webhook with that server's details. (Adddi's server)
   let hookId = isBotInDevMode ? '1098524887557099520' : '1159998634604109897';
   let msgId = isBotInDevMode ? '1159855742535352462' : '1160098458997370941';
-  const mfServer = cachedServers.find(s=>s.ip.split(':')[1] === '18001' && s.isActive);
-  if (mfServer && mfServer.isActive) multifarmWebhook(client, mfServer, hookId, msgId);
+  const mfServer = cachedServers.filter(s=>s.isActive).find(s=>s.ip.split(':')[1] === '18001');
+  if (mfServer) multifarmWebhook(client, mfServer, hookId, msgId);
 }
 
 async function multifarmWebhook(client:TClient, server:IServer, webhookId:string, messageId:string) {
+  if (!server.isActive) return;
+
   const txtMapping = {
     genericBools: { 'false': 'Off', 'true': 'On' },
     growthMode: { '1': 'Yes', '2': 'No', '3': 'Growth paused' },
