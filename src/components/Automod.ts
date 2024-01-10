@@ -38,4 +38,9 @@ export default class Automoderator {
       data.timeout = setTimeout(()=>delete client.repeatedMessages[message.author.id], thresholdTime);
     }
   }
+  static async imageOnly(message:Discord.Message) {
+    const io_channels = ['468896467688620032'];
+    let deleteReason:string = 'This is an image-only channel and your message did not contain any images.';
+    if (io_channels.includes(message.channelId) && message.attachments.size < 1 && message.attachments.every(x=>!x.contentType.includes('image/'))) await message.delete().then(()=>message.channel.send(deleteReason).then((msg:Discord.Message)=>setTimeout(()=>msg.delete(), 8000)));
+  }
 }
