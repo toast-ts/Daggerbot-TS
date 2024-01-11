@@ -10,9 +10,9 @@ import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat} fro
 
 async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
   const db = await client.MPServer.findInCache();
-  const {dss} = await requestServerData(client, db.find(x=>x.serverName === serverName));
-  if (!dss) return interaction.reply('Ran into a '+RanIntoHumor+' while trying to retrieve server data, please try again later.');
-  return dss as FSData;
+  const data = await requestServerData(client, db.find(x=>x.serverName === serverName));
+  if (!data) return interaction.reply('Ran into a '+RanIntoHumor+' while trying to retrieve server data, please try again later.');
+  return data.dss as FSData;
 }
 
 const logPrefix = 'MPDB';
