@@ -139,7 +139,8 @@ export class PunishmentsSvc {
       softban: 'softbanned',
       kick: 'kicked',
       mute: 'muted',
-      warn: 'warned'
+      warn: 'warned',
+      remind: 'reminded'
     }[type];
   }
   async punishmentAdd(type:string, options:{time?:string, interaction?:Discord.ChatInputCommandInteraction}, moderator:string, reason: string, user:Discord.User, guildUser?:Discord.GuildMember) {
@@ -147,7 +148,7 @@ export class PunishmentsSvc {
     const now = Date.now();
     const guild = this.client.guilds.cache.get(this.client.config.dcServer.id) as Discord.Guild;
     const punishment:Punishment = {type, case_id: await this.generateCaseId(), member: user.id, reason, moderator, time: now};
-    const inOrFromBoolean = ['warn', 'mute'].includes(type) ? 'in' : 'from';
+    const inOrFromBoolean = ['warn', 'mute', 'remind'].includes(type) ? 'in' : 'from';
     const auditLogReason = `${reason ?? 'Reason unspecified'} | Case #${punishment.case_id}`;
     const embed = new this.client.embed()
       .setColor(this.client.config.embedColor)
