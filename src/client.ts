@@ -11,7 +11,7 @@ import ConfigHelper from './helpers/ConfigHelper.js';
 import {readdirSync} from 'node:fs';
 import {Config} from 'src/interfaces';
 import {
-  DailyMsgsSvc, UserLevelsSvc, BonkCountSvc,
+  DailyMsgsSvc, UserLevelsSvc,
   MPServerSvc, PunishmentsSvc, ProhibitedWordsSvc,
   SuggestionsSvc, TagSystemSvc, YouTubeChannelsSvc
 } from './models/IMPORTS.js';
@@ -30,7 +30,6 @@ export default class TClient extends Discord.Client {
   public dailyMsgs: DailyMsgsSvc = new DailyMsgsSvc();
   public userLevels: UserLevelsSvc = new UserLevelsSvc(this);
   public punishments: PunishmentsSvc = new PunishmentsSvc(this);
-  public bonkCount: BonkCountSvc = new BonkCountSvc();
   public prohibitedWords: ProhibitedWordsSvc = new ProhibitedWordsSvc();
   public MPServer: MPServerSvc = new MPServerSvc();
   public suggestions: SuggestionsSvc = new SuggestionsSvc();
