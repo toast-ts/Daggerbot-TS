@@ -60,6 +60,10 @@ export class UserLevelsSvc {
     await this.model.update({messages: updatedMessages}, {where: {id: userId}});
     return (await this.model.findByPk(userId)).dataValues;
   }
+  async getActiveUsers() {
+    const members = (await this.model.findAll()).sort((a,b)=>b.dataValues.messages-a.dataValues.messages);
+    return members.slice(0, 5);
+  }
   async messageIncremental(userId:string) {
     const data = await this.model.findByPk(userId);
     if (data) {
@@ -82,19 +86,27 @@ export class UserLevelsSvc {
     cron.schedule('0 11 1 1 *', async()=>{
       Logger.console('log', 'Cron', 'Running job "resetAllData", this is activated every 1st of January');
       const performCountBeforeReset = await this.model.count();
+      const topMembers = await this.getActiveUsers();
+
       Logger.console('log', 'Cron:resetAllData', `Counted ${performCountBeforeReset.toLocaleString()} members before reset`);
       await this.client.dailyMsgs.nukeDays();
       await this.model.drop().then(async()=>await this.model.sync());
 
-      // Send notification to dcServer's logs channel after cronjob is complete.
-      (this.client.channels.resolve(this.client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [new this.client.embed()
-        .setColor('#A3FFE3')
-        .setTitle('Yearly data reset has begun!')
-        .setDescription(MessageTool.concatMessage(
-          'I have gone ahead and reset everyone\'s rank data.',
-          `There was ${Intl.NumberFormat('en-US').format(performCountBeforeReset)} members in database before reset.`
-        ))
-      ]});
+      try {
+        // Send notification to dcServer's logs channel after cronjob is complete.
+        (this.client.channels.resolve(this.client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [new this.client.embed()
+          .setColor('#A3FFE3')
+          .setTitle('Yearly data reset has begun!')
+          .setDescription(MessageTool.concatMessage(
+            'I have gone ahead and reset everyone\'s rank data.',
+            `There was ${Intl.NumberFormat('en-US').format(performCountBeforeReset)} members in database before reset.\n`,
+            'Top 5 most active members:',
+            ...topMembers.map((m,i)=>`${i+1}. **${(this.client.users.resolve(m.dataValues.id) ? this.client.users.resolve(m.dataValues.id).displayName : '*Unknown User*')}** - **${m.dataValues.messages.toLocaleString()}** messages`)
+          ))
+        ]});
+      } catch (why) {
+        Logger.console('error', 'Cron:resetAllData:DEBUG', why)
+      }
 
       // Reset LRSstart to current Epoch and save it to config file
       const newEpoch = new Date().getTime();
