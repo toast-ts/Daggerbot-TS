@@ -125,13 +125,13 @@ export default class Developer {
       },
       modify_rank_msgs: async()=>{
         const member = interaction.options.getMember('member');
-        const messages = interaction.options.getInteger('new-messages-count');
+        const messages = interaction.options.getInteger('new-message-count');
         const oldData = await client.userLevels.fetchUser(member.id);
         const newData = await client.userLevels.modifyUser(member.id, messages);
         await interaction.reply({embeds:[new client.embed()
           .setColor(client.config.embedColorGreen)
           .setDescription(MessageTool.concatMessage(
-            `Successfully modified the messages count of **${member.displayName}**`,
+            `Successfully modified the message count of **${member.displayName}**`,
             `╰ Old: **${oldData.dataValues.messages.toLocaleString('en-US')}**`,
             `╰ New: **${newData.messages.toLocaleString('en-US')}**`,
             `╰ Difference: **${(newData.messages - oldData.dataValues.messages).toLocaleString('en-US')}**`,
@@ -211,11 +211,11 @@ export default class Developer {
       .setDescription('Modify the messages count of a member')
       .addUserOption(x=>x
         .setName('member')
-        .setDescription('Member to modify the messages count of')
+        .setDescription('Member to modify the message count of')
         .setRequired(true))
       .addIntegerOption(x=>x
-        .setName('new-messages-count')
-        .setDescription('Replace the messages count of the member with this number')
+        .setName('new-message-count')
+        .setDescription('Replace the message count of the member with this number')
         .setRequired(true)
         .setMinValue(5)
         .setMaxValue(1999999999)))
