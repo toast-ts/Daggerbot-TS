@@ -14,4 +14,5 @@ export default class MessageTool {
   static formatMention =(mention:string, type:'user'|'channel'|'role')=>`<${type === 'role' ? '@&' : type === 'channel' ? '#' : '@'}${mention}>`;
   static isStaff =(guildMember:Discord.GuildMember)=>config.dcServer.staffRoles.map((x:string)=>config.dcServer.roles[x]).some((x:string)=>guildMember.roles.cache.has(x));
   static youNeedRole =(interaction:Discord.CommandInteraction, role:RoleKeys)=>interaction.reply(`You do not have ${this.formatMention(config.dcServer.roles[role], 'role')} role to use this command.`);
+  static isModerator =(guildMember:Discord.GuildMember)=>config.dcServer.staffRoles.filter((x:string)=>/^admin|^dcmod/.test(x)).map((x:string)=>config.dcServer.roles[x]).some((x:string)=>guildMember.roles.cache.has(x));
 }
