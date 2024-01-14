@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default async(client:TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: 'ban'|'softban'|'kick'|'mute'|'warn'|'remind')=>{
-  if (!MessageTool.isStaff(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
+  if (!MessageTool.isModerator(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
 
   const time = interaction.options.getString('time') ?? undefined;
   const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
