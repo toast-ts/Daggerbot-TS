@@ -82,15 +82,9 @@ export class PunishmentsSvc {
     const findCase = this.findCase(caseId);
     if (findCase) return this.model.update({reason: reason}, {where: {case_id: caseId}});
   }
-  async findCase(caseId:number) {
-    return this.model.findOne({where: {case_id: caseId}});
-  }
-  async findByCancels(caseId:number) {
-    return this.model.findOne({where: {cancels: caseId}})
-  }
-  async getAllCases() {
-    return this.model.findAll();
-  }
+  findCase =(caseId:number)=>this.model.findOne({where: {case_id: caseId}});
+  findByCancels =(caseId:number)=>this.model.findOne({where: {cancels: caseId}})
+  getAllCases =()=>this.model.findAll();
   async generateCaseId() {
     const result = await this.model.findAll();
     return Math.max(...result.map((x:Punishment)=>x.case_id), 0) + 1;
@@ -107,7 +101,7 @@ export class PunishmentsSvc {
   async findInCache():Promise<any> {
     const cacheKey = 'punishments';
     const cachedResult = await CacheServer.get(cacheKey, true);
-    let result;
+    let result:any;
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();
@@ -164,13 +158,7 @@ export class PunishmentsSvc {
     const durText = millisecondTime ? ` for ${Formatters.timeFormat(millisecondTime, 4, {longNames: true, commas: true})}` : '';
     if (time) embed.addFields({name: 'Duration', value: durText});
 
-    if (guildUser) {
-      try {
-        await guildUser.send(`You've been ${this.getPastTense(type)} ${inOrFromBoolean} **${guild.name}**${durText}\n\`${reason}\` (Case #${punishment.case_id})`)
-      } catch {
-        embed.setFooter({text: 'Unable to DM a member'})
-      }
-    }
+    if (guildUser) await guildUser.send(`You've been ${this.getPastTense(type)} ${inOrFromBoolean} **${guild.name}**${durText}\n\`${reason}\` (Case #${punishment.case_id})`).catch(()=>embed.setFooter({text: 'Unable to DM a member'}));
 
     if (['ban', 'softban'].includes(type)) {
       const alreadyBanned = await guild.bans.fetch(user.id).catch(()=>null); // 172800 seconds is 48 hours, just for future reference

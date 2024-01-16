@@ -48,13 +48,7 @@ export class ProhibitedWordsSvc {
       throw new Error(`Failed to insert words into Postgres database: ${err.message}`)
     }
   }
-  async getAllWords() {
-    return await this.model.findAll();
-  }
-  async insertWord(word:string) {
-    return await this.model.create({word: word})
-  }
-  async removeWord(word:string) {
-    return await this.model.destroy({where: {word: word}})
-  }
+  getAllWords = async()=>await this.model.findAll();
+  insertWord = async(word:string)=>await this.model.create({word: word});
+  removeWord = async(word:string)=>await this.model.destroy({where: {word: word}})
 }
