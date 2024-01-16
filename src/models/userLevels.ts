@@ -47,15 +47,9 @@ export class UserLevelsSvc {
     });
     this.model.sync();
   }
-  async fetchEveryone() {
-    return await this.model.findAll();
-  }
-  async fetchUser(userId:string) {
-    return await this.model.findByPk(userId);
-  }
-  async deleteUser(userId:string) {
-    return await this.model.destroy({where: {id: userId}});
-  }
+  fetchEveryone = async()=>await this.model.findAll();
+  fetchUser = async(userId:string)=>await this.model.findByPk(userId);
+  deleteUser = async(userId:string)=>await this.model.destroy({where: {id: userId}});
   async modifyUser(userId:string, updatedMessages:number) {
     await this.model.update({messages: updatedMessages}, {where: {id: userId}});
     return (await this.model.findByPk(userId)).dataValues;

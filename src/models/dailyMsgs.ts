@@ -30,21 +30,13 @@ export class DailyMsgsSvc {
     })
     this.model.sync();
   }
-  async nukeDays() {
-    return await this.model.destroy({truncate: true})
-    // Drop a nuclear bomb on the table.
-  }
-  async fetchDays() {
-    return await this.model.findAll();
-    // Fetch every rows from database.
-  }
+  nukeDays = async()=>await this.model.destroy({truncate: true});
+  fetchDays = async()=>await this.model.findAll();
   async newDay(formattedDate:number, total:number) {
     if (await this.model.findOne({where: {day: formattedDate}})) return console.log('This day already exists!')
     return await this.model.create({day: formattedDate, total: total});
     // Save previous day's total messages into database when a new day starts.
   }
-  async updateDay(formattedDate:number, total:number) {
-    return await this.model.update({total: total}, {where: {day: formattedDate}});
-    // THIS IS FOR DEVELOPMENT PURPOSES ONLY, NOT TO BE USED IN LIVE ENVIRONMENT!
-  }
+  updateDay = async(formattedDate:number, total:number)=>await this.model.update({total: total}, {where: {day: formattedDate}});
+  // THIS IS FOR DEVELOPMENT PURPOSES ONLY, NOT TO BE USED IN LIVE ENVIRONMENT!
 }

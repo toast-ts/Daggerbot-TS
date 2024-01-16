@@ -34,15 +34,11 @@ export class YouTubeChannelsSvc {
     })
     this.model.sync();
   }
-  async getChannels() {
-    return await this.model.findAll();
-  }
   async addChannel(YTChannelID:string, DCChannelID:string, DCRole:string) {
     if (await this.model.findOne({where: {ytchannel: YTChannelID}})) return false;
     await this.model.create({ytchannel: YTChannelID, dcchannel: DCChannelID, dcrole: DCRole});
     return true;
   }
-  async delChannel(YTChannelID:string) {
-    return await this.model.destroy({where: {ytchannel: YTChannelID}});
-  }
+  delChannel = async(YTChannelID:string)=>await this.model.destroy({where: {ytchannel: YTChannelID}});
+  getChannels = async()=>await this.model.findAll();
 }
