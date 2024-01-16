@@ -49,8 +49,8 @@ export default class Case {
         const user = (interaction.options.getUser('user') as Discord.User);
         if (user.bot) return interaction.reply(`**${user.username}**'s punishment history cannot be viewed as they are a bot.`)
         const punishments = await client.punishments.getAllCases();
-        const userPunishmentData = punishments.filter(x=>x.dataValues.member === user.id);
-        const userPunishment = userPunishmentData.sort((a,b)=>a.dataValues.time-b.dataValues.time).map(punishment=>{
+        const userPunishmentData = punishments.filter(x=>x.dataValues.member === user.id).sort((a,b)=>b.dataValues.time-a.dataValues.time);
+        const userPunishment = userPunishmentData.map(punishment=>{
           return {
             name: `${punishment.dataValues.type[0].toUpperCase()+punishment.dataValues.type.slice(1)} | Case #${punishment.dataValues.case_id}`,
             value: `Reason: \`${punishment.dataValues.reason}\`\n${punishment.dataValues.duration ? `Duration: ${Formatters.timeFormat(punishment.dataValues.duration, 3)}\n` : ''}Moderator: ${MessageTool.formatMention(punishment.dataValues.moderator, 'user')}${punishment.dataValues.expired ? `\nOverwritten by Case #${punishments.find(x=>x.dataValues.cancels===punishment.dataValues.case_id)?.case_id}` : ''}${punishment.dataValues.cancels ? `\nOverwrites Case #${punishment.dataValues.cancels}` : ''}`
