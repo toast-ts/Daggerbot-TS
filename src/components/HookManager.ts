@@ -14,9 +14,7 @@ export default class HookMgr {
     this.webhookId = webhookId;
   }
 
-  protected async channelFetch(client:TClient, channel:ChannelList) {
-    return await client.channels.fetch(config.dcServer.channels[channel]) as Discord.TextChannel;
-  }
+  protected channelFetch = async(client:TClient, channel:ChannelList)=>await client.channels.fetch(config.dcServer.channels[channel]) as Discord.TextChannel;
   protected async fetch(client:TClient, channel:ChannelList, webhookId:Discord.Snowflake) {
     const hookInstance = await (await this.channelFetch(client, channel)).fetchWebhooks().then(x=>x.find(y=>y.id===webhookId));
     if (!hookInstance) throw new Error('[HookManager] Webhook not found.');

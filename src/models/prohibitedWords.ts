@@ -26,9 +26,7 @@ export class ProhibitedWordsSvc {
     })
     this.model.sync();
   }
-  async findWord(word:string) {
-    return await this.model.findByPk(word);
-  }
+  findWord = async(word:string)=>await this.model.findByPk(word);
   async importWords(file:string) {
     const jsonData = await new Promise<string>((resolve, reject)=>{
       get(file, res=>{
