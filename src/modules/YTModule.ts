@@ -43,7 +43,7 @@ export default async(client:TClient)=>{
       continue;
     }
     if (getVideoId(1) === cachedVideoId) {
-      Logger.console('log', 'YTModule:DEBUG', `New video uploaded by ${YTChannelName} and notification sent to Discord`)
+      Logger.debug('YTModule', `New video uploaded by ${YTChannelName} and notification sent to Discord`)
       await CacheServer.delete(cacheKey).then(async()=>await CacheServer.set(cacheKey, getVideoId(0), false).then(async()=>await CacheServer.expiry(cacheKey, cacheExpiry)));
 
       (client.channels.resolve(DiscordChannelID) as TextChannel).send({

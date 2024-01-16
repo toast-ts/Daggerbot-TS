@@ -114,7 +114,7 @@ export class UserLevelsSvc {
           ))
         ]});
       } catch (why) {
-        Logger.console('error', 'Cron:resetAllData:DEBUG', why)
+        Logger.debug('Cron:resetAllData', why)
       }
 
       // Reset LRSstart to current Epoch and save it to config file
