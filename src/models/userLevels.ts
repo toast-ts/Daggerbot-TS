@@ -81,6 +81,21 @@ export class UserLevelsSvc {
       }
     } else await this.model.create({id: userId, messages: 1, level: 0, pingToggle: true});
   }
+  async dataSweeper() {
+    // Every Monday at 12:00 (Sydney Time)
+    cron.schedule('0 12 * * 1', async()=>{
+      Logger.console('log', 'Cron', 'Running job "dataSweeper", this is activated every Monday at 12:00');
+      const fetchDiscordMembers = await this.client.guilds.cache.get(this.client.config.dcServer.id).members.fetch();
+      const fetchUsers = await this.model.findAll();
+      for (const user of fetchUsers) {
+        if (!fetchDiscordMembers.has(user.dataValues.id)) {
+          await this.deleteUser(user.dataValues.id);
+          Logger.console('log', 'Cron:dataSweeper', `Removing ${user.dataValues.id}`);
+        }
+      }
+      Logger.console('log', 'Cron:dataSweeper', 'Job completed');
+    })
+  }
   async initSelfdestruct() {
     // Every 1st of January at 11:00 (Midnight in London, Middayish in Sydney)
     cron.schedule('0 11 1 1 *', async()=>{

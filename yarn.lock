@@ -441,12 +441,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.11.0":
-  version: 20.11.0
-  resolution: "@types/node@npm:20.11.0"
+"@types/node@npm:*, @types/node@npm:20.11.3":
+  version: 20.11.3
+  resolution: "@types/node@npm:20.11.3"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 8da60a8ccb65181c3d6f7686ddc5f1b1616cafa14d9e520a866adff82c17cc99336a78dd7ce7bee8f54e2332946f678b0e3aa377fbaaf751d3c05b64600872c6
+  checksum: dff64333435bbda87e200e24e2103f40692d0a01849db685ecb31db7c589f2556843a03dd351ddaee9981020263939c026557b36df49154efd910c610deefe78
   languageName: node
   linkType: hard
 
@@ -748,7 +748,7 @@ __metadata:
     "@octokit/rest": "npm:20.0.2"
     "@toast/tokenservice-client": "npm:1.0.6"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:20.11.0"
+    "@types/node": "npm:20.11.3"
     "@types/node-cron": "npm:3.0.11"
     "@types/pg": "npm:8.10.9"
     "@types/sequelize": "npm:4.28.20"

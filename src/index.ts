@@ -57,6 +57,8 @@ setInterval(async()=>{
   }
 }, 5000)
 
-if (client.config.botSwitches.dailyMsgsBackup) client.userLevels.initSelfdestruct()
-// Initiate the nuke on userLevels and dailyMsgs tables
-// Also don't ask why it's outside the interval
+if (client.config.botSwitches.dailyMsgsBackup) {
+  client.userLevels.initSelfdestruct();
+  client.userLevels.dataSweeper();
+}
+// Cronjob tasks

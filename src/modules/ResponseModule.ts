@@ -32,9 +32,11 @@ export default class Response {
     if (new RegExp(`^(${this.incomingArrays[responseKeyword].prefix.join('|')})?\\s?${responseKeyword} (${this.incomingArrays[responseKeyword].suffix.join('|')})\\b`, 'i').test(message.content)) return message.reply(`${this.outgoingArrays(message)[responseKeyword][Math.floor(Math.random()*this.outgoingArrays(message)[responseKeyword].length)]}`).catch(()=>null)
   }
   protected static outgoingArrays(message:Discord.Message) {
+    const currDate = new Date();
     const PersonnyMcPerson = `**${message.member.displayName}**`;
     // const responseCreator =(id:Discord.Snowflake)=>`\n╰*Response made by <@${id}>*`;
-    return {
+
+    const respArrays = {
       morning: [
         `Morning ${PersonnyMcPerson}, did you sleep great?`, `Good morning ${PersonnyMcPerson}!`, `Hope you enjoyed your breakfast, ${PersonnyMcPerson}!`,
         `Gm ${PersonnyMcPerson}.`, `Uh.. What time is it? Oh yea, morning ${PersonnyMcPerson}.`, `Morning and hope you had a good dream last night, ${PersonnyMcPerson}.`,
@@ -65,6 +67,36 @@ export default class Response {
         `Sleep well ${PersonnyMcPerson}.`, `Gn ${PersonnyMcPerson}.`, `Close your eyelids and sleep, ${PersonnyMcPerson}.`, `Good night ${PersonnyMcPerson} and hope your pillow is nice and cold!`,
         `# Night ${PersonnyMcPerson}!`, `You should try maintaining your sleep schedule if you're really that tired, ${PersonnyMcPerson}.`
       ]
+    };
+
+    // Better Breakfast Day (Sept. 26)
+    if (currDate.getUTCMonth() === 8 && currDate.getUTCDate() === 26) {
+      return {
+        morning: [
+          `Hello ${PersonnyMcPerson}, have you tried avocado toast for breakfast?`,
+          `Hey and good morning ${PersonnyMcPerson}!\nDid you know that breakfast is the most important meal of the day?`,
+          `Morning ${PersonnyMcPerson}, having a balanced breakfast can help you feel more energized throughout the day.`,
+          `Good morning ${PersonnyMcPerson}, how about some eggs benedict for breakfast today?`,
+          `Morning ${PersonnyMcPerson}!\nDid you know that a high protein breakfast can help control your hunger throughout the day?`,
+          'Have you tried a breakfast burrito? They\'re delicious and filling.',
+          `Morning ${PersonnyMcPerson}, remember that fruits are a great addition to your breakfast.`,
+          `Hello ${PersonnyMcPerson}!\nStart your morning with some French toast for a treat. They're easy to make and tastes delicious!`,
+          'A breakfast sandwich or toast is a quick and easy option for busy mornings.',
+          `Good morning ${PersonnyMcPerson}, don't forget to add some veggies to your breakfast for extra nutrients.`,
+          `Morning ${PersonnyMcPerson}, have you tried a breakfast casserole? They're a great make-ahead option.`,
+          'Cereal is the quickest option to start your busy day with!',
+          `Gooood morning ${PersonnyMcPerson}! How about some pancakes for breakfast today?`,
+          `Morning ${PersonnyMcPerson}, don't forget to have some milk with your breakfast.`
+        ],
+        afternoon: respArrays.afternoon,
+        evening: respArrays.evening,
+        night: respArrays.night
+      }
+    } else return {
+      morning: respArrays.morning,
+      afternoon: respArrays.afternoon,
+      evening: respArrays.evening,
+      night: respArrays.night
     }
   }
 }

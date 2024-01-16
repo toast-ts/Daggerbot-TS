@@ -6,7 +6,7 @@ import GitHub from '../helpers/GitHub.js';
 import si from 'systeminformation';
 import os from 'node:os';
 import ts from 'typescript';
-import {readFileSync} from 'node:fs';
+import {readFileSync, existsSync} from 'node:fs';
 export default class Statistics {
   static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
     const initialMsg = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true});
@@ -58,7 +58,7 @@ export default class Statistics {
       )},
       {name: '🔹 *Host*', value: MessageTool.concatMessage(
         `>>> **OS:** ${systemInfo.osInfo.distro} ${systemInfo.osInfo.release}`,
-        `**CPU:** ${systemInfo.cpu.manufacturer} ${systemInfo.cpu.brand} ∙ ${systemInfo.cpu.speed} GHz`,
+        `**CPU:** ${systemInfo.cpu.manufacturer} ${systemInfo.cpu.brand} ${this.isHostVirtualized() ? '' : `∙ ${systemInfo.cpu.speed} GHz`}`,
         '**RAM**',
         `╰ **Host:** ${this.progressBar(systemInfo.mem.used, systemInfo.mem.total)} (${Formatters.byteFormat(systemInfo.mem.used)}/${Formatters.byteFormat(systemInfo.mem.total)})`,
         `╰ **Bot:** ${this.progressBar(process.memoryUsage().heapUsed, process.memoryUsage().heapTotal)} (${Formatters.byteFormat(process.memoryUsage().heapUsed)}/${Formatters.byteFormat(process.memoryUsage().heapTotal)})`,
@@ -77,6 +77,10 @@ export default class Statistics {
     const percent = used/total;
     const bar = '▓'.repeat(Math.round(percent*length)) + '░'.repeat(length-Math.round(percent*length));
     return `${bar} ${Math.round(percent*100)}%`;
+  }
+  private static isHostVirtualized():boolean {
+    if (existsSync('/sys/firmware/qemu_fw_cfg') ?? existsSync('/sys/module/qemu_fw_cfg')) return true
+    return false;
   }
   static data = new Discord.SlashCommandBuilder()
     .setName('statistics')
