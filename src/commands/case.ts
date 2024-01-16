@@ -19,7 +19,7 @@ export default class Case {
     }
   }
   static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
-    if (!MessageTool.isStaff(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
+    if (!MessageTool.isModerator(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
     const caseId = interaction.options.getInteger('id');
     ({
       update: async()=>{
@@ -56,7 +56,7 @@ export default class Case {
             value: `Reason: \`${punishment.dataValues.reason}\`\n${punishment.dataValues.duration ? `Duration: ${Formatters.timeFormat(punishment.dataValues.duration, 3)}\n` : ''}Moderator: ${MessageTool.formatMention(punishment.dataValues.moderator, 'user')}${punishment.dataValues.expired ? `\nOverwritten by Case #${punishments.find(x=>x.dataValues.cancels===punishment.dataValues.case_id)?.case_id}` : ''}${punishment.dataValues.cancels ? `\nOverwrites Case #${punishment.dataValues.cancels}` : ''}`
           }
         });
-        if (!punishments || !userPunishment) return interaction.reply(`**${user.username}** has a clean record.`)
+        if (!userPunishment.length) return interaction.reply(`**${user.username}** has a clean record.`)
         const pageNum = interaction.options.getInteger('page') ?? 1;
         return interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle(`${user.username}'s punishment history`).setDescription(`**ID:** \`${user.id}\``).setFooter({text: `${userPunishment.length} total punishments. Viewing page ${pageNum} out of ${Math.ceil(userPunishment.length/6)}.`}).addFields(userPunishment.slice((pageNum - 1) * 6, pageNum * 6))]});
       }
