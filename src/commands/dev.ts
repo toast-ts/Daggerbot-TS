@@ -76,7 +76,7 @@ export default class Developer {
           else if (stdout.includes('Already up to date')) hammondYouIdiot.edit('Repository is currently up to date.');
           else hammondYouIdiot.edit('Running `yarn tsc`...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
             if (err) hammondYouIdiot.edit(`\`\`\`${UsernameHelper(err.message)}\`\`\``);
-            else if (interaction.options.getBoolean('restart')) hammondYouIdiot.edit(msgBody + `\nUptime: ${Formatters.timeFormat(process.uptime()*1000, 4, {longNames:true, commas:true})}`).then(()=>process.exit(0));
+            else if (interaction.options.getBoolean('restart')) hammondYouIdiot.edit(msgBody + `\nUptime: **${Formatters.timeFormat(process.uptime()*1000, 4, {longNames:true, commas:true})}**`).then(()=>process.exit(0));
             else hammondYouIdiot.edit(msgBody);
           }));
         });
