@@ -2,7 +2,6 @@ import Undici from 'undici';
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import ConfigHelper from '../helpers/ConfigHelper.js';
-import FormatPlayer from '../helpers/FormatPlayer.js';
 import Logger from '../helpers/Logger.js';
 import HookMgr from '../components/HookManager.js';
 import {IServer} from '../models/MPServer.js';
@@ -121,10 +120,6 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
   })
 }
 
-async function storePlayerCount(client:TClient, server:IServer, playerCount:number) {
-  return await client.MPServer.incrementPlayerCount(server.serverName, playerCount);
-}
-
 export async function requestServerData(client:TClient, server:IServer):Promise<{dss:FSData, csg:FSCareerSavegame}|undefined>{
   async function retryReqs(url:string) {
     // Attempt to reduce the failure rate of the requests before giving up and retrying in next refresh.
@@ -156,11 +151,31 @@ export async function requestServerData(client:TClient, server:IServer):Promise<
   }
 }
 
-export function mpModuleDisabled(client:TClient) {
-  return new client.embed().setColor(client.config.embedColorInvis).setTitle('MPModule is currently disabled.');
+export const mpModuleDisabled =(client:TClient)=>new client.embed().setColor(client.config.embedColorInvis).setTitle('MPModule is currently disabled.');
+export const playtimeStat =(player:FSPlayer)=>`**${player.name}${decoratePlayerIcons(player)}**\n${player.uptime < 1 ? 'Just joined' : `Playing for ${convertPlayerUptime(player.uptime)}`}`;
+const storePlayerCount = async(client:TClient, server:IServer, playerCount:number)=>await client.MPServer.incrementPlayerCount(server.serverName, playerCount);
+
+function decoratePlayerIcons(player:FSPlayer) {
+  let decorator = player.isAdmin ? ':detective:' : '';
+  decorator += player.name.includes('Toast') ? '<:toast:1132681026662056079>' : '';
+  return decorator
 }
 
-export function playtimeStat(player:FSPlayer) {
-  let uptimeTxt = player.uptime < 1 ? 'Just joined' : `Playing for ${FormatPlayer.convertUptime(player.uptime)}`;
-  return `**${player.name}${FormatPlayer.decoratePlayerIcons(player)}**\n${uptimeTxt}`
+function convertPlayerUptime(playTime:number) {
+  let Minutes:number;
+  let Hours:number;
+  let Days:number;
+
+  playTime = Math.floor(playTime);
+  if (playTime >= 60) {
+    Hours = Math.floor(playTime/60);
+    Minutes = playTime-Hours*60;
+  } else Minutes = playTime
+
+  if (Hours >= 24) {
+    Days = Math.floor(Hours/24);
+    Hours = Hours-Days*24;
+  }
+
+  return (Days > 0 ? Days+' d ':'')+(Hours > 0 ? Hours+' h ':'')+(Minutes > 0 ? Minutes+' m':'')
 }
