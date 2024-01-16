@@ -17,11 +17,11 @@ export default class Automoderator {
           // If the count has reached the threshold amount, punish the user like most daddy would do to their child.
           if (!this.lockQuery.has(message.author.id)) {
             this.lockQuery.add(message.author.id);
-            Logger.console('log', 'Automod', `Lock acquired for ${message.author.tag} with reason: ${reason}`);
+            Logger.console('log', 'AUTOMOD', `Lock acquired for ${message.author.tag} with reason: ${reason}`);
             await client.punishments.punishmentAdd('mute', {time: duration}, client.user.id, `AUTOMOD:${reason}`, message.author, message.member as Discord.GuildMember);
             setTimeout(()=>{
               this.lockQuery.delete(message.author.id);
-              Logger.console('log', 'Automod', `Lock released for ${message.author.tag}`);
+              Logger.console('log', 'AUTOMOD', `Lock released for ${message.author.tag}`);
             }, 3500); // Wait 3.5 seconds before releasing the lock.
           }
           delete client.repeatedMessages[message.author.id];
