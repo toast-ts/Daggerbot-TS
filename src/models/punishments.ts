@@ -110,7 +110,17 @@ export class PunishmentsSvc {
     return result;
   }
   async createModlog(punishment:Punishment) {
-    const channel = ['kick', 'ban'].includes(punishment.type) ? this.client.config.dcServer.channels.bankick_log : this.client.config.dcServer.channels.logs;
+    let channel:Discord.TextChannelResolvable;
+    switch (punishment.type) {
+      case 'kick':
+      case 'ban':
+        channel = this.client.config.dcServer.channels.bankick_log;
+        break;
+      default:
+        channel = this.client.config.dcServer.channels.logs;
+        console.log('[Punishment] BKL channel doesn\'t seem to exist anymore, falling back to #bot-log.')
+        break;
+    }
     const embed = new this.client.embed()
       .setColor(this.client.config.embedColor)
       .setTitle(`${punishment.type[0].toUpperCase() + punishment.type.slice(1)} | Case #${punishment.case_id}`)
