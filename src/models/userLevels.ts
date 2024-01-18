@@ -12,6 +12,8 @@ class userLevels extends Model {
   declare public messages: number;
   declare public level: number;
   declare public pingToggle: boolean;
+  declare public time: number;
+  declare public isBlocked: boolean;
 }
 
 export class UserLevelsSvc {
@@ -29,15 +31,23 @@ export class UserLevelsSvc {
       },
       messages: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       level: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       pingToggle: {
         type: DataTypes.BOOLEAN,
-        allowNull: true,
+        allowNull: true
+      },
+      time: {
+        type: DataTypes.BIGINT,
+        allowNull: true
+      },
+      isBlocked: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
       }
     }, {
       tableName: 'userlevels',
@@ -54,12 +64,21 @@ export class UserLevelsSvc {
     await this.model.update({messages: updatedMessages}, {where: {id: userId}});
     return (await this.model.findByPk(userId)).dataValues;
   }
+  async blockUser(userId:string, duration:number):Promise<boolean> {
+    const data = await this.model.findByPk(userId);
+    if (data && data.dataValues.isBlocked) return false;
+    else if (data) {
+      await this.model.update({time: duration, isBlocked: true}, {where: {id: userId}});
+      return true;
+    }
+  }
   async getActiveUsers() {
     const members = (await this.model.findAll()).sort((a,b)=>b.dataValues.messages-a.dataValues.messages);
     return members.slice(0, 5);
   }
   async messageIncremental(userId:string) {
     const data = await this.model.findByPk(userId);
+    if (data && data.dataValues.isBlocked) return;
     if (data) {
       await this.model.update({messages: data.dataValues.messages + 1}, {where: {id: userId}});
       if (data.messages >= this.algorithm(data.dataValues.level+2)) {
@@ -73,7 +92,7 @@ export class UserLevelsSvc {
         const levelUpMsg = `${getUser.pingToggle === true ? `<@${userId}>` : `**${(await this.client.users.fetch(userId)).displayName}**`} has reached level **${getUser.level}**. Well done!`;
         (this.client.channels.resolve(this.client.config.dcServer.channels.botcommands) as Discord.TextChannel).send({content: levelUpMsg, allowedMentions: {parse: ['users']}});
       }
-    } else await this.model.create({id: userId, messages: 1, level: 0, pingToggle: true});
+    } else await this.model.create({id: userId, messages: 1, level: 0, pingToggle: true, isBlocked: false});
   }
   async dataSweeper() {
     // Every Monday at 12:00 (Sydney Time)
