@@ -1,5 +1,7 @@
+import ms from 'ms';
 import Discord from 'discord.js';
 import TClient from '../client.js';
+import Formatters from '../helpers/Formatters.js';
 import MessageTool from '../helpers/MessageTool.js';
 import CanvasBuilder from '../components/CanvasGraph.js';
 export default class Rank {
@@ -53,6 +55,30 @@ export default class Rank {
           await findUserInDatabase.update({pingToggle: false}, {where: {id: interaction.user.id}})
           interaction.reply({content: 'You won\'t '+textDeco, ephemeral: true})
         }
+      },
+      temp_block: async()=>{
+        if (!(MessageTool.isModerator(interaction.member) || client.config.whitelist.includes(interaction.member.id))) return MessageTool.youNeedRole(interaction, 'dcmod');
+        const member = interaction.options.getMember('member');
+        const duration = ms(interaction.options.getString('duration'));
+        const reason = interaction.options.getString('reason');
+        const botlog = interaction.guild.channels.cache.get(client.config.dcServer.channels.logs) as Discord.TextChannel;
+
+        if (await client.userLevels.blockUser(member.id, Date.now() + duration)) {
+          await interaction.reply(`Done, DM has been sent to **${member.displayName}** with the reason.`);
+          botlog.send({embeds: [new client.embed()
+            .setColor(client.config.embedColor)
+            .setTitle('[Rank] Member temporarily blocked')
+            .setFields(
+              {name: 'Member', value: `${member.displayName} (\`${member.id}\`)`},
+              {name: 'Duration', value: Formatters.timeFormat(duration, 2, {longNames: true, commas: false}), inline: true},
+              {name: 'Reason', value: reason, inline: true}
+            )
+          ]});
+          member.send(MessageTool.concatMessage(
+            `You have been blocked from incrementing your messages for **${Formatters.timeFormat(duration, 2, {longNames: true, commas: false})}** in **${interaction.guild.name}**.`,
+            `Reason: \`${reason}\``
+          )).catch(()=>null);
+        } else interaction.reply(`**${member.displayName}** is already blocked.`);
       }
 		} as any)[interaction.options.getSubcommand()]();
   }
@@ -71,4 +97,19 @@ export default class Rank {
     .addSubcommand(x=>x
       .setName('notification')
       .setDescription('Allow the bot to ping you or not when you level up'))
+    .addSubcommand(x=>x
+      .setName('temp_block')
+      .setDescription('Temporarily block the member from incrementing their messages')
+      .addUserOption(x=>x
+        .setName('member')
+        .setDescription('Which member do you want to prevent?')
+        .setRequired(true))
+      .addStringOption(x=>x
+        .setName('duration')
+        .setDescription('How long do you want to block the member for?')
+        .setRequired(true))
+      .addStringOption(x=>x
+        .setName('reason')
+        .setDescription('Reason for blocking the member')
+        .setRequired(true)))
 }

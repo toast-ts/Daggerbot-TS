@@ -28,6 +28,13 @@ setInterval(()=>YTModule(client), 180000); // 3 minutes
 setInterval(async()=>{
   const now = Date.now();
 
+  const checkExpiration = await client.userLevels.fetchEveryone();
+  checkExpiration.filter(x=>x.isBlocked && x.time <= now).forEach(async user=>{
+    Logger.console('log', 'LevelSystem', `${user.dataValues.id}'s block should expire now`);
+    user.update({isBlocked: false, time: null}, {where: {id: user.dataValues.id}});
+    client.users.send(user.dataValues.id, `Your rank block has expired, you can now continue to progress your level.`);
+  });
+
   const punishments = await client.punishments.findInCache();
   punishments.filter((x:Punishment)=>x.endTime && x.endTime <= now && !x.expired).forEach(async (punishment:Punishment)=>{
     Logger.console('log', 'Punishment', `${punishment.member}\'s ${punishment.type} should expire now`);

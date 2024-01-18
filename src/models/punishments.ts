@@ -216,7 +216,7 @@ export class PunishmentsSvc {
     const guild = this.client.guilds.cache.get(this.client.config.dcServer.id) as Discord.Guild;
     const auditLogReason = `${reason ?? 'Reason unspecified'} | Case #${ID}`;
     const user = await this.client.users.fetch(punishment.member);
-    const guildUser = await guild.members.fetch(punishment.member).catch(()=>null);
+    const guildUser:Discord.GuildMember = await guild.members.fetch(punishment.member).catch(()=>null);
 
     let removePunishmentData:Punishment = {type: `un${punishment.type}`, case_id: ID, cancels: punishment.case_id, member: punishment.member, reason, moderator, time: now};
     let removePunishmentResult:any;
