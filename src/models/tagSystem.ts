@@ -61,6 +61,7 @@ export class TagSystemSvc {
   async sendTag(interaction:ChatInputCommandInteraction, tagName:string, targetId:Snowflake) {
     const getTag = await this.model.findOne({where: {tagname: tagName}});
     const targetMsg = targetId ? `*This tag is directed at ${MessageTool.formatMention(targetId, 'user')}*` : '';
+    const fetchUser = await interaction.guild?.members.fetch(getTag.dataValues.userid);
     const ic = interaction.client as TClient;
     const embedFormat = [
       new ic.embed().setTitle(tagName).setColor(ic.config.embedColor)
@@ -68,7 +69,7 @@ export class TagSystemSvc {
       .setDescription(getTag.dataValues.message)
     ];
     if (getTag.dataValues.embedFlag) return await interaction.reply({content: targetMsg, embeds: embedFormat, allowedMentions: {parse: ['users']}});
-    else return await interaction.reply({content: targetMsg+`\n**${getTag.dataValues.message}**`, allowedMentions: {parse: ['users']}});
+    else return await interaction.reply({content: targetMsg+`\n**${getTag.dataValues.message}**\n╰ **${fetchUser.displayName}**`, allowedMentions: {parse: ['users']}});
   }
   async modifyTag(tagname:string, message:string) {
     CacheServer.delete('tags');
