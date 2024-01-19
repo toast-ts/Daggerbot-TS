@@ -118,7 +118,6 @@ export class PunishmentsSvc {
         break;
       default:
         channel = this.client.config.dcServer.channels.logs;
-        console.log('[Punishment] BKL channel doesn\'t seem to exist anymore, falling back to #bot-log.')
         break;
     }
     const embed = new this.client.embed()

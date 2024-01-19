@@ -17,7 +17,7 @@ export default class GuildMemberAdd {
     let isBot = 'Bot';
     if (!member.user.bot) isBot = 'Member';
     if (!client.config.botSwitches.logs) return;
-    (client.channels.resolve(client.config.dcServer.channels.welcome) as Discord.TextChannel).send({embeds: [new client.embed().setColor(client.config.embedColor).setThumbnail(member.user.displayAvatarURL({size: 2048}) || member.user.defaultAvatarURL).setTitle(`Welcome to Daggerwin, ${member.user.username}!`).setFooter({text: `${index}${suffix} member`})]})
+    (client.channels.resolve(client.config.dcServer.channels.welcome) as Discord.TextChannel).send({embeds: [new client.embed().setColor(client.config.embedColor).setThumbnail(member.user.displayAvatarURL({size: 2048}) || member.user.defaultAvatarURL).setTitle(`Welcome to ${member.guild.name}, ${member.user.username}!`).setFooter({text: `${index}${suffix} member`})]})
     const newInvites = await member.guild.invites.fetch();
     const usedInvite = newInvites.find((inv:Discord.Invite)=>client.invites.get(inv.code)?.uses < inv.uses);
     newInvites.forEach((inv:Discord.Invite)=>client.invites.set(inv.code,{uses: inv.uses, creator: inv.inviterId, channel: inv.channel.name}));
