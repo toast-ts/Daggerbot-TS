@@ -25,7 +25,7 @@ export default class MessageCreate {
           }
         },
         discordInvite: {
-          check: async()=>message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember),
+          check: ()=>message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
             const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.includes('discord.gg/'))).catch(()=>null);
             if (validInvite && validInvite.guild?.id !== client.config.dcServer.id) {
@@ -37,19 +37,22 @@ export default class MessageCreate {
           }
         },
         imageOnly: {
-          check: async()=>!MessageTool.isStaff(message.member as Discord.GuildMember),
+          check: ()=>!MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>await Automoderator.imageOnly(message)
+        },
+        crosspost: {
+          check: ()=>!MessageTool.isStaff(message.member as Discord.GuildMember) && message.content.toLowerCase(),
+          action: async()=>{
+            automodded = true;
+            await Automoderator.crosspostSpam(client, message, 'Crosspost spam');
+          }
         }
       };
 
       for (const rule of Object.values(automodRules)) {
-        if (await rule.check()) {
-          await rule.action();
-          break;
-        }
+        if (await rule.check()) await rule.action();
       }
     };
-
     if (message.guildId === client.config.dcServer.id && !automodded) client.userLevels.messageIncremental(message.author.id);
     // Mop gifs from banned channels without admins having to mop them.
     // const bannedChannels = []
