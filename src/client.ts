@@ -6,6 +6,12 @@ interface IRepeatedMessages {
     timeout:NodeJS.Timeout;
   }
 }
+interface ICrosspostSpam {
+  [key:string]: {
+    message:string;
+    channelId:string[];
+  }
+}
 import Discord from 'discord.js';
 import ConfigHelper from './helpers/ConfigHelper.js';
 import {readdirSync} from 'node:fs';
@@ -36,6 +42,7 @@ export default class TClient extends Discord.Client {
   public tags: TagSystemSvc = new TagSystemSvc();
   public ytChannels: YouTubeChannelsSvc = new YouTubeChannelsSvc();
   public repeatedMessages: IRepeatedMessages = {};
+  public crosspostSpam: ICrosspostSpam = {};
 
   constructor() {
     super({
