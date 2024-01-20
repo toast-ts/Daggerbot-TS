@@ -441,12 +441,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.11.3":
-  version: 20.11.3
-  resolution: "@types/node@npm:20.11.3"
+"@types/node@npm:*, @types/node@npm:20.11.5":
+  version: 20.11.5
+  resolution: "@types/node@npm:20.11.5"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: dff64333435bbda87e200e24e2103f40692d0a01849db685ecb31db7c589f2556843a03dd351ddaee9981020263939c026557b36df49154efd910c610deefe78
+  checksum: 9f31c471047d7b3e240ce7b77ff29b0d15e83be7e3feafb3d0b0d0931122b438b1eefa302a5a2e1e9849914ff3fd76aafbd8ccb372efb1331ba048da63bce6f8
   languageName: node
   linkType: hard
 
@@ -748,7 +748,7 @@ __metadata:
     "@octokit/rest": "npm:20.0.2"
     "@toast/tokenservice-client": "npm:1.0.6"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:20.11.3"
+    "@types/node": "npm:20.11.5"
     "@types/node-cron": "npm:3.0.11"
     "@types/pg": "npm:8.10.9"
     "@types/sequelize": "npm:4.28.20"
@@ -764,9 +764,9 @@ __metadata:
     redis: "npm:4.6.12"
     sequelize: "npm:6.35.2"
     simple-git: "npm:3.22.0"
-    systeminformation: "npm:5.21.22"
+    systeminformation: "npm:5.21.23"
     typescript: "npm:5.3.3"
-    undici: "npm:6.3.0"
+    undici: "npm:6.4.0"
   languageName: unknown
   linkType: soft
 
@@ -2065,12 +2065,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.21.22":
-  version: 5.21.22
-  resolution: "systeminformation@npm:5.21.22"
+"systeminformation@npm:5.21.23":
+  version: 5.21.23
+  resolution: "systeminformation@npm:5.21.23"
   bin:
     systeminformation: lib/cli.js
-  checksum: 333c733adb1ff89d27146e4e727dee62ba7f53e88150bcf5c533d86f9dbbf8d598dbddc295816794eb991b88a2ae3b0d04ffff22d2ebdd8ddecddfd66734a373
+  checksum: b2084429c552e9600795c01620ed94c0289e3214bb0501b2d265b84c3682e2ad969fb3eb3914726d05be62dbd073138cfdb65a49b3bf335cebd15f5740be89c5
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -2169,12 +2169,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.3.0":
-  version: 6.3.0
-  resolution: "undici@npm:6.3.0"
+"undici@npm:6.4.0":
+  version: 6.4.0
+  resolution: "undici@npm:6.4.0"
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
-  checksum: 4534474384267ea2818b23a61daa6d851895e9caa9998be0bd71687322f7fbad653ffbaba084bc9d75f41ae2ac1c27adab65d631837890e26a2a52a8e0408ec4
+  checksum: 65552916aa84eb8ea262cf7205bf2dc1ca86b616843adceb6d994a172a5a6be7fbf384ab790e7ede82811942f0c71a53e639309e92e05be044866ca54993e0be
   languageName: node
   linkType: hard
 
