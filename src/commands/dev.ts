@@ -6,7 +6,7 @@ import Formatters from '../helpers/Formatters.js';
 import GitHub from '../helpers/GitHub.js';
 import TClient from '../client.js';
 import util from 'node:util';
-import fs from 'node:fs';
+import fs, { writeFileSync } from 'node:fs';
 export default class Developer {
   static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
     if (!client.config.whitelist.includes(interaction.user.id)) return MessageTool.youNeedRole(interaction, 'bottech');
@@ -102,6 +102,7 @@ export default class Developer {
         if (name) currentActivities[0].name = name;
         if (url) currentActivities[0].url = url;
         client.user.setPresence(client.config.botPresence);
+        writeFileSync(process.argv[2] ?? 'src/config.json', JSON.stringify(client.config, null, 2));
         interaction.reply(MessageTool.concatMessage(
           'Presence updated:',
           `Status: **${client.config.botPresence.status}**`,
@@ -157,7 +158,7 @@ export default class Developer {
         .setRequired(false)))
     .addSubcommand(x=>x
       .setName('restart')
-      .setDescription('Restart the bot for technical reasons'))
+      .setDescription('Restart the bot for manual changes/technical difficulties'))
     .addSubcommand(x=>x
       .setName('update')
       .setDescription('Pull from repository and restart')
