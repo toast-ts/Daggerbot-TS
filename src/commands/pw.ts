@@ -47,13 +47,6 @@ export default class ProhibitedWords {
             ]
           });
         }
-      },
-      import: async()=>{
-        const file = interaction.options.getAttachment('file', true);
-        if (!file.contentType.match(/application\/json/)) return interaction.reply({ephemeral: true, content: 'This file is not a JSON file!'});
-        const success = await client.prohibitedWords.importWords(file.url);
-        if (success) interaction.reply({ephemeral: true, content: `Successfully imported the list from \`${file.name}\` into the database`});
-        else interaction.reply({ephemeral: true, content: `Failed to import the list from \`${file.name}\` into the database`});
       }
     } as any)[interaction.options.getSubcommand()]();
   }
@@ -79,12 +72,5 @@ export default class ProhibitedWords {
       .addStringOption(x=>x
         .setName('word')
         .setDescription('Remove the specific word from automod\'s prohibitedWords database')
-        .setRequired(true)))
-    .addSubcommand(x=>x
-      .setName('import')
-      .setDescription('Import a JSON file of words into the database')
-      .addAttachmentOption(x=>x
-        .setName('file')
-        .setDescription('The JSON file to import')
         .setRequired(true)))
 }
