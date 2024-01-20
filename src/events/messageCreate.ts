@@ -50,7 +50,10 @@ export default class MessageCreate {
       };
 
       for (const rule of Object.values(automodRules)) {
-        if (await rule.check()) await rule.action();
+        if (!automodded && await rule.check()) {
+          await rule.action();
+          break;
+        }
       }
     };
     if (message.guildId === client.config.dcServer.id && !automodded) client.userLevels.messageIncremental(message.author.id);
