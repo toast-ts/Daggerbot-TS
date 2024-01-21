@@ -1,4 +1,5 @@
 .env
+ips.txt
 # Yarn stuff
 .yarn
 # TypeScript stuff
