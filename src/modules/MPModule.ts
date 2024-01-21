@@ -130,7 +130,7 @@ export async function requestServerData(client:TClient, server:IServer):Promise<
         if (data.status === 200 ?? 204) return data;
         else if (data.status === 404) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (404), API is disabled or mismatched code`)
       } catch(err) {
-        Logger.console('log', loggingPrefix, `Couldn't get the data for ${server.serverName}: ${err.message}`);
+        Logger.console('log', loggingPrefix, `Couldn't get data for ${server.serverName}: ${err.message}`);
       }
       await new Promise(resolve=>setTimeout(resolve, 500))
     }
