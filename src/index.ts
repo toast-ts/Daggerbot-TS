@@ -2,12 +2,14 @@ import Discord from 'discord.js';
 import TClient from './client.js';
 const client = new TClient;
 client.init();
+import cron from 'node-cron';
 import Logger from './helpers/Logger.js';
 import YTModule from './modules/YTModule.js';
 import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
 import {Punishment} from 'src/interfaces';
 import {readFileSync} from 'node:fs';
+import {exec} from 'node:child_process';
 
 // Error handler
 function _(error:Error, type:string) {
@@ -69,3 +71,12 @@ if (client.config.botSwitches.dailyMsgsBackup) {
   client.userLevels.dataSweeper();
 }
 // Cronjob tasks
+
+// UFW reject cronjob - every minute through 30 to 50.
+cron.schedule('30-50 * * * *', async()=>{
+  exec('sudo ./ufwReject.sh', {shell: 'bash'}, (error, stdout, stderr)=>{
+    if (error) return Logger.console('error', 'Cron:ufwReject', `Job ran into an error: ${error.message}`);
+    if (stderr) return Logger.console('error', 'Cron:ufwReject', `Process ran into an error: ${stderr}`);
+    else if (stdout.includes('Done populating UFW reject rule')) return Logger.console('log', 'Cron:ufwReject', 'Job completed');
+  });
+})
