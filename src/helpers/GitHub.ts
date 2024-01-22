@@ -5,7 +5,7 @@ import git from 'simple-git';
 const summonAuth = createTokenAuth((await TSClient()).octokit);
 const octokit = new Octokit({auth: await summonAuth().token, timeZone: 'Australia/NSW', userAgent: 'Daggerbot-TS'});
 export default class GitHub {
-  private static repositoryConfig = {owner: 'AnxietyisReal', repo: 'Daggerbot-TS', ref: 'HEAD'};
+  private static repositoryConfig = {owner: 'toast-ts', repo: 'Daggerbot-TS', ref: 'HEAD'};
   public static async RemoteRepository() {
     const {data} = await octokit.repos.getCommit(this.repositoryConfig);
     return data;

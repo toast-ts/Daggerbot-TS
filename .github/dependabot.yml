@@ -12,7 +12,7 @@ updates:
       time: "12:00"
       timezone: "Australia/NSW"
     assignees:
-    - "AnxietyisReal"
+    - "toast-ts"
     labels:
     - "dependencies"
     open-pull-requests-limit: 8
