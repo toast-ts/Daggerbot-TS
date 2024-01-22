@@ -10,7 +10,7 @@ export default class Response {
     },
     afternoon: {
       prefix: ['good'],
-      suffix: ['all', 'everyone', 'lads']
+      suffix: ['all', 'everyone', 'lads', 'yall', 'y\'all']
     },
     evening: {
       prefix: ['good'],
