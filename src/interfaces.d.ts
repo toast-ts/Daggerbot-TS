@@ -1,4 +1,4 @@
-import {ColorResolvable, PresenceData} from 'discord.js';
+import {ColorResolvable, PresenceData, APIUser} from 'discord.js';
 
 export interface Punishment {
   case_id: number;
@@ -182,10 +182,6 @@ export interface RawMessageUpdate {
   embeds: any[],
   components: any[],
   attachments: any[],
-  author: {
-    username: string,
-    id: string,
-    global_name: string
-  },
+  author: APIUser
   member: { roles: any[] }
 }
