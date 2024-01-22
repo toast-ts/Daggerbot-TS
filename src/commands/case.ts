@@ -41,7 +41,7 @@ export default class Case {
           {name: '\u200b', value: '\u200b', inline: true},
           {name: 'Reason', value: `\`${punishment.reason || 'Reason unspecified'}\``, inline: true})
         if (punishment.dataValues.duration) embed.addFields({name: 'Duration', value: `${Formatters.timeFormat(punishment.dataValues.duration, 100)}`})
-        if (punishment.dataValues.expired) embed.addFields({name: 'Expired', value: `This case has been overwritten by Case #${cancelledBy.dataValues.case_id} for reason \`${cancelledBy.dataValues.reason}\``})
+        if (punishment.dataValues.expired) embed.addFields({name: 'Expired', value: `This case has been overwritten by Case #${cancelledBy.dataValues.case_id} with reason \`${cancelledBy.dataValues.reason}\``})
         if (punishment.dataValues.cancels) embed.addFields({name: 'Overwrites', value: `This case overwrites Case #${cancels.dataValues.case_id} with reason \`${cancels.dataValues.reason}\``})
         interaction.reply({embeds: [embed]});
       },

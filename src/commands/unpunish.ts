@@ -11,8 +11,9 @@ export default class Unpunish {
     const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
     await client.punishments.punishmentRemove(punishment.dataValues.case_id, interaction.user.id, reason, interaction);
 
-    Logger.console('log', 'UnpunishmentLog', `Case #${interaction.options.getInteger('case_id')} was used in /${interaction.commandName} for ${reason}`);
-    (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle('Unpunishment Log').setDescription(`Case #${interaction.options.getInteger('case_id')} was used in \`/${interaction.commandName}\` for \`${reason}\``).setTimestamp()]});
+    const unpunishLog = `Case #${interaction.options.getInteger('case_id')} was used in \`/${interaction.commandName}\` for \`${reason}\``;
+    Logger.console('log', 'UnpunishmentLog', unpunishLog);
+    (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle('Unpunishment Log').setDescription(unpunishLog).setTimestamp()]});
   }
   static data = new Discord.SlashCommandBuilder()
     .setName('unpunish')

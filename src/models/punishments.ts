@@ -129,7 +129,7 @@ export class PunishmentsSvc {
         {name: '\u200b', value: '\u200b', inline: true},
         {name: '🔹 Reason', value: `\`${punishment.reason}\``, inline: true}
       ).setTimestamp(punishment.time);
-    if (punishment.duration) embed.addFields({name: '🔹 Duration', value: `${Formatters.timeFormat(punishment.duration, 4, {longNames: false, commas: true})}`, inline: true}, {name: '\u200b', value: '\u200b', inline: true});
+    if (punishment.duration) embed.addFields({name: '🔹 Duration', value: `${Formatters.timeFormat(punishment.duration, 4, {longNames: true, commas: true})}`, inline: true}, {name: '\u200b', value: '\u200b', inline: true});
     if (punishment.cancels) {
       const cancels = await this.model.findOne({where: {case_id: punishment.cancels}})
       embed.addFields({name: '🔹 Overwrites', value: `This case invalidates Case #${cancels.dataValues.case_id}\n\`${cancels.dataValues.reason}\``});
@@ -252,7 +252,7 @@ export class PunishmentsSvc {
         .setColor(this.client.config.embedColor)
         .setTitle(`${removePunishmentData.type[0].toUpperCase() + removePunishmentData.type.slice(1)} | Case #${removePunishmentData.case_id}`)
         .setDescription(`${user.username}\n<@${user.id}>\n\`${user.id}\``)
-        .addFields({name: 'Reason', value: reason}, {name: 'Overwrites', value: `Case #${punishment.case_id}`})
+        .addFields({name: 'Reason', value: `\`${reason}\``}, {name: 'Overwrites', value: `Case #${punishment.case_id}`})
       ]});
       else return `Successfully un${this.getPastTense(removePunishmentData.type.replace('un', ''))} ${user.username} (\`${user.id}\`) for ${reason}`
     }
