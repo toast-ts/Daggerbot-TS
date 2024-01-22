@@ -17,8 +17,9 @@ new_ips=0
 # Populate the UFW reject rule with the IP addresses collected from the kernel log
 while IFS= read -r ip
 do
+  ip_prefix="${ip%.*}"
   # Check if the IP is already in the UFW rules
-  if ! ufw status | grep -q "$ip"
+  if ! ufw status | grep -q "$ip" && [ "$ip_prefix" != "${TOAST_IP%.*}" ]
   then
     ufw reject from $ip
     # Increment the counter
