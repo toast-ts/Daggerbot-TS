@@ -76,6 +76,10 @@ export let rawSwitches = {
   MESSAGE_UPDATE: false,
   MESSAGE_DELETE: false
 };
+if (!client.config.botSwitches.logs) {
+  rawSwitches.MESSAGE_DELETE = true;
+  rawSwitches.MESSAGE_UPDATE = true;
+};
 client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
   if (rawSwitches[packet.t]) return;
   if (packet.t !== 'MESSAGE_UPDATE') return;
