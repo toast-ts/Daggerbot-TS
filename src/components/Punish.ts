@@ -1,18 +1,24 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
+import Logger from '../helpers/Logger.js';
 export default async(client:TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: 'ban'|'softban'|'kick'|'mute'|'warn'|'remind')=>{
   if (!MessageTool.isModerator(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
 
+  const isInBKL = ['ban', 'kick'].includes(type) && interaction.channelId === client.config.dcServer.channels.bankick_log;
   const time = interaction.options.getString('time') ?? undefined;
   const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
   const GuildMember = interaction.options.getMember('member') ?? undefined;
   const User = interaction.options.getUser('member', true);
 
+  const punishLog = `${GuildMember?.user?.username ?? User?.username ?? 'No user data'} ${time ? ['warn', 'kick'].includes(type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``;
+  Logger.console('log', 'PunishmentLog', punishLog);
+  (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle('Punishment Log').setDescription(punishLog).setTimestamp()]});
+
   if (interaction.user.id === User.id) return interaction.reply(`You cannot ${type} yourself.`);
   if (!GuildMember && !['unban', 'ban'].includes(type)) return interaction.reply(`You cannot ${type} someone who is not in the server.`);
   if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);
 
-  await interaction.deferReply();
+  await interaction.deferReply({ephemeral: isInBKL});
   await client.punishments.punishmentAdd(type, {time, interaction}, interaction.user.id, reason, User, GuildMember);
 }
