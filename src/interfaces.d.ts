@@ -163,3 +163,29 @@ export interface Config {
     }
   }
 }
+// Credits to FlyingSixtySix/neurobot for inspiration.
+// https://github.com/FlyingSixtySix/neurobot/blob/0dee4ea4f72872e2df240700eb56e1d38da1f8bb/src/interactions/jp.ts#L37-L85
+export interface RawGatewayPacket<T> {
+  t: 'MESSAGE_DELETE'|'MESSAGE_UPDATE';
+  d: T;
+}
+export interface RawMessageDelete {
+  id: string,
+  channel_id: string,
+  guild_id: string
+}
+export interface RawMessageUpdate {
+  id: string,
+  channel_id: string,
+  guild_id: string,
+  content: string,
+  embeds: any[],
+  components: any[],
+  attachments: any[],
+  author: {
+    username: string,
+    id: string,
+    global_name: string
+  },
+  member: { roles: any[] }
+}
