@@ -6,8 +6,9 @@ import Logger from './helpers/Logger.js';
 import YTModule from './modules/YTModule.js';
 import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
-import {Punishment} from 'src/interfaces';
+import {Punishment, RawGatewayPacket, RawMessageDelete, RawMessageUpdate} from 'src/interfaces';
 import {readFileSync} from 'node:fs';
+export const disabledChannels = ['548032776830582794', '541677709487505408', '949380187668242483'];
 
 // Error handler
 function _(error:Error, type:string) {
@@ -69,3 +70,36 @@ if (client.config.botSwitches.dailyMsgsBackup) {
   client.userLevels.dataSweeper();
 }
 // Cronjob tasks
+
+// Raw gateway event receivers
+export let rawSwitches = {
+  MESSAGE_UPDATE: false,
+  MESSAGE_DELETE: false
+};
+client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
+  if (rawSwitches[packet.t]) return;
+  if (packet.t !== 'MESSAGE_UPDATE') return;
+  if (packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id)) return;
+  if (typeof packet.d.content === 'undefined') return;
+
+  const channel = client.channels.cache.get(packet.d.channel_id) as Discord.TextBasedChannel;
+  const new_message = await channel.messages.fetch(packet.d.id);
+  client.emit('messageUpdate', new_message, new_message);
+});
+
+client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
+  if (rawSwitches[packet.t]) return;
+  if (packet.t !== 'MESSAGE_DELETE' || packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id)) return;
+  (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({
+    embeds: [new client.embed()
+      .setColor(client.config.embedColorRed)
+      .setTitle('Message deleted')
+      .setDescription('Unknown author')
+      .addFields(
+        {name: 'Received over raw API gateway', value: '\u200b'},
+        {name: 'Channel', value: `<#${packet.d.channel_id}>`},
+      ).setTimestamp()
+    ]
+  });
+  rawSwitches[packet.t] = true;
+});
