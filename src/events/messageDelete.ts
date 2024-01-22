@@ -1,11 +1,17 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
+import {RawGatewayPacket, RawMessageDelete} from 'src/interfaces';
 export default class MessageDelete {
   static run(client:TClient, msg:Discord.Message){
     if (!client.config.botSwitches.logs) return;
     const disabledChannels = ['548032776830582794', '541677709487505408', '949380187668242483']
     if (msg.guild?.id != client.config.dcServer.id || msg.partial || msg.author.bot || disabledChannels.includes(msg.channelId)) return;
+
+    client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
+      if (packet.t !== 'MESSAGE_DELETE' || packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id)) return;
+    });
+
     if (Discord.DiscordAPIError.name === '10008') return Logger.console('log', 'MsgDelete', 'Caught an unexpected error returned by Discord API. (Unknown Message)');
     const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setAuthor({name: `Author: ${msg.author.username} (${msg.author.id})`, iconURL: `${msg.author.displayAvatarURL()}`}).setTitle('Message deleted').setDescription(`<@${msg.author.id}>\n\`${msg.author.id}\``);
     if (msg.content.length != 0) embed.addFields({name: 'Content', value: `\`\`\`\n${Discord.escapeCodeBlock(msg.content.slice(0,1000))}\n\`\`\``});
