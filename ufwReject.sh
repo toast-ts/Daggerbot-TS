@@ -14,12 +14,15 @@ dmesg | grep 'SRC=' | awk -F'SRC=' '{ print $2 }' | awk '{ print $1 }' | sort | 
 # Initialize a counter for new IPs
 new_ips=0
 
+# Store the output of ufw status in a variable
+ufw_status=$(ufw status)
+
 # Populate the UFW reject rule with the IP addresses collected from the kernel log
 while IFS= read -r ip
 do
   ip_prefix="${ip%.*}"
   # Check if the IP is already in the UFW rules
-  if ! ufw status | grep -q "$ip" && [ "$ip_prefix" != "${TOAST_IP%.*}" ]
+  if ! echo "$ufw_status" | grep -q "$ip" && [ "$ip_prefix" != "${TOAST_IP%.*}" ]
   then
     ufw reject from $ip
     # Increment the counter
