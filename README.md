@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="630" height="250" src="https://github.com/AnxietyisReal/Daggerbot-TS/assets/96593068/87a3c8b2-2209-42f0-851c-6cdebf9ef740">
+  <img width="630" height="250" src="https://github.com/toast-ts/Daggerbot-TS/assets/96593068/87a3c8b2-2209-42f0-851c-6cdebf9ef740">
   <h1 align="center">Daggerbot V3 Description</h1>
 
 </p>
@@ -17,7 +17,7 @@ This revision took **4 months** (Late September to Mid December) working on and 
 - Moved the module files to another directory called `modules`
 - Renamed `funcs` to `components` as I don't think `funcs` directory makes sense anymore at this point.
 
-If you're looking for V2 revision, it has been moved to a [branch called `old`](https://github.com/AnxietyisReal/Daggerbot-TS/tree/old).
+If you're looking for V2 revision, it has been moved to a [branch called `old`](https://github.com/toast-ts/Daggerbot-TS/tree/old).
 
 This is a revision history of how far we come in development cycle;
 | Revision | Language | Library | Commands |

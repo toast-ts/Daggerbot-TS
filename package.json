@@ -5,7 +5,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnxietyisReal/Daggerbot-TS.git"
+    "url": "git+https://github.com/toast-ts/Daggerbot-TS.git"
   },
   "scripts": {
     "dev": "yarn tsc && yarn node . src/DB-Beta.config.json daggerbotbeta",
