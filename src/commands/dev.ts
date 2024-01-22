@@ -209,7 +209,7 @@ export default class Developer {
         .setRequired(true)))
     .addSubcommand(x=>x
       .setName('modify_rank_msgs')
-      .setDescription('Modify the messages count of a member')
+      .setDescription('Modify the message count of a member')
       .addUserOption(x=>x
         .setName('member')
         .setDescription('Member to modify the message count of')
