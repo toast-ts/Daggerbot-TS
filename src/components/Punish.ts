@@ -10,6 +10,7 @@ export default async(client:TClient, interaction: Discord.ChatInputCommandIntera
   const reason = interaction.options.getString('reason') ?? 'Reason unspecified';
   const GuildMember = interaction.options.getMember('member') ?? undefined;
   const User = interaction.options.getUser('member', true);
+  if (reason.length > 1020) return interaction.reply({content: 'Reason cannot be longer than 1020 characters due to Discord\'s limit.', ephemeral: true});
 
   const punishLog = `${GuildMember?.user?.username ?? User?.username ?? 'No user data'} ${time ? ['warn', 'kick'].includes(type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``;
   Logger.console('log', 'PunishmentLog', punishLog);
