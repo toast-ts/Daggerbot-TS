@@ -14,7 +14,7 @@ export default async(client:TClient, interaction: Discord.ChatInputCommandIntera
 
   const punishLog = `${GuildMember?.user?.username ?? User?.username ?? 'No user data'} ${time ? ['warn', 'kick'].includes(type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``;
   Logger.console('log', 'PunishmentLog', punishLog);
-  (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setTitle('Punishment Log').setDescription(punishLog).setTimestamp()]});
+  (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size:2048})}).setTitle('Punishment Log').setDescription(punishLog).setTimestamp()]});
 
   if (!GuildMember.moderatable) return interaction.reply(`I cannot ${type} this user.`);
   if (interaction.user.id === User.id) return interaction.reply(`You cannot ${type} yourself.`);
