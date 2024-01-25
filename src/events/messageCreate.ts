@@ -67,7 +67,6 @@ export default class MessageCreate {
         password: ['whats the password', 'what\'s the password', 'password pls'],
         cantRead: ['i cant read', 'i can\'t read', 'cant read', 'can\'t read'],
         theyBrokeIt: ['break', 'broke', 'broken'],
-        deadChat: ['dead chat', 'chat is dead', 'dead server', 'inactive chat', 'inactive channel'],
         mpsrv: ['is anyone online', 'is the server up', 'is anyone going on']
       }
       const outgoingArrays = {
@@ -84,8 +83,7 @@ export default class MessageCreate {
 
       let picStorage = {
         cantRead: 'https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931',
-        amAlive: 'https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579',
-        deadChat: 'https://cdn.discordapp.com/attachments/925589318276382720/1011333656167579849/F57G5ZS.png',
+        amAlive: 'https://tenor.com/view/i-still-feel-alive-living-existing-active-singing-gif-14630579'
       };
       let ModsGoGetThisPerson = [// I find this variable amusing but also can't think of anything better so not changing it.
         {
@@ -118,7 +116,6 @@ export default class MessageCreate {
       if (incomingArrays.password.some(e=>message.content.toLowerCase().includes(e))) message.reply('Password and other details can be found in <#543494084363288637>');
       if (incomingArrays.cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.cantRead);
       if (message.content.toLowerCase().includes('is daggerbot working')) message.reply(picStorage.amAlive);
-      if (incomingArrays.deadChat.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.deadChat);
       if (message.channelId === '468835769092669461' && incomingArrays.mpsrv.some(e=>message.content.toLowerCase().includes(e))) message.reply('You can take a look at the embeds in <#543494084363288637> to see if anyone is on the server.');
 
       for (const thisPerson of ModsGoGetThisPerson) {
