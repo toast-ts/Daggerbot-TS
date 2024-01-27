@@ -12,11 +12,11 @@
     "target": "ES2022",
     "module": "ESNext",
     "baseUrl": "./",
-    "rootDir": "src/",
-    "outDir": "dist/",
+    "rootDir": "src",
+    "outDir": "dist",
     "moduleResolution": "bundler",
     "typeRoots": [ "./src/interfaces.d.ts" ]
   },
-  "include": [ "src/" ],
-  "exclude": [ ".yarn/cache", ".yarn/unplugged", ".git", "src/errorBlocklist.json", "src/config.json", "src/DB-Beta.config.json" ]
+  "include": [ "src" ],
+  "exclude": [ ".yarn/cache", ".yarn/unplugged", ".git", "src/*.json", "postgres-replica-stuff" ]
 }

@@ -1,0 +1,15 @@
+# This is for the Slave node, Master node is in the root directory of the same file.
+services:
+  db-slave:
+    container_name: postgres-slave
+    image: postgres:16.1-alpine3.19
+    restart: unless-stopped
+    ports:
+      - 5433:5432/tcp
+    volumes:
+      - /var/lib/docker/volumes/daggerbot-db-slave:/var/lib/postgresql/data:rw
+      - ./configs/postgres-hba.conf:/var/lib/postgresql/data/pg_hba.conf:rw
+      - ./configs/postgres.conf:/var/lib/postgresql/data/postgresql.conf:rw
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
