@@ -6,13 +6,15 @@ services:
     ports:
       - 6379:6379/tcp
   db:
-    container_name: postgres-db
+    container_name: postgres-master
     image: postgres:16.1-alpine3.19
     restart: unless-stopped
     ports:
       - 5432:5432/tcp
     volumes:
       - /var/lib/docker/volumes/daggerbot-db:/var/lib/postgresql/data:rw
+      - ./postgres-replica-stuff/configs/postgres-hba.conf:/var/lib/postgresql/data/pg_hba.conf:rw
+      - ./postgres-replica-stuff/configs/postgres.conf:/var/lib/postgresql/data/postgresql.conf:rw
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
