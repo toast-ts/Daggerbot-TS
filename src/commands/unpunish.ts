@@ -20,7 +20,7 @@ export default class Unpunish {
     .setDescription('Remove the active punishment from a member')
     .addIntegerOption(x=>x
       .setName('case_id')
-      .setDescription('Case ID of the punishment to be overwritten')
+      .setDescription('Case ID of the active punishment to be overwritten')
       .setRequired(true))
     .addStringOption(x=>x
       .setName('reason')
