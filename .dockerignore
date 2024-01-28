@@ -1,0 +1,16 @@
+# Pointless stuff
+Dockerfile
+docker-compose.yml
+.ncurc.json
+.env
+.mailmap
+.github
+.vscode
+.github
+postgres-replica-stuff
+README.md
+ufwReject.sh
+
+# Startup files
+startWithYarn.cjs
+botStartup.bat
