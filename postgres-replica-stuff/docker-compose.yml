@@ -1,5 +1,11 @@
 # This is for the Slave node, Master node is in the root directory of the same file.
 services:
+  cache-slave:
+    container_name: redis-cache-slave
+    image: redis/redis-stack-server:7.2.0-v6
+    restart: unless-stopped
+    ports:
+      - 6379:6379/tcp
   db-slave:
     container_name: postgres-slave
     image: postgres:16.1-alpine3.19
@@ -7,7 +13,7 @@ services:
     ports:
       - 5433:5432/tcp
     volumes:
-      - /var/lib/docker/volumes/daggerbot-db-slave:/var/lib/postgresql/data:rw
+      - /var/lib/docker/volumes/daggerbot-db:/var/lib/postgresql/data:rw
       - ./configs/postgres-hba.conf:/var/lib/postgresql/data/pg_hba.conf:rw
       - ./configs/postgres.conf:/var/lib/postgresql/data/postgresql.conf:rw
     environment:
