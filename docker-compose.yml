@@ -1,12 +1,4 @@
 services:
-  bot:
-    container_name: daggerbot-prod
-    build: .
-    restart: unless-stopped
-    volumes:
-      - ./.git:/Daggerbot/.git:rw
-      - ./src/:/Daggerbot/src/:rw
-      - ./dist/:/Daggerbot/dist/:rw
   cache:
     container_name: redis-cache
     image: redis/redis-stack-server:7.2.0-v6
