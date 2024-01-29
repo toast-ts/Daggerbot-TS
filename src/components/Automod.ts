@@ -4,7 +4,7 @@ import Logger from '../helpers/Logger.js';
 export default class Automoderator {
   private static lockQuery:Set<Discord.Snowflake> = new Set();
   static scanMsg =(message:Discord.Message)=>message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|[]|ing\b/g, '').split(' ').join('');
-  static async repeatedMessages(client:TClient, message:Discord.Message, thresholdTime:number, thresholdAmount:number, type:string, duration:string, reason:string) {
+  static async repeatedMessages(client:TClient, message:Discord.Message, action:'mute'|'ban', thresholdTime:number, thresholdAmount:number, type:string, duration:string, reason:string) {
     const now = Date.now();
 
     if (!client.repeatedMessages[message.author.id]) client.repeatedMessages[message.author.id] = {type: type, count:1, firstTime:now, timeout: null};
@@ -18,7 +18,7 @@ export default class Automoderator {
           if (!this.lockQuery.has(message.author.id)) {
             this.lockQuery.add(message.author.id);
             Logger.console('log', 'AUTOMOD', `Lock acquired for ${message.author.tag} with reason: ${reason}`);
-            await client.punishments.punishmentAdd('mute', {time: duration}, client.user.id, `AUTOMOD:${reason}`, message.author, message.member as Discord.GuildMember);
+            await client.punishments.punishmentAdd(action, {time: duration}, client.user.id, `AUTOMOD:${reason}`, message.author, message.member as Discord.GuildMember);
             setTimeout(()=>{
               this.lockQuery.delete(message.author.id);
               Logger.console('log', 'AUTOMOD', `Lock released for ${message.author.tag}`);

@@ -21,7 +21,7 @@ export default class MessageCreate {
             automodded = true;
             message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PROHIBITEDWORDS', automodFailReason));
             message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 10000));
-            await Automoderator.repeatedMessages(client, message, 30000, 3, 'bw', '30m', 'Prohibited word spam');
+            await Automoderator.repeatedMessages(client, message, 'mute', 30000, 3, 'bw', '30m', 'Prohibited word spam');
           }
         },
         discordInvite: {
@@ -32,7 +32,7 @@ export default class MessageCreate {
               automodded = true;
               message.delete().catch(()=>Logger.console('log', 'AUTOMOD:ADVERTISEMENT', automodFailReason));
               message.channel.send('Please don\'t advertise other Discord servers.').then(x=>setTimeout(()=>x.delete(), 15000));
-              await Automoderator.repeatedMessages(client, message, 60000, 2, 'adv', '1h', 'Discord advertisement');
+              await Automoderator.repeatedMessages(client, message, 'ban', 60000, 4, 'adv', null, 'Discord advertisement');
             }
           }
         },
