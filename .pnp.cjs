@@ -28,9 +28,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@octokit/auth-token", "npm:4.0.0"],\
           ["@octokit/rest", "npm:20.0.2"],\
-          ["@toast/tokenservice-client", "npm:1.0.10::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.10%2Ftokenservice-client-1.0.10.tgz"],\
+          ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.6"],\
+          ["@types/node", "npm:20.11.10"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -48,7 +48,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.24"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.4.0"]\
+          ["undici", "npm:6.5.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -571,11 +571,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@toast/tokenservice-client", [\
-      ["npm:1.0.10::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.10%2Ftokenservice-client-1.0.10.tgz", {\
-        "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.10-3f262fca44-f832828a1d.zip/node_modules/@toast/tokenservice-client/",\
+      ["npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz", {\
+        "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.11-c95d3498fc-c910af2b01.zip/node_modules/@toast/tokenservice-client/",\
         "packageDependencies": [\
-          ["@toast/tokenservice-client", "npm:1.0.10::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.10%2Ftokenservice-client-1.0.10.tgz"],\
-          ["undici", "npm:6.4.0"]\
+          ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
+          ["undici", "npm:6.5.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -603,7 +603,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.6"]\
+          ["@types/node", "npm:20.11.10"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -637,10 +637,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.6", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.6-e5e1974d32-375dfc75f0.zip/node_modules/@types/node/",\
+      ["npm:20.11.10", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.10-169269fe65-41ca9c7e7c.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.6"],\
+          ["@types/node", "npm:20.11.10"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -660,7 +660,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.0-bf104da0ba-91a7ccc5dc.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.0"],\
-          ["@types/node", "npm:20.11.6"],\
+          ["@types/node", "npm:20.11.10"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.1"]\
         ],\
@@ -694,7 +694,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.6"]\
+          ["@types/node", "npm:20.11.10"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -993,9 +993,9 @@ const RAW_RUNTIME_STATE =
           ["daggerbot-ts", "workspace:."],\
           ["@octokit/auth-token", "npm:4.0.0"],\
           ["@octokit/rest", "npm:20.0.2"],\
-          ["@toast/tokenservice-client", "npm:1.0.10::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.10%2Ftokenservice-client-1.0.10.tgz"],\
+          ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.6"],\
+          ["@types/node", "npm:20.11.10"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -1013,7 +1013,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.24"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.4.0"]\
+          ["undici", "npm:6.5.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -2606,10 +2606,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.4.0", {\
-        "packageLocation": "./.yarn/cache/undici-npm-6.4.0-3c1375c132-65552916aa.zip/node_modules/undici/",\
+      ["npm:6.5.0", {\
+        "packageLocation": "./.yarn/cache/undici-npm-6.5.0-5598def435-0ad9289bd8.zip/node_modules/undici/",\
         "packageDependencies": [\
-          ["undici", "npm:6.4.0"],\
+          ["undici", "npm:6.5.0"],\
           ["@fastify/busboy", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
@@ -2725,7 +2725,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.6"]\
+          ["@types/node", "npm:20.11.10"]\
         ],\
         "linkType": "HARD"\
       }]\

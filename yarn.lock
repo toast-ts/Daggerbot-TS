@@ -379,12 +379,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.0.10":
-  version: 1.0.10
-  resolution: "@toast/tokenservice-client@npm:1.0.10::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.10%2Ftokenservice-client-1.0.10.tgz"
+"@toast/tokenservice-client@npm:1.0.11":
+  version: 1.0.11
+  resolution: "@toast/tokenservice-client@npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"
   dependencies:
-    undici: "npm:6.4.0"
-  checksum: f832828a1d076cd961fca408cf10b9240c99526801b6d68e262d3fab9b460ee1eb45bef0d37abc6eecd2e24f96d9af8c410a39f6f93337e352a1bf07110e3fca
+    undici: "npm:6.5.0"
+  checksum: c910af2b01876ca53de3078cf6b20c3cd8619ed807c3ce573074bc886a8690e6edc43f961088acf4bc2a7e925e8a0cb0e35df930b5923b20ecbbad6fd9bf4c81
   languageName: node
   linkType: hard
 
@@ -441,12 +441,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.11.6":
-  version: 20.11.6
-  resolution: "@types/node@npm:20.11.6"
+"@types/node@npm:*, @types/node@npm:20.11.10":
+  version: 20.11.10
+  resolution: "@types/node@npm:20.11.10"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 375dfc75f0aa8b7fb99382d84c317e5dab2969dcc3f54d8490b119151060923eae6483839552347bc78262bbcefb2951ee131e15372f4e80b755be2dda9afe80
+  checksum: 41ca9c7e7c95bf070ad747ab266f267f41950e01f5ddda739d0665c2ed39acc45cce46f78e33ffa2bf2dacd74a8493044b967c86358017dacce12958e49db664
   languageName: node
   linkType: hard
 
@@ -746,9 +746,9 @@ __metadata:
   dependencies:
     "@octokit/auth-token": "npm:4.0.0"
     "@octokit/rest": "npm:20.0.2"
-    "@toast/tokenservice-client": "npm:1.0.10"
+    "@toast/tokenservice-client": "npm:1.0.11"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:20.11.6"
+    "@types/node": "npm:20.11.10"
     "@types/node-cron": "npm:3.0.11"
     "@types/pg": "npm:8.11.0"
     "@types/sequelize": "npm:4.28.20"
@@ -766,7 +766,7 @@ __metadata:
     simple-git: "npm:3.22.0"
     systeminformation: "npm:5.21.24"
     typescript: "npm:5.3.3"
-    undici: "npm:6.4.0"
+    undici: "npm:6.5.0"
   languageName: unknown
   linkType: soft
 
@@ -2160,12 +2160,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.4.0":
-  version: 6.4.0
-  resolution: "undici@npm:6.4.0"
+"undici@npm:6.5.0":
+  version: 6.5.0
+  resolution: "undici@npm:6.5.0"
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
-  checksum: 65552916aa84eb8ea262cf7205bf2dc1ca86b616843adceb6d994a172a5a6be7fbf384ab790e7ede82811942f0c71a53e639309e92e05be044866ca54993e0be
+  checksum: 0ad9289bd8dc8a5ee8cf81a48a629a59c33814702ae706b1d8e7c7fac3cfa85bd6a73943db5d9379f4d420858d239ed3857ec1003e517ddb67eb44fdbc227f3e
   languageName: node
   linkType: hard
 
