@@ -10,7 +10,7 @@ export default class Case {
       if (channel && channel.type === Discord.ChannelType.GuildText) {
         const messages = await channel.messages.fetch({limit: 3});
         messages.forEach(async message=>{
-          if (message?.embeds[0]?.title.match(new RegExp(`Case #${caseId}`))) {
+          if (message?.embeds[0]?.title && message?.embeds[0]?.title.match(new RegExp(`Case #${caseId}`))) {
             const findIndex = message?.embeds[0].fields.findIndex(x=>x.name === 'Reason');
             await message.edit({embeds: [new client.embed(message.embeds[0]).spliceFields(findIndex, 1, {name: 'Reason', value: `\`${reason}\``})]});
           }
