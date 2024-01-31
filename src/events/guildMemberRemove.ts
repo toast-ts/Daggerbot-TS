@@ -4,7 +4,10 @@ export default class GuildMemberRemove {
   static async run(client:TClient, member:Discord.GuildMember){
     if (!client.config.botSwitches.logs) return;
     if (!member.joinedTimestamp || member.guild?.id != client.config.dcServer.id) return;
-    if (client.guilds.cache.get(client.config.dcServer.id).bans.cache.has(member.id)) return await client.userLevels.deleteUser(member.id);
+    if (client.guilds.cache.get(client.config.dcServer.id).bans.cache.has(member.id)) {
+      (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send(`**${member.user.username}**'s join date is <t:${Math.round(member.joinedTimestamp/1000)}>`)
+      return await client.userLevels.deleteUser(member.id);
+    };
     let isBot = 'Bot';
     if (!member.user.bot) isBot = 'Member';
     const levelData = await client.userLevels.fetchUser(member.id);
