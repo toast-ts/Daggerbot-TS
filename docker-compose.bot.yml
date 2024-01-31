@@ -7,3 +7,5 @@ services:
       - ./.git:/Daggerbot/.git:rw
       - ./src/:/Daggerbot/src/:rw
       - ./dist/:/Daggerbot/dist/:rw
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
