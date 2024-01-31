@@ -115,9 +115,8 @@ client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
     embeds: [new client.embed()
       .setColor(client.config.embedColorRed)
       .setTitle('Message deleted')
-      .setDescription('Unknown author')
       .addFields(
-        {name: 'Received over raw API gateway', value: '\u200b'},
+        {name: 'This was received over raw API event', value: '\u200b'},
         {name: 'Channel', value: `<#${packet.d.channel_id}>`},
       ).setTimestamp()
     ]

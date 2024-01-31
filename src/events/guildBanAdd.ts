@@ -9,7 +9,6 @@ export default class GuildBanAdd {
     if (target.id === member.user.id) {
       const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048}))
       .setTitle(`Member Banned: ${target.username}`).addFields(
-        {name: '🔹 User', value: `<@${target.id}>\n\`${target.id}\``},
         {name: '🔹 Moderator', value: `<@${executor.id}>\n\`${executor.id}\``},
         {name: '🔹 Reason', value: reason === null ? 'Reason unspecified': reason}
       );

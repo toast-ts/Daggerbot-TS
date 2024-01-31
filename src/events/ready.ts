@@ -16,18 +16,17 @@ export default class Ready {
       setInterval(()=>{
         client.user.setPresence(client.config.botPresence);
         guild.invites.fetch().then(invites=>invites.forEach(inv=>client.invites.set(inv.code, {uses: inv.uses, creator: inv.inviterId, channel: inv.channel.name})))
-      },300000)
+      }, 300000)
     })
-    if (client.config.botSwitches.registerCommands){
-      console.log('Total commands: '+client.registry.length) //Debugging reasons.
+    if (client.config.botSwitches.registerCommands) {
       client.config.whitelistedServers.forEach(guildId=>(client.guilds.cache.get(guildId) as Discord.Guild).commands.set(client.registry).catch((e:Error)=>{
         console.log(`Couldn't register slash commands for ${guildId} because`, e.stack);
         (client.channels.resolve(client.config.dcServer.channels.errors) as Discord.TextChannel).send(`Cannot register slash commands for **${client.guilds.cache.get(guildId).name}** (\`${guildId}\`):\n\`\`\`${e.message}\`\`\``)
       }))
     }
-    console.log(`${client.user.username} has logged into Discord API`);
+    console.log(`Ready as ${client.user.tag}`);
     console.log(client.config.botSwitches, client.config.whitelistedServers);
-    (client.channels.resolve(client.config.dcServer.channels.bot_status) as Discord.TextChannel).send({content: `**${client.user.username}** is active`, embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`**\`\`\`ansi\n${botSwitches}\n\`\`\`**`)]});
+    (client.channels.resolve(client.config.dcServer.channels.bot_status) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setDescription(`**\`\`\`ansi\n${botSwitches}\n\`\`\`**`)]});
     console.timeEnd('Startup')
   }
 }

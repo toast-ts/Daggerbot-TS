@@ -7,9 +7,9 @@ import ConfigHelper from '../helpers/ConfigHelper.js';
 import Automoderator from '../components/Automod.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default class MessageCreate {
-  static async run(client:TClient, message:Discord.Message){
+  static async run(client:TClient, message:Discord.Message) {
     if (message.author.bot) return;
-    if (!message.inGuild()) return (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({content: `<:fish_unamused:1083675172407623711> ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) tried to send me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
+    if (!message.inGuild()) return (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({content: `${this.randomEmotes[Math.floor(Math.random()*this.randomEmotes.length)]} ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) sent me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
     let automodded: boolean;
 
     if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {
@@ -39,13 +39,6 @@ export default class MessageCreate {
         imageOnly: {
           check: ()=>!MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>await Automoderator.imageOnly(message)
-        },
-        crosspost: {
-          check: ()=>!MessageTool.isStaff(message.member as Discord.GuildMember) && message.content.toLowerCase(),
-          action: async()=>{
-            automodded = true;
-            await Automoderator.crosspostSpam(client, message, 'Crosspost spam');
-          }
         }
       };
 
@@ -124,4 +117,13 @@ export default class MessageCreate {
       }
     }
   }
+  private static randomEmotes = [
+    '<:_:1083675172407623711>', '<:_:1201440990473506857>',
+    '<:_:1083675175163277383>', '<:_:1083675149347340391>',
+    '<:_:1139410139653353533>', '<:_:1083675155504574487>',
+    '<:_:1201441007271690340>', '<:_:1060388693166264380>',
+    '<:_:1084392085047758930>', '<:_:1159495459082092655>',
+    '<a:_:1016297208292851762>', '<a:_:1016297221911740466>',
+    '<a:_:1094804583370457268>'
+  ];
 }
