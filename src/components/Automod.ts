@@ -35,24 +35,6 @@ export default class Automoderator {
       clearTimeout(data.timeout);
       data.timeout = setTimeout(()=>delete client.repeatedMessages[message.author.id], thresholdTime);
     }
-  }// Explanation: If spammer sends same message 5 or more times in every channel, they will be served a rotten fish and chips for dinner.
-  static async crosspostSpam(client:TClient, message:Discord.Message, reason:string) {
-    if (!client.crosspostSpam[message.author.id]) client.crosspostSpam[message.author.id] = {message: message.content, channelId: [message.channelId]};
-    else if (!client.crosspostSpam[message.author.id].channelId.includes(message.channelId)) client.crosspostSpam[message.author.id].channelId.push(message.channelId);
-
-    if (client.crosspostSpam[message.author.id].channelId.length >= 5) {
-      if (!this.lockQuery.has(message.author.id)) {
-        this.lockQuery.add(message.author.id);
-        Logger.console('log', 'AUTOMOD', `Lock acquired for ${message.author.tag} with reason: ${reason}`);
-        await client.punishments.punishmentAdd('ban', {}, client.user.id, `AUTOMOD:${reason}`, message.author, message.member as Discord.GuildMember);
-        setTimeout(()=>{
-          this.lockQuery.delete(message.author.id);
-          Logger.console('log', 'AUTOMOD', `Lock released for ${message.author.tag}`);
-        }, 5000); // Wait 5 seconds before releasing the lock.
-      }
-      delete client.crosspostSpam[message.author.id];
-    }
-    setTimeout(()=>delete client.crosspostSpam[message.author.id], 180000); // Delete the data after 3 minutes.
   }
   static async imageOnly(message:Discord.Message) {
     const io_channels = ['468896467688620032'];
