@@ -7,9 +7,11 @@ export default class GuildBanAdd {
     if (!banLog) return console.log(`Member was banned from ${member.guild.name} but no audit log for this member.`)
     const {executor, target, reason } = banLog;
     if (target.id === member.user.id) {
-      const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`Member Banned: ${target.username}`).setDescription(`🔹 **User**\n<@${target.id}>\n\`${target.id}\``).addFields(
+      const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048}))
+      .setTitle(`Member Banned: ${target.username}`).addFields(
+        {name: '🔹 User', value: `<@${target.id}>\n\`${target.id}\``},
         {name: '🔹 Moderator', value: `<@${executor.id}>\n\`${executor.id}\``},
-        {name: '🔹 Reason', value: `${reason === null ? 'Reason unspecified': reason}`}
+        {name: '🔹 Reason', value: reason === null ? 'Reason unspecified': reason}
       );
       if (!await client.userLevels.fetchUser(member.user.id)) embed.setFooter({text: 'Rank data has been wiped.'});
       (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]})
