@@ -30,7 +30,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.10"],\
+          ["@types/node", "npm:20.11.16"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -38,7 +38,7 @@ const RAW_RUNTIME_STATE =
           ["canvas", "npm:2.11.2"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.3"],\
+          ["fast-xml-parser", "npm:4.3.4"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
@@ -48,7 +48,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.24"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.5.0"]\
+          ["undici", "npm:6.6.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -603,7 +603,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.10"]\
+          ["@types/node", "npm:20.11.16"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -637,10 +637,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.10", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.10-169269fe65-41ca9c7e7c.zip/node_modules/@types/node/",\
+      ["npm:20.11.16", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.16-d9bc65d4bc-751f50ec5c.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.10"],\
+          ["@types/node", "npm:20.11.16"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -660,7 +660,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.0-bf104da0ba-91a7ccc5dc.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.0"],\
-          ["@types/node", "npm:20.11.10"],\
+          ["@types/node", "npm:20.11.16"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.1"]\
         ],\
@@ -694,7 +694,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.10"]\
+          ["@types/node", "npm:20.11.16"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -995,7 +995,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.10"],\
+          ["@types/node", "npm:20.11.16"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -1003,7 +1003,7 @@ const RAW_RUNTIME_STATE =
           ["canvas", "npm:2.11.2"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.3"],\
+          ["fast-xml-parser", "npm:4.3.4"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
@@ -1013,7 +1013,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.24"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.5.0"]\
+          ["undici", "npm:6.6.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -1209,10 +1209,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-xml-parser", [\
-      ["npm:4.3.3", {\
-        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.3-35a04105d1-501de1f38d.zip/node_modules/fast-xml-parser/",\
+      ["npm:4.3.4", {\
+        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.4-471ce88e5f-ef85910198.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.3.3"],\
+          ["fast-xml-parser", "npm:4.3.4"],\
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
@@ -2613,6 +2613,14 @@ const RAW_RUNTIME_STATE =
           ["@fastify/busboy", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:6.6.0", {\
+        "packageLocation": "./.yarn/cache/undici-npm-6.6.0-2f78983d5c-949fe6d803.zip/node_modules/undici/",\
+        "packageDependencies": [\
+          ["undici", "npm:6.6.0"],\
+          ["@fastify/busboy", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["undici-types", [\
@@ -2725,7 +2733,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.10"]\
+          ["@types/node", "npm:20.11.16"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3199,10 +3207,9 @@ async function copyImpl(prelayout, postlayout, destinationFs, destination, sourc
         updated = await copySymlink(prelayout, postlayout, destinationFs, destination, destinationStat, sourceFs, source, sourceStat, opts);
       }
       break;
-    default:
-      {
-        throw new Error(`Unsupported file type (${sourceStat.mode})`);
-      }
+    default: {
+      throw new Error(`Unsupported file type (${sourceStat.mode})`);
+    }
   }
   if (opts.linkStrategy?.type !== `HardlinkFromIndex` || !sourceStat.isFile()) {
     if (updated || destinationStat?.mtime?.getTime() !== mtime.getTime() || destinationStat?.atime?.getTime() !== atime.getTime()) {
@@ -3265,7 +3272,10 @@ async function copyFolder(prelayout, postlayout, destinationFs, destination, des
 }
 async function copyFileViaIndex(prelayout, postlayout, destinationFs, destination, destinationStat, sourceFs, source, sourceStat, opts, linkStrategy) {
   const sourceHash = await sourceFs.checksumFilePromise(source, { algorithm: `sha1` });
-  const indexPath = destinationFs.pathUtils.join(linkStrategy.indexPath, sourceHash.slice(0, 2), `${sourceHash}.dat`);
+  const defaultMode = 420;
+  const sourceMode = sourceStat.mode & 511;
+  const indexFileName = `${sourceHash}${sourceMode !== defaultMode ? sourceMode.toString(8) : ``}`;
+  const indexPath = destinationFs.pathUtils.join(linkStrategy.indexPath, sourceHash.slice(0, 2), `${indexFileName}.dat`);
   let AtomicBehavior;
   ((AtomicBehavior2) => {
     AtomicBehavior2[AtomicBehavior2["Lock"] = 0] = "Lock";
@@ -3321,8 +3331,12 @@ async function copyFileViaIndex(prelayout, postlayout, destinationFs, destinatio
     }
   });
   postlayout.push(async () => {
-    if (!indexStat)
+    if (!indexStat) {
       await destinationFs.lutimesPromise(indexPath, defaultTime, defaultTime);
+      if (sourceMode !== defaultMode) {
+        await destinationFs.chmodPromise(indexPath, sourceMode);
+      }
+    }
     if (tempPath && !tempPathCleaned) {
       await destinationFs.unlinkPromise(tempPath);
     }
@@ -5526,6 +5540,8 @@ class VirtualFS extends ProxiedFS {
   }
 }
 
+const URL = Number(process.versions.node.split('.', 1)[0]) < 20 ? url.URL : globalThis.URL;
+
 class NodePathFS extends ProxiedFS {
   constructor(baseFs) {
     super(npath);
@@ -5537,7 +5553,7 @@ class NodePathFS extends ProxiedFS {
   mapToBase(path) {
     if (typeof path === `string`)
       return path;
-    if (path instanceof url.URL)
+    if (path instanceof URL)
       return url.fileURLToPath(path);
     if (Buffer.isBuffer(path)) {
       const str = path.toString();
@@ -7103,8 +7119,10 @@ class ZipFS extends BasePortableFakeFS {
           throw new Error(`Incomplete read`);
         else if (rc > size)
           throw new Error(`Overread`);
-        const memory = this.libzip.HEAPU8.subarray(buffer, buffer + size);
-        return Buffer.from(memory);
+        let result = Buffer.from(this.libzip.HEAPU8.subarray(buffer, buffer + size));
+        if (process.env.YARN_IS_TEST_ENV && process.env.YARN_ZIP_DATA_EPILOGUE)
+          result = Buffer.concat([result, Buffer.from(process.env.YARN_ZIP_DATA_EPILOGUE)]);
+        return result;
       } finally {
         this.libzip.free(buffer);
       }
@@ -8162,7 +8180,7 @@ function applyPatch(pnpapi, opts) {
   process.versions.pnp = String(pnpapi.VERSIONS.std);
   const moduleExports = require$$0__default.default;
   moduleExports.findPnpApi = (lookupSource) => {
-    const lookupPath = lookupSource instanceof url.URL ? url.fileURLToPath(lookupSource) : lookupSource;
+    const lookupPath = lookupSource instanceof URL ? url.fileURLToPath(lookupSource) : lookupSource;
     const apiPath = opts.manager.findApiPathFor(lookupPath);
     if (apiPath === null)
       return null;
@@ -8584,28 +8602,6 @@ function getPackageScopeConfig(resolved, readFileSyncFn) {
   return packageConfig;
 }
 
-/**
-  @license
-  Copyright Node.js contributors. All rights reserved.
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to
-  deal in the Software without restriction, including without limitation the
-  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-  sell copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-  IN THE SOFTWARE.
-*/
 function throwImportNotDefined(specifier, packageJSONUrl, base) {
   throw new ERR_PACKAGE_IMPORT_NOT_DEFINED(
     specifier,
