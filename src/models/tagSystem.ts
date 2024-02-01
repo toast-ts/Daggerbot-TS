@@ -69,7 +69,7 @@ export class TagSystemSvc {
       .setDescription(getTag.dataValues.message)
     ];
     if (getTag.dataValues.embedFlag) return await interaction.reply({content: targetMsg, embeds: embedFormat, allowedMentions: {parse: ['users']}});
-    else return await interaction.reply({content: targetMsg+`\n**${getTag.dataValues.message}**\n╰ **${fetchUser.displayName}**`, allowedMentions: {parse: ['users']}});
+    else return await interaction.reply({content: targetMsg+`\n${getTag.dataValues.message}\n╰ **${fetchUser.displayName}**`, allowedMentions: {parse: ['users']}});
   }
   async modifyTag(tagname:string, message:string) {
     CacheServer.delete('tags');
