@@ -30,7 +30,7 @@
     "npm": "yarn is required, dont use npm"
   },
   "engineStrict": true,
-  "packageManager": "yarn@4.0.2+sha256.825003a0f561ad09a3b1ac4a3b3ea6207af2796d54f62a9420520915721f5186",
+  "packageManager": "yarn@4.1.0+sha256.81a00df816059803e6b5148acf03ce313cad36b7f6e5af6efa040a15981a6ffb",
   "dependencies": {
     "@octokit/auth-token": "4.0.0",
     "@octokit/rest": "20.0.2",
@@ -39,7 +39,7 @@
     "canvas": "2.11.2",
     "dayjs": "1.11.10",
     "discord.js": "14.14.1",
-    "fast-xml-parser": "4.3.3",
+    "fast-xml-parser": "4.3.4",
     "ms": "2.1.3",
     "node-cron": "3.0.3",
     "pg": "8.11.3",
@@ -48,11 +48,11 @@
     "sequelize": "6.35.2",
     "simple-git": "3.22.0",
     "systeminformation": "5.21.24",
-    "undici": "6.5.0"
+    "undici": "6.6.0"
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.10",
+    "@types/node": "20.11.16",
     "@types/node-cron": "3.0.11",
     "@types/pg": "8.11.0",
     "@types/sequelize": "4.28.20",

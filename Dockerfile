@@ -1,5 +1,5 @@
 FROM node:21.1.0-bookworm-slim
-ENV YARN_VERSION 4.0.2
+ENV YARN_VERSION 4.1.0
 ENV TZ Australia/Sydney
 RUN yarn policies set-version $YARN_VERSION
 RUN apt update -y && apt upgrade -y && apt install -y git fontconfig
