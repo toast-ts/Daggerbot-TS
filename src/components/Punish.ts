@@ -12,7 +12,7 @@ export default async(client:TClient, interaction: Discord.ChatInputCommandIntera
   const User = interaction.options.getUser('member', true);
   if (reason.length > 1020) return interaction.reply({content: 'Reason cannot be longer than 1020 characters due to Discord\'s limit.', ephemeral: true});
 
-  const punishLog = `${GuildMember?.user?.username ?? User?.username ?? 'No user data'} ${time ? ['warn', 'kick'].includes(type) ? 'and no duration set' : `and ${time} (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``;
+  const punishLog = `\`${GuildMember?.user?.username ?? User?.username ?? 'No user data'}\` ${time ? ['warn', 'kick'].includes(type) ? 'and no duration set' : `and \`${time}\` (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``;
   Logger.console('log', 'PunishmentLog', punishLog);
   (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size:2048})}).setTitle('Punishment Log').setDescription(punishLog).setTimestamp()]});
 
