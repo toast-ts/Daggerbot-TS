@@ -22,7 +22,7 @@ export default class ProhibitedWords {
         if (wordExists) return interaction.reply({ephemeral: true, content: `\`${word}\` already exists in the list`});
         else {
           await client.prohibitedWords.insertWord(word);
-          interaction.reply({ephemeral: true, content: `Successfully added \`${word}\` to the list`});
+          interaction.reply({ephemeral: true, content: `Successfully added \`${word}\` to the prohibited words list`});
           await this.notify(client, {
             embeds: [new client.embed()
               .setColor(client.config.embedColorGreen)
@@ -37,7 +37,7 @@ export default class ProhibitedWords {
         if (!wordExists) return interaction.reply({ephemeral: true, content: `\`${word}\` does not exist in the list`});
         else {
           await client.prohibitedWords.removeWord(word);
-          interaction.reply({ephemeral: true, content: `Successfully removed \`${word}\` from the list`});
+          interaction.reply({ephemeral: true, content: `Successfully removed \`${word}\` from the prohibited words list`});
           await this.notify(client, {
             embeds: [new client.embed()
               .setColor(client.config.embedColorRed)
