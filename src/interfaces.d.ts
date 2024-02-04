@@ -3,6 +3,7 @@ import {ColorResolvable, PresenceData, APIUser} from 'discord.js';
 export interface Punishment {
   case_id: number;
   type: string;
+  member_name: string;
   member: string;
   moderator: string;
   expired?: boolean;

@@ -23,7 +23,7 @@ export default class GuildMemberAdd {
     const usedInvite = newInvites.find((inv:Discord.Invite)=>client.invites.get(inv.code)?.uses < inv.uses);
     newInvites.forEach((inv:Discord.Invite)=>client.invites.set(inv.code,{uses: inv.uses, creator: inv.inviterId, channel: inv.channel.name}));
     (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [
-    new client.embed().setColor(client.config.embedColorGreen).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`${isBot} Joined: ${member.user.username}`).setFooter({text: `Total members: ${index}${suffix}`}).addFields(
+    new client.embed().setColor(client.config.embedColorGreen).setTimestamp().setThumbnail(member.user.displayAvatarURL({size: 2048})).setTitle(`${isBot} Joined: ${member.user.username}`).setFooter({text: `Total members: ${index}${suffix} | ID: ${member.user.id}`}).addFields(
       {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
       {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.username}**\nChannel: **#${usedInvite.channel.name}**` : 'No invite data could be fetched.'}
     )]});

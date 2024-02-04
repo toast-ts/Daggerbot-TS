@@ -4,6 +4,7 @@ const client = new TClient;
 client.init();
 import Logger from './helpers/Logger.js';
 import YTModule from './modules/YTModule.js';
+import CacheServer from './components/CacheServer.js';
 import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
 import {Punishment, RawGatewayPacket, RawMessageDelete, RawMessageUpdate} from 'src/interfaces';
@@ -52,6 +53,10 @@ setInterval(async()=>{
 
   const punishments = await client.punishments.findInCache();
   punishments.filter((x:Punishment)=>x.endTime && x.endTime <= now && !x.expired).forEach(async (punishment:Punishment)=>{
+    let key = `punishment_handled:${punishment.case_id}`;
+    if (await CacheServer.get(key, false)) return;
+    await CacheServer.set(key, true, false).then(async()=>await CacheServer.expiry(key, 35));
+
     Logger.console('log', 'Punishment', `${punishment.member}\'s ${punishment.type} should expire now`);
     Logger.console('log', 'Punishment', await client.punishments.punishmentRemove(punishment.case_id, client.user.id, 'Time\'s up!'));
   });
