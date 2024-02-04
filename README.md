@@ -7,7 +7,7 @@ This is a repository for V3 revision that has been transitioned and rewritten fr
 
 This revision took **4 months** (Late September to Mid December) working on and off to do literally everything that needed a rewrite so badly that it cannot be done in V2.
 
-**Q:** So what are the changes if it almost looks the same as V2?
+**Q:** So what are the changes if it almost looks the same as V2?  
 **A:** Here's the bullet points of the changes so far;
 - Reworked some of the files
 - Commands and events are now classes
