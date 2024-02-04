@@ -21,7 +21,7 @@ export default class Whois {
         .setThumbnail(user.avatarURL({size:2048}) || user.defaultAvatarURL)
         .setTitle(`${user.bot ? 'Bot' : 'User'} Info: ${user.username}`)
         .setDescription(`<@${user.id}>\n\`${user.id}\``)
-        .addFields({name: '🔹 Account Creation Date', value: `<t:${Math.round(user.createdTimestamp/1000)}>\n<t:${Math.round(user.createdTimestamp/1000)}:R>`})
+        .addFields({name: `🔹 ${user.bot ? 'Application' : 'Account'} Creation Date`, value: `<t:${Math.round(user.createdTimestamp/1000)}>\n<t:${Math.round(user.createdTimestamp/1000)}:R>`})
       ]})
     } else {
       await member.user.fetch();
@@ -39,7 +39,7 @@ export default class Whois {
         .setTitle(`${title} Info: ${member.user.username}`)
         .setDescription(`<@${member.user.id}>\n\`${member.user.id}\``)
         .addFields(
-          {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
+          {name: `🔹 ${member.user.bot ? 'Application' : 'Account'} Creation Date`, value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
           {name: '🔹 Server Join Date', value: `<t:${Math.round((member.joinedTimestamp as number)/1000)}>\n<t:${Math.round((member.joinedTimestamp as number)/1000)}:R>`},
           {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: member.roles.cache.size > 1 ? member.roles.cache.filter(x=>x.id !== interaction.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}
         )
