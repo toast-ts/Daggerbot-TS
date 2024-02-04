@@ -11,6 +11,7 @@ import Formatters from '../helpers/Formatters.js';
 class punishments extends Model {
   declare public case_id: number;
   declare public type: string;
+  declare public member_name: string;
   declare public member: string;
   declare public moderator: string;
   declare public expired: boolean;
@@ -37,6 +38,10 @@ export class PunishmentsSvc {
       type: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      member_name: {
+        type: DataTypes.STRING,
+        allowNull: true
       },
       member: {
         type: DataTypes.STRING,
@@ -124,7 +129,7 @@ export class PunishmentsSvc {
       .setColor(this.client.config.embedColor)
       .setTitle(`${punishment.type[0].toUpperCase() + punishment.type.slice(1)} | Case #${punishment.case_id}`)
       .addFields(
-        {name: '🔹 User', value: `<@${punishment.member}>\n\`${punishment.member}\``, inline: true},
+        {name: '🔹 User', value: `${punishment.member_name}\n<@${punishment.member}>\n\`${punishment.member}\``, inline: true},
         {name: '🔹 Moderator', value: `<@${punishment.moderator}>\n\`${punishment.moderator}\``, inline: true},
         {name: '\u200b', value: '\u200b', inline: true},
         {name: '🔹 Reason', value: `\`${punishment.reason}\``, inline: true}
@@ -150,7 +155,7 @@ export class PunishmentsSvc {
     const {time, interaction} = options;
     const now = Date.now();
     const guild = this.client.guilds.cache.get(this.client.config.dcServer.id) as Discord.Guild;
-    const punishment:Punishment = {type, case_id: await this.generateCaseId(), member: user.id, reason, moderator, time: now};
+    const punishment:Punishment = {type, case_id: await this.generateCaseId(), member_name: user.username, member: user.id, reason, moderator, time: now};
     const inOrFromBoolean = ['warn', 'mute', 'remind'].includes(type) ? 'in' : 'from';
     const auditLogReason = `${reason ?? 'Reason unspecified'} | Case #${punishment.case_id}`;
     const embed = new this.client.embed()
@@ -172,7 +177,7 @@ export class PunishmentsSvc {
     if (['ban', 'softban'].includes(type)) {
       const alreadyBanned = await guild.bans.fetch(user.id).catch(()=>null); // 172800 seconds is 48 hours, just for future reference
       if (!alreadyBanned) punishmentResult = await guild.bans.create(user.id, {reason: auditLogReason, deleteMessageSeconds: 172800}).catch((err:Error)=>err.message);
-      else punishmentResult = 'This user already exists in the guild\'s ban list.';
+      else punishmentResult = `This user already exists in the guild\'s ban list.\nReason: \`${alreadyBanned?.reason}\``;
     } else if (type === 'kick') punishmentResult = await guildUser?.kick(auditLogReason).catch((err:Error)=>err.message);
     else if (type === 'mute') punishmentResult = await guildUser?.timeout(millisecondTime, auditLogReason).catch((err:Error)=>err.message);
 
@@ -192,6 +197,7 @@ export class PunishmentsSvc {
       else await this.model.create({
         case_id: punishment.case_id,
         type: punishment.type,
+        member_name: punishment.member_name,
         member: punishment.member,
         moderator: punishment.moderator,
         expired: punishment.expired,
@@ -217,7 +223,7 @@ export class PunishmentsSvc {
     const user = await this.client.users.fetch(punishment.member);
     const guildUser:Discord.GuildMember = await guild.members.fetch(punishment.member).catch(()=>null);
 
-    let removePunishmentData:Punishment = {type: `un${punishment.type}`, case_id: ID, cancels: punishment.case_id, member: punishment.member, reason, moderator, time: now};
+    let removePunishmentData:Punishment = {type: `un${punishment.type}`, case_id: ID, cancels: punishment.case_id, member_name: punishment.member_name, member: punishment.member, reason, moderator, time: now};
     let removePunishmentResult:any;
 
     if (punishment.type === 'ban') removePunishmentResult = await guild.bans.remove(punishment.member, auditLogReason).catch((err:Error)=>err.message);
@@ -236,6 +242,7 @@ export class PunishmentsSvc {
         this.model.create({
           case_id: removePunishmentData.case_id,
           type: removePunishmentData.type,
+          member_name: removePunishmentData.member_name,
           member: removePunishmentData.member,
           moderator: removePunishmentData.moderator,
           expired: removePunishmentData.expired,
@@ -252,7 +259,7 @@ export class PunishmentsSvc {
         .setColor(this.client.config.embedColor)
         .setTitle(`${removePunishmentData.type[0].toUpperCase() + removePunishmentData.type.slice(1)} | Case #${removePunishmentData.case_id}`)
         .setDescription(`${user.username}\n<@${user.id}>\n\`${user.id}\``)
-        .addFields({name: 'Reason', value: `\`${reason}\``}, {name: 'Overwrites', value: `Case #${punishment.case_id}`})
+        .addFields({name: 'Reason', value: `\`${reason}\``, inline: true}, {name: 'Overwrites', value: `Case #${punishment.case_id}`, inline: true})
       ]});
       else return `Successfully un${this.getPastTense(removePunishmentData.type.replace('un', ''))} ${user.username} (\`${user.id}\`) for ${reason}`
     }

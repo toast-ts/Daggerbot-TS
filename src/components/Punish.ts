@@ -16,7 +16,7 @@ export default async(client:TClient, interaction: Discord.ChatInputCommandIntera
   Logger.console('log', 'PunishmentLog', punishLog);
   (client.channels.cache.get(client.config.dcServer.channels.punishment_log) as Discord.TextChannel).send({embeds:[new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size:2048})}).setTitle('Punishment Log').setDescription(punishLog).setTimestamp()]});
 
-  if (!GuildMember.moderatable) return interaction.reply(`I cannot ${type} this user.`);
+  if (GuildMember && !GuildMember?.moderatable) return interaction.reply(`I cannot ${type} this user.`);
   if (interaction.user.id === User.id) return interaction.reply(`You cannot ${type} yourself.`);
   if (!GuildMember && !['unban', 'ban'].includes(type)) return interaction.reply(`You cannot ${type} someone who is not in the server.`);
   if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);

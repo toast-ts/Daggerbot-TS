@@ -8,7 +8,7 @@ export default class Case {
     for (const channelID of logsArray) {
       const channel = await client.channels.fetch(channelID) as Discord.TextChannel;
       if (channel && channel.type === Discord.ChannelType.GuildText) {
-        const messages = await channel.messages.fetch({limit: 3});
+        const messages = await channel.messages.fetch({limit: 5});
         messages.forEach(async message=>{
           if (message?.embeds[0]?.title && message?.embeds[0]?.title.match(new RegExp(`Case #${caseId}`))) {
             const findIndex = message?.embeds[0].fields.findIndex(x=>x.name === 'Reason');
@@ -36,8 +36,8 @@ export default class Case {
         const cancelledBy = punishment.dataValues.expired ? await client.punishments.findByCancels(punishment.dataValues.case_id) : null;
         const cancels = punishment.dataValues.cancels ? await client.punishments.findCase(punishment.dataValues.cancels) : null;
         const embed = new client.embed().setColor(client.config.embedColor).setTimestamp(Number(punishment.dataValues.time)).setTitle(`${punishment.dataValues.type[0].toUpperCase()+punishment.dataValues.type.slice(1)} | Case #${punishment.dataValues.case_id}`).addFields(
-          {name: 'User', value: `${MessageTool.formatMention(punishment.dataValues.member, 'user')} \`${punishment.dataValues.member}\``, inline: true},
-          {name: 'Moderator', value: `${MessageTool.formatMention(punishment.dataValues.moderator, 'user')} \`${punishment.dataValues.moderator}\``, inline: true},
+          {name: 'User', value: `${punishment.member_name}\n${MessageTool.formatMention(punishment.dataValues.member, 'user')}\n\`${punishment.dataValues.member}\``, inline: true},
+          {name: 'Moderator', value: `${client.users.resolve(punishment.moderator).tag}\n${MessageTool.formatMention(punishment.dataValues.moderator, 'user')}\n\`${punishment.dataValues.moderator}\``, inline: true},
           {name: '\u200b', value: '\u200b', inline: true},
           {name: 'Reason', value: `\`${punishment.reason || 'Reason unspecified'}\``, inline: true})
         if (punishment.dataValues.duration) embed.addFields({name: 'Duration', value: `${Formatters.timeFormat(punishment.dataValues.duration, 100)}`})
