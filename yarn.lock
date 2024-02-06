@@ -149,7 +149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/auth-token@npm:4.0.0, @octokit/auth-token@npm:^4.0.0":
+"@octokit/auth-token@npm:^4.0.0":
   version: 4.0.0
   resolution: "@octokit/auth-token@npm:4.0.0"
   checksum: 10/60e42701e341d700f73c518c7a35675d36d79fa9d5e838cc3ade96d147e49f5ba74db2e07b2337c2b95aaa540aa42088116df2122daa25633f9e70a2c8785c44
@@ -744,7 +744,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "daggerbot-ts@workspace:."
   dependencies:
-    "@octokit/auth-token": "npm:4.0.0"
     "@octokit/rest": "npm:20.0.2"
     "@toast/tokenservice-client": "npm:1.0.11"
     "@types/ms": "npm:0.7.34"
