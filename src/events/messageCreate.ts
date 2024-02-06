@@ -5,6 +5,7 @@ import CmdTrigger from '../modules/CmdModule.js';
 import Logger from '../helpers/Logger.js';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 import Automoderator from '../components/Automod.js';
+import __PRIVATE from '../private/_.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default class MessageCreate {
   static async run(client:TClient, message:Discord.Message) {
@@ -15,12 +16,21 @@ export default class MessageCreate {
     if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {
       const automodFailReason = 'msg got possibly deleted by another bot.';
       const automodRules = {
+        phishingDetection: {
+          check: async()=>await __PRIVATE.phishingDetection(message),
+          action: async()=>{
+            automodded = true;
+            message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PHISHING', automodFailReason));
+            message.channel.send('Phishing links aren\'t allowed here. Nice try though!').then(msg=>setTimeout(()=>msg.delete(), 15000));
+            await Automoderator.repeatedMessages(client, message, 'softban', 60000, 2, 'phish', null, 'Phishing/scam link');
+          }
+        },
         prohibitedWords: {
           check: async()=>await client.prohibitedWords.findWord(Automoderator.scanMsg(message)),
           action: async()=>{
             automodded = true;
             message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PROHIBITEDWORDS', automodFailReason));
-            message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 10000));
+            message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 15000));
             await Automoderator.repeatedMessages(client, message, 'mute', 30000, 3, 'bw', '30m', 'Prohibited word spam');
           }
         },
