@@ -108,7 +108,6 @@ client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
   const channel = client.channels.cache.get(packet.d.channel_id) as Discord.TextBasedChannel;
   const old_message = await channel.messages.fetch(packet.d.id);
   const new_message = await channel.messages.fetch(packet.d.id);
-  if (old_message.content === new_message.content) return;
 
   client.emit('messageUpdate', old_message, new_message);
 });
