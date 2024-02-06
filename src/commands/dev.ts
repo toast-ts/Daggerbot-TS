@@ -6,7 +6,7 @@ import Formatters from '../helpers/Formatters.js';
 import GitHub from '../helpers/GitHub.js';
 import TClient from '../client.js';
 import util from 'node:util';
-import fs, { writeFileSync } from 'node:fs';
+import fs from 'node:fs';
 export default class Developer {
   static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
     if (!client.config.whitelist.includes(interaction.user.id)) return MessageTool.youNeedRole(interaction, 'bottech');
@@ -71,13 +71,19 @@ export default class Developer {
           `╰ Deletions: **${commitStats.deletion}**`,
           `╰ Total: **${commitStats.total}**`
         );
+        if (interaction.options.getBoolean('private_dir')) {
+          const priv_file = await GitHub.PrivateRepository();
+          fs.writeFileSync('src/private/_.ts', Buffer.from(priv_file.content, 'base64').toString('utf8'));
+          const update_success = `Updated the private file with latest data from the repository. (\`${priv_file.sha.slice(0, 7)}\`)`;
+          if (interaction.replied) interaction.followUp(update_success);
+          else interaction.reply(update_success);
+        };
         exec('git pull', {windowsHide:true}, (err:Error, stdout)=>{
           if (err) hammondYouIdiot.edit(`\`\`\`${UsernameHelper(err.message)}\`\`\``);
           else if (stdout.includes('Already up to date')) hammondYouIdiot.edit('Repository is currently up to date.');
           else hammondYouIdiot.edit('Running `yarn tsc`...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
             if (err) hammondYouIdiot.edit(`\`\`\`${UsernameHelper(err.message)}\`\`\``);
-            else if (interaction.options.getBoolean('restart')) hammondYouIdiot.edit(msgBody + `\nUptime: **${Formatters.timeFormat(process.uptime()*1000, 4, {longNames:true, commas:true})}**`).then(()=>process.exit(0));
-            else hammondYouIdiot.edit(msgBody);
+            else hammondYouIdiot.edit(msgBody + `\nUptime: **${Formatters.timeFormat(process.uptime()*1000, 4, {longNames:true, commas:true})}**`).then(()=>process.exit(0));
           }));
         });
       },
@@ -102,7 +108,7 @@ export default class Developer {
         if (name) currentActivities[0].name = name;
         if (url) currentActivities[0].url = url;
         client.user.setPresence(client.config.botPresence);
-        writeFileSync(process.argv[2] ?? 'src/config.json', JSON.stringify(client.config, null, 2));
+        fs.writeFileSync(process.argv[2] ?? 'src/config.json', JSON.stringify(client.config, null, 2));
         interaction.reply(MessageTool.concatMessage(
           'Presence updated:',
           `Status: **${client.config.botPresence.status}**`,
@@ -163,8 +169,8 @@ export default class Developer {
       .setName('update')
       .setDescription('Pull from repository and restart')
       .addBooleanOption(x=>x
-        .setName('restart')
-        .setDescription('Restart the bot after pulling from repository')
+        .setName('private_dir')
+        .setDescription('Update private directory from a repository too?')
         .setRequired(true)
       ))
     .addSubcommand(x=>x
