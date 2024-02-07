@@ -55,6 +55,7 @@ export class MPServerSvc {
     })
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async fetchPlayerData(serverName:string) {
     const findServerByName = await this.model.findOne({where: {serverName: serverName}});
     if (findServerByName) return findServerByName.dataValues.playerData;

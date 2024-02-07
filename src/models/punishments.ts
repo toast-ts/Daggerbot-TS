@@ -83,6 +83,7 @@ export class PunishmentsSvc {
     });
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async updateReason(caseId:number, reason:string) {
     const findCase = this.findCase(caseId);
     if (findCase) return this.model.update({reason: reason}, {where: {case_id: caseId}});

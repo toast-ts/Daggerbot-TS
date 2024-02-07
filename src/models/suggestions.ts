@@ -40,6 +40,7 @@ export class SuggestionsSvc {
     })
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   fetchById = async(id:number)=>await this.model.findByPk(id);
   updateStatus = async(id:number, status:string)=>await this.model.update({status: status}, {where: {id: id}});
   create =(userid:string, description:string)=>this.model.create({userid: userid, suggestion: description, status: 'Pending'})

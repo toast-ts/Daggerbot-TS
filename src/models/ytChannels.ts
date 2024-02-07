@@ -34,6 +34,7 @@ export class YouTubeChannelsSvc {
     })
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async addChannel(YTChannelID:string, DCChannelID:string, DCRole:string) {
     if (await this.model.findOne({where: {ytchannel: YTChannelID}})) return false;
     await this.model.create({ytchannel: YTChannelID, dcchannel: DCChannelID, dcrole: DCRole});

@@ -50,6 +50,7 @@ export class TagSystemSvc {
     });
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async createTag(userid:string, tagName:string, message:string, embedFlag:boolean) {
     CacheServer.delete('tags');
     return await this.model.create({userid: userid, tagname: tagName, message: message.replace(/\\n/g, '\n'), embedFlag: embedFlag});

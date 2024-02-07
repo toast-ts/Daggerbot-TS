@@ -25,6 +25,7 @@ export class ProhibitedWordsSvc {
     })
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   findWord = async(word:string)=>await this.model.findByPk(word);
   getAllWords = async()=>await this.model.findAll();
   insertWord = async(word:string)=>await this.model.create({word: word});
