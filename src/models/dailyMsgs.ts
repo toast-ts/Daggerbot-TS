@@ -30,6 +30,7 @@ export class DailyMsgsSvc {
     })
     this.model.sync();
   }
+  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   nukeDays = async()=>await this.model.destroy({truncate: true});
   fetchDays = async()=>await this.model.findAll();
   async newDay(formattedDate:number, total:number) {
