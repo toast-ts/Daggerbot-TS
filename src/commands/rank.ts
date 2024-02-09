@@ -42,7 +42,7 @@ export default class Rank {
             name: 'Top users sorted by messages sent:',
             value: allData.sort((a,b)=>b.messages - a.messages).slice(0,15).map((x,i)=>`${i+1}. <@${x.dataValues.id}>: ${x.messages.toLocaleString('en-US')}`).join('\n')
           }).setImage('attachment://dailyMessages.jpg').setFooter({text: 'Graph updates daily'})],
-          files: [new client.attachment(graph.toBuffer(), {name: 'dailyMessages.jpg'})]
+          files: [new client.attachment(graph.toBuffer('image/jpeg'), {name: 'dailyMessages.jpg'})]
         })
 			},
       notification: async()=>{

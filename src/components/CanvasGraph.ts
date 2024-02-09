@@ -1,9 +1,9 @@
-import {createCanvas, Canvas, CanvasRenderingContext2D} from 'canvas';
+import {createCanvas, Canvas, SKRSContext2D} from '@napi-rs/canvas';
 import {Config} from 'src/interfaces';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 export default class CanvasBuilder {
   private readonly canvas: Canvas;
-  private readonly ctx: CanvasRenderingContext2D;
+  private readonly ctx: SKRSContext2D;
   private readonly config: Config;
   private readonly palette = {
     // Color palette for the graph -- The variables are named exactly what it shows in graph to make it easier to be referenced to.
@@ -119,7 +119,7 @@ export default class CanvasBuilder {
     }
 
     // Draw text
-    this.ctx.font = '400 ' + textSize + 'px sans-serif';
+    this.ctx.font = `400 ${textSize}px Ubuntu`;
     this.ctx.fillStyle = this.palette.textColor;
 
     // Highest value
