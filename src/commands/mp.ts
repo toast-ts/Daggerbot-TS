@@ -62,7 +62,7 @@ export default class MP {
           .setImage(`attachment://${attachmentName}`)
           .setAuthor({name: `${DSS.slots.used}/${DSS.slots.capacity}`})
           .setFooter({text: `Current time: ${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`})
-        ], files: [new client.attachment(canvas.toBuffer(), {name: attachmentName})]})
+        ], files: [new client.attachment(canvas.toBuffer('image/jpeg'), {name: attachmentName})]})
       },
       details: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
