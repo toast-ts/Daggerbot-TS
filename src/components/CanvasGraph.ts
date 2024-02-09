@@ -119,7 +119,7 @@ export default class CanvasBuilder {
     }
 
     // Draw text
-    this.ctx.font = `400 ${textSize}px Ubuntu`;
+    this.ctx.font = `400 ${textSize}px DejaVu Sans`;
     this.ctx.fillStyle = this.palette.textColor;
 
     // Highest value
