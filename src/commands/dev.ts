@@ -131,6 +131,7 @@ export default class Developer {
         client.users.cache.get(member.id).send(`${message}\n╰ ${interaction.member.displayName}`).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
       },
       modify_rank_msgs: async()=>{
+        if (interaction.guildId !== client.config.dcServer.id) return interaction.reply({content: 'This command is only available in the main server.', ephemeral: true});
         const member = interaction.options.getMember('member');
         const messages = interaction.options.getInteger('new-message-count');
         const oldData = await client.userLevels.fetchUser(member.id);
@@ -141,7 +142,6 @@ export default class Developer {
             `Successfully modified the message count of **${member.displayName}**`,
             `╰ Old: **${oldData.dataValues.messages.toLocaleString('en-US')}**`,
             `╰ New: **${newData.messages.toLocaleString('en-US')}**`,
-            `╰ Difference: **${(newData.messages - oldData.dataValues.messages).toLocaleString('en-US')}**`,
             'Although if you set the number too high or low, it will have a bigger impact on the leaderboard graph.'
           ))
         ]})
