@@ -2,9 +2,19 @@ import {createCanvas, Canvas, CanvasRenderingContext2D} from 'canvas';
 import {Config} from 'src/interfaces';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 export default class CanvasBuilder {
-  private canvas: Canvas;
-  private ctx: CanvasRenderingContext2D;
-  private config: Config;
+  private readonly canvas: Canvas;
+  private readonly ctx: CanvasRenderingContext2D;
+  private readonly config: Config;
+  private readonly palette = {
+    // Color palette for the graph -- The variables are named exactly what it shows in graph to make it easier to be referenced to.
+    oddHorizontal: '#555B63',
+    evenHorizontal: '#3E4245',
+    background: '#111111',
+    textColor: '#FFFFFF',
+    redLine: '#E62C3B',
+    yellowLine: '#FFEA00',
+    greenLine: '#57F287'
+  };
 
   constructor() {
     this.canvas = createCanvas(1500, 750);
@@ -13,20 +23,11 @@ export default class CanvasBuilder {
   }
 
   public async generateGraph(data:number[], type:'players'|'leaderboard'):Promise<Canvas> {
-    // Color layout for the graph -- The variables are named exactly what it shows in graph to make it easier to be referenced to.
-    let oddHorizontal = '#555B63';
-    let evenHorizontal = '#3E4245';
-    let background = '#111111';
-    let textColor = '#FFFFFF';
-    let redLine = '#E62C3B';
-    let yellowLine = '#FFEA00';
-    let greenLine = '#57F287';
-
     // Handle negative
-    for (const [i, change] of data.entries()) if (change as number < 0) data[i] = data[i - 1] || data[i + 1] || 0;
+    for (const [i, change] of data.entries()) if (change < 0) data[i] = data[i - 1] || data[i + 1] || 0;
 
-    const LBdataFirst = Math.ceil(Math.max(...data) * 10 ** (-Math.max(...data).toString().split('').length + 1)) * 10 ** (Math.max(...data).toString().split('').length - 1)
-    const LBdataSecond = Math.ceil(Math.max(...data) * 10 ** (-Math.max(...data).toString().split('').length + 2)) * 10 ** (Math.max(...data).toString().split('').length - 2)
+    const LBdataFirst = Math.ceil(Math.max(...data) * 10 ** (-Math.max(...data).toString().split('').length + 2)) * 10 ** (Math.max(...data).toString().split('').length - 2)
+    const LBdataSecond = Math.ceil(Math.max(...data) * 10 ** (-Math.max(...data).toString().split('').length + 3)) * 10 ** (Math.max(...data).toString().split('').length - 3)
 
     const firstTop = type === 'leaderboard' ? LBdataFirst : 16;
     const secondTop = type === 'leaderboard' ? LBdataSecond : 16;
@@ -34,7 +35,7 @@ export default class CanvasBuilder {
     const origin = [15, 65];
     const size = [1300, 630];
     const nodeWidth = size[0] / (data.length - 1);
-    this.ctx.fillStyle = background;
+    this.ctx.fillStyle = this.palette.background;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     // Grey horizontal lines
@@ -47,33 +48,20 @@ export default class CanvasBuilder {
     }
     const chosenInterval = intervalCandidates.sort((a,b)=>b[2]-a[2])[0];
     let prevY:number[] = [];
-    this.ctx.strokeStyle = oddHorizontal;
+    this.ctx.strokeStyle = this.palette.oddHorizontal;
 
-    if (type === 'leaderboard') for (let i = 0; i <= chosenInterval[1]; i++) {
+    for (let i = 0; i <= chosenInterval[1]; i++) {
       const y = origin[1] + size[1] - (i * (chosenInterval[0] / secondTop) * size[1]);
       if (y < origin[1]) continue;
       const even = ((i + 1) % 2) === 0;
-      if (even) this.ctx.strokeStyle = evenHorizontal;
+      if (even) this.ctx.strokeStyle = this.palette.evenHorizontal;
       this.ctx.beginPath();
       this.ctx.lineTo(origin[0], y);
       this.ctx.lineTo(origin[0] + size[0], y);
       this.ctx.stroke();
       this.ctx.closePath();
-      if (even) this.ctx.strokeStyle = oddHorizontal;
-      prevY = [y, i * chosenInterval[0]];
-    }
-    else for (let i = 0; i < data.length; i++) {
-      const y = origin[1] + size[1] - (i * (chosenInterval[0] / secondTop) * size[1]);
-      if (y < origin[1]) continue;
-      const even = ((i + 1) % 2) === 0;
-      if (even) this.ctx.strokeStyle = evenHorizontal;
-      this.ctx.beginPath();
-      this.ctx.lineTo(origin[0], y);
-      this.ctx.lineTo(origin[0] + size[0], y);
-      this.ctx.stroke();
-      this.ctx.closePath();
-      if (even) this.ctx.strokeStyle = oddHorizontal;
-      prevY.push(y, i * chosenInterval[0]);
+      if (even) this.ctx.strokeStyle = this.palette.oddHorizontal;
+      prevY.push(y, i * chosenInterval[0]); // It didn't seem to take effect when I tested on leaderboard, so using push instead for both players and leaderboard.
     }
 
     // 30 day/minute mark
@@ -87,15 +75,14 @@ export default class CanvasBuilder {
     this.ctx.setLineDash([]);
 
     // Draw points
-    const isLeaderboard =()=>type === 'leaderboard' ? this.config.embedColor as string : null;
-    this.ctx.strokeStyle = isLeaderboard();
-    this.ctx.fillStyle = isLeaderboard();
+    this.ctx.strokeStyle = type === 'leaderboard' ? this.config.embedColor as string : null;
+    this.ctx.fillStyle = type === 'leaderboard' ? this.config.embedColor as string : null;
     this.ctx.lineWidth = 5;
 
     const gradient = this.ctx.createLinearGradient(0, origin[1], 0, origin[1] + size[1]);
-    gradient.addColorStop(1 / 16, redLine);
-    gradient.addColorStop(5 / 16, yellowLine);
-    gradient.addColorStop(12 / 16, greenLine);
+    gradient.addColorStop(1 / 16, this.palette.redLine);
+    gradient.addColorStop(5 / 16, this.palette.yellowLine);
+    gradient.addColorStop(12 / 16, this.palette.greenLine);
 
     let lastCoordinates:number[] = [];
     for (let [i, currentValue] of data.entries()) {
@@ -133,7 +120,7 @@ export default class CanvasBuilder {
 
     // Draw text
     this.ctx.font = '400 ' + textSize + 'px sans-serif';
-    this.ctx.fillStyle = textColor;
+    this.ctx.fillStyle = this.palette.textColor;
 
     // Highest value
     this.ctx.fillText(type === 'leaderboard'
