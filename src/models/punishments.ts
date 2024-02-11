@@ -5,7 +5,6 @@ import {Punishment} from 'src/interfaces';
 import DatabaseServer from '../components/DatabaseServer.js';
 import {Model, DataTypes} from 'sequelize';
 import CacheServer from '../components/CacheServer.js';
-import MessageTool from '../helpers/MessageTool.js';
 import Formatters from '../helpers/Formatters.js';
 
 class punishments extends Model {
@@ -94,15 +93,6 @@ export class PunishmentsSvc {
   async generateCaseId() {
     const result = await this.model.findAll();
     return Math.max(...result.map((x:Punishment)=>x.case_id), 0) + 1;
-  }
-  async caseEvasionCheck(member:Discord.GuildMember) {
-    if (await this.model.findOne({where: {member: member.id, type: 'mute', expired: null}})) {
-      (this.client.channels.cache.get(this.client.config.dcServer.channels.dcmod_chat) as Discord.TextChannel).send({embeds: [new this.client.embed().setColor(this.client.config.embedColorYellow).setTitle('Case evasion detected').setDescription(MessageTool.concatMessage(
-        `**${member.user.username}** (\`${member.user.id}\`) has been detected for case evasion.`,
-        'Timeout has been automatically added. (25 days)'
-      )).setTimestamp()]});
-      await this.punishmentAdd('mute', {time: '25d'}, this.client.user.id, 'AUTOMOD:Case evasion', member.user, member)
-    }
   }
   async findInCache():Promise<any> {
     const cacheKey = 'punishments';

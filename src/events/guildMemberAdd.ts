@@ -27,7 +27,5 @@ export default class GuildMemberAdd {
       {name: '🔹 Account Creation Date', value: `<t:${Math.round(member.user.createdTimestamp/1000)}>\n<t:${Math.round(member.user.createdTimestamp/1000)}:R>`},
       {name: '🔹 Invite Data:', value: usedInvite ? `Invite: \`${usedInvite.code}\`\nCreated by: **${usedInvite.inviter?.username}**\nChannel: **#${usedInvite.channel.name}**` : 'No invite data could be fetched.'}
     )]});
-
-    await client.punishments.caseEvasionCheck(member);
   }
 }
