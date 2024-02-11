@@ -5,7 +5,7 @@ import CmdTrigger from '../modules/CmdModule.js';
 import Logger from '../helpers/Logger.js';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 import Automoderator from '../components/Automod.js';
-import __PRIVATE from '../private/_.js';
+import __PRIVATE__ from '../private/_.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default class MessageCreate {
   static async run(client:TClient, message:Discord.Message) {
@@ -17,12 +17,12 @@ export default class MessageCreate {
       const automodFailReason = 'msg got possibly deleted by another bot.';
       const automodRules = {
         phishingDetection: {
-          check: async()=>await __PRIVATE.phishingDetection(message),
+          check: async()=>await __PRIVATE__.phishingDetection(message),
           action: async()=>{
             automodded = true;
             message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PHISHING', automodFailReason));
             message.channel.send('Phishing links aren\'t allowed here. Nice try though!').then(msg=>setTimeout(()=>msg.delete(), 15000));
-            await Automoderator.repeatedMessages(client, message, 'softban', 60000, 2, 'phish', null, 'Phishing/scam link');
+            await Automoderator.repeatedMessages(client, message, 'mute', 60000, 3, 'phish', '15m', 'Phishing/scam link');
           }
         },
         prohibitedWords: {
