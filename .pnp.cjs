@@ -28,12 +28,12 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@napi-rs/canvas", "npm:0.1.45"],\
           ["@octokit/rest", "npm:20.0.2"],\
+          ["@sequelize/core", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:7.0.0-alpha.37"],\
           ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
-          ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
@@ -42,8 +42,8 @@ const RAW_RUNTIME_STATE =
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
           ["pg-hstore", "npm:2.3.4"],\
+          ["postgres-array", "npm:3.0.2"],\
           ["redis", "npm:4.6.13"],\
-          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.24"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
@@ -262,6 +262,37 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-win32-x64-msvc-npm-0.1.45-5312f002c6/node_modules/@napi-rs/canvas-win32-x64-msvc/",\
         "packageDependencies": [\
           ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.45"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@nodelib/fs.scandir", [\
+      ["npm:2.1.5", {\
+        "packageLocation": "./.yarn/cache/@nodelib-fs.scandir-npm-2.1.5-89c67370dd-6ab2a9b8a1.zip/node_modules/@nodelib/fs.scandir/",\
+        "packageDependencies": [\
+          ["@nodelib/fs.scandir", "npm:2.1.5"],\
+          ["@nodelib/fs.stat", "npm:2.0.5"],\
+          ["run-parallel", "npm:1.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@nodelib/fs.stat", [\
+      ["npm:2.0.5", {\
+        "packageLocation": "./.yarn/cache/@nodelib-fs.stat-npm-2.0.5-01f4dd3030-012480b5ca.zip/node_modules/@nodelib/fs.stat/",\
+        "packageDependencies": [\
+          ["@nodelib/fs.stat", "npm:2.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@nodelib/fs.walk", [\
+      ["npm:1.2.8", {\
+        "packageLocation": "./.yarn/cache/@nodelib-fs.walk-npm-1.2.8-b4a89da548-40033e33e9.zip/node_modules/@nodelib/fs.walk/",\
+        "packageDependencies": [\
+          ["@nodelib/fs.walk", "npm:1.2.8"],\
+          ["@nodelib/fs.scandir", "npm:2.1.5"],\
+          ["fastq", "npm:1.17.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -607,6 +638,75 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@sequelize/core", [\
+      ["npm:7.0.0-alpha.37", {\
+        "packageLocation": "./.yarn/cache/@sequelize-core-npm-7.0.0-alpha.37-1b326b1eb8-dcaadb079b.zip/node_modules/@sequelize/core/",\
+        "packageDependencies": [\
+          ["@sequelize/core", "npm:7.0.0-alpha.37"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:7.0.0-alpha.37", {\
+        "packageLocation": "./.yarn/__virtual__/@sequelize-core-virtual-e750a028ee/0/cache/@sequelize-core-npm-7.0.0-alpha.37-1b326b1eb8-dcaadb079b.zip/node_modules/@sequelize/core/",\
+        "packageDependencies": [\
+          ["@sequelize/core", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:7.0.0-alpha.37"],\
+          ["@types/debug", "npm:4.1.12"],\
+          ["@types/ibm_db", null],\
+          ["@types/mariadb", null],\
+          ["@types/mysql2", null],\
+          ["@types/odbc", null],\
+          ["@types/pg", "npm:8.11.0"],\
+          ["@types/snowflake-sdk", null],\
+          ["@types/sqlite3", null],\
+          ["@types/tedious", null],\
+          ["@types/validator", "npm:13.11.9"],\
+          ["bnf-parser", "npm:3.1.6"],\
+          ["dayjs", "npm:1.11.10"],\
+          ["debug", "virtual:8dde907e274d6cda4b3be6cd808e5a16421eab0e2ce2f6110b97323dbadda969b2dab36e690fd106d5bd3c87e0525cade2b2ba6fb4fb0c0e439212e4cf5c851b#npm:4.3.4"],\
+          ["dottie", "npm:2.0.6"],\
+          ["fast-glob", "npm:3.3.2"],\
+          ["ibm_db", null],\
+          ["inflection", "npm:3.0.0"],\
+          ["lodash", "npm:4.17.21"],\
+          ["mariadb", null],\
+          ["mysql2", null],\
+          ["odbc", null],\
+          ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
+          ["pg-connection-string", "npm:2.6.2"],\
+          ["pg-hstore", "npm:2.3.4"],\
+          ["retry-as-promised", "npm:7.0.4"],\
+          ["semver", "npm:7.6.0"],\
+          ["sequelize-pool", "npm:8.0.0"],\
+          ["snowflake-sdk", null],\
+          ["sqlite3", null],\
+          ["tedious", null],\
+          ["toposort-class", "npm:1.0.1"],\
+          ["type-fest", "npm:3.13.1"],\
+          ["uuid", "npm:9.0.1"],\
+          ["validator", "npm:13.11.0"],\
+          ["wkx", "npm:0.5.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/ibm_db",\
+          "@types/mariadb",\
+          "@types/mysql2",\
+          "@types/odbc",\
+          "@types/pg",\
+          "@types/snowflake-sdk",\
+          "@types/sqlite3",\
+          "@types/tedious",\
+          "ibm_db",\
+          "mariadb",\
+          "mysql2",\
+          "odbc",\
+          "pg",\
+          "snowflake-sdk",\
+          "sqlite3",\
+          "tedious"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@toast/tokenservice-client", [\
       ["npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz", {\
         "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.11-c95d3498fc-c910af2b01.zip/node_modules/@toast/tokenservice-client/",\
@@ -617,40 +717,12 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/bluebird", [\
-      ["npm:3.5.42", {\
-        "packageLocation": "./.yarn/cache/@types-bluebird-npm-3.5.42-15f353048c-09ad60b083.zip/node_modules/@types/bluebird/",\
-        "packageDependencies": [\
-          ["@types/bluebird", "npm:3.5.42"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/continuation-local-storage", [\
-      ["npm:3.2.7", {\
-        "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
-        "packageDependencies": [\
-          ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.17"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/debug", [\
       ["npm:4.1.12", {\
         "packageLocation": "./.yarn/cache/@types-debug-npm-4.1.12-82a3fc4905-47876a852d.zip/node_modules/@types/debug/",\
         "packageDependencies": [\
           ["@types/debug", "npm:4.1.12"],\
           ["@types/ms", "npm:0.7.34"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/lodash", [\
-      ["npm:4.14.201", {\
-        "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.201-0c286bbc0c-9b56a2a650.zip/node_modules/@types/lodash/",\
-        "packageDependencies": [\
-          ["@types/lodash", "npm:4.14.201"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -695,24 +767,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/sequelize", [\
-      ["npm:4.28.20", {\
-        "packageLocation": "./.yarn/cache/@types-sequelize-npm-4.28.20-a712a5ea90-8b3faec2e6.zip/node_modules/@types/sequelize/",\
-        "packageDependencies": [\
-          ["@types/sequelize", "npm:4.28.20"],\
-          ["@types/bluebird", "npm:3.5.42"],\
-          ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/lodash", "npm:4.14.201"],\
-          ["@types/validator", "npm:13.11.6"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/validator", [\
-      ["npm:13.11.6", {\
-        "packageLocation": "./.yarn/cache/@types-validator-npm-13.11.6-83ab3545a6-65991ba600.zip/node_modules/@types/validator/",\
+      ["npm:13.11.9", {\
+        "packageLocation": "./.yarn/cache/@types-validator-npm-13.11.9-ac3f0e748e-2d397c6929.zip/node_modules/@types/validator/",\
         "packageDependencies": [\
-          ["@types/validator", "npm:13.11.6"]\
+          ["@types/validator", "npm:13.11.9"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -754,6 +813,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["bnf-parser", [\
+      ["npm:3.1.6", {\
+        "packageLocation": "./.yarn/cache/bnf-parser-npm-3.1.6-40bea7c0c7-caaf7078e2.zip/node_modules/bnf-parser/",\
+        "packageDependencies": [\
+          ["bnf-parser", "npm:3.1.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["braces", [\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/braces-npm-3.0.2-782240b28a-966b1fb48d.zip/node_modules/braces/",\
+        "packageDependencies": [\
+          ["braces", "npm:3.0.2"],\
+          ["fill-range", "npm:7.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["buffer-writer", [\
       ["npm:2.0.0", {\
         "packageLocation": "./.yarn/cache/buffer-writer-npm-2.0.0-5cd2ef55bc-fdca8e28c5.zip/node_modules/buffer-writer/",\
@@ -779,12 +857,12 @@ const RAW_RUNTIME_STATE =
           ["daggerbot-ts", "workspace:."],\
           ["@napi-rs/canvas", "npm:0.1.45"],\
           ["@octokit/rest", "npm:20.0.2"],\
+          ["@sequelize/core", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:7.0.0-alpha.37"],\
           ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
-          ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
@@ -793,8 +871,8 @@ const RAW_RUNTIME_STATE =
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
           ["pg-hstore", "npm:2.3.4"],\
+          ["postgres-array", "npm:3.0.2"],\
           ["redis", "npm:4.6.13"],\
-          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.24"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
@@ -894,12 +972,46 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["fast-glob", [\
+      ["npm:3.3.2", {\
+        "packageLocation": "./.yarn/cache/fast-glob-npm-3.3.2-0a8cb4f2ca-222512e931.zip/node_modules/fast-glob/",\
+        "packageDependencies": [\
+          ["fast-glob", "npm:3.3.2"],\
+          ["@nodelib/fs.stat", "npm:2.0.5"],\
+          ["@nodelib/fs.walk", "npm:1.2.8"],\
+          ["glob-parent", "npm:5.1.2"],\
+          ["merge2", "npm:1.4.1"],\
+          ["micromatch", "npm:4.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["fast-xml-parser", [\
       ["npm:4.3.4", {\
         "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.4-471ce88e5f-ef85910198.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
           ["fast-xml-parser", "npm:4.3.4"],\
           ["strnum", "npm:1.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["fastq", [\
+      ["npm:1.17.1", {\
+        "packageLocation": "./.yarn/cache/fastq-npm-1.17.1-56d4554993-a443180068.zip/node_modules/fastq/",\
+        "packageDependencies": [\
+          ["fastq", "npm:1.17.1"],\
+          ["reusify", "npm:1.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["fill-range", [\
+      ["npm:7.0.1", {\
+        "packageLocation": "./.yarn/cache/fill-range-npm-7.0.1-b8b1817caa-e260f7592f.zip/node_modules/fill-range/",\
+        "packageDependencies": [\
+          ["fill-range", "npm:7.0.1"],\
+          ["to-regex-range", "npm:5.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -913,11 +1025,49 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["inflection", [\
-      ["npm:1.13.4", {\
-        "packageLocation": "./.yarn/cache/inflection-npm-1.13.4-102169ecb5-a0cc1b105c.zip/node_modules/inflection/",\
+    ["glob-parent", [\
+      ["npm:5.1.2", {\
+        "packageLocation": "./.yarn/cache/glob-parent-npm-5.1.2-021ab32634-32cd106ce8.zip/node_modules/glob-parent/",\
         "packageDependencies": [\
-          ["inflection", "npm:1.13.4"]\
+          ["glob-parent", "npm:5.1.2"],\
+          ["is-glob", "npm:4.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["inflection", [\
+      ["npm:3.0.0", {\
+        "packageLocation": "./.yarn/cache/inflection-npm-3.0.0-1581c4d576-e8aae6abb8.zip/node_modules/inflection/",\
+        "packageDependencies": [\
+          ["inflection", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["is-extglob", [\
+      ["npm:2.1.1", {\
+        "packageLocation": "./.yarn/cache/is-extglob-npm-2.1.1-0870ea68b5-df033653d0.zip/node_modules/is-extglob/",\
+        "packageDependencies": [\
+          ["is-extglob", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["is-glob", [\
+      ["npm:4.0.3", {\
+        "packageLocation": "./.yarn/cache/is-glob-npm-4.0.3-cb87bf1bdb-3ed74f2b0c.zip/node_modules/is-glob/",\
+        "packageDependencies": [\
+          ["is-glob", "npm:4.0.3"],\
+          ["is-extglob", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["is-number", [\
+      ["npm:7.0.0", {\
+        "packageLocation": "./.yarn/cache/is-number-npm-7.0.0-060086935c-6a6c3383f6.zip/node_modules/is-number/",\
+        "packageDependencies": [\
+          ["is-number", "npm:7.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -968,21 +1118,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["moment", [\
-      ["npm:2.29.4", {\
-        "packageLocation": "./.yarn/cache/moment-npm-2.29.4-902943305d-157c5af5a0.zip/node_modules/moment/",\
+    ["merge2", [\
+      ["npm:1.4.1", {\
+        "packageLocation": "./.yarn/cache/merge2-npm-1.4.1-a2507bd06c-7268db63ed.zip/node_modules/merge2/",\
         "packageDependencies": [\
-          ["moment", "npm:2.29.4"]\
+          ["merge2", "npm:1.4.1"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
-    ["moment-timezone", [\
-      ["npm:0.5.43", {\
-        "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.43-1304d8602a-f8b66f8562.zip/node_modules/moment-timezone/",\
+    ["micromatch", [\
+      ["npm:4.0.5", {\
+        "packageLocation": "./.yarn/cache/micromatch-npm-4.0.5-cfab5d7669-a749888789.zip/node_modules/micromatch/",\
         "packageDependencies": [\
-          ["moment-timezone", "npm:0.5.43"],\
-          ["moment", "npm:2.29.4"]\
+          ["micromatch", "npm:4.0.5"],\
+          ["braces", "npm:3.0.2"],\
+          ["picomatch", "npm:2.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1186,6 +1337,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["picomatch", [\
+      ["npm:2.3.1", {\
+        "packageLocation": "./.yarn/cache/picomatch-npm-2.3.1-c782cfd986-60c2595003.zip/node_modules/picomatch/",\
+        "packageDependencies": [\
+          ["picomatch", "npm:2.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["postgres-array", [\
       ["npm:2.0.0", {\
         "packageLocation": "./.yarn/cache/postgres-array-npm-2.0.0-4f49dc1389-aff99e7971.zip/node_modules/postgres-array/",\
@@ -1261,6 +1421,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["queue-microtask", [\
+      ["npm:1.2.3", {\
+        "packageLocation": "./.yarn/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-72900df061.zip/node_modules/queue-microtask/",\
+        "packageDependencies": [\
+          ["queue-microtask", "npm:1.2.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["redis", [\
       ["npm:4.6.13", {\
         "packageLocation": "./.yarn/cache/redis-npm-4.6.13-68c7e2be72-cc66182b8f.zip/node_modules/redis/",\
@@ -1285,91 +1454,40 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["semver", [\
-      ["npm:7.5.4", {\
-        "packageLocation": "./.yarn/cache/semver-npm-7.5.4-c4ad957fcd-985dec0d37.zip/node_modules/semver/",\
+    ["reusify", [\
+      ["npm:1.0.4", {\
+        "packageLocation": "./.yarn/cache/reusify-npm-1.0.4-95ac4aec11-14222c9e1d.zip/node_modules/reusify/",\
         "packageDependencies": [\
-          ["semver", "npm:7.5.4"],\
+          ["reusify", "npm:1.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["run-parallel", [\
+      ["npm:1.2.0", {\
+        "packageLocation": "./.yarn/cache/run-parallel-npm-1.2.0-3f47ff2034-cb4f97ad25.zip/node_modules/run-parallel/",\
+        "packageDependencies": [\
+          ["run-parallel", "npm:1.2.0"],\
+          ["queue-microtask", "npm:1.2.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["semver", [\
+      ["npm:7.6.0", {\
+        "packageLocation": "./.yarn/cache/semver-npm-7.6.0-f4630729f6-1b41018df2.zip/node_modules/semver/",\
+        "packageDependencies": [\
+          ["semver", "npm:7.6.0"],\
           ["lru-cache", "npm:6.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
-    ["sequelize", [\
-      ["npm:6.37.0", {\
-        "packageLocation": "./.yarn/cache/sequelize-npm-6.37.0-0544e51055-3eb3c53e48.zip/node_modules/sequelize/",\
-        "packageDependencies": [\
-          ["sequelize", "npm:6.37.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0", {\
-        "packageLocation": "./.yarn/__virtual__/sequelize-virtual-acbc91f444/0/cache/sequelize-npm-6.37.0-0544e51055-3eb3c53e48.zip/node_modules/sequelize/",\
-        "packageDependencies": [\
-          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
-          ["@types/debug", "npm:4.1.12"],\
-          ["@types/ibm_db", null],\
-          ["@types/mariadb", null],\
-          ["@types/mysql2", null],\
-          ["@types/oracledb", null],\
-          ["@types/pg", "npm:8.11.0"],\
-          ["@types/pg-hstore", null],\
-          ["@types/snowflake-sdk", null],\
-          ["@types/sqlite3", null],\
-          ["@types/tedious", null],\
-          ["@types/validator", "npm:13.11.6"],\
-          ["debug", "virtual:8dde907e274d6cda4b3be6cd808e5a16421eab0e2ce2f6110b97323dbadda969b2dab36e690fd106d5bd3c87e0525cade2b2ba6fb4fb0c0e439212e4cf5c851b#npm:4.3.4"],\
-          ["dottie", "npm:2.0.6"],\
-          ["ibm_db", null],\
-          ["inflection", "npm:1.13.4"],\
-          ["lodash", "npm:4.17.21"],\
-          ["mariadb", null],\
-          ["moment", "npm:2.29.4"],\
-          ["moment-timezone", "npm:0.5.43"],\
-          ["mysql2", null],\
-          ["oracledb", null],\
-          ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
-          ["pg-connection-string", "npm:2.6.2"],\
-          ["pg-hstore", "npm:2.3.4"],\
-          ["retry-as-promised", "npm:7.0.4"],\
-          ["semver", "npm:7.5.4"],\
-          ["sequelize-pool", "npm:7.1.0"],\
-          ["snowflake-sdk", null],\
-          ["sqlite3", null],\
-          ["tedious", null],\
-          ["toposort-class", "npm:1.0.1"],\
-          ["uuid", "npm:8.3.2"],\
-          ["validator", "npm:13.11.0"],\
-          ["wkx", "npm:0.5.0"]\
-        ],\
-        "packagePeers": [\
-          "@types/ibm_db",\
-          "@types/mariadb",\
-          "@types/mysql2",\
-          "@types/oracledb",\
-          "@types/pg-hstore",\
-          "@types/pg",\
-          "@types/snowflake-sdk",\
-          "@types/sqlite3",\
-          "@types/tedious",\
-          "ibm_db",\
-          "mariadb",\
-          "mysql2",\
-          "oracledb",\
-          "pg-hstore",\
-          "pg",\
-          "snowflake-sdk",\
-          "sqlite3",\
-          "tedious"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["sequelize-pool", [\
-      ["npm:7.1.0", {\
-        "packageLocation": "./.yarn/cache/sequelize-pool-npm-7.1.0-670df81ecb-eeb0837451.zip/node_modules/sequelize-pool/",\
+      ["npm:8.0.0", {\
+        "packageLocation": "./.yarn/cache/sequelize-pool-npm-8.0.0-e96de3b702-c449ec2f34.zip/node_modules/sequelize-pool/",\
         "packageDependencies": [\
-          ["sequelize-pool", "npm:7.1.0"]\
+          ["sequelize-pool", "npm:8.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1413,6 +1531,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["to-regex-range", [\
+      ["npm:5.0.1", {\
+        "packageLocation": "./.yarn/cache/to-regex-range-npm-5.0.1-f1e8263b00-10dda13571.zip/node_modules/to-regex-range/",\
+        "packageDependencies": [\
+          ["to-regex-range", "npm:5.0.1"],\
+          ["is-number", "npm:7.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["toposort-class", [\
       ["npm:1.0.1", {\
         "packageLocation": "./.yarn/cache/toposort-class-npm-1.0.1-aefabde69e-166cb89ecb.zip/node_modules/toposort-class/",\
@@ -1436,6 +1564,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/tslib-npm-2.6.2-4fc8c068d9-bd26c22d36.zip/node_modules/tslib/",\
         "packageDependencies": [\
           ["tslib", "npm:2.6.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["type-fest", [\
+      ["npm:3.13.1", {\
+        "packageLocation": "./.yarn/cache/type-fest-npm-3.13.1-4bd562882d-9a8a2359ad.zip/node_modules/type-fest/",\
+        "packageDependencies": [\
+          ["type-fest", "npm:3.13.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1507,6 +1644,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/uuid-npm-8.3.2-eca0baba53-9a5f7aa1d6.zip/node_modules/uuid/",\
         "packageDependencies": [\
           ["uuid", "npm:8.3.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:9.0.1", {\
+        "packageLocation": "./.yarn/cache/uuid-npm-9.0.1-39a8442bc6-9d0b6adb72.zip/node_modules/uuid/",\
+        "packageDependencies": [\
+          ["uuid", "npm:9.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\

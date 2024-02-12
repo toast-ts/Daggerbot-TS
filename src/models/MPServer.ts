@@ -1,5 +1,5 @@
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 import CacheServer from '../components/CacheServer.js';
 
 class MPServer extends Model {
@@ -57,58 +57,45 @@ export class MPServerSvc {
   }
   query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async fetchPlayerData(serverName:string) {
-    const findServerByName = await this.model.findOne({where: {serverName: serverName}});
-    if (findServerByName) return findServerByName.dataValues.playerData;
-    else return [];
+    const server = await this.model.findOne({where: {serverName: serverName}});
+    return server ? server.dataValues.playerData : [];
   }
   async addServer(serverName:string, ip:string, code:string) {
-    const findServerByName = await this.model.findOne({where: {serverName: serverName}});
-    if (findServerByName) {
-      (await findServerByName.update({serverName: serverName, ip: ip, code: code})).save();
-      await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
-    } else {
-      await this.model.create({
-        serverName: serverName,
-        isActive: true,
-        ip: ip,
-        code: code,
-        playerData: []
-      });
-      await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
-    }
+    await this.model.upsert({
+      serverName,
+      isActive: true,
+      ip,
+      code,
+      playerData: []
+    });
+    await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
   }
   async removeServer(serverName:string) {
-    const findServerByName = await this.model.findOne({where: {serverName: serverName}});
-    if (findServerByName) {
-      await this.model.destroy({where: {serverName: serverName}});
-      await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
-    }
+    await this.model.destroy({where: {serverName}});
+    await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
   }
   async toggleServerUsability(serverName:string, isActive:boolean) {
-    const findServerByName = await this.model.findOne({where: {serverName: serverName}});
-    if (findServerByName) {
-      this.model.update({isActive: isActive}, {where: {serverName: serverName}}).then(async flagUpdated=>{
-        if (flagUpdated) {
-          await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
-          return true;
-        }
-      });
-    } else return false;
+    const [updated] = await this.model.update({isActive}, {where: {serverName}});
+    if (updated) {
+      await CacheServer.delete(cacheKey).then(async()=>await this.findInCache());
+      return true;
+    }
+    return false;
   }
   async incrementPlayerCount(serverName:string, playerCount:number) {
-    const findServerByName = await this.model.findOne({where: {serverName: serverName}});
-    if (findServerByName) {
-      let PD = findServerByName.dataValues.playerData;
+    const server = await this.model.findOne({where: {serverName}});
+    if (server) {
+      let PD = server.dataValues.playerData;
       if (PD.length > 1920) PD = []; //Selfnote: 86400/45 = 1920, where 86400 is seconds in a day and 45 is the MPModule's refresh interval.
       PD.push(playerCount);
-      const updatePD = await this.model.update({playerData: PD}, {where: {serverName: serverName}});
-      if (updatePD) true;
-      else return false;
-    } else return false;
+      await this.model.update({playerData: PD}, {where: {serverName}});
+      return true;
+    }
+    return false;
   }
   async findInCache(): Promise<IServer[]> {
     const cachedResult = await CacheServer.get(cacheKey, true);
-    let result;
+    let result:IServer[];
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();

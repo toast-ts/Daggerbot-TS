@@ -1,4 +1,4 @@
-import {Sequelize} from 'sequelize';
+import {Sequelize} from '@sequelize/core';
 import Logger from '../helpers/Logger.js';
 import TSClient from '../helpers/TSClient.js';
 

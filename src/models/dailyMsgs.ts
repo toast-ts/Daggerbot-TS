@@ -1,5 +1,6 @@
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
+import Logger from '../helpers/Logger.js';
 
 class dailyMsgs extends Model {
   declare public day: number;
@@ -26,18 +27,20 @@ export class DailyMsgsSvc {
       tableName: 'dailymsgs',
       createdAt: false,
       updatedAt: false,
+      indexes: [
+        {name: 'day_index', fields: ['day'], unique: true}
+      ],
       sequelize: DatabaseServer.seq
     })
     this.model.sync();
   }
   query = async(pattern:string)=>await this.model.sequelize.query(pattern);
-  nukeDays = async()=>await this.model.destroy({truncate: true});
+  nukeDays = async()=>await this.model.destroy();
   fetchDays = async()=>await this.model.findAll();
   async newDay(formattedDate:number, total:number) {
-    if (await this.model.findOne({where: {day: formattedDate}})) return console.log('This day already exists!')
-    return await this.model.create({day: formattedDate, total: total});
+    const [instance, created] = await this.model.findOrCreate({where: {day: formattedDate}, defaults: {total}});
+    if (!created) return Logger.console('log', 'DailyMsgs', 'This day already exists!');
+    return instance
     // Save previous day's total messages into database when a new day starts.
   }
-  updateDay = async(formattedDate:number, total:number)=>await this.model.update({total: total}, {where: {day: formattedDate}});
-  // THIS IS FOR DEVELOPMENT PURPOSES ONLY, NOT TO BE USED IN LIVE ENVIRONMENT!
 }

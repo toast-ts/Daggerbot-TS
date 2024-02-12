@@ -1,11 +1,23 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import ms from 'ms';
+import Logger from '../helpers/Logger.js';
 import {Punishment} from 'src/interfaces';
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 import CacheServer from '../components/CacheServer.js';
 import Formatters from '../helpers/Formatters.js';
+
+const PAST_TENSE_MAPPING = {
+  ban: 'banned',
+  softban: 'softbanned',
+  kick: 'kicked',
+  mute: 'muted',
+  warn: 'warned',
+  remind: 'reminded'
+};
+
+const TRANSACTION_FAILED = 'An error occurred while updating the database. See console for more details.';
 
 class punishments extends Model {
   declare public case_id: number;
@@ -91,13 +103,13 @@ export class PunishmentsSvc {
   findByCancels =(caseId:number)=>this.model.findOne({where: {cancels: caseId}})
   getAllCases =()=>this.model.findAll();
   async generateCaseId() {
-    const result = await this.model.findAll();
-    return Math.max(...result.map((x:Punishment)=>x.case_id), 0) + 1;
+    const result = await this.model.max('case_id');
+    return (result as number ?? 0) + 1;
   }
-  async findInCache():Promise<any> {
+  async findInCache():Promise<Punishment[]> {
     const cacheKey = 'punishments';
     const cachedResult = await CacheServer.get(cacheKey, true);
-    let result:any;
+    let result:Punishment[];
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();
@@ -132,16 +144,7 @@ export class PunishmentsSvc {
     }
     (this.client.channels.cache.get(channel) as Discord.TextChannel).send({embeds: [embed]});
   }
-  getPastTense(type:string) {
-    return {
-      ban: 'banned',
-      softban: 'softbanned',
-      kick: 'kicked',
-      mute: 'muted',
-      warn: 'warned',
-      remind: 'reminded'
-    }[type];
-  }
+  getPastTense =(type:string)=>PAST_TENSE_MAPPING[type];
   async punishmentAdd(type:string, options:{time?:string, interaction?:Discord.ChatInputCommandInteraction}, moderator:string, reason: string, user:Discord.User, guildUser?:Discord.GuildMember) {
     const {time, interaction} = options;
     const now = Date.now();
@@ -165,14 +168,22 @@ export class PunishmentsSvc {
 
     if (guildUser) await guildUser.send(`You've been ${this.getPastTense(type)} ${inOrFromBoolean} **${guild.name}**${durText}\n\`${reason}\` (Case #${punishment.case_id})`).catch(()=>embed.setFooter({text: 'Unable to DM a member'}));
 
-    if (['ban', 'softban'].includes(type)) {
-      const alreadyBanned = await guild.bans.fetch(user.id).catch(()=>null); // 172800 seconds is 48 hours, just for future reference
-      if (!alreadyBanned) punishmentResult = await guild.bans.create(user.id, {reason: auditLogReason, deleteMessageSeconds: 172800}).catch((err:Error)=>err.message);
-      else punishmentResult = `This user already exists in the guild\'s ban list.\nReason: \`${alreadyBanned?.reason}\``;
-    } else if (type === 'kick') punishmentResult = await guildUser?.kick(auditLogReason).catch((err:Error)=>err.message);
-    else if (type === 'mute') punishmentResult = await guildUser?.timeout(millisecondTime, auditLogReason).catch((err:Error)=>err.message);
-
-    if (type === 'softban' && typeof punishmentResult !== 'string') punishmentResult = await guild.bans.remove(user.id, auditLogReason).catch((err:Error)=>err.message);
+    switch (type) {
+      case 'ban':
+      case 'softban': {
+        const alreadyBanned = await guild.bans.fetch(user.id).catch(()=>null); // 172800 seconds is 48 hours, just for future reference
+        if (alreadyBanned) punishmentResult = `This user already exists in the guild\'s ban list.\nReason: \`${alreadyBanned?.reason}\``;
+        else punishmentResult = await guild.bans.create(user.id, {reason: auditLogReason, deleteMessageSeconds: 172800}).catch((err:Error)=>err.message);
+        if (type === 'softban' && typeof punishmentResult !== 'string') punishmentResult = await guild.bans.remove(user.id, auditLogReason).catch((err:Error)=>err.message);
+        break;
+      }
+      case 'kick':
+        punishmentResult = await guildUser?.kick(auditLogReason).catch((err:Error)=>err.message);
+        break;
+      case 'mute':
+        punishmentResult = await guildUser?.timeout(millisecondTime, auditLogReason).catch((err:Error)=>err.message);
+        break;
+    }
 
     if (millisecondTime && ['ban', 'mute'].includes(type)) {
       punishment.endTime = now + millisecondTime;
@@ -183,22 +194,27 @@ export class PunishmentsSvc {
       if (interaction) return interaction.editReply(punishmentResult);
       else return punishmentResult;
     } else {
-      const checkIfExists = await this.model.findOne({where: {case_id: punishment.case_id}});
-      if (checkIfExists) this.model.update({expired: punishment.expired, time: punishment.time, endTime: punishment.endTime}, {where: {case_id: punishment.case_id}})
-      else await this.model.create({
-        case_id: punishment.case_id,
-        type: punishment.type,
-        member_name: punishment.member_name,
-        member: punishment.member,
-        moderator: punishment.moderator,
-        expired: punishment.expired,
-        time: punishment.time,
-        reason: punishment.reason,
-        endTime: punishment.endTime,
-        cancels: punishment.cancels,
-        duration: punishment.duration
-      });
-      await this.createModlog(punishment);
+      try { // https://sequelize.org/docs/v7/querying/transactions/
+        await this.model.sequelize.transaction(async transaction=>{
+          await this.model.upsert({
+            case_id: punishment.case_id,
+            type: punishment.type,
+            member_name: punishment.member_name,
+            member: punishment.member,
+            moderator: punishment.moderator,
+            expired: punishment.expired,
+            time: punishment.time,
+            reason: punishment.reason,
+            endTime: punishment.endTime,
+            cancels: punishment.cancels,
+            duration: punishment.duration
+          }, {transaction});
+          await this.createModlog(punishment);
+        });
+      } catch (err) {
+        Logger.console('error', 'Punishment', err);
+        return TRANSACTION_FAILED;
+      }
 
       if (interaction) return interaction.editReply({embeds: [embed]});
       else return punishmentResult;
@@ -217,34 +233,47 @@ export class PunishmentsSvc {
     let removePunishmentData:Punishment = {type: `un${punishment.type}`, case_id: ID, cancels: punishment.case_id, member_name: punishment.member_name, member: punishment.member, reason, moderator, time: now};
     let removePunishmentResult:any;
 
-    if (punishment.type === 'ban') removePunishmentResult = await guild.bans.remove(punishment.member, auditLogReason).catch((err:Error)=>err.message);
-    else if (punishment.type === 'mute') {
-      if (guildUser) {
-        removePunishmentResult = await guildUser.timeout(null, auditLogReason).catch((err:Error)=>err.message);
-        guildUser.send(`You've been unmuted in **${guild.name}**.`).catch(()=>null);
-      } else this.model.update({expired: true}, {where: {case_id: caseId}});
-    } else removePunishmentData.type = 'punishmentOverride';
+    switch (punishment.type) {
+      case 'ban':
+        removePunishmentResult = await guild.bans.remove(punishment.member, auditLogReason).catch((err:Error)=>err.message);
+        break;
+      case 'mute':
+        if (guildUser) {
+          removePunishmentResult = await guildUser.timeout(null, auditLogReason).catch((err:Error)=>err.message);
+          guildUser.send(`You've been unmuted in **${guild.name}**.`).catch(()=>null);
+        } else this.model.update({expired: true}, {where: {case_id: caseId}});
+        break;
+      default:
+        removePunishmentData.type = 'punishmentOverride';
+        break;
+    }
 
     if (typeof removePunishmentResult === 'string') {// Punishment was unsuccessful
       if (interaction) return interaction.editReply(removePunishmentResult);
       else return removePunishmentResult;
     } else {
-      this.model.update({expired: true}, {where: {case_id: caseId}}).then(()=>
-        this.model.create({
-          case_id: removePunishmentData.case_id,
-          type: removePunishmentData.type,
-          member_name: removePunishmentData.member_name,
-          member: removePunishmentData.member,
-          moderator: removePunishmentData.moderator,
-          expired: removePunishmentData.expired,
-          time: removePunishmentData.time,
-          reason: removePunishmentData.reason,
-          endTime: removePunishmentData.endTime,
-          cancels: removePunishmentData.cancels,
-          duration: removePunishmentData.duration
-        })
-      );
-      await this.createModlog(removePunishmentData);
+      try { // https://sequelize.org/docs/v7/querying/transactions/
+        await this.model.sequelize.transaction(async transaction=>{
+          await this.model.update({expired: true}, {where: {case_id: caseId}, transaction})
+          await this.model.upsert({
+            case_id: removePunishmentData.case_id,
+            type: removePunishmentData.type,
+            member_name: removePunishmentData.member_name,
+            member: removePunishmentData.member,
+            moderator: removePunishmentData.moderator,
+            expired: removePunishmentData.expired,
+            time: removePunishmentData.time,
+            reason: removePunishmentData.reason,
+            endTime: removePunishmentData.endTime,
+            cancels: removePunishmentData.cancels,
+            duration: removePunishmentData.duration
+          }, {transaction});
+          await this.createModlog(removePunishmentData);
+        });
+      } catch (err) {
+        Logger.console('error', 'Punishment', err);
+        return TRANSACTION_FAILED;
+      }
 
       if (interaction) return interaction.reply({embeds: [new this.client.embed()
         .setColor(this.client.config.embedColor)
