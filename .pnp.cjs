@@ -28,7 +28,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@napi-rs/canvas", "npm:0.1.45"],\
           ["@octokit/rest", "npm:20.0.2"],\
-          ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
+          ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/node-cron", "npm:3.0.11"],\
@@ -608,11 +608,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@toast/tokenservice-client", [\
-      ["npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz", {\
-        "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.11-c95d3498fc-c910af2b01.zip/node_modules/@toast/tokenservice-client/",\
+      ["npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz", {\
+        "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.12-11df688697-64112744b4.zip/node_modules/@toast/tokenservice-client/",\
         "packageDependencies": [\
-          ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
-          ["undici", "npm:6.5.0"]\
+          ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
+          ["undici", "npm:6.6.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -779,7 +779,7 @@ const RAW_RUNTIME_STATE =
           ["daggerbot-ts", "workspace:."],\
           ["@napi-rs/canvas", "npm:0.1.45"],\
           ["@octokit/rest", "npm:20.0.2"],\
-          ["@toast/tokenservice-client", "npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"],\
+          ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/node-cron", "npm:3.0.11"],\
@@ -1463,14 +1463,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/undici-npm-5.27.2-141c109c0a-2bf96b102f.zip/node_modules/undici/",\
         "packageDependencies": [\
           ["undici", "npm:5.27.2"],\
-          ["@fastify/busboy", "npm:2.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.5.0", {\
-        "packageLocation": "./.yarn/cache/undici-npm-6.5.0-5598def435-0ad9289bd8.zip/node_modules/undici/",\
-        "packageDependencies": [\
-          ["undici", "npm:6.5.0"],\
           ["@fastify/busboy", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
