@@ -429,12 +429,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.0.11":
-  version: 1.0.11
-  resolution: "@toast/tokenservice-client@npm:1.0.11::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.11%2Ftokenservice-client-1.0.11.tgz"
+"@toast/tokenservice-client@npm:1.0.12":
+  version: 1.0.12
+  resolution: "@toast/tokenservice-client@npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"
   dependencies:
-    undici: "npm:6.5.0"
-  checksum: 10/c910af2b01876ca53de3078cf6b20c3cd8619ed807c3ce573074bc886a8690e6edc43f961088acf4bc2a7e925e8a0cb0e35df930b5923b20ecbbad6fd9bf4c81
+    undici: "npm:6.6.2"
+  checksum: 10/64112744b4bfefb9018f8125e5e54653ff8af3bff493ae1767bd6db0c123a9052dbfa8ea0a3e2f4d8db3ebfb6c2b6823104f288721ba9304c04734f64aeb46c9
   languageName: node
   linkType: hard
 
@@ -573,7 +573,7 @@ __metadata:
   dependencies:
     "@napi-rs/canvas": "npm:0.1.45"
     "@octokit/rest": "npm:20.0.2"
-    "@toast/tokenservice-client": "npm:1.0.11"
+    "@toast/tokenservice-client": "npm:1.0.12"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.11.17"
     "@types/node-cron": "npm:3.0.11"
@@ -1148,15 +1148,6 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10/2bf96b102fb84568fb235bdf6e1e352e5d2bf99566b243cd1b13b41578bf9dd5c7c3d3d82192b20a3fec61fe7a528f9d80cd5b4555ce65405c06c69b023013de
-  languageName: node
-  linkType: hard
-
-"undici@npm:6.5.0":
-  version: 6.5.0
-  resolution: "undici@npm:6.5.0"
-  dependencies:
-    "@fastify/busboy": "npm:^2.0.0"
-  checksum: 10/0ad9289bd8dc8a5ee8cf81a48a629a59c33814702ae706b1d8e7c7fac3cfa85bd6a73943db5d9379f4d420858d239ed3857ec1003e517ddb67eb44fdbc227f3e
   languageName: node
   linkType: hard
 
