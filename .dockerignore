@@ -1,6 +1,6 @@
 # Pointless stuff
 Dockerfile
-docker-compose.yml
+docker-compose.*.yml
 .ncurc.json
 .env
 .mailmap
@@ -9,8 +9,6 @@ docker-compose.yml
 .github
 postgres-replica-stuff
 README.md
-ufwReject.sh
 
 # Startup files
-startWithYarn.cjs
-botStartup.bat
+startDocker.sh
