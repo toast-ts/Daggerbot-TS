@@ -1,6 +1,7 @@
 #!/bin/bash
 
+docker compose -f docker-compose.bot.yml down && \
 docker compose -f docker-compose.bot.yml build && \
-docker compose -f docker-compose.bot.yml up -d
+docker compose -f docker-compose.bot.yml up -d --remove-orphans
 
 exit 0
