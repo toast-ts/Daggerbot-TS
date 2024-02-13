@@ -43,6 +43,7 @@ export default class TClient extends Discord.Client {
   public ytChannels: YouTubeChannelsSvc = new YouTubeChannelsSvc();
   public repeatedMessages: IRepeatedMessages = {};
   public crosspostSpam: ICrosspostSpam = {};
+  public memberJoinDates: Map<Discord.Snowflake, string> = new Map();
 
   constructor() {
     super({
