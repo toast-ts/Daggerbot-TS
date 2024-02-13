@@ -7,7 +7,7 @@ services:
       - 6379:6379/tcp
   db:
     container_name: postgres-master
-    image: postgres:16.1-alpine3.19
+    image: postgres:16.2-alpine3.19
     restart: unless-stopped
     ports:
       - 5432:5432/tcp
