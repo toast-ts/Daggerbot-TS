@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
 import {disabledChannels} from '../index.js';
 export default class MessageDelete {
-  static run(client:TClient, msg:Discord.Message){
+  static run(client:TClient, msg:Discord.Message|Discord.PartialMessage){
     if (!client.config.botSwitches.logs) return;
     if (msg.guild?.id != client.config.dcServer.id || msg.partial || msg.author.bot || disabledChannels.includes(msg.channelId)) return;
     if (Discord.DiscordAPIError.name === '10008') return Logger.console('log', 'MsgDelete', 'Caught an unexpected error returned by Discord API. (Unknown Message)');

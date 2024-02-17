@@ -9,27 +9,13 @@ import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
 import {Punishment, RawGatewayPacket, RawMessageDelete, RawMessageUpdate} from 'src/interfaces';
 import {readFileSync} from 'node:fs';
-import {execSync} from 'node:child_process';
 export const disabledChannels = ['548032776830582794', '541677709487505408', '949380187668242483'];
 
 // Error handler
 function _(error:Error, type:string) {
   if (JSON.parse(readFileSync('src/errorBlocklist.json', 'utf8')).includes(error.message)) return;
   console.error(error);
-  (client.channels.resolve(client.config.dcServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: `Error type: ${type}`}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${UsernameHelper(error.stack)}`.slice(0, 2500)}\`\`\``)]})
-
-  if (error.message.includes('could not fdatasync file')) {
-    client.users.createDM(client.config.whitelist[1]).then(u=>u.send({
-      embeds: [new client.embed()
-        .setColor(client.config.embedColorYellow)
-        .setTitle('Database error')
-        .setDescription('I couldn\'t write to the database due to filesystem issues, shutting down...')
-        .setFields({name: 'Error message', value: `\`\`\`${error.message}\`\`\``})
-        .setFooter({text: `Error type: ${type}`})
-      ]
-    }));
-    setTimeout(()=>execSync('pm2 stop 0', {shell: 'bash'}), 5500);
-  }
+  (client.channels.resolve(client.config.dcServer.channels.errors) as Discord.TextChannel | null)?.send({embeds: [new client.embed().setColor('#560000').setTitle('Error caught!').setFooter({text: `Error type: ${type}`}).setDescription(`**Error:**\n\`\`\`${error.message}\`\`\`**Stack:**\n\`\`\`${`${UsernameHelper(error.stack)}`.slice(0, 2500)}\`\`\``)]});
 }
 process.on('unhandledRejection', (error: Error)=>_(error, 'unhandledRejection'));
 process.on('uncaughtException', (error: Error)=>_(error, 'uncaughtException'));
@@ -106,24 +92,15 @@ client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
   if (typeof packet.d.content === 'undefined') return;
 
   const channel = client.channels.cache.get(packet.d.channel_id) as Discord.TextBasedChannel;
-  const old_message = await channel.messages.fetch(packet.d.id);
-  const new_message = await channel.messages.fetch(packet.d.id);
+  const message = await channel.messages.fetch(packet.d.id);
 
-  client.emit('messageUpdate', old_message, new_message);
+  client.emit('messageUpdate', message, message);
 });
 
 client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
   if (rawSwitches[packet.t]) return;
   if (packet.t !== 'MESSAGE_DELETE' || packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id)) return;
-  (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({
-    embeds: [new client.embed()
-      .setColor(client.config.embedColorRed)
-      .setTitle('Message deleted')
-      .addFields(
-        {name: 'This was received over raw API event', value: '\u200b'},
-        {name: 'Channel', value: `<#${packet.d.channel_id}>`},
-      ).setTimestamp()
-    ]
-  });
+
+  Logger.console('log', 'RawEvent:Del', `Message was deleted in #${(client.channels.resolve(packet.d.channel_id) as Discord.TextChannel).name}`);
   rawSwitches[packet.t] = true;
 });
