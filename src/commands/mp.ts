@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
-import CanvasBuilder from '../components/CanvasGraph.js';
+import CanvasBuilder from '../components/CanvasBuilder.js';
 import RanIntoHumor from '../helpers/RanIntoHumor.js';
 import MessageTool from '../helpers/MessageTool.js';
 import PalletLibrary from '../helpers/PalletLibrary.js';
@@ -43,7 +43,7 @@ export default class MP {
         if (!DSS) return console.log('Endpoint failed - players');
 
         const PDArr = await client.MPServer.fetchPlayerData(choiceSelector);
-        const canvas = await new CanvasBuilder().generateGraph(PDArr.slice(-120), 'players');
+        const canvas = await CanvasBuilder.generateGraph(PDArr.slice(-120), 'players');
         const players:string[] = [];
         let embedColor:Discord.ColorResolvable;
 

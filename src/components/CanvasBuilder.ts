@@ -2,10 +2,10 @@ import {createCanvas, Canvas, SKRSContext2D} from '@napi-rs/canvas';
 import {Config} from 'src/interfaces';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 export default class CanvasBuilder {
-  private readonly canvas: Canvas;
-  private readonly ctx: SKRSContext2D;
-  private readonly config: Config;
-  private readonly palette = {
+  private static readonly canvas: Canvas = createCanvas(1500, 750);
+  private static readonly ctx: SKRSContext2D = this.canvas.getContext('2d');
+  private static readonly config: Config = ConfigHelper.readConfig();
+  private static readonly palette = {
     // Color palette for the graph -- The variables are named exactly what it shows in graph to make it easier to be referenced to.
     oddHorizontal: '#555B63',
     evenHorizontal: '#3E4245',
@@ -16,13 +16,7 @@ export default class CanvasBuilder {
     greenLine: '#57F287'
   };
 
-  constructor() {
-    this.canvas = createCanvas(1500, 750);
-    this.ctx = this.canvas.getContext('2d');
-    this.config = ConfigHelper.readConfig() as Config;
-  }
-
-  public async generateGraph(data:number[], type:'players'|'leaderboard'):Promise<Canvas> {
+  public static async generateGraph(data:number[], type:'players'|'leaderboard'):Promise<Canvas> {
     // Handle negative
     for (const [i, change] of data.entries()) if (change < 0) data[i] = data[i - 1] || data[i + 1] || 0;
 
