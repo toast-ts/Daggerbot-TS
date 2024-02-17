@@ -30,7 +30,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.17"],\
+          ["@types/node", "npm:20.11.19"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -45,7 +45,7 @@ const RAW_RUNTIME_STATE =
           ["redis", "npm:4.6.13"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
           ["simple-git", "npm:3.22.0"],\
-          ["systeminformation", "npm:5.21.24"],\
+          ["systeminformation", "npm:5.21.25"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
           ["undici", "npm:6.6.2"]\
         ],\
@@ -631,7 +631,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.17"]\
+          ["@types/node", "npm:20.11.19"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -665,10 +665,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.17", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.17-5185bfb3de-3342df8725.zip/node_modules/@types/node/",\
+      ["npm:20.11.19", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.19-5d4958999b-c7f4705d6c.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.17"],\
+          ["@types/node", "npm:20.11.19"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -688,7 +688,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.0-bf104da0ba-91a7ccc5dc.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.0"],\
-          ["@types/node", "npm:20.11.17"],\
+          ["@types/node", "npm:20.11.19"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.1"]\
         ],\
@@ -722,7 +722,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.17"]\
+          ["@types/node", "npm:20.11.19"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -781,7 +781,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.17"],\
+          ["@types/node", "npm:20.11.19"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -796,7 +796,7 @@ const RAW_RUNTIME_STATE =
           ["redis", "npm:4.6.13"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
           ["simple-git", "npm:3.22.0"],\
-          ["systeminformation", "npm:5.21.24"],\
+          ["systeminformation", "npm:5.21.25"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
           ["undici", "npm:6.6.2"]\
         ],\
@@ -1405,10 +1405,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["systeminformation", [\
-      ["npm:5.21.24", {\
-        "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.24-211bacc546/node_modules/systeminformation/",\
+      ["npm:5.21.25", {\
+        "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.21.25-046c250fe0/node_modules/systeminformation/",\
         "packageDependencies": [\
-          ["systeminformation", "npm:5.21.24"]\
+          ["systeminformation", "npm:5.21.25"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1517,7 +1517,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.17"]\
+          ["@types/node", "npm:20.11.19"]\
         ],\
         "linkType": "HARD"\
       }]\
