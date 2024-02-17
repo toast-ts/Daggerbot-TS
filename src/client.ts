@@ -43,6 +43,7 @@ export default class TClient extends Discord.Client {
   public ytChannels: YouTubeChannelsSvc = new YouTubeChannelsSvc();
   public repeatedMessages: IRepeatedMessages = {};
   public crosspostSpam: ICrosspostSpam = {};
+  public memberJoinDates: Map<Discord.Snowflake, string> = new Map();
 
   constructor() {
     super({
@@ -51,9 +52,11 @@ export default class TClient extends Discord.Client {
         Discord.GatewayIntentBits.GuildModeration, Discord.GatewayIntentBits.GuildInvites,
         Discord.GatewayIntentBits.GuildPresences, Discord.GatewayIntentBits.MessageContent,
         Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.DirectMessages
-      ], partials: [
-        Discord.Partials.Channel, Discord.Partials.Message
-      ], allowedMentions: {users:[], roles:[]}
+      ],
+      partials: [
+        Discord.Partials.Message
+      ],
+      allowedMentions: {users:[], roles:[]}
     })
     this.config = ConfigHelper.loadConfig() as Config;
     this.setMaxListeners(50);

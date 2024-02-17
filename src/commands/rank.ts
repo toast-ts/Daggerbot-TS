@@ -3,7 +3,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import Formatters from '../helpers/Formatters.js';
 import MessageTool from '../helpers/MessageTool.js';
-import CanvasBuilder from '../components/CanvasGraph.js';
+import CanvasBuilder from '../components/CanvasBuilder.js';
 export default class Rank {
   static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (interaction.guildId !== client.config.dcServer.id) return interaction.reply({content: 'This command doesn\'t work in this server.', ephemeral: true});
@@ -32,7 +32,7 @@ export default class Rank {
         });
         if (data.length < 2) return interaction.reply('Not enough data to generate graph.');
 
-        const graph = await new CanvasBuilder().generateGraph(data, 'leaderboard');
+        const graph = await CanvasBuilder.generateGraph(data, 'leaderboard');
 			  interaction.reply({
           embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Leaderboard')
           .setDescription(MessageTool.concatMessage(

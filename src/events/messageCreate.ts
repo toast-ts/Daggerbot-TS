@@ -13,7 +13,7 @@ export default class MessageCreate {
     if (!message.inGuild()) return (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({content: `${this.randomEmotes[Math.floor(Math.random()*this.randomEmotes.length)]} ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) sent me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
     let automodded: boolean;
 
-    if (client.config.botSwitches.automod && !message.member.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {
+    if (client.config.botSwitches.automod && !message.member?.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member?.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {
       const automodFailReason = 'msg got possibly deleted by another bot.';
       const automodRules = {
         phishingDetection: {
@@ -76,10 +76,9 @@ export default class MessageCreate {
         guildBoost: ['Thanks for boosting our server!', 'Thanks for the boost!', 'We appreciate the boost!', `Thank you for the kind boost, <@${message.author.id}>!`],
       }
       const GeneralChatID = ConfigHelper.isDevMode() ? '929807948748832801' : '468835415093411863';
-      Response.create(message, GeneralChatID, 'morning');
-      Response.create(message, GeneralChatID, 'afternoon');
-      Response.create(message, GeneralChatID, 'evening');
-      Response.create(message, GeneralChatID, 'night');
+
+      const times_of_day = ['morning', 'afternoon', 'evening', 'night'];
+      for (let i = 0; i < times_of_day.length; i++) Response.create(message, GeneralChatID, times_of_day[i]);
 
       CmdTrigger.registerCmds(client, message, 'register');
       CmdTrigger.MFPwTrigger(message, 'farmpw');

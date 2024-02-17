@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 export default class MessageDeleteBulk {
-  static run(client:TClient, messages:Discord.Collection<string, Discord.Message<boolean>>, channel:Discord.GuildTextBasedChannel){
+  static run(client:TClient, messages:Discord.Collection<string, Discord.Message<boolean>|Discord.PartialMessage>, channel:Discord.GuildTextBasedChannel){
     if (!client.config.botSwitches.logs || channel.guildId != client.config.dcServer.id) return;
     if (messages.some(msg=>{
       msg.author?.username === undefined ?? null;

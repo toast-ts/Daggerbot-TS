@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
-import CanvasBuilder from '../components/CanvasGraph.js';
+import CanvasBuilder from '../components/CanvasBuilder.js';
 import RanIntoHumor from '../helpers/RanIntoHumor.js';
 import MessageTool from '../helpers/MessageTool.js';
 import PalletLibrary from '../helpers/PalletLibrary.js';
@@ -9,10 +9,14 @@ import {FSData} from 'src/interfaces';
 import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat} from '../modules/MPModule.js';
 
 async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
-  const db = await client.MPServer.findInCache();
-  const data = await requestServerData(client, db.find(x=>x.serverName === serverName));
-  if (!data) return interaction.reply('Ran into a '+RanIntoHumor+' while trying to retrieve server data, please try again later.');
-  return data.dss as FSData;
+  try {
+    const db = await client.MPServer.findInCache();
+    const data = await requestServerData(client, db.find(x=>x.serverName === serverName));
+    return data.dss as FSData;
+  } catch {
+    Logger.console('error', 'MPDB', 'Function failed - fetchData');
+    return interaction.reply('Ran into a '+RanIntoHumor()+' while trying to retrieve server data, please try again later.');
+  }
 }
 
 const logPrefix = 'MPDB';
@@ -39,30 +43,33 @@ export default class MP {
         if (!DSS) return console.log('Endpoint failed - players');
 
         const PDArr = await client.MPServer.fetchPlayerData(choiceSelector);
-        const canvas = await new CanvasBuilder().generateGraph(PDArr.slice(-120), 'players');
+        const canvas = await CanvasBuilder.generateGraph(PDArr.slice(-120), 'players');
         const players:string[] = [];
         let embedColor:Discord.ColorResolvable;
-        switch (true){
-          case DSS?.slots?.used === DSS?.slots.capacity:
-            embedColor = client.config.embedColorRed;
-            break;
-          case DSS?.slots?.used > 8:
-            embedColor = client.config.embedColorYellow;
-            break;
-          default:
-            embedColor = client.config.embedColorGreen;
-        }
-        for (const player of DSS.slots.players.filter(x=>x.isUsed)) players.push(playtimeStat(player))
 
-        let attachmentName:string = 'MPModule.jpg';
-        await interaction.reply({embeds:[new client.embed()
-          .setTitle(DSS.server?.name.length > 0 ? DSS.server.name : 'Offline')
-          .setColor(embedColor)
-          .setDescription(DSS?.slots?.used < 1 ? '*Nobody is playing*' : players.join('\n\n'))
-          .setImage(`attachment://${attachmentName}`)
-          .setAuthor({name: `${DSS.slots.used}/${DSS.slots.capacity}`})
-          .setFooter({text: `Current time: ${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`})
-        ], files: [new client.attachment(canvas.toBuffer('image/jpeg'), {name: attachmentName})]})
+        try {
+          switch (true){
+            case DSS?.slots?.used === DSS?.slots?.capacity:
+              embedColor = client.config.embedColorRed;
+              break;
+            case DSS?.slots?.used > 8:
+              embedColor = client.config.embedColorYellow;
+              break;
+            default:
+              embedColor = client.config.embedColorGreen;
+          }
+          for (const player of DSS.slots.players.filter(x=>x.isUsed)) players.push(playtimeStat(player))
+          let attachmentName:string = 'MPModule.jpg';
+
+          await interaction.reply({embeds:[new client.embed()
+            .setTitle(DSS.server?.name.length > 0 ? DSS.server.name : 'Offline')
+            .setColor(embedColor)
+            .setDescription(DSS?.slots?.used < 1 ? '*Nobody is playing*' : players.join('\n\n'))
+            .setImage(`attachment://${attachmentName}`)
+            .setAuthor({name: `${DSS.slots?.used}/${DSS.slots?.capacity}`})
+            .setFooter({text: `Current time: ${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`})
+          ], files: [new client.attachment(canvas.toBuffer('image/jpeg'), {name: attachmentName})]});
+        } catch {}
       },
       details: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
@@ -71,26 +78,25 @@ export default class MP {
         const server = db.find(x=>x.serverName === choiceSelector);
 
         const dEmbed = new client.embed().setColor(client.config.embedColor).setAuthor({name: 'Crossplay server'}).setDescription(MessageTool.concatMessage(
-          `**Name:** \`${DSS?.server.name.length > 0 ? DSS.server.name : '\u200b'}\``,
+          `**Name:** \`${DSS.server?.name.length > 0 ? DSS.server.name : '\u200b'}\``,
           '**Password:** `mf4700`',
-          `**Map:** \`${DSS.server.mapName.length > 0 ? DSS.server.mapName : 'No map'}\``,
+          `**Map:** \`${DSS.server?.mapName.length > 0 ? DSS.server.mapName : 'No map'}\``,
           `**Mods:** [Click here](http://${server.ip}/mods.html) **|** [Direct link](http://${server.ip}/all_mods_download?onlyActive=true)`,
           '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
           `Please see <#${channels.serverInfo}> for more additional information and rules.`
         ));
-        if (DSS.server.name.length < 1) dEmbed.setFooter({text: 'Server is currently offline'});
-        await interaction.reply({embeds: [dEmbed]})
+        if (DSS.server?.name.length < 1) dEmbed.setFooter({text: 'Server is currently offline'});
+        DSS.server ? await interaction.reply({embeds: [dEmbed]}) : null;
       },
       status: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - status');
-        if (DSS.server.name.length > 0) {
-          await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
-            {name: 'Name', value: `\`${DSS?.server.name}\``},
-            {name: 'Players', value: `${DSS.slots.used}/${DSS.slots.capacity}`},
-            {name: 'Map', value: DSS?.server.mapName}
-          ).setFooter({text: `Version: ${DSS?.server.version} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]})
-        } else return interaction.reply('Server is currently offline.')
+
+        DSS.server ? await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
+          {name: 'Name', value: DSS.server?.name?.length < 1 ? '*`Offline`*' : `\`${DSS?.server?.name}\``},
+          {name: 'Players', value: `${DSS?.slots.used}/${DSS?.slots.capacity}`},
+          {name: 'Map', value: DSS?.server.mapName}
+        ).setFooter({text: `Version: ${DSS?.server?.version} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]}) : null
       },
       pallets: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
@@ -114,16 +120,12 @@ export default class MP {
         const reason = interaction.options.getString('reason');
         const channel = interaction.guild.channels.cache.get(channels.activePlayers) as Discord.TextChannel;
         const embed = new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTimestamp();
+        const isLocked = channel.permissionsFor(interaction.guildId).has('SendMessages');
+        const titleAction = isLocked ? '🔒 Locked' : '🔓 Unlocked';
 
-        if (channel.permissionsFor(interaction.guildId).has('SendMessages')) {
-          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: false}, {type: 0, reason: `Locked by ${interaction.member.displayName}`});
-          channel.send({embeds: [embed.setTitle('🔒 Locked').setDescription(`**Reason:**\n${reason}`)]});
-          interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} locked successfully`, ephemeral: true});
-        } else {
-          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: true}, {type: 0, reason: `Unlocked by ${interaction.member.displayName}`});
-          channel.send({embeds: [embed.setTitle('🔓 Unlocked').setDescription(`**Reason:**\n${reason}`)]});
-          interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} unlocked successfully`, ephemeral: true});
-        }
+        channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: !isLocked}, {type: 0, reason: `${isLocked ? 'Locked' : 'Unlocked'} by ${interaction.member.displayName}`});
+        channel.send({embeds: [embed.setTitle(titleAction).setDescription(`**Reason:**\n${reason}`)]});
+        interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} ${isLocked ? 'locked' : 'unlocked'} successfully`, ephemeral: true});
       },
       start: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
