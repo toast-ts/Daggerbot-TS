@@ -3,9 +3,9 @@ import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 import {disabledChannels, rawSwitches} from '../index.js';
 export default class MessageUpdate {
-  static async run(client:TClient, oldMsg:Discord.Message, newMsg:Discord.Message){
+  static async run(client:TClient, oldMsg:Discord.Message|Discord.PartialMessage, newMsg:Discord.Message){
     if (!client.config.botSwitches.logs) return;
-    if (oldMsg.guild?.id != client.config.dcServer.id || oldMsg.author === null || oldMsg?.author.bot || oldMsg.partial || newMsg.partial || !newMsg.member || disabledChannels.includes(newMsg.channelId)) return;
+    if (oldMsg.guild?.id != client.config.dcServer.id || oldMsg.author === null || oldMsg?.author.bot || newMsg.partial || !newMsg.member || disabledChannels.includes(newMsg.channelId)) return;
     if (await client.prohibitedWords.findWord(newMsg.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|[]|ing\b/g, '').split(' ').join('')) && (!MessageTool.isStaff(newMsg.member))) newMsg.delete();
     if (!rawSwitches.MESSAGE_UPDATE || (rawSwitches.MESSAGE_UPDATE && newMsg.content !== oldMsg.content)) {
       rawSwitches.MESSAGE_UPDATE = true;

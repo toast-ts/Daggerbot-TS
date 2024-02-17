@@ -120,16 +120,12 @@ export default class MP {
         const reason = interaction.options.getString('reason');
         const channel = interaction.guild.channels.cache.get(channels.activePlayers) as Discord.TextChannel;
         const embed = new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTimestamp();
+        const isLocked = channel.permissionsFor(interaction.guildId).has('SendMessages');
+        const titleAction = isLocked ? '🔒 Locked' : '🔓 Unlocked';
 
-        if (channel.permissionsFor(interaction.guildId).has('SendMessages')) {
-          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: false}, {type: 0, reason: `Locked by ${interaction.member.displayName}`});
-          channel.send({embeds: [embed.setTitle('🔒 Locked').setDescription(`**Reason:**\n${reason}`)]});
-          interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} locked successfully`, ephemeral: true});
-        } else {
-          channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: true}, {type: 0, reason: `Unlocked by ${interaction.member.displayName}`});
-          channel.send({embeds: [embed.setTitle('🔓 Unlocked').setDescription(`**Reason:**\n${reason}`)]});
-          interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} unlocked successfully`, ephemeral: true});
-        }
+        channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: !isLocked}, {type: 0, reason: `${isLocked ? 'Locked' : 'Unlocked'} by ${interaction.member.displayName}`});
+        channel.send({embeds: [embed.setTitle(titleAction).setDescription(`**Reason:**\n${reason}`)]});
+        interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} ${isLocked ? 'locked' : 'unlocked'} successfully`, ephemeral: true});
       },
       start: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {

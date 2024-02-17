@@ -28,22 +28,23 @@ export default class Statistics {
     const nameLen = Math.max(...cmdUses.map(x=>x.command.data.name.length), col[0].length) + 2;
     const usesLen = Math.max(...cmdUses.map(x=>x.uses.toString().length), col[1].length) + 1;
 
-    const rows = [`${col[0] + ' '.repeat(nameLen-col[0].length)}|${' '.repeat(usesLen-col[1].length) + col[1]}\n`, '-'.repeat(nameLen) + '-'.repeat(usesLen) + '\n'];
+    const rows = [`${col[0].padEnd(nameLen)}${col[1].padStart(usesLen)}\n`, '־'.repeat(nameLen + usesLen) + '\n'];
     cmdUses.forEach(cmd=>{
       const name = cmd.command.data.name;
       const uses = cmd.uses.toString();
-      rows.push(`${name+' '.repeat(nameLen-name.length)}${' '.repeat(usesLen-uses.length)+uses}\n`);
+      rows.push(`${name.padEnd(nameLen)}${uses.padStart(usesLen)}\n`);
     });
-    if (rows.join('').length > 1024) {
-      let field = '';
-      rows.forEach(r=>{
-        if (field.length+r.length > 1024) {
-          embed.addFields({name: '\u200b', value: `\`\`\`\n${field}\`\`\``});
-          field = r;
-        }
-      });
-      embed.addFields({name: '\u200b', value: `\`\`\`\n${field}\`\`\``});
-    } else embed.addFields({name: '\u200b', value: `\`\`\`\n${rows.join('')}\`\`\``});
+
+    const fieldChunks = [];
+    let field = '';
+    rows.forEach(r=>{
+      if (field.length+r.length > 1024) {
+        fieldChunks.push(field);
+        field = r;
+      } else field += r;
+    });
+    fieldChunks.push(field);
+    fieldChunks.forEach(field=>embed.addFields({name: '\u200b', value: `\`\`\`\n${field}\`\`\``}));
 
     const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
     embed.addFields(
