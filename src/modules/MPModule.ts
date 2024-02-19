@@ -8,6 +8,7 @@ import {IServer} from '../models/MPServer.js';
 import {XMLParser} from 'fast-xml-parser';
 import {FSPlayer, FSData, FSCareerSavegame} from 'src/interfaces';
 
+let failedAttempts:number = 0;
 let loggingPrefix:string = 'MPModule';
 let dataUnavailable:string = 'Unavailable';
 export let refreshTimerSecs:number = 45000;
@@ -131,6 +132,12 @@ export async function requestServerData(client:TClient, server:IServer):Promise<
         else if (data.status === 404) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (404), API is disabled or mismatched code`)
       } catch(err) {
         Logger.console('log', loggingPrefix, `Couldn't get data for ${server.serverName}: ${err.message}`);
+        failedAttempts++;
+        if (failedAttempts >= 5 && server.isActive) {
+          Logger.console('log', loggingPrefix, `Maximum failed requests (${failedAttempts}) reached for ${server.serverName}, silenced server for 10 minutes`);
+          silenceServer(client, server, 600000);
+        }
+        return null;
       }
       await new Promise(resolve=>setTimeout(resolve, 500))
     }
@@ -178,4 +185,10 @@ function convertPlayerUptime(playTime:number) {
   }
 
   return (Days > 0 ? Days+' d ':'')+(Hours > 0 ? Hours+' h ':'')+(Minutes > 0 ? Minutes+' m':'')
+}
+
+function silenceServer(client:TClient, server:IServer, time:number):void {
+  client.MPServer.toggleServerUsability(server.serverName, false);
+  setTimeout(()=>client.MPServer.toggleServerUsability(server.serverName, true), time)
+  failedAttempts = 0;
 }
