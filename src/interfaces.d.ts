@@ -159,8 +159,9 @@ export interface Config {
       punishment_log: string,
       dcmod_chat: string,
       mpmod_chat: string,
-      multifarm_chat: string
-      pw_list: string
+      multifarm_chat: string,
+      pw_list: string,
+      help_forum: string
     }
   }
 }

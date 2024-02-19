@@ -25,6 +25,19 @@ client.on('error', (error: Error)=>_(error, 'clientError'));
 // Interval timers for modules
 setInterval(async()=>await MPModule(client), refreshTimerSecs);
 setInterval(()=>YTModule(client), 180000); // 3 minutes
+setInterval(async()=>{
+  const forum = client.guilds.cache.get(client.config.dcServer.id).channels.cache.get(client.config.dcServer.channels.help_forum) as Discord.ForumChannel;
+  await forum.threads.fetch();
+
+  for await (const thread of forum.threads.cache.values()) {
+    await thread.messages.fetch();
+    if (!thread.archived && thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
+      await thread.setLocked(true).catch(()=>null);
+      await thread.setArchived(true, 'Inactive for over 18 days').catch(()=>null);
+      Logger.console('log', 'ThreadTimer', `${thread.name} has been archived and locked due to inactivity`);
+    }
+  }
+}, 1200000); // 20 minutes
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
