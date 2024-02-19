@@ -586,7 +586,7 @@ __metadata:
     pg: "npm:8.11.3"
     pg-hstore: "npm:2.3.4"
     redis: "npm:4.6.13"
-    sequelize: "npm:6.37.0"
+    sequelize: "npm:6.37.1"
     simple-git: "npm:3.22.0"
     systeminformation: "npm:5.21.25"
     typescript: "npm:5.3.3"
@@ -1000,9 +1000,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sequelize@npm:6.37.0":
-  version: 6.37.0
-  resolution: "sequelize@npm:6.37.0"
+"sequelize@npm:6.37.1":
+  version: 6.37.1
+  resolution: "sequelize@npm:6.37.1"
   dependencies:
     "@types/debug": "npm:^4.1.8"
     "@types/validator": "npm:^13.7.17"
@@ -1039,7 +1039,7 @@ __metadata:
       optional: true
     tedious:
       optional: true
-  checksum: 10/3eb3c53e487edb521f12ffdfffb2a5b22adf070378a94bbce4baa63998f36f07a13279fa26a37a6950b588a405addf5d6169814dd140315b337ae4ee88303e0c
+  checksum: 10/05be9a1e67c444a0a9c2951cd9b0fd7ac08ed2b81671307ca631b4c7597f357b53a26cdff3a3e39a3cd0a927abfce18afc7a472957fcb17b4e26aa5caca97e3c
   languageName: node
   linkType: hard
 

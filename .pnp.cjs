@@ -43,7 +43,7 @@ const RAW_RUNTIME_STATE =
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
           ["pg-hstore", "npm:2.3.4"],\
           ["redis", "npm:4.6.13"],\
-          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
+          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.25"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
@@ -792,7 +792,7 @@ const RAW_RUNTIME_STATE =
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
           ["pg-hstore", "npm:2.3.4"],\
           ["redis", "npm:4.6.13"],\
-          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
+          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.21.25"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
@@ -1285,17 +1285,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["sequelize", [\
-      ["npm:6.37.0", {\
-        "packageLocation": "./.yarn/cache/sequelize-npm-6.37.0-0544e51055-3eb3c53e48.zip/node_modules/sequelize/",\
+      ["npm:6.37.1", {\
+        "packageLocation": "./.yarn/cache/sequelize-npm-6.37.1-894f242817-05be9a1e67.zip/node_modules/sequelize/",\
         "packageDependencies": [\
-          ["sequelize", "npm:6.37.0"]\
+          ["sequelize", "npm:6.37.1"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0", {\
-        "packageLocation": "./.yarn/__virtual__/sequelize-virtual-acbc91f444/0/cache/sequelize-npm-6.37.0-0544e51055-3eb3c53e48.zip/node_modules/sequelize/",\
+      ["virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1", {\
+        "packageLocation": "./.yarn/__virtual__/sequelize-virtual-cdd2f8787e/0/cache/sequelize-npm-6.37.1-894f242817-05be9a1e67.zip/node_modules/sequelize/",\
         "packageDependencies": [\
-          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.0"],\
+          ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
           ["@types/debug", "npm:4.1.12"],\
           ["@types/ibm_db", null],\
           ["@types/mariadb", null],\
