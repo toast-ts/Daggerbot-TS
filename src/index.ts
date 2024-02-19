@@ -31,7 +31,7 @@ setInterval(async()=>{
 
   for await (const thread of forum.threads.cache.values()) {
     await thread.messages.fetch();
-    if (thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
+    if (!thread.archived && thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
       await thread.setLocked(true).catch(()=>null);
       await thread.setArchived(true, 'Inactive for over 18 days').catch(()=>null);
       Logger.console('log', 'ThreadTimer', `${thread.name} has been archived and locked due to inactivity`);
