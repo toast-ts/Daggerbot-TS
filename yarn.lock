@@ -588,7 +588,7 @@ __metadata:
     redis: "npm:4.6.13"
     sequelize: "npm:6.37.0"
     simple-git: "npm:3.22.0"
-    systeminformation: "npm:5.21.25"
+    systeminformation: "npm:5.22.0"
     typescript: "npm:5.3.3"
     undici: "npm:6.6.2"
   languageName: unknown
@@ -1068,12 +1068,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.21.25":
-  version: 5.21.25
-  resolution: "systeminformation@npm:5.21.25"
+"systeminformation@npm:5.22.0":
+  version: 5.22.0
+  resolution: "systeminformation@npm:5.22.0"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/5b56205879652cfe5e6147a97a0eba450a8d83b8ad304e5e998a9829a16124c7d43969740413857cb2a24bccb1588160dd026649c7eae3fd35cdb9b92c62ab86
+  checksum: 10/a739041bf0ef572eaebd06819ed54bb5f4a785793e3d542f16f39914ae5bbbf7d44b204ec936dcf560056709e97e2e55c11ee3ceda7b9585e778979f63ab7e3b
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
