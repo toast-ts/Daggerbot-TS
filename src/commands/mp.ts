@@ -149,7 +149,9 @@ export default class MP {
         if (client.config.dcServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
-        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).messages.fetch(interaction.options.getString('message_id', true));
+        const msg_id = interaction.options.getString('message_id', true);
+        const stripUrl = msg_id.replace(/https:\/\/discord.com\/channels\/\d+\/\d+\/(\d+)/, '$1');
+        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).messages.fetch(stripUrl).catch(()=>null);
         if (!msg) return interaction.reply('Message not found, please make sure you have the correct message ID.');
 
         if (msg.embeds[0].title !== 'Vote for next map!') return interaction.reply('This message is not a poll!');
