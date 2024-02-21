@@ -20,6 +20,7 @@ async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInt
 }
 
 const logPrefix = 'MPDB';
+const MAP_POOL_HOOKMSG = '1141293129673232435';
 const channels = {
   activePlayers: '739084625862852715',
   announcements: '1084864116776251463',
@@ -148,17 +149,20 @@ export default class MP {
         if (client.config.dcServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
-        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).messages.fetch(interaction.options.getString('message_id', true));
+        const msg_id = interaction.options.getString('message_id', true);
+        const stripUrl = msg_id.replace(/https:\/\/discord.com\/channels\/\d+\/\d+\/(\d+)/, '$1');
+        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).messages.fetch(stripUrl).catch(()=>null);
         if (!msg) return interaction.reply('Message not found, please make sure you have the correct message ID.');
 
         if (msg.embeds[0].title !== 'Vote for next map!') return interaction.reply('This message is not a poll!');
         if (msg.embeds[0].footer?.text?.startsWith('Poll ended by')) return interaction.reply('This poll has already ended!');
 
-        const pollResults = Buffer.from(JSON.stringify({
-          map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3)),
-          votes: msg.reactions.cache.map(x=>x.count)
-        }, null, 2));
-        (client.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).send({files: [new client.attachment(pollResults, {name: `pollResults-${msg.id}.json`})]});
+        (client.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).send({files: [new client.attachment(
+          Buffer.from(JSON.stringify({
+            map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3)),
+            votes: msg.reactions.cache.map(x=>x.count)
+          }, null, 2)), {name: `pollResults-${msg.id}.json`})
+        ]});
 
         msg.edit({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]}).then(()=>msg.reactions.removeAll());
         await interaction.reply(`Successfully ended the [poll](<https://discord.com/channels/${interaction.guildId}/${channels.announcements}/${msg.id}>) in <#${channels.announcements}>`)
@@ -167,7 +171,7 @@ export default class MP {
         if (client.config.dcServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
-        const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch('1141293129673232435');
+        const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch(MAP_POOL_HOOKMSG);
         interaction.reply({embeds: [suggestionPool.embeds[0]]});
       }, // Server management group
       create_server: async()=>{
