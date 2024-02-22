@@ -3,7 +3,7 @@ import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
 export default class Automoderator {
   private static lockQuery:Set<Discord.Snowflake> = new Set();
-  static scanMsg =(message:Discord.Message)=>message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|[]|ing\b/g, '').split(' ').join('');
+  static scanMsg =(message:Discord.Message)=>message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|[]|ing\b|ed\b/g, '').split(' ').join('');
   static async repeatedMessages(client:TClient, message:Discord.Message, action:'mute'|'ban'|'softban', thresholdTime:number, thresholdAmount:number, type:string, duration:string, reason:string) {
     const now = Date.now();
 
