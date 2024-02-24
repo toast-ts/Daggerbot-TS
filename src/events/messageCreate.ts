@@ -22,7 +22,7 @@ export default class MessageCreate {
             automodded = true;
             message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PHISHING', automodFailReason));
             message.channel.send('Phishing links aren\'t allowed here. Nice try though!').then(msg=>setTimeout(()=>msg.delete(), 15000));
-            await Automoderator.repeatedMessages(client, message, 'mute', 60000, 3, 'phish', '15m', 'Phishing/scam link');
+            await Automoderator.repeatedMessages(client, message, 'softban', 60000, 3, 'phish', '15m', 'Phishing/scam link');
           }
         },
         prohibitedWords: {

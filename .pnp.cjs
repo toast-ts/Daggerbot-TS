@@ -26,18 +26,18 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@napi-rs/canvas", "npm:0.1.47"],\
+          ["@napi-rs/canvas", "npm:0.1.49"],\
           ["@octokit/rest", "npm:20.0.2"],\
           ["@sequelize/core", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:7.0.0-alpha.37"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.19"],\
+          ["@types/node", "npm:20.11.20"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.4"],\
+          ["fast-xml-parser", "npm:4.3.5"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
@@ -62,7 +62,7 @@ const RAW_RUNTIME_STATE =
           ["@sapphire/shapeshift", "npm:3.9.6"],\
           ["discord-api-types", "npm:0.37.61"],\
           ["fast-deep-equal", "npm:3.1.3"],\
-          ["ts-mixer", "npm:6.0.3"],\
+          ["ts-mixer", "npm:6.0.4"],\
           ["tslib", "npm:2.6.2"]\
         ],\
         "linkType": "HARD"\
@@ -168,100 +168,100 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@napi-rs/canvas", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/cache/@napi-rs-canvas-npm-0.1.47-ce54b45d37-9640b3dcc7.zip/node_modules/@napi-rs/canvas/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/cache/@napi-rs-canvas-npm-0.1.49-5033cd9984-78a7e229a0.zip/node_modules/@napi-rs/canvas/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas", "npm:0.1.47"],\
-          ["@napi-rs/canvas-android-arm64", "npm:0.1.47"],\
-          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.47"],\
-          ["@napi-rs/canvas-darwin-x64", "npm:0.1.47"],\
-          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.47"],\
-          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.47"],\
-          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.47"],\
-          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.47"],\
-          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.47"],\
-          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.47"]\
+          ["@napi-rs/canvas", "npm:0.1.49"],\
+          ["@napi-rs/canvas-android-arm64", "npm:0.1.49"],\
+          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.49"],\
+          ["@napi-rs/canvas-darwin-x64", "npm:0.1.49"],\
+          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.49"],\
+          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.49"],\
+          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.49"],\
+          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.49"],\
+          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.49"],\
+          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-android-arm64", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-android-arm64-npm-0.1.47-d68e13525c/node_modules/@napi-rs/canvas-android-arm64/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-android-arm64-npm-0.1.49-f6ac0932e5/node_modules/@napi-rs/canvas-android-arm64/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-android-arm64", "npm:0.1.47"]\
+          ["@napi-rs/canvas-android-arm64", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-darwin-arm64", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-arm64-npm-0.1.47-2d595a8471/node_modules/@napi-rs/canvas-darwin-arm64/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-arm64-npm-0.1.49-870a2d8366/node_modules/@napi-rs/canvas-darwin-arm64/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.47"]\
+          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-darwin-x64", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-x64-npm-0.1.47-8f351fe8b7/node_modules/@napi-rs/canvas-darwin-x64/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-x64-npm-0.1.49-8cca987002/node_modules/@napi-rs/canvas-darwin-x64/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-darwin-x64", "npm:0.1.47"]\
+          ["@napi-rs/canvas-darwin-x64", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-arm-gnueabihf", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm-gnueabihf-npm-0.1.47-755d63eda3/node_modules/@napi-rs/canvas-linux-arm-gnueabihf/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm-gnueabihf-npm-0.1.49-6435ff3882/node_modules/@napi-rs/canvas-linux-arm-gnueabihf/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.47"]\
+          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-arm64-gnu", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-gnu-npm-0.1.47-ff70f3de2a/node_modules/@napi-rs/canvas-linux-arm64-gnu/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-gnu-npm-0.1.49-4e56c60c25/node_modules/@napi-rs/canvas-linux-arm64-gnu/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.47"]\
+          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-arm64-musl", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-musl-npm-0.1.47-284cb9c2e8/node_modules/@napi-rs/canvas-linux-arm64-musl/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-musl-npm-0.1.49-165f000427/node_modules/@napi-rs/canvas-linux-arm64-musl/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.47"]\
+          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-x64-gnu", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-gnu-npm-0.1.47-76b9d4a09b/node_modules/@napi-rs/canvas-linux-x64-gnu/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-gnu-npm-0.1.49-2a16f20d9a/node_modules/@napi-rs/canvas-linux-x64-gnu/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.47"]\
+          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-x64-musl", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-musl-npm-0.1.47-f9ecacd8e4/node_modules/@napi-rs/canvas-linux-x64-musl/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-musl-npm-0.1.49-9155bc1080/node_modules/@napi-rs/canvas-linux-x64-musl/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.47"]\
+          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-win32-x64-msvc", [\
-      ["npm:0.1.47", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-win32-x64-msvc-npm-0.1.47-13b81eda0e/node_modules/@napi-rs/canvas-win32-x64-msvc/",\
+      ["npm:0.1.49", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-win32-x64-msvc-npm-0.1.49-39187e36a2/node_modules/@napi-rs/canvas-win32-x64-msvc/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.47"]\
+          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.49"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -315,7 +315,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/graphql", "npm:7.0.2"],\
           ["@octokit/request", "npm:8.2.0"],\
           ["@octokit/request-error", "npm:5.0.1"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["before-after-hook", "npm:2.2.3"],\
           ["universal-user-agent", "npm:6.0.1"]\
         ],\
@@ -327,7 +327,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@octokit-endpoint-npm-9.0.4-1b64d334f9-7df35c96f2.zip/node_modules/@octokit/endpoint/",\
         "packageDependencies": [\
           ["@octokit/endpoint", "npm:9.0.4"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["universal-user-agent", "npm:6.0.1"]\
         ],\
         "linkType": "HARD"\
@@ -339,35 +339,35 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@octokit/graphql", "npm:7.0.2"],\
           ["@octokit/request", "npm:8.2.0"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["universal-user-agent", "npm:6.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@octokit/openapi-types", [\
-      ["npm:19.1.0", {\
-        "packageLocation": "./.yarn/cache/@octokit-openapi-types-npm-19.1.0-bd98fe458b-3abedc09ba.zip/node_modules/@octokit/openapi-types/",\
+      ["npm:20.0.0", {\
+        "packageLocation": "./.yarn/cache/@octokit-openapi-types-npm-20.0.0-1aac079689-9f60572af1.zip/node_modules/@octokit/openapi-types/",\
         "packageDependencies": [\
-          ["@octokit/openapi-types", "npm:19.1.0"]\
+          ["@octokit/openapi-types", "npm:20.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@octokit/plugin-paginate-rest", [\
-      ["npm:9.1.5", {\
-        "packageLocation": "./.yarn/cache/@octokit-plugin-paginate-rest-npm-9.1.5-9d33eaf13c-5f1793ebeb.zip/node_modules/@octokit/plugin-paginate-rest/",\
+      ["npm:9.2.0", {\
+        "packageLocation": "./.yarn/cache/@octokit-plugin-paginate-rest-npm-9.2.0-64b9ba7249-dfaddf1e6a.zip/node_modules/@octokit/plugin-paginate-rest/",\
         "packageDependencies": [\
-          ["@octokit/plugin-paginate-rest", "npm:9.1.5"]\
+          ["@octokit/plugin-paginate-rest", "npm:9.2.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.1.5", {\
-        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-paginate-rest-virtual-092e0c7889/0/cache/@octokit-plugin-paginate-rest-npm-9.1.5-9d33eaf13c-5f1793ebeb.zip/node_modules/@octokit/plugin-paginate-rest/",\
+      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.0", {\
+        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-paginate-rest-virtual-f60ef159c5/0/cache/@octokit-plugin-paginate-rest-npm-9.2.0-64b9ba7249-dfaddf1e6a.zip/node_modules/@octokit/plugin-paginate-rest/",\
         "packageDependencies": [\
-          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.1.5"],\
+          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.0"],\
           ["@octokit/core", "npm:5.1.0"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["@types/octokit__core", null]\
         ],\
         "packagePeers": [\
@@ -400,19 +400,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@octokit/plugin-rest-endpoint-methods", [\
-      ["npm:10.3.0", {\
-        "packageLocation": "./.yarn/cache/@octokit-plugin-rest-endpoint-methods-npm-10.3.0-06a0ae45a8-be202aca31.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
+      ["npm:10.4.0", {\
+        "packageLocation": "./.yarn/cache/@octokit-plugin-rest-endpoint-methods-npm-10.4.0-f1ca5e4765-2b4de869fd.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
         "packageDependencies": [\
-          ["@octokit/plugin-rest-endpoint-methods", "npm:10.3.0"]\
+          ["@octokit/plugin-rest-endpoint-methods", "npm:10.4.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.3.0", {\
-        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-rest-endpoint-methods-virtual-ea99ee7f10/0/cache/@octokit-plugin-rest-endpoint-methods-npm-10.3.0-06a0ae45a8-be202aca31.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
+      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.0", {\
+        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-rest-endpoint-methods-virtual-de33cbe78a/0/cache/@octokit-plugin-rest-endpoint-methods-npm-10.4.0-f1ca5e4765-2b4de869fd.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
         "packageDependencies": [\
-          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.3.0"],\
+          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.0"],\
           ["@octokit/core", "npm:5.1.0"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["@types/octokit__core", null]\
         ],\
         "packagePeers": [\
@@ -429,7 +429,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/request", "npm:8.2.0"],\
           ["@octokit/endpoint", "npm:9.0.4"],\
           ["@octokit/request-error", "npm:5.0.1"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["universal-user-agent", "npm:6.0.1"]\
         ],\
         "linkType": "HARD"\
@@ -440,7 +440,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@octokit-request-error-npm-5.0.1-eda589102d-a21a4614c4.zip/node_modules/@octokit/request-error/",\
         "packageDependencies": [\
           ["@octokit/request-error", "npm:5.0.1"],\
-          ["@octokit/types", "npm:12.5.0"],\
+          ["@octokit/types", "npm:12.6.0"],\
           ["deprecation", "npm:2.3.1"],\
           ["once", "npm:1.4.0"]\
         ],\
@@ -453,19 +453,19 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@octokit/rest", "npm:20.0.2"],\
           ["@octokit/core", "npm:5.1.0"],\
-          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.1.5"],\
+          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.0"],\
           ["@octokit/plugin-request-log", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.0"],\
-          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.3.0"]\
+          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.0"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@octokit/types", [\
-      ["npm:12.5.0", {\
-        "packageLocation": "./.yarn/cache/@octokit-types-npm-12.5.0-17ac978d21-a2c8e736e3.zip/node_modules/@octokit/types/",\
+      ["npm:12.6.0", {\
+        "packageLocation": "./.yarn/cache/@octokit-types-npm-12.6.0-3f6eea3eb3-19b77a8d25.zip/node_modules/@octokit/types/",\
         "packageDependencies": [\
-          ["@octokit/types", "npm:12.5.0"],\
-          ["@octokit/openapi-types", "npm:19.1.0"]\
+          ["@octokit/types", "npm:12.6.0"],\
+          ["@octokit/openapi-types", "npm:20.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -727,10 +727,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.19", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.19-5d4958999b-c7f4705d6c.zip/node_modules/@types/node/",\
+      ["npm:20.11.20", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.20-0036cdf1c0-ff449bdc94.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.19"],\
+          ["@types/node", "npm:20.11.20"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -750,7 +750,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.0-bf104da0ba-91a7ccc5dc.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.0"],\
-          ["@types/node", "npm:20.11.19"],\
+          ["@types/node", "npm:20.11.20"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.2"]\
         ],\
@@ -771,7 +771,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.10-a877a38f71-9b414dc5e0.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.10"],\
-          ["@types/node", "npm:20.11.19"]\
+          ["@types/node", "npm:20.11.20"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -779,7 +779,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.19"]\
+          ["@types/node", "npm:20.11.20"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -853,18 +853,18 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["daggerbot-ts", "workspace:."],\
-          ["@napi-rs/canvas", "npm:0.1.47"],\
+          ["@napi-rs/canvas", "npm:0.1.49"],\
           ["@octokit/rest", "npm:20.0.2"],\
           ["@sequelize/core", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:7.0.0-alpha.37"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.19"],\
+          ["@types/node", "npm:20.11.20"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.0"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.4"],\
+          ["fast-xml-parser", "npm:4.3.5"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
@@ -985,10 +985,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-xml-parser", [\
-      ["npm:4.3.4", {\
-        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.4-471ce88e5f-ef85910198.zip/node_modules/fast-xml-parser/",\
+      ["npm:4.3.5", {\
+        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.5-3cd12e5b84-ccfd943e4e.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.3.4"],\
+          ["fast-xml-parser", "npm:4.3.5"],\
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
@@ -1540,10 +1540,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ts-mixer", [\
-      ["npm:6.0.3", {\
-        "packageLocation": "./.yarn/cache/ts-mixer-npm-6.0.3-d5b44d91b7-ac9178bdac.zip/node_modules/ts-mixer/",\
+      ["npm:6.0.4", {\
+        "packageLocation": "./.yarn/cache/ts-mixer-npm-6.0.4-5d9747bdf5-f20571a4a4.zip/node_modules/ts-mixer/",\
         "packageDependencies": [\
-          ["ts-mixer", "npm:6.0.3"]\
+          ["ts-mixer", "npm:6.0.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1650,7 +1650,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.19"]\
+          ["@types/node", "npm:20.11.20"]\
         ],\
         "linkType": "HARD"\
       }]\

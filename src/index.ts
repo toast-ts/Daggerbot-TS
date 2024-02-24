@@ -21,6 +21,7 @@ process.on('unhandledRejection', (error: Error)=>_(error, 'unhandledRejection'))
 process.on('uncaughtException', (error: Error)=>_(error, 'uncaughtException'));
 process.on('error', (error: Error)=>_(error, 'processError'));
 client.on('error', (error: Error)=>_(error, 'clientError'));
+if (process.argv[3] ?? null) client.on('debug', console.log);
 
 // Interval timers for modules
 setInterval(async()=>await MPModule(client), refreshTimerSecs);

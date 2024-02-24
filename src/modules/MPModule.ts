@@ -14,6 +14,8 @@ let dataUnavailable:string = 'Unavailable';
 export let refreshTimerSecs:number = 45000;
 let isBotInDevMode:boolean = ConfigHelper.isDevMode();
 let refreshIntrvlTxt:string = `Refreshes every ${refreshTimerSecs/1000} seconds.`;
+let offlineStatus:string = 'Server is offline';
+let unavailableStatus:string = 'Server didn\'t respond';
 
 export default async(client:TClient)=>{
   const message = await (client.channels.resolve(isBotInDevMode ? '1091300529696673792' : '543494084363288637') as Discord.TextChannel).messages.fetch(isBotInDevMode ? '1104563309451161742' : '1149141188079779900');
@@ -23,7 +25,7 @@ export default async(client:TClient)=>{
     const serverData = await requestServerData(client, server);
     if (!serverData) {
       Logger.console('log', loggingPrefix, `${server.serverName} seems to be unavailable to take requests at this time`)
-      return new client.embed().setColor(client.config.embedColorRed).setTitle('Server didn\'t respond').setFooter({text: 'Last updated'}).setTimestamp();
+      return new client.embed().setColor(client.config.embedColorRed).setTitle(unavailableStatus).setFooter({text: 'Last updated'}).setTimestamp();
     };
     const {dss, csg} = serverData;
     if (dss === null ?? csg === null ?? !dss ?? !csg ?? !dss.slots ?? !csg.slotSystem) return new client.embed().setColor(client.config.embedColorRed).setTitle(`${server.serverName} did not respond`).setFooter({text: 'Last updated'}).setTimestamp();
@@ -62,7 +64,7 @@ export default async(client:TClient)=>{
       playerData.shift()
     }
 
-    if (dss?.server?.name.length < 1) return new client.embed().setColor(client.config.embedColorRed).setTitle('Server is offline').setFooter({text: 'Last updated'}).setTimestamp();
+    if (dss?.server?.name.length < 1) return new client.embed().setColor(client.config.embedColorRed).setTitle(offlineStatus).setFooter({text: 'Last updated'}).setTimestamp();
     const fields:Discord.APIEmbedField[] = [
       {name: 'Map', value: dataObj.map, inline: true},
       {name: 'Version', value: dataObj.version, inline: true},

@@ -54,7 +54,7 @@ export default class TClient extends Discord.Client {
         Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.DirectMessages
       ],
       partials: [
-        Discord.Partials.Message
+        Discord.Partials.Message, Discord.Partials.Channel
       ],
       allowedMentions: {users:[], roles:[]}
     })
