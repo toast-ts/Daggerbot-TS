@@ -105,7 +105,7 @@ client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
   const channel = client.channels.cache.get(packet.d.channel_id) as Discord.TextBasedChannel;
 
   // Switched to console.log to prevent useless embed creation that has same content as the original message.
-  if (!rawSwitches.MESSAGE_UPDATE) return Logger.console('log', 'RawEvent:Edit', `Message was edited in #${(channel as Discord.TextChannel).name}`);
+  if (!rawSwitches.MESSAGE_UPDATE && !packet.d.author.bot) return Logger.console('log', 'RawEvent:Edit', `Message was edited in #${(channel as Discord.TextChannel).name}`);
 });
 
 client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
