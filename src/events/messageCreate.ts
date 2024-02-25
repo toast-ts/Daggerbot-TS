@@ -15,21 +15,22 @@ export default class MessageCreate {
 
     if (client.config.botSwitches.automod && !message.member?.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member?.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {
       const automodFailReason = 'msg got possibly deleted by another bot.';
+      const automodLog = 'Automod:';
       const automodRules = {
         phishingDetection: {
           check: async()=>await __PRIVATE__.phishingDetection(message),
           action: async()=>{
             automodded = true;
-            message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PHISHING', automodFailReason));
+            message.delete().catch(()=>Logger.console('log', `${automodLog}Phishing`, automodFailReason));
             message.channel.send('Phishing links aren\'t allowed here. Nice try though!').then(msg=>setTimeout(()=>msg.delete(), 15000));
-            await Automoderator.repeatedMessages(client, message, 'softban', 60000, 3, 'phish', '15m', 'Phishing/scam link');
+            await Automoderator.repeatedMessages(client, message, 'softban', 60000, 3, 'phish', '15m', 'Phishing scam link');
           }
         },
         prohibitedWords: {
           check: async()=>await client.prohibitedWords.findWord(Automoderator.scanMsg(message)),
           action: async()=>{
             automodded = true;
-            message.delete().catch(()=>Logger.console('log', 'AUTOMOD:PROHIBITEDWORDS', automodFailReason));
+            message.delete().catch(()=>Logger.console('log', `${automodLog}ProhibitedWords`, automodFailReason));
             message.channel.send('That word isn\'t allowed here.').then(x=>setTimeout(()=>x.delete(), 15000));
             await Automoderator.repeatedMessages(client, message, 'mute', 30000, 3, 'bw', '30m', 'Prohibited word spam');
           }
@@ -40,7 +41,7 @@ export default class MessageCreate {
             const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.includes('discord.gg/'))).catch(()=>null);
             if (validInvite && validInvite.guild?.id !== client.config.dcServer.id) {
               automodded = true;
-              message.delete().catch(()=>Logger.console('log', 'AUTOMOD:ADVERTISEMENT', automodFailReason));
+              message.delete().catch(()=>Logger.console('log', `${automodLog}Advertisement`, automodFailReason));
               message.channel.send('Please don\'t advertise other Discord servers.').then(x=>setTimeout(()=>x.delete(), 15000));
               await Automoderator.repeatedMessages(client, message, 'ban', 60000, 4, 'adv', null, 'Discord advertisement');
             }

@@ -8,7 +8,7 @@
     "url": "git+https://github.com/toast-ts/Daggerbot-TS.git"
   },
   "scripts": {
-    "dev": "yarn tsc && yarn node . src/DB-Beta.config.json daggerbotbeta",
+    "dev": "yarn tsc && yarn node . src/DB-Beta.config.json daggerbotbeta true",
     "sdk": "yarn dlx @yarnpkg/sdks vscode"
   },
   "author": "Toast",
