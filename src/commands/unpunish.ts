@@ -5,7 +5,7 @@ import MessageTool from '../helpers/MessageTool.js';
 export default class Unpunish {
   static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!MessageTool.isModerator(interaction.member as Discord.GuildMember)) return MessageTool.youNeedRole(interaction, 'dcmod');
-    const punishment = await client.punishments.findCase(interaction.options.getInteger('case_id', true));
+    const punishment = await client.punishments.findCaseOrCancels('case_id', interaction.options.getInteger('case_id', true));
     if (!punishment) return interaction.reply({content: 'Case ID is not found in database.', ephemeral: true});
     if (['unban', 'unmute', 'punishmentOverride'].includes(punishment.dataValues.type)) return interaction.reply({content: 'This case ID is immutable. (Informative case)', ephemeral: true});
     if (punishment.dataValues.expired) return interaction.reply({content: 'This case ID is already expired.', ephemeral: true});

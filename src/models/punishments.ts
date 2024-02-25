@@ -96,15 +96,15 @@ export class PunishmentsSvc {
   }
   query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async updateReason(caseId:number, reason:string) {
-    const findCase = this.findCase(caseId);
-    if (findCase) return this.model.update({reason: reason}, {where: {case_id: caseId}});
+    const findCase = this.findCaseOrCancels('case_id', caseId);
+    if (findCase) return this.model.update({reason}, {where: {case_id: caseId}});
   }
-  findCase =(caseId:number)=>this.model.findOne({where: {case_id: caseId}});
-  findByCancels =(caseId:number)=>this.model.findOne({where: {cancels: caseId}})
+  findCaseOrCancels = (column:'case_id'|'cancels', id:number)=>this.model.findOne({where: {[column]: id}});
   getAllCases =()=>this.model.findAll();
   async generateCaseId() {
     const result = await this.model.max('case_id');
-    return (result as number ?? 0) + 1;
+    if (typeof result === 'number') return result + 1;
+    else return 0;
   }
   async findInCache():Promise<Punishment[]> {
     const cacheKey = 'punishments';

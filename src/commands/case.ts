@@ -25,16 +25,16 @@ export default class Case {
       update: async()=>{
         const reason = interaction.options.getString('reason');
         await client.punishments.updateReason(caseId, reason);
-        if (client.punishments.findCase(caseId)) {
+        if (client.punishments.findCaseOrCancels('case_id', caseId)) {
           await this.updateEntry(client, caseId, reason);
           await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColorGreen).setTitle('Case updated').setDescription(`Case #${caseId} has been successfully updated with new reason:\n\`${reason}\``)]});
         } else interaction.reply({embeds: [new client.embed().setColor(client.config.embedColorRed).setTitle('Case not updated').setDescription(`Case #${caseId} is not found in database, not updating the reason.`)]});
       },
       view: async()=>{
-        const punishment = await client.punishments.findCase(caseId);
+        const punishment = await client.punishments.findCaseOrCancels('case_id', caseId);
         if (!punishment) return interaction.reply('Case ID is not found in database.');
-        const cancelledBy = punishment.dataValues.expired ? await client.punishments.findByCancels(punishment.dataValues.case_id) : null;
-        const cancels = punishment.dataValues.cancels ? await client.punishments.findCase(punishment.dataValues.cancels) : null;
+        const cancelledBy = punishment.dataValues.expired ? await client.punishments.findCaseOrCancels('cancels', punishment.dataValues.case_id) : null;
+        const cancels = punishment.dataValues.cancels ? await client.punishments.findCaseOrCancels('case_id', punishment.dataValues.cancels) : null;
         const embed = new client.embed().setColor(client.config.embedColor).setTimestamp(Number(punishment.dataValues.time)).setTitle(`${punishment.dataValues.type[0].toUpperCase()+punishment.dataValues.type.slice(1)} | Case #${punishment.dataValues.case_id}`).addFields(
           {name: 'User', value: `${punishment.member_name}\n${MessageTool.formatMention(punishment.dataValues.member, 'user')}\n\`${punishment.dataValues.member}\``, inline: true},
           {name: 'Moderator', value: `${client.users.resolve(punishment.moderator).tag}\n${MessageTool.formatMention(punishment.dataValues.moderator, 'user')}\n\`${punishment.dataValues.moderator}\``, inline: true},
