@@ -21,7 +21,7 @@ process.on('unhandledRejection', (error: Error)=>_(error, 'unhandledRejection'))
 process.on('uncaughtException', (error: Error)=>_(error, 'uncaughtException'));
 process.on('error', (error: Error)=>_(error, 'processError'));
 client.on('error', (error: Error)=>_(error, 'clientError'));
-if (process.argv[3] ?? null) client.on('debug', console.log);
+if ((typeof process.argv[4] === 'string' && process.argv[4] === 'true') ?? null) client.on('debug', console.log);
 
 // Interval timers for modules
 setInterval(async()=>await MPModule(client), refreshTimerSecs);
@@ -33,9 +33,8 @@ setInterval(async()=>{
   for await (const thread of forum.threads.cache.values()) {
     await thread.messages.fetch();
     if (!thread.archived && thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
-      await thread.setLocked(true).catch(()=>null);
-      await thread.setArchived(true, 'Inactive for over 18 days').catch(()=>null);
-      Logger.console('log', 'ThreadTimer', `${thread.name} has been archived and locked due to inactivity`);
+      await thread.delete('Thread has been inactive for 18 days');
+      Logger.console('log', 'ThreadTimer', `"#${thread.name}" has been deleted due to inactivity for 18 days`);
     }
   }
 }, 1200000); // 20 minutes
@@ -100,15 +99,13 @@ if (!client.config.botSwitches.logs) {
   rawSwitches.MESSAGE_UPDATE = true;
 };
 client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
-  if (rawSwitches[packet.t]) return;
-  if (packet.t !== 'MESSAGE_UPDATE') return;
-  if (packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id)) return;
-  if (typeof packet.d.content === 'undefined') return;
+  if (rawSwitches[packet.t] || packet.t !== 'MESSAGE_UPDATE') return;
+  if (packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id) || typeof packet.d.content === 'undefined') return;
 
   const channel = client.channels.cache.get(packet.d.channel_id) as Discord.TextBasedChannel;
-  const message = await channel.messages.fetch(packet.d.id);
 
-  client.emit('messageUpdate', message, message);
+  // Switched to console.log to prevent useless embed creation that has same content as the original message.
+  if (!rawSwitches.MESSAGE_UPDATE) return Logger.console('log', 'RawEvent:Edit', `Message was edited in #${(channel as Discord.TextChannel).name}`);
 });
 
 client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
