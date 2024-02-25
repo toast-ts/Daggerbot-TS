@@ -32,7 +32,7 @@ const RAW_RUNTIME_STATE =
           ["@types/ms", "npm:0.7.34"],\
           ["@types/node", "npm:20.11.20"],\
           ["@types/node-cron", "npm:3.0.11"],\
-          ["@types/pg", "npm:8.11.0"],\
+          ["@types/pg", "npm:8.11.1"],\
           ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
@@ -674,10 +674,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/pg", [\
-      ["npm:8.11.0", {\
-        "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.0-bf104da0ba-91a7ccc5dc.zip/node_modules/@types/pg/",\
+      ["npm:8.11.1", {\
+        "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.1-5d06a4b9df-2fdcb0dc33.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
-          ["@types/pg", "npm:8.11.0"],\
+          ["@types/pg", "npm:8.11.1"],\
           ["@types/node", "npm:20.11.20"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.2"]\
@@ -781,7 +781,7 @@ const RAW_RUNTIME_STATE =
           ["@types/ms", "npm:0.7.34"],\
           ["@types/node", "npm:20.11.20"],\
           ["@types/node-cron", "npm:3.0.11"],\
-          ["@types/pg", "npm:8.11.0"],\
+          ["@types/pg", "npm:8.11.1"],\
           ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
@@ -1301,7 +1301,7 @@ const RAW_RUNTIME_STATE =
           ["@types/mariadb", null],\
           ["@types/mysql2", null],\
           ["@types/oracledb", null],\
-          ["@types/pg", "npm:8.11.0"],\
+          ["@types/pg", "npm:8.11.1"],\
           ["@types/pg-hstore", null],\
           ["@types/snowflake-sdk", null],\
           ["@types/sqlite3", null],\
