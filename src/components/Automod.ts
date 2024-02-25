@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
 export default class Automoderator {
+  private static logPrefix:string = 'Automod';
   private static lockQuery:Set<Discord.Snowflake> = new Set();
   static scanMsg =(message:Discord.Message)=>message.content.toLowerCase().replaceAll(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\n?0-9]|[]|ing\b|ed\b/g, '').split(' ').join('');
   static async repeatedMessages(client:TClient, message:Discord.Message, action:'mute'|'ban'|'softban', thresholdTime:number, thresholdAmount:number, type:string, duration:string, reason:string) {
@@ -17,11 +18,11 @@ export default class Automoderator {
           // If the count has reached the threshold amount, punish the user like most daddy would do to their child.
           if (!this.lockQuery.has(message.author.id)) {
             this.lockQuery.add(message.author.id);
-            Logger.console('log', 'AUTOMOD', `Lock acquired for ${message.author.tag} with reason: ${reason}`);
+            Logger.console('log', this.logPrefix, `Lock acquired for ${message.author.tag} with reason: ${reason}`);
             await client.punishments.punishmentAdd(action, {time: duration}, client.user.id, `AUTOMOD:${reason}`, message.author, message.member as Discord.GuildMember);
             setTimeout(()=>{
               this.lockQuery.delete(message.author.id);
-              Logger.console('log', 'AUTOMOD', `Lock released for ${message.author.tag}`);
+              Logger.console('log', this.logPrefix, `Lock released for ${message.author.tag}`);
             }, 3500); // Wait 3.5 seconds before releasing the lock.
           }
           delete client.repeatedMessages[message.author.id];
