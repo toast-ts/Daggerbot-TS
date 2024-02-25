@@ -213,7 +213,8 @@ export class PunishmentsSvc {
         });
       } catch (err) {
         Logger.console('error', 'Punishment', err);
-        return TRANSACTION_FAILED;
+        Logger.console('log', 'Punishment:Transaction', TRANSACTION_FAILED);
+        return;
       }
 
       if (interaction) return interaction.editReply({embeds: [embed]});
@@ -272,7 +273,8 @@ export class PunishmentsSvc {
         });
       } catch (err) {
         Logger.console('error', 'Punishment', err);
-        return TRANSACTION_FAILED;
+        Logger.console('log', 'Punishment:Transaction', TRANSACTION_FAILED);
+        return;
       }
 
       if (interaction) return interaction.reply({embeds: [new this.client.embed()
