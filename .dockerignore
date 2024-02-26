@@ -1,4 +1,3 @@
-# Pointless stuff
 Dockerfile
 docker-compose.*.yml
 .ncurc.json
@@ -9,6 +8,4 @@ docker-compose.*.yml
 .github
 postgres-replica-stuff
 README.md
-
-# Startup files
 startDocker.sh
