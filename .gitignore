@@ -1,7 +1,5 @@
 .env
-# Yarn stuff
 .yarn
-# TypeScript stuff
 dist
 src/private
 src/*.json
