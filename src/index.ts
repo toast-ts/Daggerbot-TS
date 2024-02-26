@@ -33,7 +33,7 @@ setInterval(async()=>{
   for await (const thread of forum.threads.cache.values()) {
     await thread.messages.fetch();
     if (!thread.archived && thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
-      await thread.delete('Thread has been inactive for 18 days');
+      await thread.delete();
       Logger.console('log', 'ThreadTimer', `"#${thread.name}" has been deleted due to inactivity for 18 days`);
     }
   }
