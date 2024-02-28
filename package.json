@@ -16,7 +16,7 @@
   "os": [
     "win32",
     "linux",
-    "!darwin"
+    "darwin"
   ],
   "cpu": [
     "x64",
