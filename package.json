@@ -12,17 +12,12 @@
     "sdk": "yarn dlx @yarnpkg/sdks vscode"
   },
   "author": "Toast",
-  "license": "ISC",
   "os": [
-    "win32",
     "linux",
     "darwin"
   ],
   "cpu": [
-    "x64",
-    "!arm64",
-    "!mips",
-    "!ia32"
+    "x64"
   ],
   "engines": {
     "node": ">=18.18.0, <19 || >=20",
