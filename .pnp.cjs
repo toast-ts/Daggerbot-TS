@@ -26,18 +26,19 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@napi-rs/canvas", "npm:0.1.49"],\
+          ["@napi-rs/canvas", "npm:0.1.50"],\
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.20"],\
+          ["@types/node", "npm:20.11.21"],\
           ["@types/node-cron", "npm:3.0.11"],\
-          ["@types/pg", "npm:8.11.1"],\
+          ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
           ["fast-xml-parser", "npm:4.3.5"],\
+          ["mathjs", "npm:12.4.0"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
@@ -50,6 +51,16 @@ const RAW_RUNTIME_STATE =
           ["undici", "npm:6.6.2"]\
         ],\
         "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@babel/runtime", [\
+      ["npm:7.23.9", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.23.9-3b96e23cc2-9a520fe1bf.zip/node_modules/@babel/runtime/",\
+        "packageDependencies": [\
+          ["@babel/runtime", "npm:7.23.9"],\
+          ["regenerator-runtime", "npm:0.14.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@discordjs/builders", [\
@@ -168,100 +179,100 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@napi-rs/canvas", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/cache/@napi-rs-canvas-npm-0.1.49-5033cd9984-78a7e229a0.zip/node_modules/@napi-rs/canvas/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/cache/@napi-rs-canvas-npm-0.1.50-6d57a400a9-c9ed3ecdaa.zip/node_modules/@napi-rs/canvas/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas", "npm:0.1.49"],\
-          ["@napi-rs/canvas-android-arm64", "npm:0.1.49"],\
-          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.49"],\
-          ["@napi-rs/canvas-darwin-x64", "npm:0.1.49"],\
-          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.49"],\
-          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.49"],\
-          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.49"],\
-          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.49"],\
-          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.49"],\
-          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.49"]\
+          ["@napi-rs/canvas", "npm:0.1.50"],\
+          ["@napi-rs/canvas-android-arm64", "npm:0.1.50"],\
+          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.50"],\
+          ["@napi-rs/canvas-darwin-x64", "npm:0.1.50"],\
+          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.50"],\
+          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.50"],\
+          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.50"],\
+          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.50"],\
+          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.50"],\
+          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-android-arm64", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-android-arm64-npm-0.1.49-f6ac0932e5/node_modules/@napi-rs/canvas-android-arm64/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-android-arm64-npm-0.1.50-11d6135d75/node_modules/@napi-rs/canvas-android-arm64/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-android-arm64", "npm:0.1.49"]\
+          ["@napi-rs/canvas-android-arm64", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-darwin-arm64", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-arm64-npm-0.1.49-870a2d8366/node_modules/@napi-rs/canvas-darwin-arm64/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-arm64-npm-0.1.50-6b2d108329/node_modules/@napi-rs/canvas-darwin-arm64/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.49"]\
+          ["@napi-rs/canvas-darwin-arm64", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-darwin-x64", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-x64-npm-0.1.49-8cca987002/node_modules/@napi-rs/canvas-darwin-x64/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-darwin-x64-npm-0.1.50-b670722e63/node_modules/@napi-rs/canvas-darwin-x64/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-darwin-x64", "npm:0.1.49"]\
+          ["@napi-rs/canvas-darwin-x64", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-arm-gnueabihf", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm-gnueabihf-npm-0.1.49-6435ff3882/node_modules/@napi-rs/canvas-linux-arm-gnueabihf/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm-gnueabihf-npm-0.1.50-74ef8d8007/node_modules/@napi-rs/canvas-linux-arm-gnueabihf/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.49"]\
+          ["@napi-rs/canvas-linux-arm-gnueabihf", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-arm64-gnu", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-gnu-npm-0.1.49-4e56c60c25/node_modules/@napi-rs/canvas-linux-arm64-gnu/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-gnu-npm-0.1.50-c8c1e133bc/node_modules/@napi-rs/canvas-linux-arm64-gnu/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.49"]\
+          ["@napi-rs/canvas-linux-arm64-gnu", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-arm64-musl", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-musl-npm-0.1.49-165f000427/node_modules/@napi-rs/canvas-linux-arm64-musl/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-arm64-musl-npm-0.1.50-c675999c51/node_modules/@napi-rs/canvas-linux-arm64-musl/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.49"]\
+          ["@napi-rs/canvas-linux-arm64-musl", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-x64-gnu", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-gnu-npm-0.1.49-2a16f20d9a/node_modules/@napi-rs/canvas-linux-x64-gnu/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-gnu-npm-0.1.50-a8ca0545bd/node_modules/@napi-rs/canvas-linux-x64-gnu/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.49"]\
+          ["@napi-rs/canvas-linux-x64-gnu", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-linux-x64-musl", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-musl-npm-0.1.49-9155bc1080/node_modules/@napi-rs/canvas-linux-x64-musl/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-linux-x64-musl-npm-0.1.50-65f7471d30/node_modules/@napi-rs/canvas-linux-x64-musl/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.49"]\
+          ["@napi-rs/canvas-linux-x64-musl", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@napi-rs/canvas-win32-x64-msvc", [\
-      ["npm:0.1.49", {\
-        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-win32-x64-msvc-npm-0.1.49-39187e36a2/node_modules/@napi-rs/canvas-win32-x64-msvc/",\
+      ["npm:0.1.50", {\
+        "packageLocation": "./.yarn/unplugged/@napi-rs-canvas-win32-x64-msvc-npm-0.1.50-52fd2a856e/node_modules/@napi-rs/canvas-win32-x64-msvc/",\
         "packageDependencies": [\
-          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.49"]\
+          ["@napi-rs/canvas-win32-x64-msvc", "npm:0.1.50"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -621,7 +632,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.20"]\
+          ["@types/node", "npm:20.11.21"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -655,10 +666,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.20", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.20-0036cdf1c0-ff449bdc94.zip/node_modules/@types/node/",\
+      ["npm:20.11.21", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.21-0adac022b0-a31ecc6a3c.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.20"],\
+          ["@types/node", "npm:20.11.21"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -674,11 +685,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/pg", [\
-      ["npm:8.11.1", {\
-        "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.1-5d06a4b9df-2fdcb0dc33.zip/node_modules/@types/pg/",\
+      ["npm:8.11.2", {\
+        "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.2-bdf321bea4-7c05cf63be.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
-          ["@types/pg", "npm:8.11.1"],\
-          ["@types/node", "npm:20.11.20"],\
+          ["@types/pg", "npm:8.11.2"],\
+          ["@types/node", "npm:20.11.21"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.2"]\
         ],\
@@ -712,7 +723,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.10-a877a38f71-9b414dc5e0.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.10"],\
-          ["@types/node", "npm:20.11.20"]\
+          ["@types/node", "npm:20.11.21"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -720,7 +731,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.20"]\
+          ["@types/node", "npm:20.11.21"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -770,23 +781,33 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["complex.js", [\
+      ["npm:2.1.1", {\
+        "packageLocation": "./.yarn/cache/complex.js-npm-2.1.1-2beaccef20-1905d5204d.zip/node_modules/complex.js/",\
+        "packageDependencies": [\
+          ["complex.js", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["daggerbot-ts", [\
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
           ["daggerbot-ts", "workspace:."],\
-          ["@napi-rs/canvas", "npm:0.1.49"],\
+          ["@napi-rs/canvas", "npm:0.1.50"],\
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.20"],\
+          ["@types/node", "npm:20.11.21"],\
           ["@types/node-cron", "npm:3.0.11"],\
-          ["@types/pg", "npm:8.11.1"],\
+          ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
           ["fast-xml-parser", "npm:4.3.5"],\
+          ["mathjs", "npm:12.4.0"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
           ["pg", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:8.11.3"],\
@@ -829,6 +850,15 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/supports-color",\
           "supports-color"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["decimal.js", [\
+      ["npm:10.4.3", {\
+        "packageLocation": "./.yarn/cache/decimal.js-npm-10.4.3-e7d483387c-de663a7bc4.zip/node_modules/decimal.js/",\
+        "packageDependencies": [\
+          ["decimal.js", "npm:10.4.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -883,6 +913,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["escape-latex", [\
+      ["npm:1.2.0", {\
+        "packageLocation": "./.yarn/cache/escape-latex-npm-1.2.0-1481ca81a7-73a787319f.zip/node_modules/escape-latex/",\
+        "packageDependencies": [\
+          ["escape-latex", "npm:1.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["fast-deep-equal", [\
       ["npm:3.1.3", {\
         "packageLocation": "./.yarn/cache/fast-deep-equal-npm-3.1.3-790edcfcf5-e21a9d8d84.zip/node_modules/fast-deep-equal/",\
@@ -902,6 +941,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["fraction.js", [\
+      ["npm:4.3.4", {\
+        "packageLocation": "./.yarn/cache/fraction.js-npm-4.3.4-ce148a1f45-3a1e6b2680.zip/node_modules/fraction.js/",\
+        "packageDependencies": [\
+          ["fraction.js", "npm:4.3.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["generic-pool", [\
       ["npm:3.9.0", {\
         "packageLocation": "./.yarn/cache/generic-pool-npm-3.9.0-21fff1a77f-3c632d30a6.zip/node_modules/generic-pool/",\
@@ -916,6 +964,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/inflection-npm-1.13.4-102169ecb5-a0cc1b105c.zip/node_modules/inflection/",\
         "packageDependencies": [\
           ["inflection", "npm:1.13.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["javascript-natural-sort", [\
+      ["npm:0.7.1", {\
+        "packageLocation": "./.yarn/cache/javascript-natural-sort-npm-0.7.1-9018625996-7bf6eab678.zip/node_modules/javascript-natural-sort/",\
+        "packageDependencies": [\
+          ["javascript-natural-sort", "npm:0.7.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -953,6 +1010,24 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/magic-bytes.js-npm-1.8.0-995d257f15-781c932f64.zip/node_modules/magic-bytes.js/",\
         "packageDependencies": [\
           ["magic-bytes.js", "npm:1.8.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["mathjs", [\
+      ["npm:12.4.0", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-12.4.0-4e73cebf2f-ee168a7e4b.zip/node_modules/mathjs/",\
+        "packageDependencies": [\
+          ["mathjs", "npm:12.4.0"],\
+          ["@babel/runtime", "npm:7.23.9"],\
+          ["complex.js", "npm:2.1.1"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["escape-latex", "npm:1.2.0"],\
+          ["fraction.js", "npm:4.3.4"],\
+          ["javascript-natural-sort", "npm:0.7.1"],\
+          ["seedrandom", "npm:3.0.5"],\
+          ["tiny-emitter", "npm:2.1.0"],\
+          ["typed-function", "npm:4.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1265,11 +1340,29 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["regenerator-runtime", [\
+      ["npm:0.14.1", {\
+        "packageLocation": "./.yarn/cache/regenerator-runtime-npm-0.14.1-a6c97c609a-5db3161abb.zip/node_modules/regenerator-runtime/",\
+        "packageDependencies": [\
+          ["regenerator-runtime", "npm:0.14.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["retry-as-promised", [\
       ["npm:7.0.4", {\
         "packageLocation": "./.yarn/cache/retry-as-promised-npm-7.0.4-d2e9247001-cd9fd20e99.zip/node_modules/retry-as-promised/",\
         "packageDependencies": [\
           ["retry-as-promised", "npm:7.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["seedrandom", [\
+      ["npm:3.0.5", {\
+        "packageLocation": "./.yarn/cache/seedrandom-npm-3.0.5-6946e8f8db-acad5e516c.zip/node_modules/seedrandom/",\
+        "packageDependencies": [\
+          ["seedrandom", "npm:3.0.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1301,7 +1394,7 @@ const RAW_RUNTIME_STATE =
           ["@types/mariadb", null],\
           ["@types/mysql2", null],\
           ["@types/oracledb", null],\
-          ["@types/pg", "npm:8.11.1"],\
+          ["@types/pg", "npm:8.11.2"],\
           ["@types/pg-hstore", null],\
           ["@types/snowflake-sdk", null],\
           ["@types/sqlite3", null],\
@@ -1402,6 +1495,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["tiny-emitter", [\
+      ["npm:2.1.0", {\
+        "packageLocation": "./.yarn/cache/tiny-emitter-npm-2.1.0-2a4d94f487-75633f4de4.zip/node_modules/tiny-emitter/",\
+        "packageDependencies": [\
+          ["tiny-emitter", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["toposort-class", [\
       ["npm:1.0.1", {\
         "packageLocation": "./.yarn/cache/toposort-class-npm-1.0.1-aefabde69e-166cb89ecb.zip/node_modules/toposort-class/",\
@@ -1425,6 +1527,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/tslib-npm-2.6.2-4fc8c068d9-bd26c22d36.zip/node_modules/tslib/",\
         "packageDependencies": [\
           ["tslib", "npm:2.6.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["typed-function", [\
+      ["npm:4.1.1", {\
+        "packageLocation": "./.yarn/cache/typed-function-npm-4.1.1-d09696d7f2-0ef538d5f0.zip/node_modules/typed-function/",\
+        "packageDependencies": [\
+          ["typed-function", "npm:4.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1506,7 +1617,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.20"]\
+          ["@types/node", "npm:20.11.21"]\
         ],\
         "linkType": "HARD"\
       }]\
