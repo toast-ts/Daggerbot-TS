@@ -12,17 +12,12 @@
     "sdk": "yarn dlx @yarnpkg/sdks vscode"
   },
   "author": "Toast",
-  "license": "ISC",
   "os": [
-    "win32",
     "linux",
-    "!darwin"
+    "darwin"
   ],
   "cpu": [
-    "x64",
-    "!arm64",
-    "!mips",
-    "!ia32"
+    "x64"
   ],
   "engines": {
     "node": ">=18.18.0, <19 || >=20",
@@ -32,7 +27,7 @@
   "engineStrict": true,
   "packageManager": "yarn@4.1.0+sha256.81a00df816059803e6b5148acf03ce313cad36b7f6e5af6efa040a15981a6ffb",
   "dependencies": {
-    "@napi-rs/canvas": "0.1.49",
+    "@napi-rs/canvas": "0.1.50",
     "@octokit/rest": "20.0.2",
     "@sequelize/core": "7.0.0-alpha.37",
     "@toast/tokenservice-client": "1.0.12",
@@ -40,6 +35,7 @@
     "dayjs": "1.11.10",
     "discord.js": "14.14.1",
     "fast-xml-parser": "4.3.5",
+    "mathjs": "12.4.0",
     "ms": "2.1.3",
     "node-cron": "3.0.3",
     "pg": "8.11.3",
@@ -52,9 +48,9 @@
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.20",
+    "@types/node": "20.11.21",
     "@types/node-cron": "3.0.11",
-    "@types/pg": "8.11.1",
+    "@types/pg": "8.11.2",
     "typescript": "5.3.3"
   }
 }
