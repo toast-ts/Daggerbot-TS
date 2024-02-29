@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.21",
+    "@types/node": "20.11.22",
     "@types/node-cron": "3.0.11",
     "@types/pg": "8.11.2",
     "@types/sequelize": "4.28.20",
