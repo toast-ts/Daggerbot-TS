@@ -30,7 +30,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.21"],\
+          ["@types/node", "npm:20.11.22"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -54,10 +54,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@babel/runtime", [\
-      ["npm:7.23.9", {\
-        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.23.9-3b96e23cc2-9a520fe1bf.zip/node_modules/@babel/runtime/",\
+      ["npm:7.24.0", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.24.0-7eb1dd11a2-8d32c7e116.zip/node_modules/@babel/runtime/",\
         "packageDependencies": [\
-          ["@babel/runtime", "npm:7.23.9"],\
+          ["@babel/runtime", "npm:7.24.0"],\
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
@@ -151,10 +151,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@fastify/busboy", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/@fastify-busboy-npm-2.1.0-960844a007-f22c1e5c52.zip/node_modules/@fastify/busboy/",\
+      ["npm:2.1.1", {\
+        "packageLocation": "./.yarn/cache/@fastify-busboy-npm-2.1.1-455d8b6bf5-2bb8a7eca8.zip/node_modules/@fastify/busboy/",\
         "packageDependencies": [\
-          ["@fastify/busboy", "npm:2.1.0"]\
+          ["@fastify/busboy", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -632,7 +632,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.21"]\
+          ["@types/node", "npm:20.11.22"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -666,10 +666,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.21", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.21-0adac022b0-a31ecc6a3c.zip/node_modules/@types/node/",\
+      ["npm:20.11.22", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.22-9da21a332b-855058a432.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.21"],\
+          ["@types/node", "npm:20.11.22"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -689,7 +689,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.2-bdf321bea4-7c05cf63be.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.2"],\
-          ["@types/node", "npm:20.11.21"],\
+          ["@types/node", "npm:20.11.22"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.2"]\
         ],\
@@ -723,7 +723,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.10-a877a38f71-9b414dc5e0.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.10"],\
-          ["@types/node", "npm:20.11.21"]\
+          ["@types/node", "npm:20.11.22"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -731,7 +731,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.21"]\
+          ["@types/node", "npm:20.11.22"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -799,7 +799,7 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.21"],\
+          ["@types/node", "npm:20.11.22"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -1019,7 +1019,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/mathjs-npm-12.4.0-4e73cebf2f-ee168a7e4b.zip/node_modules/mathjs/",\
         "packageDependencies": [\
           ["mathjs", "npm:12.4.0"],\
-          ["@babel/runtime", "npm:7.23.9"],\
+          ["@babel/runtime", "npm:7.24.0"],\
           ["complex.js", "npm:2.1.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
@@ -1563,7 +1563,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/undici-npm-5.27.2-141c109c0a-2bf96b102f.zip/node_modules/undici/",\
         "packageDependencies": [\
           ["undici", "npm:5.27.2"],\
-          ["@fastify/busboy", "npm:2.1.0"]\
+          ["@fastify/busboy", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -1571,7 +1571,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/undici-npm-6.6.2-a0bd6785a6-e08ac9c279.zip/node_modules/undici/",\
         "packageDependencies": [\
           ["undici", "npm:6.6.2"],\
-          ["@fastify/busboy", "npm:2.1.0"]\
+          ["@fastify/busboy", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1617,7 +1617,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.21"]\
+          ["@types/node", "npm:20.11.22"]\
         ],\
         "linkType": "HARD"\
       }]\
