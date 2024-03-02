@@ -1,8 +1,8 @@
 <p align="center">
   <img width="630" height="250" src="https://github.com/toast-ts/Daggerbot-TS/assets/96593068/87a3c8b2-2209-42f0-851c-6cdebf9ef740">
   <h1 align="center">Daggerbot V3 Description</h1>
-
 </p>
+
 This is a repository for V3 revision that has been transitioned and rewritten from V2 bot to be more robust and reliable with today's standards.
 
 This revision took **4 months** (Late September to Mid December) working on and off to do literally everything that needed a rewrite so badly that it cannot be done in V2.
@@ -21,6 +21,15 @@ If you're looking for V2 revision, it has been moved to a [branch called `old`](
 
 This is a revision history of how far we come in development cycle;
 | Revision | Language | Library | Commands |
-|---------|----------|-----------|----------|
+|----------|----------|---------|----------|
 | V1      | JavaScript | Discord.JS v13 | Message commands |
 | V2-V3   | TypeScript | Discord.JS v14 | Slash/message commands |
+
+## CLI arguments (`process.argv[..]`)
+`yarn dev` - Starts the development bot with predefined args.  
+The args in question is;  
+| Argument | Usage |
+|----------|-------|
+| `src/DB-Beta.config.json` | Location of config file - [2] |
+| `daggerbotbeta` | Service name in TokenService to fetch tokens data from - [3] |
+| `true` | Toggle debug mode in Discord.js library - [4] |
