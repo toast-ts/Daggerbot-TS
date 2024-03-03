@@ -28,9 +28,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@napi-rs/canvas", "npm:0.1.50"],\
           ["@octokit/rest", "npm:20.0.2"],\
-          ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
+          ["@toast/tokenservice-client", "npm:1.0.14::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.14%2Ftokenservice-client-1.0.14.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.22"],\
+          ["@types/node", "npm:20.11.24"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -48,7 +48,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.22.0"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.6.2"]\
+          ["undici", "npm:6.7.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -116,7 +116,7 @@ const RAW_RUNTIME_STATE =
           ["@sapphire/snowflake", "npm:3.5.3"],\
           ["@vladfrangu/async_event_emitter", "npm:2.2.4"],\
           ["discord-api-types", "npm:0.37.61"],\
-          ["magic-bytes.js", "npm:1.8.0"],\
+          ["magic-bytes.js", "npm:1.10.0"],\
           ["tslib", "npm:2.6.2"],\
           ["undici", "npm:5.27.2"]\
         ],\
@@ -335,17 +335,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@octokit/plugin-paginate-rest", [\
-      ["npm:9.2.0", {\
-        "packageLocation": "./.yarn/cache/@octokit-plugin-paginate-rest-npm-9.2.0-64b9ba7249-dfaddf1e6a.zip/node_modules/@octokit/plugin-paginate-rest/",\
+      ["npm:9.2.1", {\
+        "packageLocation": "./.yarn/cache/@octokit-plugin-paginate-rest-npm-9.2.1-9310cd3549-1528ab17ee.zip/node_modules/@octokit/plugin-paginate-rest/",\
         "packageDependencies": [\
-          ["@octokit/plugin-paginate-rest", "npm:9.2.0"]\
+          ["@octokit/plugin-paginate-rest", "npm:9.2.1"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.0", {\
-        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-paginate-rest-virtual-f60ef159c5/0/cache/@octokit-plugin-paginate-rest-npm-9.2.0-64b9ba7249-dfaddf1e6a.zip/node_modules/@octokit/plugin-paginate-rest/",\
+      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.1", {\
+        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-paginate-rest-virtual-b3251302e9/0/cache/@octokit-plugin-paginate-rest-npm-9.2.1-9310cd3549-1528ab17ee.zip/node_modules/@octokit/plugin-paginate-rest/",\
         "packageDependencies": [\
-          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.0"],\
+          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.1"],\
           ["@octokit/core", "npm:5.1.0"],\
           ["@octokit/types", "npm:12.6.0"],\
           ["@types/octokit__core", null]\
@@ -358,17 +358,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@octokit/plugin-request-log", [\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/@octokit-plugin-request-log-npm-4.0.0-49c2f6ee8b-2a8a661964.zip/node_modules/@octokit/plugin-request-log/",\
+      ["npm:4.0.1", {\
+        "packageLocation": "./.yarn/cache/@octokit-plugin-request-log-npm-4.0.1-bc9d8da84b-fd8c0a2014.zip/node_modules/@octokit/plugin-request-log/",\
         "packageDependencies": [\
-          ["@octokit/plugin-request-log", "npm:4.0.0"]\
+          ["@octokit/plugin-request-log", "npm:4.0.1"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.0", {\
-        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-request-log-virtual-8311198fdf/0/cache/@octokit-plugin-request-log-npm-4.0.0-49c2f6ee8b-2a8a661964.zip/node_modules/@octokit/plugin-request-log/",\
+      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.1", {\
+        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-request-log-virtual-9f9f523ea1/0/cache/@octokit-plugin-request-log-npm-4.0.1-bc9d8da84b-fd8c0a2014.zip/node_modules/@octokit/plugin-request-log/",\
         "packageDependencies": [\
-          ["@octokit/plugin-request-log", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.0"],\
+          ["@octokit/plugin-request-log", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.1"],\
           ["@octokit/core", "npm:5.1.0"],\
           ["@types/octokit__core", null]\
         ],\
@@ -380,17 +380,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@octokit/plugin-rest-endpoint-methods", [\
-      ["npm:10.4.0", {\
-        "packageLocation": "./.yarn/cache/@octokit-plugin-rest-endpoint-methods-npm-10.4.0-f1ca5e4765-2b4de869fd.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
+      ["npm:10.4.1", {\
+        "packageLocation": "./.yarn/cache/@octokit-plugin-rest-endpoint-methods-npm-10.4.1-3fc380dbdf-1090fc5a1b.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
         "packageDependencies": [\
-          ["@octokit/plugin-rest-endpoint-methods", "npm:10.4.0"]\
+          ["@octokit/plugin-rest-endpoint-methods", "npm:10.4.1"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.0", {\
-        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-rest-endpoint-methods-virtual-de33cbe78a/0/cache/@octokit-plugin-rest-endpoint-methods-npm-10.4.0-f1ca5e4765-2b4de869fd.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
+      ["virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@octokit-plugin-rest-endpoint-methods-virtual-90e5673a79/0/cache/@octokit-plugin-rest-endpoint-methods-npm-10.4.1-3fc380dbdf-1090fc5a1b.zip/node_modules/@octokit/plugin-rest-endpoint-methods/",\
         "packageDependencies": [\
-          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.0"],\
+          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.1"],\
           ["@octokit/core", "npm:5.1.0"],\
           ["@octokit/types", "npm:12.6.0"],\
           ["@types/octokit__core", null]\
@@ -433,9 +433,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@octokit/rest", "npm:20.0.2"],\
           ["@octokit/core", "npm:5.1.0"],\
-          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.0"],\
-          ["@octokit/plugin-request-log", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.0"],\
-          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.0"]\
+          ["@octokit/plugin-paginate-rest", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:9.2.1"],\
+          ["@octokit/plugin-request-log", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:4.0.1"],\
+          ["@octokit/plugin-rest-endpoint-methods", "virtual:4561cebc7178ada64ce18c0aeed396852b7aeaba4f74421f21ba3e30dbf678d80e4d99e34e12bd5d2189e9af698f708ddc3e89804d9d2b7510fd441fb121b618#npm:10.4.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -609,11 +609,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@toast/tokenservice-client", [\
-      ["npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz", {\
-        "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.12-11df688697-64112744b4.zip/node_modules/@toast/tokenservice-client/",\
+      ["npm:1.0.14::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.14%2Ftokenservice-client-1.0.14.tgz", {\
+        "packageLocation": "./.yarn/cache/@toast-tokenservice-client-npm-1.0.14-8e8e9cba19-b478e70965.zip/node_modules/@toast/tokenservice-client/",\
         "packageDependencies": [\
-          ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
-          ["undici", "npm:6.6.2"]\
+          ["@toast/tokenservice-client", "npm:1.0.14::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.14%2Ftokenservice-client-1.0.14.tgz"],\
+          ["undici", "npm:6.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -632,7 +632,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.22"]\
+          ["@types/node", "npm:20.11.24"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -666,10 +666,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.22", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.22-9da21a332b-855058a432.zip/node_modules/@types/node/",\
+      ["npm:20.11.24", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.24-4e19eedf98-7f34bfae5f.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.11.22"],\
+          ["@types/node", "npm:20.11.24"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -689,7 +689,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.2-bdf321bea4-7c05cf63be.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.2"],\
-          ["@types/node", "npm:20.11.22"],\
+          ["@types/node", "npm:20.11.24"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.2"]\
         ],\
@@ -723,7 +723,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.10-a877a38f71-9b414dc5e0.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.10"],\
-          ["@types/node", "npm:20.11.22"]\
+          ["@types/node", "npm:20.11.24"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -731,7 +731,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.22"]\
+          ["@types/node", "npm:20.11.24"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -797,9 +797,9 @@ const RAW_RUNTIME_STATE =
           ["daggerbot-ts", "workspace:."],\
           ["@napi-rs/canvas", "npm:0.1.50"],\
           ["@octokit/rest", "npm:20.0.2"],\
-          ["@toast/tokenservice-client", "npm:1.0.12::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.12%2Ftokenservice-client-1.0.12.tgz"],\
+          ["@toast/tokenservice-client", "npm:1.0.14::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.14%2Ftokenservice-client-1.0.14.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.22"],\
+          ["@types/node", "npm:20.11.24"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
@@ -817,7 +817,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.22.0"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"],\
-          ["undici", "npm:6.6.2"]\
+          ["undici", "npm:6.7.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -1006,10 +1006,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["magic-bytes.js", [\
-      ["npm:1.8.0", {\
-        "packageLocation": "./.yarn/cache/magic-bytes.js-npm-1.8.0-995d257f15-781c932f64.zip/node_modules/magic-bytes.js/",\
+      ["npm:1.10.0", {\
+        "packageLocation": "./.yarn/cache/magic-bytes.js-npm-1.10.0-35a34b94a0-4b84d54b79.zip/node_modules/magic-bytes.js/",\
         "packageDependencies": [\
-          ["magic-bytes.js", "npm:1.8.0"]\
+          ["magic-bytes.js", "npm:1.10.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1567,10 +1567,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:6.6.2", {\
-        "packageLocation": "./.yarn/cache/undici-npm-6.6.2-a0bd6785a6-e08ac9c279.zip/node_modules/undici/",\
+      ["npm:6.7.0", {\
+        "packageLocation": "./.yarn/cache/undici-npm-6.7.0-72b23a7b9b-e133a27f89.zip/node_modules/undici/",\
         "packageDependencies": [\
-          ["undici", "npm:6.6.2"],\
+          ["undici", "npm:6.7.0"],\
           ["@fastify/busboy", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
@@ -1617,7 +1617,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.22"]\
+          ["@types/node", "npm:20.11.24"]\
         ],\
         "linkType": "HARD"\
       }]\
