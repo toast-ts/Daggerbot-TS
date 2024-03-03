@@ -28,12 +28,12 @@ const channels = {
   serverInfo: '543494084363288637',
 }
 export default class MP {
-  static async autocomplete(client: TClient, interaction: Discord.AutocompleteInteraction<'cached'>) {
+  static async autocomplete(client:TClient, interaction:Discord.AutocompleteInteraction<'cached'>) {
     const serversInCache = await client.MPServer?.findInCache();
     const filterByActive = serversInCache?.filter(x=>x.isActive)?.map(x=>x.serverName);
     await interaction?.respond(filterByActive?.map(server=>({name: server, value: server})));
   }
-  static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
+  static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
     if (client.config.botSwitches.mpSys === false) return interaction.reply({embeds: [mpModuleDisabled(client)]});
     if (client.uptime < refreshTimerSecs) return interaction.reply('MPModule isn\'t initialized yet, please wait a moment and try again.');
     if ([channels.mainMpChat, client.config.dcServer.channels.multifarm_chat].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply(`Please use <#${channels.activePlayers}> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
@@ -77,6 +77,9 @@ export default class MP {
         if (!DSS) return console.log('Endpoint failed - details');
         const db = await client.MPServer.findInCache();
         const server = db.find(x=>x.serverName === choiceSelector);
+        if (!server) return;
+        // Shouldn't throw "Cannot read properties of undefined" error now,
+        // but I hate people finding new ways to cause the bot to have a minor aneurysm
 
         const dEmbed = new client.embed().setColor(client.config.embedColor).setAuthor({name: 'Crossplay server'}).setDescription(MessageTool.concatMessage(
           `**Name:** \`${DSS.server?.name.length > 0 ? DSS.server.name : '\u200b'}\``,
@@ -164,7 +167,7 @@ export default class MP {
           }, null, 2)), {name: `pollResults-${msg.id}.json`})
         ]});
 
-        msg.edit({embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]}).then(()=>msg.reactions.removeAll());
+        msg.edit({content: null, embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]}).then(()=>msg.reactions.removeAll());
         await interaction.reply(`Successfully ended the [poll](<https://discord.com/channels/${interaction.guildId}/${channels.announcements}/${msg.id}>) in <#${channels.announcements}>`)
       },
       maps: async()=>{

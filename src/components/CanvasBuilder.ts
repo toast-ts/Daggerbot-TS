@@ -20,11 +20,11 @@ export default class CanvasBuilder {
     // Handle negative
     for (const [i, change] of data.entries()) if (change < 0) data[i] = data[i - 1] || data[i + 1] || 0;
 
-    const LBdataFirst = Math.ceil(Math.max(...data) * 10 ** (-Math.max(...data).toString().split('').length + 2)) * 10 ** (Math.max(...data).toString().split('').length - 2)
-    const LBdataSecond = Math.ceil(Math.max(...data) * 10 ** (-Math.max(...data).toString().split('').length + 3)) * 10 ** (Math.max(...data).toString().split('').length - 3)
+    const LB_MAX_VAL = Math.max(...data);
+    const LB_SCALE_UP = Math.pow(10, -Math.floor(Math.log10(LB_MAX_VAL)));
+    const LB_SCALED_DATA = Math.ceil(LB_MAX_VAL*LB_SCALE_UP) / LB_SCALE_UP;
 
-    const firstTop = type === 'leaderboard' ? LBdataFirst : 16;
-    const secondTop = type === 'leaderboard' ? LBdataSecond : 16;
+    const top = type === 'leaderboard' ? LB_SCALED_DATA : 16;
     const textSize = 40;
     const origin = [15, 65];
     const size = [1300, 630];
@@ -37,7 +37,7 @@ export default class CanvasBuilder {
 
     const intervalCandidates:[number, number, number][] = [];
     for (let i = 4; i < 10; i++) {
-      const interval = firstTop / i;
+      const interval = top / i;
       if (Number.isInteger(interval)) intervalCandidates.push([interval, i, i * Math.max(interval.toString().split('').filter(x=>x === '0').length / interval.toString().length, 0.3) * (['1', '2', '4', '5', '6', '8'].includes(interval.toString()[0]) ? 1.5 : 0.67)]);
     }
     const chosenInterval = intervalCandidates.sort((a,b)=>b[2]-a[2])[0];
@@ -45,7 +45,7 @@ export default class CanvasBuilder {
     this.ctx.strokeStyle = this.palette.oddHorizontal;
 
     for (let i = 0; i <= chosenInterval[1]; i++) {
-      const y = origin[1] + size[1] - (i * (chosenInterval[0] / secondTop) * size[1]);
+      const y = origin[1] + size[1] - (i * (chosenInterval[0] / top) * size[1]);
       if (y < origin[1]) continue;
       const even = ((i + 1) % 2) === 0;
       if (even) this.ctx.strokeStyle = this.palette.evenHorizontal;
@@ -82,7 +82,7 @@ export default class CanvasBuilder {
     for (let [i, currentValue] of data.entries()) {
       if (currentValue < 0) currentValue = 0;
       const X = i * nodeWidth + origin[0];
-      const Y = ((1 - (currentValue / secondTop)) * size[1]) + origin[1];
+      const Y = ((1 - (currentValue / top)) * size[1]) + origin[1];
       const nextValue = data[i + 1];
       const previousValue = data[i - 1];
       this.ctx.strokeStyle = type === 'players' ?  gradient : null;
@@ -103,7 +103,7 @@ export default class CanvasBuilder {
       this.ctx.closePath();
 
       if (currentValue !== previousValue || currentValue !== nextValue) {
-        // Ball. What else?
+        // Balls. What else? I mean.. I'm not that creative, I'm just a comment not a funny comedian.
         this.ctx.fillStyle = type === 'players' ? gradient : null;
         this.ctx.beginPath();
         this.ctx.arc(X, Y, this.ctx.lineWidth * 1.2, 0, 2 * Math.PI);
@@ -131,6 +131,7 @@ export default class CanvasBuilder {
     // Time
     this.ctx.fillText('time ->', origin[0] + (textSize / 2), origin[1] + size[1] + (textSize));
 
+    // 100degree the fuck back to sender.
     return this.canvas;
   }
 }
