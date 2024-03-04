@@ -93,11 +93,6 @@ export default class MessageCreate {
           user: 'nawdic',
           img: 'https://c.tenor.com/JSj9ie_MD9kAAAAC/kopfsch%C3%BCtteln-an-kopf-fassen-oh-no.gif',
           title: '*Nawdic has done an oopsie*',
-        },
-        {
-          user: 'monster',
-          img: 'https://media.tenor.com/ZIzIjb_wvEoAAAAC/face-palm.gif',
-          title: '*Monster has broken something*',
         }
       ];
       let dontMention = [
@@ -105,11 +100,6 @@ export default class MessageCreate {
           user_id: '309373272594579456',
           message: 'Please don\'t tag Daggerwin, read rule 14 in <#468846117405196289>',
           type: undefined
-        },
-        {
-          user_id: '215497515934416896',
-          message: 'Please don\'t tag Monster unless it\'s important!',
-          type: Discord.MessageType.Default
         }
       ]
 
