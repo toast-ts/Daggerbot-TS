@@ -136,7 +136,6 @@ export interface Config {
     staffRoles: string[],
     roles: {
       admin: string,
-      bottech: string,
       dcmod: string,
       mpmanager: string,
       mpmod: string,
