@@ -118,7 +118,7 @@ export default class MP {
       },
       maintenance: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
 
         const reason = interaction.options.getString('reason');
@@ -133,7 +133,7 @@ export default class MP {
       },
       start: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
         const map_names = interaction.options.getString('map_names', true).split('|');
         if (map_names.length > 10) return interaction.reply('You can only have up to 10 maps in a poll!');
@@ -150,7 +150,7 @@ export default class MP {
       },
       end: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
         const msg_id = interaction.options.getString('message_id', true);
         const stripUrl = msg_id.replace(/https:\/\/discord.com\/channels\/\d+\/\d+\/(\d+)/, '$1');
@@ -172,14 +172,14 @@ export default class MP {
       },
       maps: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmod');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
         const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch(MAP_POOL_HOOKMSG);
         interaction.reply({embeds: [suggestionPool.embeds[0]]});
       }, // Server management group
       create_server: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         const dedicatedServerStatsURL = interaction.options.getString('dss-url');
         if (!dedicatedServerStatsURL) {
@@ -201,7 +201,7 @@ export default class MP {
       },
       remove_server: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         try {
           Logger.console('log', logPrefix, `Removing "${choiceSelector}" from database`)
@@ -214,7 +214,7 @@ export default class MP {
       },
       visibility_toggle: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'mpmanager');
+          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         const toggleFlag = interaction.options.getBoolean('is_active');
         Logger.console('log', logPrefix, `Toggling isActive flag for "${choiceSelector}" to ${toggleFlag}`);
