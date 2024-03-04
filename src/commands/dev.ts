@@ -9,7 +9,7 @@ import util from 'node:util';
 import fs from 'node:fs';
 export default class Developer {
   static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>) {
-    if (!client.config.whitelist.includes(interaction.user.id)) return MessageTool.youNeedRole(interaction, 'bottech');
+    if (!client.config.whitelist.includes(interaction.member.id)) return MessageTool.isWhitelisted(interaction);
     ({
       eval: async()=>{
         fs;
