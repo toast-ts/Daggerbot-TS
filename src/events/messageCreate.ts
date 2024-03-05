@@ -10,7 +10,7 @@ import MessageTool from '../helpers/MessageTool.js';
 export default class MessageCreate {
   static async run(client:TClient, message:Discord.Message) {
     if (message.author.bot) return;
-    if (!message.inGuild()) return (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({content: `${this.randomEmotes[Math.floor(Math.random()*this.randomEmotes.length)]} ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) sent me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
+    if (!message.inGuild()) return (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({content: `${this.randomEmotes[Math.floor(Math.random()*this.randomEmotes.length)]} ${MessageTool.formatMention(client.config.whitelist[0], 'user')}\n**${message.author.username}** (\`${message.author.id}\`) sent me a DM, their message is:\`\`\`${message.content}\`\`\``, allowedMentions: {parse: ['users']}});
     let automodded: boolean;
 
     if (client.config.botSwitches.automod && !message.member?.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member?.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {

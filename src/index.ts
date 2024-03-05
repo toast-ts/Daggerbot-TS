@@ -72,7 +72,7 @@ setInterval(async()=>{
 
       // Send notification to #bot-log that the data has been pushed to database.
       const commands = await client.guilds.cache.get(client.config.dcServer.id)?.commands.fetch();
-      if (commands) (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [
+      if (commands) (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [
         new client.embed().setDescription(`Pushed the following\ndata to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`).setFields(
           {name: 'Day', value: formattedDate.toString(), inline: true},
           {name: 'Messages', value: Intl.NumberFormat('en-us').format(total).toString(), inline: true}

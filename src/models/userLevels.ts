@@ -123,7 +123,7 @@ export class UserLevelsSvc {
 
       try {
         // Send notification to dcServer's logs channel after cronjob is complete.
-        (this.client.channels.resolve(this.client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [new this.client.embed()
+        (this.client.channels.resolve(this.client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [new this.client.embed()
           .setColor('#A3FFE3')
           .setTitle('Yearly data reset has begun!')
           .setDescription(MessageTool.concatMessage(
@@ -142,7 +142,7 @@ export class UserLevelsSvc {
       this.client.config.LRSstart = newEpoch;
       const logText = `Resetting LRSstart to \`${newEpoch}\`, saved to config file`;
       Logger.console('log', 'DailyMsgs', logText);
-      (this.client.channels.resolve(this.client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [new this.client.embed()
+      (this.client.channels.resolve(this.client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [new this.client.embed()
         .setColor(this.client.config.embedColorXmas)
         .setTitle('Happy New Years! Level System is clean!')
         .setDescription(logText)
