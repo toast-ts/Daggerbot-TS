@@ -13,7 +13,7 @@ export default class ChannelUpdate {
 
     if (auditChupdate.changes.length > 0) {
       const changes = auditChupdate.changes;
-      const formatAudit =(auditValue:Discord.AuditLogChange)=>`${auditValue.old === undefined ? 'None' : auditValue.old} ➜ ${auditValue.new === '' ? 'None' : auditValue.new}`;
+      const formatAudit =(auditValue:Discord.AuditLogChange)=>`${auditValue.old ??= 'None'} ➜ ${auditValue.new ??= 'None'}`;
 
       embed.setTitle(`\`${oldChannel.name}\` was updated`).setTimestamp(auditChupdate.createdTimestamp);
       for (const change of changes) {
