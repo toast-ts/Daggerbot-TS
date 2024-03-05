@@ -61,7 +61,7 @@ export default class Rank {
         const member = interaction.options.getMember('member');
         const duration = ms(interaction.options.getString('duration'));
         const reason = interaction.options.getString('reason');
-        const botlog = interaction.guild.channels.cache.get(client.config.dcServer.channels.logs) as Discord.TextChannel;
+        const botlog = interaction.guild.channels.cache.get(client.config.dcServer.channels.bot_log) as Discord.TextChannel;
 
         if (await client.userLevels.blockUser(member.id, Date.now() + duration)) {
           await interaction.reply(`Done, DM has been sent to **${member.displayName}** with the reason.`);

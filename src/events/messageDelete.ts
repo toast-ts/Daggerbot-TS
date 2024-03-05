@@ -15,6 +15,6 @@ export default class MessageDelete {
     )
     const attachments:string[] = [];
     msg.attachments.forEach(x=>attachments.push(x.url));
-    (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [embed], files: attachments})
+    (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [embed], files: attachments})
   }
 }

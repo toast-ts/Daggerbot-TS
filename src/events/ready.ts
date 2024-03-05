@@ -6,7 +6,7 @@ export default class Ready {
     const botSwitches = Object.entries(client.config.botSwitches).map(([k, v])=>`${ansi.yellow(k)}${ansi.black(':')} ${v}`).join('\n').replace(/true/g, ansi.green('true')).replace(/false/g, ansi.red('false'));
 
     await client.guilds.fetch(client.config.dcServer.id).then(async guild=>{
-      const logsArray = [client.config.dcServer.channels.logs, client.config.dcServer.channels.bankick_log];
+      const logsArray = [client.config.dcServer.channels.bot_log, client.config.dcServer.channels.bankick_log];
       for (const channelID of logsArray) {
         const channel = await client.channels.fetch(channelID) as Discord.TextChannel;
         if (channel && channel.type === Discord.ChannelType.GuildText) await channel.messages.fetch({limit: 15});

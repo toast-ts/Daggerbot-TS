@@ -4,7 +4,7 @@ export default class GuildMemberUpdate {
   static run(client:TClient, oldMember:Discord.GuildMember, newMember:Discord.GuildMember){
     if (oldMember.guild.id != client.config.dcServer.id) return;
     if (!client.config.botSwitches.logs) return;
-    const channel = (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel);
+    const channel = (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel);
     if (oldMember.nickname != newMember.nickname){
       const embed = new client.embed().setColor(client.config.embedColor).setTimestamp().setThumbnail(newMember.displayAvatarURL({size: 2048})).setTitle(`Nickname updated: ${newMember.user.username}`).setDescription(`<@${newMember.user.id}>\n\`${newMember.user.id}\``)
       oldMember.nickname === null ? '' : embed.addFields({name: '🔹 Old nickname', value: `\`\`\`${oldMember.nickname}\`\`\``})

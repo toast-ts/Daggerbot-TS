@@ -16,7 +16,7 @@ export default class GuildMemberRemove {
       {name: `🔹 Roles: ${member.roles.cache.size - 1}`, value: `${member.roles.cache.size > 1 ? member.roles.cache.filter((x)=>x.id !== member.guild.roles.everyone.id).sort((a,b)=>b.position - a.position).map(x=>x).join(member.roles.cache.size > 4 ? ' ' : '\n').slice(0,1024) : 'No roles'}`, inline: true}
     );
     if (levelData && levelData.dataValues.messages > 1) embed.addFields({name: '🔹 Total messages', value: levelData.dataValues.messages.toLocaleString('en-US'), inline: true});
-    (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]});
+    (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [embed]});
     await client.userLevels.deleteUser(member.id);
   }
 }
