@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 export default class ChannelUpdate {
-  static async run(client:TClient, oldChannel:Discord.GuildChannel, newChannel:Discord.GuildChannel) {
-    if (!client.config.botSwitches.logs) return;
+  static async run(_client:TClient, _oldChannel:Discord.GuildChannel, _newChannel:Discord.GuildChannel) {
+/*     if (!client.config.botSwitches.logs) return;
     if (oldChannel.guild?.id != client.config.dcServer.id) return;
 
     const auditChupdate = (await newChannel.guild.fetchAuditLogs({limit: 1, type: Discord.AuditLogEvent.ChannelUpdate})).entries.first();
@@ -22,6 +22,7 @@ export default class ChannelUpdate {
       }
 
       await serverLog.send({embeds: [embed]});
-    }
+    } */
   }
 }
+// Commented out, will be refactored later due to issues.
