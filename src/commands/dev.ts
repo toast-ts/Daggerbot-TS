@@ -128,7 +128,7 @@ export default class Developer {
         const member = interaction.options.getMember('member');
         const message = interaction.options.getString('message');
         const int = await interaction.reply({content: '*Sending...*', fetchReply: true});
-        client.users.cache.get(member.id).send(`${message}\n╰ ${interaction.member.displayName}`).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
+        client.users.cache.get(member.id).send(`${message}\n╰ *Pseudonymous User*`).then(()=>int.edit(`Successfully sent a DM to **${member.user.username}** with the following message:\n\`\`\`${message}\`\`\``)).catch((e:Error)=>int.edit(`\`${e.message}\``))
       },
       modify_rank_msgs: async()=>{
         if (interaction.guildId !== client.config.dcServer.id) return interaction.reply({content: 'This command is only available in the main server.', ephemeral: true});
