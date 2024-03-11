@@ -48,7 +48,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.22.0"],\
           ["typescript", "patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"],\
-          ["undici", "npm:6.7.0"]\
+          ["undici", "npm:6.7.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -817,7 +817,7 @@ const RAW_RUNTIME_STATE =
           ["simple-git", "npm:3.22.0"],\
           ["systeminformation", "npm:5.22.0"],\
           ["typescript", "patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"],\
-          ["undici", "npm:6.7.0"]\
+          ["undici", "npm:6.7.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -1572,6 +1572,13 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["undici", "npm:6.7.0"],\
           ["@fastify/busboy", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.7.1", {\
+        "packageLocation": "./.yarn/cache/undici-npm-6.7.1-cc741edc29-7e66eb7fb6.zip/node_modules/undici/",\
+        "packageDependencies": [\
+          ["undici", "npm:6.7.1"]\
         ],\
         "linkType": "HARD"\
       }]\
