@@ -43,7 +43,7 @@
     "sequelize": "6.37.1",
     "simple-git": "3.22.0",
     "systeminformation": "5.22.0",
-    "undici": "6.7.0"
+    "undici": "6.7.1"
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
