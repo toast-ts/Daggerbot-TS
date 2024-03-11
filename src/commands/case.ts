@@ -4,7 +4,7 @@ import Formatters from '../helpers/Formatters.js';
 import MessageTool from '../helpers/MessageTool.js';
 export default class Case {
 	private static async updateEntry(client:TClient, caseId:number, reason:string) {
-    const logsArray = [client.config.dcServer.channels.logs, client.config.dcServer.channels.bankick_log];
+    const logsArray = [client.config.dcServer.channels.bot_log, client.config.dcServer.channels.bankick_log];
     for (const channelID of logsArray) {
       const channel = await client.channels.fetch(channelID) as Discord.TextChannel;
       if (channel && channel.type === Discord.ChannelType.GuildText) {

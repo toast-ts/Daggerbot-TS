@@ -14,7 +14,7 @@ export default class Suggest {
       },
       delete: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
+          if (!client.config.whitelist.includes(interaction.member.id)) return MessageTool.isWhitelisted(interaction);
         }
         const sugg = await this.deleteSuggestion(client, idVal);
         if (sugg) return interaction.reply(`Suggestion \`#${idVal}\` has been deleted.`);
@@ -22,7 +22,7 @@ export default class Suggest {
       },
       update: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
-          if (!interaction.member.roles.cache.has(client.config.dcServer.roles.bottech)) return MessageTool.youNeedRole(interaction, 'bottech');
+          if (!client.config.whitelist.includes(interaction.member.id)) return MessageTool.isWhitelisted(interaction);
         }
         const status = interaction.options.getString('status', true);
         await this.updateSuggestion(client, idVal, status as 'Accepted'|'Rejected');

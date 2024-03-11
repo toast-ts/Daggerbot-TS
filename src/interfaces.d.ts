@@ -136,7 +136,6 @@ export interface Config {
     staffRoles: string[],
     roles: {
       admin: string,
-      bottech: string,
       dcmod: string,
       mpmanager: string,
       mpmod: string,
@@ -152,7 +151,7 @@ export interface Config {
       thismeanswar: string,
       bot_suggestions: string,
       bot_status: string,
-      logs: string,
+      bot_log: string,
       welcome: string,
       botcommands: string,
       bankick_log: string,
@@ -161,7 +160,8 @@ export interface Config {
       mpmod_chat: string,
       multifarm_chat: string,
       pw_list: string,
-      help_forum: string
+      help_forum: string,
+      server_log: string
     }
   }
 }

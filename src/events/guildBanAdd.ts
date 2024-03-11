@@ -15,7 +15,7 @@ export default class GuildBanAdd {
         {name: '🔹 Reason', value: reason === null ? 'Reason unspecified': reason}
       );
       if (!await client.userLevels.fetchUser(member.user.id)) embed.setFooter({text: 'Rank data has been wiped.'});
-      (client.channels.resolve(client.config.dcServer.channels.logs) as Discord.TextChannel).send({embeds: [embed]});
+      (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [embed]});
       client.memberJoinDates.delete(member.user.id);
     } else console.log(`User was banned from "${member.guild.name}" but no audit log could be fetched.`)
   }

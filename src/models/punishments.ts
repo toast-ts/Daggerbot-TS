@@ -125,7 +125,7 @@ export class PunishmentsSvc {
         channel = this.client.config.dcServer.channels.bankick_log;
         break;
       default:
-        channel = this.client.config.dcServer.channels.logs;
+        channel = this.client.config.dcServer.channels.bot_log;
         break;
     }
     const embed = new this.client.embed()
