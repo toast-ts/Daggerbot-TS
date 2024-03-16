@@ -152,7 +152,8 @@ export async function requestServerData(client:TClient, server:IServerExt):Promi
       }
       await new Promise(resolve=>setTimeout(resolve, delay));
       delay *= 2;
-      console.log('Request delayed by %d for %s', delay, server.serverName);
+      Logger.console('log', loggingPrefix, `Request delayed by ${delay} for ${server.serverName}`);
+      // Workaround for the API ratelimit (seen by panel responding with HTTP 400 apparently...)
     }
     return null;
   }
