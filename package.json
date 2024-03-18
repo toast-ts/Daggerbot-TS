@@ -41,7 +41,7 @@
     "pg-hstore": "2.3.4",
     "redis": "4.6.13",
     "sequelize": "6.37.1",
-    "simple-git": "3.22.0",
+    "simple-git": "3.23.0",
     "systeminformation": "5.22.2",
     "undici": "6.9.0"
   },
