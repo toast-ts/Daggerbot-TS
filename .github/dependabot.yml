@@ -4,6 +4,12 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+registries:
+  toast:
+    type: npm-registry
+    url: "https://git.toast-server.net/api/packages/toast/npm/"
+    token: ${{ secrets.GITEA_TOKEN }}
+
 updates:
   - package-ecosystem: "npm"
     directory: "/"
@@ -19,4 +25,5 @@ updates:
     - "dependencies"
     open-pull-requests-limit: 8
     rebase-strategy: auto
-    registries: "*"
+    registries:
+    - toast
