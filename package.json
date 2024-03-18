@@ -42,7 +42,7 @@
     "redis": "4.6.13",
     "sequelize": "6.37.1",
     "simple-git": "3.23.0",
-    "systeminformation": "5.22.2",
+    "systeminformation": "5.22.3",
     "undici": "6.9.0"
   },
   "devDependencies": {

@@ -46,7 +46,7 @@ const RAW_RUNTIME_STATE =
           ["redis", "npm:4.6.13"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
           ["simple-git", "npm:3.23.0"],\
-          ["systeminformation", "npm:5.22.2"],\
+          ["systeminformation", "npm:5.22.3"],\
           ["typescript", "patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"],\
           ["undici", "npm:6.9.0"]\
         ],\
@@ -823,7 +823,7 @@ const RAW_RUNTIME_STATE =
           ["redis", "npm:4.6.13"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
           ["simple-git", "npm:3.23.0"],\
-          ["systeminformation", "npm:5.22.2"],\
+          ["systeminformation", "npm:5.22.3"],\
           ["typescript", "patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"],\
           ["undici", "npm:6.9.0"]\
         ],\
@@ -1495,10 +1495,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["systeminformation", [\
-      ["npm:5.22.2", {\
-        "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.22.2-646ba0b2c9/node_modules/systeminformation/",\
+      ["npm:5.22.3", {\
+        "packageLocation": "./.yarn/unplugged/systeminformation-npm-5.22.3-b08524e9a7/node_modules/systeminformation/",\
         "packageDependencies": [\
-          ["systeminformation", "npm:5.22.2"]\
+          ["systeminformation", "npm:5.22.3"]\
         ],\
         "linkType": "HARD"\
       }]\
