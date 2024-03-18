@@ -632,7 +632,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-continuation-local-storage-npm-3.2.7-763e4dc12b-1f272b53bc.zip/node_modules/@types/continuation-local-storage/",\
         "packageDependencies": [\
           ["@types/continuation-local-storage", "npm:3.2.7"],\
-          ["@types/node", "npm:20.11.27"]\
+          ["@types/node", "npm:20.11.28"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -666,14 +666,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.11.27", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.27-63306d6ffa-4be53485d4.zip/node_modules/@types/node/",\
-        "packageDependencies": [\
-          ["@types/node", "npm:20.11.27"],\
-          ["undici-types", "npm:5.26.5"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:20.11.28", {\
         "packageLocation": "./.yarn/cache/@types-node-npm-20.11.28-6be967407c-b03f69213a.zip/node_modules/@types/node/",\
         "packageDependencies": [\
@@ -697,7 +689,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pg-npm-8.11.2-bdf321bea4-7c05cf63be.zip/node_modules/@types/pg/",\
         "packageDependencies": [\
           ["@types/pg", "npm:8.11.2"],\
-          ["@types/node", "npm:20.11.27"],\
+          ["@types/node", "npm:20.11.28"],\
           ["pg-protocol", "npm:1.6.0"],\
           ["pg-types", "npm:4.0.2"]\
         ],\
@@ -731,7 +723,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.10-a877a38f71-9b414dc5e0.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.10"],\
-          ["@types/node", "npm:20.11.27"]\
+          ["@types/node", "npm:20.11.28"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -739,7 +731,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.9-91d1b2ab07-7cf66383b8.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.9"],\
-          ["@types/node", "npm:20.11.27"]\
+          ["@types/node", "npm:20.11.28"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1632,7 +1624,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/wkx-npm-0.5.0-fca5152cd8-b8975e33f9.zip/node_modules/wkx/",\
         "packageDependencies": [\
           ["wkx", "npm:0.5.0"],\
-          ["@types/node", "npm:20.11.27"]\
+          ["@types/node", "npm:20.11.28"]\
         ],\
         "linkType": "HARD"\
       }]\
