@@ -37,7 +37,7 @@ const RAW_RUNTIME_STATE =
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.5"],\
+          ["fast-xml-parser", "npm:4.3.6"],\
           ["mathjs", "npm:12.4.1"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
@@ -814,7 +814,7 @@ const RAW_RUNTIME_STATE =
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.5"],\
+          ["fast-xml-parser", "npm:4.3.6"],\
           ["mathjs", "npm:12.4.1"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
@@ -940,10 +940,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-xml-parser", [\
-      ["npm:4.3.5", {\
-        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.5-3cd12e5b84-ccfd943e4e.zip/node_modules/fast-xml-parser/",\
+      ["npm:4.3.6", {\
+        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.6-b71efbeb6c-3e431e5949.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.3.5"],\
+          ["fast-xml-parser", "npm:4.3.6"],\
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
