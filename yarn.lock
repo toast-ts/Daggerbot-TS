@@ -5,7 +5,7 @@ __metadata:
   version: 8
   cacheKey: 10
 
-"@babel/runtime@npm:^7.23.9":
+"@babel/runtime@npm:^7.24.0":
   version: 7.24.0
   resolution: "@babel/runtime@npm:7.24.0"
   dependencies:
@@ -530,12 +530,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.11.25":
-  version: 20.11.25
-  resolution: "@types/node@npm:20.11.25"
+"@types/node@npm:*, @types/node@npm:20.11.28":
+  version: 20.11.28
+  resolution: "@types/node@npm:20.11.28"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10/861265f1bbb151404bd8842b595f027a4ff067c61ecff9a37b9f7f53922c18dd532c8e795e8e7675dd8dba056645623fd2b9848d5ef72863ec3609096cd2923e
+  checksum: 10/b03f69213ac6e7cd5f7efa86139f24e23ff70a12fed04adeac5413b62d6982343ce94906f74c401c5afefda48d36ae0efd6a575240996b15a5cf80b456ab4221
   languageName: node
   linkType: hard
 
@@ -642,24 +642,24 @@ __metadata:
     "@sequelize/core": "npm:7.0.0-alpha.37"
     "@toast/tokenservice-client": "npm:1.0.16"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:20.11.25"
+    "@types/node": "npm:20.11.28"
     "@types/node-cron": "npm:3.0.11"
     "@types/pg": "npm:8.11.2"
     ansi-colors: "npm:4.1.3"
     dayjs: "npm:1.11.10"
     discord.js: "npm:14.14.1"
-    fast-xml-parser: "npm:4.3.5"
-    mathjs: "npm:12.4.0"
+    fast-xml-parser: "npm:4.3.6"
+    mathjs: "npm:12.4.1"
     ms: "npm:2.1.3"
     node-cron: "npm:3.0.3"
     pg: "npm:8.11.3"
     pg-hstore: "npm:2.3.4"
     postgres-array: "npm:3.0.2"
     redis: "npm:4.6.13"
-    simple-git: "npm:3.22.0"
-    systeminformation: "npm:5.22.0"
+    simple-git: "npm:3.23.0"
+    systeminformation: "npm:5.22.3"
     typescript: "npm:5.4.2"
-    undici: "npm:6.7.1"
+    undici: "npm:6.9.0"
   languageName: unknown
   linkType: soft
 
@@ -759,14 +759,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:4.3.5":
-  version: 4.3.5
-  resolution: "fast-xml-parser@npm:4.3.5"
+"fast-xml-parser@npm:4.3.6":
+  version: 4.3.6
+  resolution: "fast-xml-parser@npm:4.3.6"
   dependencies:
     strnum: "npm:^1.0.5"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10/ccfd943e4ed400bf3acd4b6fcba9a15ec992a4a76c9a0cf825fc06f2b35a79a6d1de477b9a73c23633597c4f2a35838550ec3013a056f2591aa8cb3989d1f242
+  checksum: 10/3e431e594960f04996e60a01fb51d8f4346138a7ba60d97244bf7866a3072eaf2f6dc73008d7b07871b98b606a8d7db955efdeae787992f685dd0e5bcc67c36a
   languageName: node
   linkType: hard
 
@@ -878,11 +878,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:12.4.0":
-  version: 12.4.0
-  resolution: "mathjs@npm:12.4.0"
+"mathjs@npm:12.4.1":
+  version: 12.4.1
+  resolution: "mathjs@npm:12.4.1"
   dependencies:
-    "@babel/runtime": "npm:^7.23.9"
+    "@babel/runtime": "npm:^7.24.0"
     complex.js: "npm:^2.1.1"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
@@ -893,7 +893,7 @@ __metadata:
     typed-function: "npm:^4.1.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10/ee168a7e4be0bebe9fbd69292462f162d6aae973500e00dbf00f44392ccf80f4de86883819576df2434e9b3e4d6c222a14613e2c0450db8316c373f130bee2b6
+  checksum: 10/171cdf4b6ad4786f902d112d4208a2e5b02381cd08a2b974d957b56d0102808064ddfcc7b953bef6022ad0302f3181b7f6146b3be6b54a240579a36b90c463ff
   languageName: node
   linkType: hard
 
@@ -1224,14 +1224,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:3.22.0":
-  version: 3.22.0
-  resolution: "simple-git@npm:3.22.0"
+"simple-git@npm:3.23.0":
+  version: 3.23.0
+  resolution: "simple-git@npm:3.23.0"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
     debug: "npm:^4.3.4"
-  checksum: 10/309e7f0b73550f99949c0c6cfd4b4799ec0452fc4835dc440f89ec9351fe553c979c4e2bf7a772308e608697d3a27512281fbc64df0328a73607641f389b0aaf
+  checksum: 10/08ddfcbc310bfeaba066ef7b0d178967d9984aa1bc5e29f0360d166b0ccf820a3e5bb67d02036fca40fde6cdfc998f2b5fb2db9a8bbbad29b4feb4c1391f39e0
   languageName: node
   linkType: hard
 
@@ -1249,12 +1249,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.22.0":
-  version: 5.22.0
-  resolution: "systeminformation@npm:5.22.0"
+"systeminformation@npm:5.22.3":
+  version: 5.22.3
+  resolution: "systeminformation@npm:5.22.3"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/a739041bf0ef572eaebd06819ed54bb5f4a785793e3d542f16f39914ae5bbbf7d44b204ec936dcf560056709e97e2e55c11ee3ceda7b9585e778979f63ab7e3b
+  checksum: 10/a4b0bf49e5319424c828aff805a7cf158235ec79407039acfa13133e9dcfe2b6121aaafeffec94cae45dc85899dd91fd00583a4bc018ed507d38a4aea7ae6459
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -1362,10 +1362,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.7.1":
-  version: 6.7.1
-  resolution: "undici@npm:6.7.1"
-  checksum: 10/7e66eb7fb6b3641efc9381b335334a7fe0d69d4b8004147b2a7658f279adfd392fb908acf71627e2cd1f863d9ab4d5b1470139364468d486ab69aee43a8246e5
+"undici@npm:6.9.0":
+  version: 6.9.0
+  resolution: "undici@npm:6.9.0"
+  checksum: 10/ee227517586f96b73db3b7a24387f101d191df6a6395ec0199688d6e56195dbe8c9d3456be2fa4a70af30fb1a9a905142826f9bf89c328dec842f00b55e9e5c2
   languageName: node
   linkType: hard
 

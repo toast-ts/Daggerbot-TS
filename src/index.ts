@@ -66,7 +66,10 @@ setInterval(async()=>{
     if (!dailyMsgs.find(x=>x.dataValues.day === formattedDate)) {
       let total = (await client.userLevels.fetchEveryone()).reduce((a,b)=>a + b.messages, 0); // Sum of all users
       const yesterday = dailyMsgs.find(x=>x.day === formattedDate - 1)
-      if (total < yesterday?.total) total = yesterday.total; // Messages went down.
+      if (yesterday && total < yesterday.total) Logger.console('log', 'DailyMsgs', `Total messages for day ${formattedDate} is less than total messages for day ${formattedDate - 1}.`);
+      // Update total if it's the same as yesterday's total
+      if (yesterday && total === yesterday.total) total = (await client.userLevels.fetchEveryone()).reduce((a,b)=>a + b.messages, 0); // Recalculate total
+
       await client.dailyMsgs.newDay(formattedDate, total);
       Logger.console('log', 'DailyMsgs', `Pushed [${formattedDate}, ${total}]`)
 

@@ -29,6 +29,7 @@ export default class CacheServer {
     if (jsonMode) return await RedisClient.json.set(key, '.', value);
     else return await RedisClient.set(key, JSON.stringify(value));
   }
+  /** @param time Cache expiration in seconds */
   public static expiry = async(key:any, time:number)=>await RedisClient.expire(key, time); // NOTE: time is in seconds, not milliseconds -- you know what you did wrong
   public static delete = async(key:any)=>await RedisClient.del(key);
   public static init() {

@@ -8,7 +8,6 @@ import {IServer} from '../models/MPServer.js';
 import {XMLParser} from 'fast-xml-parser';
 import {FSPlayer, FSData, FSCareerSavegame} from 'src/interfaces';
 
-let failedAttempts:number = 0;
 let loggingPrefix:string = 'MPModule';
 let dataUnavailable:string = 'Unavailable';
 export let refreshTimerSecs:number = 45000;
@@ -16,6 +15,10 @@ let isBotInDevMode:boolean = ConfigHelper.isDevMode();
 let refreshIntrvlTxt:string = `Refreshes every ${refreshTimerSecs/1000} seconds.`;
 let offlineStatus:string = 'Server is offline';
 let unavailableStatus:string = 'Server didn\'t respond';
+
+interface IServerExt extends IServer {
+  failureCount?:number;
+}
 
 export default async(client:TClient)=>{
   const message = await (client.channels.resolve(isBotInDevMode ? '1091300529696673792' : '543494084363288637') as Discord.TextChannel).messages.fetch(isBotInDevMode ? '1104563309451161742' : '1149141188079779900');
@@ -123,25 +126,34 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
   })
 }
 
-export async function requestServerData(client:TClient, server:IServer):Promise<{dss:FSData, csg:FSCareerSavegame}|undefined>{
+export async function requestServerData(client:TClient, server:IServerExt):Promise<{dss:FSData, csg:FSCareerSavegame}|undefined>{
   async function retryReqs(url:string) {
     // Attempt to reduce the failure rate of the requests before giving up and retrying in next refresh.
-    let maxRetries:number = 3;
+    let maxRetries:number = 4;
+    let delay:number = 500;
+
     for (let i = 0; i < maxRetries; i++) {
       try {
         const data = await Undici.fetch(url, {keepalive: true, signal: AbortSignal.timeout(12000), headers: {'User-Agent': `${client.user.username} - MPModule/undici`}});
-        if (data.status === 200 ?? 204) return data;
-        else if (data.status === 404) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (404), API is disabled or mismatched code`)
+        if (data.status === 200 ?? 204) {
+          server.failureCount = 0;
+          delay = 500;
+          return data
+        } else if (data.status === 404) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (404), API is disabled or mismatched code`);
+        else if (data.status === 400) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (400), bad endpoint or ratelimited`); // Seems to be taking L's left and right hourly...
       } catch(err) {
         Logger.console('log', loggingPrefix, `Couldn't get data for ${server.serverName}: ${err.message}`);
-        failedAttempts++;
-        if (failedAttempts >= 5 && server.isActive) {
-          Logger.console('log', loggingPrefix, `Maximum failed requests (${failedAttempts}) reached for ${server.serverName}, silenced server for 10 minutes`);
+        server.failureCount++;
+        if (server.failureCount >= 6 && server.isActive) {
+          Logger.console('log', loggingPrefix, `Maximum failed requests (${server.failureCount}) reached for ${server.serverName}, silenced server for 10 minutes`);
           silenceServer(client, server, 600000);
         }
         return null;
       }
-      await new Promise(resolve=>setTimeout(resolve, 500))
+      await new Promise(resolve=>setTimeout(resolve, delay));
+      delay *= 2;
+      Logger.console('log', loggingPrefix, `Request delayed by ${delay} for ${server.serverName}`);
+      // Workaround for the API ratelimit (seen by panel responding with HTTP 400 apparently...)
     }
     return null;
   }
@@ -189,8 +201,8 @@ function convertPlayerUptime(playTime:number) {
   return (Days > 0 ? Days+' d ':'')+(Hours > 0 ? Hours+' h ':'')+(Minutes > 0 ? Minutes+' m':'')
 }
 
-function silenceServer(client:TClient, server:IServer, time:number):void {
+function silenceServer(client:TClient, server:IServerExt, time:number):void {
   client.MPServer.toggleServerUsability(server.serverName, false);
   setTimeout(()=>client.MPServer.toggleServerUsability(server.serverName, true), time)
-  failedAttempts = 0;
+  server.failureCount = 0;
 }

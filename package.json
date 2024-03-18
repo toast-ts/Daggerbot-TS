@@ -34,21 +34,21 @@
     "ansi-colors": "4.1.3",
     "dayjs": "1.11.10",
     "discord.js": "14.14.1",
-    "fast-xml-parser": "4.3.5",
-    "mathjs": "12.4.0",
+    "fast-xml-parser": "4.3.6",
+    "mathjs": "12.4.1",
     "ms": "2.1.3",
     "node-cron": "3.0.3",
     "pg": "8.11.3",
     "pg-hstore": "2.3.4",
     "postgres-array": "3.0.2",
     "redis": "4.6.13",
-    "simple-git": "3.22.0",
-    "systeminformation": "5.22.0",
-    "undici": "6.7.1"
+    "simple-git": "3.23.0",
+    "systeminformation": "5.22.3",
+    "undici": "6.9.0"
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.25",
+    "@types/node": "20.11.28",
     "@types/node-cron": "3.0.11",
     "@types/pg": "8.11.2",
     "typescript": "5.4.2"
