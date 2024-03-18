@@ -604,7 +604,7 @@ __metadata:
     pg-hstore: "npm:2.3.4"
     redis: "npm:4.6.13"
     sequelize: "npm:6.37.1"
-    simple-git: "npm:3.22.0"
+    simple-git: "npm:3.23.0"
     systeminformation: "npm:5.22.2"
     typescript: "npm:5.4.2"
     undici: "npm:6.9.0"
@@ -1121,14 +1121,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:3.22.0":
-  version: 3.22.0
-  resolution: "simple-git@npm:3.22.0"
+"simple-git@npm:3.23.0":
+  version: 3.23.0
+  resolution: "simple-git@npm:3.23.0"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
     debug: "npm:^4.3.4"
-  checksum: 10/309e7f0b73550f99949c0c6cfd4b4799ec0452fc4835dc440f89ec9351fe553c979c4e2bf7a772308e608697d3a27512281fbc64df0328a73607641f389b0aaf
+  checksum: 10/08ddfcbc310bfeaba066ef7b0d178967d9984aa1bc5e29f0360d166b0ccf820a3e5bb67d02036fca40fde6cdfc998f2b5fb2db9a8bbbad29b4feb4c1391f39e0
   languageName: node
   linkType: hard
 
