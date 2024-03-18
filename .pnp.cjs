@@ -30,14 +30,14 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.16::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.16%2Ftokenservice-client-1.0.16.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.27"],\
+          ["@types/node", "npm:20.11.28"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.5"],\
+          ["fast-xml-parser", "npm:4.3.6"],\
           ["mathjs", "npm:12.4.1"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
@@ -45,7 +45,7 @@ const RAW_RUNTIME_STATE =
           ["pg-hstore", "npm:2.3.4"],\
           ["redis", "npm:4.6.13"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
-          ["simple-git", "npm:3.22.0"],\
+          ["simple-git", "npm:3.23.0"],\
           ["systeminformation", "npm:5.22.2"],\
           ["typescript", "patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"],\
           ["undici", "npm:6.9.0"]\
@@ -673,6 +673,14 @@ const RAW_RUNTIME_STATE =
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:20.11.28", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.11.28-6be967407c-b03f69213a.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:20.11.28"],\
+          ["undici-types", "npm:5.26.5"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@types/node-cron", [\
@@ -799,14 +807,14 @@ const RAW_RUNTIME_STATE =
           ["@octokit/rest", "npm:20.0.2"],\
           ["@toast/tokenservice-client", "npm:1.0.16::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.16%2Ftokenservice-client-1.0.16.tgz"],\
           ["@types/ms", "npm:0.7.34"],\
-          ["@types/node", "npm:20.11.27"],\
+          ["@types/node", "npm:20.11.28"],\
           ["@types/node-cron", "npm:3.0.11"],\
           ["@types/pg", "npm:8.11.2"],\
           ["@types/sequelize", "npm:4.28.20"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["dayjs", "npm:1.11.10"],\
           ["discord.js", "npm:14.14.1"],\
-          ["fast-xml-parser", "npm:4.3.5"],\
+          ["fast-xml-parser", "npm:4.3.6"],\
           ["mathjs", "npm:12.4.1"],\
           ["ms", "npm:2.1.3"],\
           ["node-cron", "npm:3.0.3"],\
@@ -814,7 +822,7 @@ const RAW_RUNTIME_STATE =
           ["pg-hstore", "npm:2.3.4"],\
           ["redis", "npm:4.6.13"],\
           ["sequelize", "virtual:20c353e2d6536e37339997f03975c6a660f4d296e664d291bd43620c6162cca8eb5ef90b0998dc9db75ff6862e5da587d0530bae26805f5fadc8f17aaa4ff794#npm:6.37.1"],\
-          ["simple-git", "npm:3.22.0"],\
+          ["simple-git", "npm:3.23.0"],\
           ["systeminformation", "npm:5.22.2"],\
           ["typescript", "patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"],\
           ["undici", "npm:6.9.0"]\
@@ -932,10 +940,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-xml-parser", [\
-      ["npm:4.3.5", {\
-        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.5-3cd12e5b84-ccfd943e4e.zip/node_modules/fast-xml-parser/",\
+      ["npm:4.3.6", {\
+        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.3.6-b71efbeb6c-3e431e5949.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.3.5"],\
+          ["fast-xml-parser", "npm:4.3.6"],\
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
@@ -1457,10 +1465,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["simple-git", [\
-      ["npm:3.22.0", {\
-        "packageLocation": "./.yarn/cache/simple-git-npm-3.22.0-42ea3caec2-309e7f0b73.zip/node_modules/simple-git/",\
+      ["npm:3.23.0", {\
+        "packageLocation": "./.yarn/cache/simple-git-npm-3.23.0-a7d8879afb-08ddfcbc31.zip/node_modules/simple-git/",\
         "packageDependencies": [\
-          ["simple-git", "npm:3.22.0"],\
+          ["simple-git", "npm:3.23.0"],\
           ["@kwsites/file-exists", "npm:1.1.1"],\
           ["@kwsites/promise-deferred", "npm:1.1.1"],\
           ["debug", "virtual:8dde907e274d6cda4b3be6cd808e5a16421eab0e2ce2f6110b97323dbadda969b2dab36e690fd106d5bd3c87e0525cade2b2ba6fb4fb0c0e439212e4cf5c851b#npm:4.3.4"]\
