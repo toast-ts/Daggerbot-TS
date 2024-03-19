@@ -42,7 +42,7 @@ export default class Tag {
         .setRequired(false)))
     .addSubcommandGroup(x=>x
       .setName('tools')
-      .setDescription('Management tools for the tags system (Discord mods & Bot Tech only)')
+      .setDescription('Management tools for the tags system (Discord mods & bot devs only)')
       .addSubcommand(x=>x
         .setName('create')
         .setDescription('Create a new tag')
