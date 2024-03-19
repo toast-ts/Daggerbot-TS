@@ -54,14 +54,14 @@ export default class Suggest {
         .setRequired(true)))
     .addSubcommand(x=>x
       .setName('delete')
-      .setDescription('Delete a suggestion (Bot Tech only)')
+      .setDescription('Delete a suggestion (Bot devs only)')
       .addIntegerOption(x=>x
         .setName('id')
         .setDescription('The ID of the suggestion')
         .setRequired(true)))
     .addSubcommand(x=>x
       .setName('update')
-      .setDescription('Update a suggestion (Bot Tech only)')
+      .setDescription('Update a suggestion (Bot devs only)')
       .addIntegerOption(x=>x
         .setName('id')
         .setDescription('The ID of the suggestion')
