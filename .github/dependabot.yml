@@ -19,8 +19,6 @@ updates:
       timezone: "Australia/NSW"
     assignees:
     - "toast-ts"
-    reviewers:
-    - "toast-ts"
     labels:
     - "dependencies"
     open-pull-requests-limit: 8
