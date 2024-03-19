@@ -85,7 +85,7 @@ export default class CanvasBuilder {
       const Y = ((1 - (currentValue / top)) * size[1]) + origin[1];
       const nextValue = data[i + 1];
       const previousValue = data[i - 1];
-      this.ctx.strokeStyle = type === 'players' ?  gradient : null;
+      this.ctx.strokeStyle = type === 'players' ? gradient : null;
       this.ctx.beginPath();
 
       if (lastCoordinates.length) this.ctx.moveTo(lastCoordinates[0], lastCoordinates[1]);
@@ -106,7 +106,7 @@ export default class CanvasBuilder {
         // Balls. What else? I mean.. I'm not that creative, I'm just a comment not a funny comedian.
         this.ctx.fillStyle = type === 'players' ? gradient : null;
         this.ctx.beginPath();
-        this.ctx.arc(X, Y, this.ctx.lineWidth * 1.2, 0, 2 * Math.PI);
+        this.ctx.arc(X, Y, this.ctx.lineWidth * 0.8, 1, 2 * Math.PI);
         this.ctx.closePath();
         this.ctx.fill();
       }
