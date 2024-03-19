@@ -1,12 +1,12 @@
 services:
   cache:
-    container_name: redis-cache
-    image: redis/redis-stack-server:7.2.0-v6
+    container_name: daggerbot-redis
+    image: redis/redis-stack-server:7.2.0-v9
     restart: unless-stopped
     ports:
       - 6379:6379/tcp
   db:
-    container_name: postgres
+    container_name: daggerbot-postgres
     image: postgres:16.2-alpine3.19
     restart: unless-stopped
     ports:
