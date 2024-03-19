@@ -42,12 +42,12 @@
     "redis": "4.6.13",
     "sequelize": "6.37.1",
     "simple-git": "3.23.0",
-    "systeminformation": "5.22.3",
+    "systeminformation": "5.22.5",
     "undici": "6.9.0"
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.28",
+    "@types/node": "20.11.29",
     "@types/node-cron": "3.0.11",
     "@types/pg": "8.11.2",
     "@types/sequelize": "4.28.20",
