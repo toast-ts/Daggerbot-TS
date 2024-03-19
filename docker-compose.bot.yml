@@ -1,6 +1,6 @@
 services:
   bot:
-    container_name: daggerbot-prod
+    container_name: daggerbot
     build: .
     restart: unless-stopped
     volumes:
