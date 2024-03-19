@@ -1,5 +1,6 @@
 .env
 .yarn
+.pnp.*
 dist
 src/private
 src/*.json
