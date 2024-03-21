@@ -1,5 +1,5 @@
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 
 class prohibitedWords extends Model {
   declare public word: string;

@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 import {writeFileSync} from 'node:fs';
 import cron from 'node-cron';
 import Logger from '../helpers/Logger.js';
@@ -61,9 +61,9 @@ export class UserLevelsSvc {
   fetchEveryone = async()=>await this.model.findAll();
   fetchUser = async(userId:string)=>await this.model.findByPk(userId);
   deleteUser = async(userId:string)=>await this.model.destroy({where: {id: userId}});
-  async modifyUser(userId:string, updatedMessages:number) {
-    await this.model.update({messages: updatedMessages}, {where: {id: userId}});
-    return (await this.model.findByPk(userId)).dataValues;
+  async modifyUser(userId:string, messages:number) {
+    const [_, [updatedUser]] = await this.model.update({messages}, {where: {id: userId}, returning: true});
+    return updatedUser.dataValues;
   }
   async blockUser(userId:string, duration:number):Promise<boolean> {
     const data = await this.model.findByPk(userId);
@@ -74,8 +74,8 @@ export class UserLevelsSvc {
     }
   }
   async getActiveUsers() {
-    const members = (await this.model.findAll()).sort((a,b)=>b.dataValues.messages-a.dataValues.messages);
-    return members.slice(0, 5);
+    const members = await this.model.findAll({order: [['messages', 'DESC']], limit: 5});
+    return members;
   }
   async messageIncremental(userId:string) {
     const data = await this.model.findByPk(userId);
@@ -119,7 +119,7 @@ export class UserLevelsSvc {
 
       Logger.console('log', 'Cron:resetAllData', `Counted ${performCountBeforeReset.toLocaleString()} members before reset`);
       await this.client.dailyMsgs.nukeDays();
-      await this.model.drop().then(async()=>await this.model.sync());
+      await this.model.truncate();
 
       try {
         // Send notification to dcServer's logs channel after cronjob is complete.
@@ -139,16 +139,12 @@ export class UserLevelsSvc {
 
       // Reset LRSstart to current Epoch and save it to config file
       const newEpoch = new Date().getTime();
-      this.client.config.LRSstart = newEpoch;
-      const logText = `Resetting LRSstart to \`${newEpoch}\`, saved to config file`;
-      Logger.console('log', 'DailyMsgs', logText);
-      (this.client.channels.resolve(this.client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [new this.client.embed()
-        .setColor(this.client.config.embedColorXmas)
-        .setTitle('Happy New Years! Level System is clean!')
-        .setDescription(logText)
-      ]}).catch(err=>console.log(err));
-      writeFileSync('src/config.json', JSON.stringify(this.client.config, null, 2));
-      Logger.console('log', 'Cron:resetAllData', 'Job completed');
+      if (this.client.config.LRSstart !== newEpoch) {
+        this.client.config.LRSstart = newEpoch;
+        Logger.console('log', 'Cron:resetAllData', `Resetting LRSstart to \`${newEpoch}\`, saved to config file`);
+        writeFileSync('src/config.json', JSON.stringify(this.client.config, null, 2));
+        Logger.console('log', 'Cron:resetAllData', 'Job completed');
+      }
     })
   }
   algorithm = (level:number)=>level*level*15;

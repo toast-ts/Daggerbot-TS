@@ -1,5 +1,5 @@
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 
 class youtubeChannels extends Model {
   declare public ytchannel: string;
@@ -36,9 +36,8 @@ export class YouTubeChannelsSvc {
   }
   query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async addChannel(YTChannelID:string, DCChannelID:string, DCRole:string) {
-    if (await this.model.findOne({where: {ytchannel: YTChannelID}})) return false;
-    await this.model.create({ytchannel: YTChannelID, dcchannel: DCChannelID, dcrole: DCRole});
-    return true;
+    const [_, created] = await this.model.findOrCreate({where: {ytchannel: YTChannelID}, defaults: {dcchannel: DCChannelID, dcrole: DCRole}});
+    return created;
   }
   delChannel = async(YTChannelID:string)=>await this.model.destroy({where: {ytchannel: YTChannelID}});
   getChannels = async()=>await this.model.findAll();
