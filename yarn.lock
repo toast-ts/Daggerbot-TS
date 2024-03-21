@@ -454,10 +454,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sequelize/core@npm:7.0.0-alpha.37":
-  version: 7.0.0-alpha.37
-  resolution: "@sequelize/core@npm:7.0.0-alpha.37"
+"@sequelize/core@npm:7.0.0-alpha.38":
+  version: 7.0.0-alpha.38
+  resolution: "@sequelize/core@npm:7.0.0-alpha.38"
   dependencies:
+    "@sequelize/utils": "npm:7.0.0-alpha.38"
     "@types/debug": "npm:^4.1.7"
     "@types/validator": "npm:^13.7.5"
     bnf-parser: "npm:3.1.6"
@@ -494,16 +495,26 @@ __metadata:
       optional: true
     tedious:
       optional: true
-  checksum: 10/dcaadb079bc5fcc505efbfff18ca8165dae4a24ad9c9f9f99e91474343e27986ceef702a69db0ab5406988b151dfa76f05e536425c08b29e80e10da70bb437fd
+  checksum: 10/e0469c08aa27060e01470bae42e6a3cf8e31d4bec324d763676a839a30a3e58adcb31462a0df49f49a74678746f178068d923fe4981d7cda275b4626999820a4
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.0.16":
-  version: 1.0.16
-  resolution: "@toast/tokenservice-client@npm:1.0.16::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.0.16%2Ftokenservice-client-1.0.16.tgz"
+"@sequelize/utils@npm:7.0.0-alpha.38":
+  version: 7.0.0-alpha.38
+  resolution: "@sequelize/utils@npm:7.0.0-alpha.38"
   dependencies:
-    undici: "npm:6.7.0"
-  checksum: 10/a946df28f2ba6e36f881f7160bafe0dfe06227520b2a1a8ace729651064103bce92dcfc0d23deb6df845839f380fbdc17af86b1f1ea11ab3cc513c751ec23fb8
+    "@types/lodash": "npm:4.17.0"
+    lodash: "npm:4.17.21"
+  checksum: 10/93eb5eb72c0559bbf658bee613cf3d595cd17548fcedec1564ae3a6442e2a1ad6c4bf7d399e316ab03f7388d9deb6c865648832b3e4e1924150f70ccd5f765a6
+  languageName: node
+  linkType: hard
+
+"@toast/tokenservice-client@npm:1.1.2":
+  version: 1.1.2
+  resolution: "@toast/tokenservice-client@npm:1.1.2::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.1.2%2Ftokenservice-client-1.1.2.tgz"
+  dependencies:
+    undici: "npm:6.9.0"
+  checksum: 10/5eecc94447defe366e72b94e3dd9ba0220ad2a53d4c7dfb030de568e1b2a6666348b4e8087ab99d9d25f6da288ce5851ec0ef567fd295728fa6fc8f41cfc34c9
   languageName: node
   linkType: hard
 
@@ -513,6 +524,13 @@ __metadata:
   dependencies:
     "@types/ms": "npm:*"
   checksum: 10/47876a852de8240bfdaf7481357af2b88cb660d30c72e73789abf00c499d6bc7cd5e52f41c915d1b9cd8ec9fef5b05688d7b7aef17f7f272c2d04679508d1053
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:4.17.0":
+  version: 4.17.0
+  resolution: "@types/lodash@npm:4.17.0"
+  checksum: 10/2053203292b5af99352d108656ceb15d39da5922fc3fb8186e1552d65c82d6e545372cc97f36c95873aa7186404d59d9305e9d49254d4ae55e77df1e27ab7b5d
   languageName: node
   linkType: hard
 
@@ -539,14 +557,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:8.11.3":
-  version: 8.11.3
-  resolution: "@types/pg@npm:8.11.3"
+"@types/pg@npm:8.11.4":
+  version: 8.11.4
+  resolution: "@types/pg@npm:8.11.4"
   dependencies:
     "@types/node": "npm:*"
     pg-protocol: "npm:*"
     pg-types: "npm:^4.0.1"
-  checksum: 10/7042872d971bbb6bd0e23dc566d1a415921855e4e4fa616189872f86ea0a3edda1bf33a87452daa299fc214b2eff312e394de5f52833a0e62e79126590f1f7b4
+  checksum: 10/b2713bc4ec8e7245958d8ced5833e5fbf3b7bdc090c19b1967f49626abf79cfe62a14e36b194c48c9fc9edeeeb3d4308cfa716534e6ca318b0785daaeb32e359
   languageName: node
   linkType: hard
 
@@ -639,12 +657,12 @@ __metadata:
   dependencies:
     "@napi-rs/canvas": "npm:0.1.51"
     "@octokit/rest": "npm:20.0.2"
-    "@sequelize/core": "npm:7.0.0-alpha.37"
-    "@toast/tokenservice-client": "npm:1.0.16"
+    "@sequelize/core": "npm:7.0.0-alpha.38"
+    "@toast/tokenservice-client": "npm:1.1.2"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.11.30"
     "@types/node-cron": "npm:3.0.11"
-    "@types/pg": "npm:8.11.3"
+    "@types/pg": "npm:8.11.4"
     ansi-colors: "npm:4.1.3"
     dayjs: "npm:1.11.10"
     discord.js: "npm:14.14.1"
@@ -657,8 +675,8 @@ __metadata:
     postgres-array: "npm:3.0.2"
     redis: "npm:4.6.13"
     simple-git: "npm:3.23.0"
-    systeminformation: "npm:5.22.5"
-    typescript: "npm:5.4.2"
+    systeminformation: "npm:5.22.6"
+    typescript: "npm:5.4.3"
     undici: "npm:6.9.0"
   languageName: unknown
   linkType: soft
@@ -855,7 +873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:4.17.21, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
@@ -1249,12 +1267,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.22.5":
-  version: 5.22.5
-  resolution: "systeminformation@npm:5.22.5"
+"systeminformation@npm:5.22.6":
+  version: 5.22.6
+  resolution: "systeminformation@npm:5.22.6"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/65a5e0b90de67f7566a963f971737ecc6fcdac263590438a906dbca26b6e40c147ac1b59ede8b618dd86c492407740719bb9664c11eaf9fe8505332e8b78c3f5
+  checksum: 10/f5c9e6f674c8a857514ce21709111d05e0e7b5d5a82265a64626bfb16f0ea82dce1f88455ca481ebb0ef1f83ec9072c07af1a0318de7ec01e80947d9d8a9d0d4
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -1310,23 +1328,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.4.2":
-  version: 5.4.2
-  resolution: "typescript@npm:5.4.2"
+"typescript@npm:5.4.3":
+  version: 5.4.3
+  resolution: "typescript@npm:5.4.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/f8cfdc630ab1672f004e9561eb2916935b2d267792d07ce93e97fc601c7a65191af32033d5e9c0169b7dc37da7db9bf320f7432bc84527cb7697effaa4e4559d
+  checksum: 10/de4c69f49a7ad4b1ea66a6dcc8b055ac34eb56af059a069d8988dd811c5e649be07e042e5bf573e8d0ac3ec2f30e6c999aa651cd09f6e9cbc6113749e8b6be20
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>":
-  version: 5.4.2
-  resolution: "typescript@patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"
+"typescript@patch:typescript@npm%3A5.4.3#optional!builtin<compat/typescript>":
+  version: 5.4.3
+  resolution: "typescript@patch:typescript@npm%3A5.4.3#optional!builtin<compat/typescript>::version=5.4.3&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/f5f9a4133c2670761f0166eae5b3bafbc4a3fc24f0f42a93c9c893d9e9d6e66ea066969c5e7483fa66b4ae0e99125592553f3b92fd3599484de8be13b0615176
+  checksum: 10/5aedd97595582b08aadb8a70e8e3ddebaf5a9c1e5ad4d6503c2fcfc15329b5cf8d01145b09913e9555683ac16c5123a96be32b6d72614098ebd42df520eed9b1
   languageName: node
   linkType: hard
 
@@ -1350,15 +1368,6 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10/2bf96b102fb84568fb235bdf6e1e352e5d2bf99566b243cd1b13b41578bf9dd5c7c3d3d82192b20a3fec61fe7a528f9d80cd5b4555ce65405c06c69b023013de
-  languageName: node
-  linkType: hard
-
-"undici@npm:6.7.0":
-  version: 6.7.0
-  resolution: "undici@npm:6.7.0"
-  dependencies:
-    "@fastify/busboy": "npm:^2.0.0"
-  checksum: 10/e133a27f89075329a337ab4220839ba6a48bdb62ee7dd824ed72415aabe705522fdbb1b0016fb5a4d74ee2ca3ca2854ae9d085aae970e4519678bdc8c96fdf0b
   languageName: node
   linkType: hard
 
