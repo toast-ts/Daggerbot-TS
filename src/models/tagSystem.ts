@@ -2,7 +2,7 @@ import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 import CacheServer from '../components/CacheServer.js';
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 import {ChatInputCommandInteraction, Snowflake} from 'discord.js';
 
 class tagsystem extends Model {
@@ -79,7 +79,7 @@ export class TagSystemSvc {
   async findInCache(): Promise<Tags[]> {
     const cacheKey = 'tags';
     const cachedResult = await CacheServer.get(cacheKey, true);
-    let result;
+    let result:Tags[];
     if (cachedResult) result = cachedResult;
     else {
       result = await this.model.findAll();

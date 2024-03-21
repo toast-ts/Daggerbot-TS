@@ -1,5 +1,5 @@
 import DatabaseServer from '../components/DatabaseServer.js';
-import {Model, DataTypes} from 'sequelize';
+import {Model, DataTypes} from '@sequelize/core';
 
 class suggestions extends Model {
   declare public id: number;
