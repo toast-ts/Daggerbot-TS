@@ -1,21 +1,19 @@
 services:
   cache:
-    container_name: redis-cache
-    image: redis/redis-stack-server:7.2.0-v6
+    container_name: daggerbot-redis
+    image: redis/redis-stack-server:7.2.0-v9
     restart: unless-stopped
     ports:
       - 6379:6379/tcp
   db:
-    container_name: postgres-master
+    container_name: daggerbot-postgres
     image: postgres:16.2-alpine3.19
     restart: unless-stopped
     ports:
       - 5432:5432/tcp
     volumes:
       - /var/lib/docker/volumes/daggerbot-db:/var/lib/postgresql/data:rw
-      - ./postgres-replica-stuff/configs/postgres-hba.conf:/var/lib/postgresql/data/pg_hba.conf:rw
-      - ./postgres-replica-stuff/configs/postgres.conf:/var/lib/postgresql/data/postgresql.conf:rw
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
+      #POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
