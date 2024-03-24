@@ -165,8 +165,8 @@ export interface Config {
     }
   }
 }
-// Credits to FlyingSixtySix/neurobot for inspiration.
-// https://github.com/FlyingSixtySix/neurobot/blob/0dee4ea4f72872e2df240700eb56e1d38da1f8bb/src/interactions/jp.ts#L37-L85
+// Credits to VanillaSixtySix/neurobot for inspiration.
+// https://github.com/VanillaSixtySix/neurobot/blob/0dee4ea4f72872e2df240700eb56e1d38da1f8bb/src/interactions/jp.ts#L37-L85
 export interface RawGatewayPacket<T> {
   t: 'MESSAGE_DELETE'|'MESSAGE_UPDATE';
   d: T;

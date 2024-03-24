@@ -3,6 +3,7 @@ import TClient from '../client.js';
 import Response from '../modules/ResponseModule.js';
 import CmdTrigger from '../modules/CmdModule.js';
 import Logger from '../helpers/Logger.js';
+import {MPChannels} from '../modules/MPModule.js';
 import ConfigHelper from '../helpers/ConfigHelper.js';
 import Automoderator from '../components/Automod.js';
 import __PRIVATE__ from '../private/_.js';
@@ -111,10 +112,10 @@ export default class MessageCreate {
       if (message.type === Discord.MessageType.GuildBoost && message.channelId === GeneralChatID) message.channel.send({content: outgoingArrays.guildBoost[Math.floor(Math.random() * outgoingArrays.guildBoost.length)], allowedMentions: {parse: ['users']}})
       if (dontMention.some(e=>message.mentions.members.has(e.user_id) && !MessageTool.isStaff(message.member)) && (dontMention.find(e => message.mentions.has(e.user_id)).type === undefined || message.type === dontMention.find(e => message.mentions.has(e.user_id)).type)) message.reply(dontMention.find(e=>message.mentions.members.has(e.user_id)).message);
 
-      if (incomingArrays.password.some(e=>message.content.toLowerCase().includes(e))) message.reply('Password and other details can be found in <#543494084363288637>');
+      if (incomingArrays.password.some(e=>message.content.toLowerCase().includes(e))) message.reply(`Password and other details can be found in <#${MPChannels.serverInfo}>`);
       if (incomingArrays.cantRead.some(e=>message.content.toLowerCase().includes(e))) message.reply(picStorage.cantRead);
       if (message.content.toLowerCase().includes('is daggerbot working')) message.reply(picStorage.amAlive);
-      if (message.channelId === '468835769092669461' && incomingArrays.mpsrv.some(e=>message.content.toLowerCase().includes(e))) message.reply('You can take a look at the embeds in <#543494084363288637> to see if anyone is on the server.');
+      if (message.channelId === MPChannels.mainMpChat && incomingArrays.mpsrv.some(e=>message.content.toLowerCase().includes(e))) message.reply(`You can take a look at the embeds in <#${MPChannels.serverInfo}> to see if anyone is on the server.`);
 
       for (const thisPerson of ModsGoGetThisPerson) {
         if (incomingArrays.theyBrokeIt.some(x=>Automoderator.scanMsg(message).includes(x) && Automoderator.scanMsg(message).includes(thisPerson.user)) && MessageTool.isStaff(message.member) && message.channelId !== client.config.dcServer.channels.mpmod_chat)

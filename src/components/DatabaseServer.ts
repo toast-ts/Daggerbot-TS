@@ -5,7 +5,10 @@ import TSClient from '../helpers/TSClient.js';
 const postgresUri = (await TSClient()).postgres_uri;
 export default class DatabaseServer {
   private static logPrefix:string = 'Database';
-  public static seq:Sequelize = new Sequelize(postgresUri, {dialect: 'postgres', logging: false, ssl: false, pool: {max: 10, min: 0, acquire: 15000, idle: 8000}})
+  public static seq:Sequelize = new Sequelize(postgresUri, {dialect: 'postgres', logging: false, ssl: false, pool: {max: 10, min: 0, acquire: 15000, idle: 8000}});
+  public static async query(pattern:string) {
+    return await this.seq.query(pattern);
+  }
   public static async init() {
     try {
       await this.seq.authenticate();

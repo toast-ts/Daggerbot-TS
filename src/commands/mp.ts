@@ -6,7 +6,7 @@ import RanIntoHumor from '../helpers/RanIntoHumor.js';
 import MessageTool from '../helpers/MessageTool.js';
 import PalletLibrary from '../helpers/PalletLibrary.js';
 import {FSData} from 'src/interfaces';
-import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat} from '../modules/MPModule.js';
+import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat, MPChannels} from '../modules/MPModule.js';
 
 async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
   try {
@@ -21,12 +21,7 @@ async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInt
 
 const logPrefix = 'MPDB';
 const MAP_POOL_HOOKMSG = '1141293129673232435';
-const channels = {
-  activePlayers: '739084625862852715',
-  announcements: '1084864116776251463',
-  mainMpChat: '468835769092669461',
-  serverInfo: '543494084363288637',
-}
+
 export default class MP {
   static async autocomplete(client:TClient, interaction:Discord.AutocompleteInteraction<'cached'>) {
     const serversInCache = await client.MPServer?.findInCache();
@@ -36,7 +31,7 @@ export default class MP {
   static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
     if (client.config.botSwitches.mpSys === false) return interaction.reply({embeds: [mpModuleDisabled(client)]});
     if (client.uptime < refreshTimerSecs) return interaction.reply('MPModule isn\'t initialized yet, please wait a moment and try again.');
-    if ([channels.mainMpChat, client.config.dcServer.channels.multifarm_chat].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply(`Please use <#${channels.activePlayers}> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
+    if ([MPChannels.mainMpChat, client.config.dcServer.channels.multifarm_chat].includes(interaction.channelId) && !MessageTool.isStaff(interaction.member) && ['status', 'players'].includes(interaction.options.getSubcommand())) return interaction.reply(`Please use <#${MPChannels.activePlayers}> for \`/mp status/players\` commands to prevent clutter in this channel.`).then(()=>setTimeout(()=>interaction.deleteReply(), 6000));
     const choiceSelector = interaction.options.getString('server');
     ({
       players: async()=>{
@@ -87,7 +82,7 @@ export default class MP {
           `**Map:** \`${DSS.server?.mapName.length > 0 ? DSS.server.mapName : 'No map'}\``,
           `**Mods:** [Click here](http://${server.ip}/mods.html) **|** [Direct link](http://${server.ip}/all_mods_download?onlyActive=true)`,
           '**Filters:** [Click here](https://discord.com/channels/468835415093411861/468835769092669461/926581585938120724)',
-          `Please see <#${channels.serverInfo}> for more additional information and rules.`
+          `Please see <#${MPChannels.serverInfo}> for more additional information and rules.`
         ));
         if (DSS.server?.name.length < 1) dEmbed.setFooter({text: 'Server is currently offline'});
         DSS.server ? await interaction.reply({embeds: [dEmbed]}) : null;
@@ -122,14 +117,14 @@ export default class MP {
         }
 
         const reason = interaction.options.getString('reason');
-        const channel = interaction.guild.channels.cache.get(channels.activePlayers) as Discord.TextChannel;
+        const channel = interaction.guild.channels.cache.get(MPChannels.activePlayers) as Discord.TextChannel;
         const embed = new client.embed().setColor(client.config.embedColor).setAuthor({name: interaction.member.displayName, iconURL: interaction.member.displayAvatarURL({size:1024})}).setTimestamp();
         const isLocked = channel.permissionsFor(interaction.guildId).has('SendMessages');
         const titleAction = isLocked ? '🔒 Locked' : '🔓 Unlocked';
 
         channel.permissionOverwrites.edit(interaction.guildId, {SendMessages: !isLocked}, {type: 0, reason: `${isLocked ? 'Locked' : 'Unlocked'} by ${interaction.member.displayName}`});
         channel.send({embeds: [embed.setTitle(titleAction).setDescription(`**Reason:**\n${reason}`)]});
-        interaction.reply({content: `${MessageTool.formatMention(channels.activePlayers, 'channel')} ${isLocked ? 'locked' : 'unlocked'} successfully`, ephemeral: true});
+        interaction.reply({content: `${MessageTool.formatMention(MPChannels.activePlayers, 'channel')} ${isLocked ? 'locked' : 'unlocked'} successfully`, ephemeral: true});
       },
       start: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {
@@ -138,14 +133,14 @@ export default class MP {
         const map_names = interaction.options.getString('map_names', true).split('|');
         if (map_names.length > 10) return interaction.reply('You can only have up to 10 maps in a poll!');
 
-        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).send({content: MessageTool.formatMention(client.config.dcServer.roles.mpplayer, 'role'), embeds: [
+        const msg = await (interaction.guild.channels.cache.get(MPChannels.announcements) as Discord.TextChannel).send({content: MessageTool.formatMention(client.config.dcServer.roles.mpplayer, 'role'), embeds: [
         new client.embed()
           .setColor(client.config.embedColor)
           .setTitle('Vote for next map!')
           .setDescription(map_names.map((map,i)=>`${i+1}. **${map}**`).join('\n'))
           .setFooter({text: `Poll started by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})
         ], allowedMentions: {parse: ['roles']}});
-        await interaction.reply(`Successfully created a poll in <#${channels.announcements}>`)
+        await interaction.reply(`Successfully created a poll in <#${MPChannels.announcements}>`)
         this.reactionSystem(msg, map_names.length);
       },
       end: async()=>{
@@ -154,7 +149,7 @@ export default class MP {
         }
         const msg_id = interaction.options.getString('message_id', true);
         const stripUrl = msg_id.replace(/https:\/\/discord.com\/channels\/\d+\/\d+\/(\d+)/, '$1');
-        const msg = await (interaction.guild.channels.cache.get(channels.announcements) as Discord.TextChannel).messages.fetch(stripUrl).catch(()=>null);
+        const msg = await (interaction.guild.channels.cache.get(MPChannels.announcements) as Discord.TextChannel).messages.fetch(stripUrl).catch(()=>null);
         if (!msg) return interaction.reply('Message not found, please make sure you have the correct message ID.');
 
         if (msg.embeds[0].title !== 'Vote for next map!') return interaction.reply('This message is not a poll!');
@@ -168,7 +163,7 @@ export default class MP {
         ]});
 
         msg.edit({content: null, embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]}).then(()=>msg.reactions.removeAll());
-        await interaction.reply(`Successfully ended the [poll](<https://discord.com/channels/${interaction.guildId}/${channels.announcements}/${msg.id}>) in <#${channels.announcements}>`)
+        await interaction.reply(`Successfully ended the [poll](<https://discord.com/channels/${interaction.guildId}/${MPChannels.announcements}/${msg.id}>) in <#${MPChannels.announcements}>`)
       },
       maps: async()=>{
         if (client.config.dcServer.id === interaction.guildId) {

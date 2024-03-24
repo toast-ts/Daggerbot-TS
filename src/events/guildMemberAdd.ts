@@ -4,7 +4,7 @@ export default class GuildMemberAdd {
   static async run(client:TClient, member:Discord.GuildMember){
     if (member.partial || member.guild?.id != client.config.dcServer.id) return;
     const index = member.guild.memberCount;
-    const suffix = (index=>{
+    /* const suffix = (index=>{
       const numbers = index.toString().split('').reverse(); // eg 1850 --> [0,5,8,1]
       if (numbers[1] === '1') return 'th'; // this is some -teen
       else {
@@ -13,7 +13,15 @@ export default class GuildMemberAdd {
         else if (numbers[0] === '3') return 'rd';
         else return 'th';
       }
-    })(index);
+    })(index); */
+
+    const suffix = {// Trial run, just discovered Intl.PluralRules this morning (as of March 24th) when I was browsing MDN Docs.
+      one: 'st',
+      two: 'nd',
+      few: 'rd',
+      other: 'th'
+    }[new Intl.PluralRules('en', {type: 'ordinal'}).select(index)];
+
     let isBot = 'Bot';
     if (!member.user.bot) isBot = 'Member';
     if (!client.config.botSwitches.logs) return;

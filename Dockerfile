@@ -1,4 +1,4 @@
-FROM node:21.1.0-bookworm-slim
+FROM node:21.7.1-bookworm-slim
 ENV YARN_VERSION 4.1.1
 ENV TZ Australia/Sydney
 RUN yarn policies set-version $YARN_VERSION

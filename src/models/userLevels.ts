@@ -57,7 +57,6 @@ export class UserLevelsSvc {
     });
     this.model.sync();
   }
-  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   fetchEveryone = async()=>await this.model.findAll();
   fetchUser = async(userId:string)=>await this.model.findByPk(userId);
   deleteUser = async(userId:string)=>await this.model.destroy({where: {id: userId}});

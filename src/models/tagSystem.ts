@@ -50,22 +50,21 @@ export class TagSystemSvc {
     });
     this.model.sync();
   }
-  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
-  async createTag(userid:string, tagName:string, message:string, embedFlag:boolean) {
+  async createTag(userid:string, tagname:string, message:string, embedFlag:boolean) {
     CacheServer.delete('tags');
-    return await this.model.create({userid: userid, tagname: tagName, message: message.replace(/\\n/g, '\n'), embedFlag: embedFlag});
+    return await this.model.create({userid, tagname, message: message.replace(/\\n/g, '\n'), embedFlag});
   }
   async deleteTag(tagname:string) {
     CacheServer.delete('tags');
-    return await this.model.destroy({where: {tagname: tagname}});
+    return await this.model.destroy({where: {tagname}});
   }
-  async sendTag(interaction:ChatInputCommandInteraction, tagName:string, targetId:Snowflake) {
-    const getTag = await this.model.findOne({where: {tagname: tagName}});
+  async sendTag(interaction:ChatInputCommandInteraction, tagname:string, targetId:Snowflake) {
+    const getTag = await this.model.findOne({where: {tagname}});
     const targetMsg = targetId ? `*This tag is directed at ${MessageTool.formatMention(targetId, 'user')}*` : '';
     const fetchUser = await interaction.guild?.members.fetch(getTag.dataValues.userid);
     const ic = interaction.client as TClient;
     const embedFormat = [
-      new ic.embed().setTitle(tagName).setColor(ic.config.embedColor)
+      new ic.embed().setTitle(tagname).setColor(ic.config.embedColor)
       .setAuthor({name: interaction.user.username, iconURL: interaction.user.avatarURL({size: 2048, extension: 'webp'})})
       .setDescription(getTag.dataValues.message)
     ];
@@ -74,7 +73,7 @@ export class TagSystemSvc {
   }
   async modifyTag(tagname:string, message:string) {
     CacheServer.delete('tags');
-    return await this.model.update({message: message.replace(/\\n/g, '\n')}, {where: {tagname: tagname}});
+    return await this.model.update({message: message.replace(/\\n/g, '\n')}, {where: {tagname}});
   }
   async findInCache(): Promise<Tags[]> {
     const cacheKey = 'tags';
