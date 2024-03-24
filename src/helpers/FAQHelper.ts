@@ -25,6 +25,6 @@ export default class FAQHelper {
   )
   public static readonly linkMapping = {
     ballyspring: 'https://www.farming-simulator.com/mod.php?mod_id=270745',
-    staffTicket: 'https://discord.com/channels/468835415093411861/942173932339986472/1054128182468546631',
+    staffTicket: 'https://discord.com/channels/468835415093411861/942173932339986472/1054129985788596385',
   }
 }
