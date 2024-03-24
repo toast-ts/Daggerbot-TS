@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import {exec} from 'node:child_process';
 import MessageTool from '../helpers/MessageTool.js';
+import DatabaseServer from '../components/DatabaseServer.js';
 import UsernameHelper from '../helpers/UsernameHelper.js';
 import Formatters from '../helpers/Formatters.js';
 import GitHub from '../helpers/GitHub.js';
@@ -13,6 +14,8 @@ export default class Developer {
     ({
       eval: async()=>{
         fs;
+        DatabaseServer;
+
         const code = interaction.options.getString('code') as string;
         let consoleOutput:string = '';
 

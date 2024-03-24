@@ -1,6 +1,8 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
+import DatabaseServer from '../components/DatabaseServer.js';
+import ConfigHelper from '../helpers/ConfigHelper.js';
 import HookMgr from '../components/HookManager.js';
 export default class Suggest {
   static async run(client:TClient, interaction:Discord.ChatInputCommandInteraction<'cached'>) {
@@ -35,10 +37,13 @@ export default class Suggest {
     return await client.suggestions.updateStatus(id, status);
   }
   static async deleteSuggestion(client:TClient, id:number) {
-    return await client.suggestions.delete(id);
+    await client.suggestions.delete(id);
+    await DatabaseServer.query("SELECT setval(pg_get_serial_sequence('suggestions', 'id'), (SELECT MAX(id) FROM suggestions))");
+    return true;
   }
   static newWebhookMessage(client:TClient, id:number, suggestion:string, username:string) {
-    const hook = new HookMgr(client, 'bot_suggestions', '1079621523561779272');
+    const hookId = ConfigHelper.isDevMode() ? '1079586978808463372' : '1079621523561779272';
+    const hook = new HookMgr(client, 'bot_suggestions', hookId);
     if (hook) return hook.send({embeds: [new client.embed().setColor(client.config.embedColor).setTitle(`Suggestion #${id}`).setAuthor({name: username}).setDescription(`\`\`\`${suggestion}\`\`\``)]});
     else throw new Error('[SUGGESTION-HOOK] Provided webhook cannot be fetched, not sending message.')
   }

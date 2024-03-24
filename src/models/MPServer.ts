@@ -55,10 +55,9 @@ export class MPServerSvc {
     })
     this.model.sync();
   }
-  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   async fetchPlayerData(serverName:string) {
-    const server = await this.model.findOne({where: {serverName: serverName}});
-    return server ? server.dataValues.playerData : [];
+    const server = await this.model.findOne({where: {serverName}});
+    return server.dataValues.playerData ??= [];
   }
   async addServer(serverName:string, ip:string, code:string) {
     await this.model.upsert({

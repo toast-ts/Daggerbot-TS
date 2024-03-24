@@ -677,7 +677,7 @@ __metadata:
     simple-git: "npm:3.23.0"
     systeminformation: "npm:5.22.6"
     typescript: "npm:5.4.3"
-    undici: "npm:6.9.0"
+    undici: "npm:6.10.1"
   languageName: unknown
   linkType: soft
 
@@ -1368,6 +1368,13 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10/2bf96b102fb84568fb235bdf6e1e352e5d2bf99566b243cd1b13b41578bf9dd5c7c3d3d82192b20a3fec61fe7a528f9d80cd5b4555ce65405c06c69b023013de
+  languageName: node
+  linkType: hard
+
+"undici@npm:6.10.1":
+  version: 6.10.1
+  resolution: "undici@npm:6.10.1"
+  checksum: 10/42bf07ff5c652e1ed609827c5a02b25adacf69b8845c787a3e919c1f13ea5e5ebed1cdd0e82c5ca92aa5d895561db9cad0a442a15d72ed7f20a66730f71aedcd
   languageName: node
   linkType: hard
 

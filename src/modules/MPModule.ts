@@ -16,12 +16,19 @@ let refreshIntrvlTxt:string = `Refreshes every ${refreshTimerSecs/1000} seconds.
 let offlineStatus:string = 'Server is offline';
 let unavailableStatus:string = 'Server didn\'t respond';
 
+export const MPChannels = {
+  activePlayers: '739084625862852715',
+  announcements: '1084864116776251463',
+  mainMpChat: '468835769092669461',
+  serverInfo: '543494084363288637',
+}
+
 interface IServerExt extends IServer {
   failureCount?:number;
 }
 
 export default async(client:TClient)=>{
-  const message = await (client.channels.resolve(isBotInDevMode ? '1091300529696673792' : '543494084363288637') as Discord.TextChannel).messages.fetch(isBotInDevMode ? '1104563309451161742' : '1149141188079779900');
+  const message = await (client.channels.resolve(isBotInDevMode ? '1091300529696673792' : MPChannels.serverInfo) as Discord.TextChannel).messages.fetch(isBotInDevMode ? '1104563309451161742' : '1149141188079779900');
   if (!client.config.botSwitches.mpSys) return message.edit({content: null, embeds: [mpModuleDisabled(client)]});
 
   async function newServerEntry(server:IServer) {

@@ -27,14 +27,11 @@ export class DailyMsgsSvc {
       tableName: 'dailymsgs',
       createdAt: false,
       updatedAt: false,
-      indexes: [
-        {name: 'day_index', fields: ['day'], unique: true}
-      ],
+      indexes: [{name: 'day_index', fields: ['day'], unique: true}],
       sequelize: DatabaseServer.seq
     })
     this.model.sync();
   }
-  query = async(pattern:string)=>await this.model.sequelize.query(pattern);
   nukeDays = async()=>await this.model.destroy();
   fetchDays = async()=>await this.model.findAll();
   async newDay(formattedDate:number, total:number) {
