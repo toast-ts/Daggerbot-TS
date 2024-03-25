@@ -22,8 +22,9 @@ export default class MessageCreate {
     if (client.config.botSwitches.automod && !message.member?.roles.cache.has(client.config.dcServer.roles.dcmod) && !message.member?.roles.cache.has(client.config.dcServer.roles.admin) && message.guildId === client.config.dcServer.id) {
       const automodFailReason = 'msg got possibly deleted by another bot.';
       const automodLog = 'Automod:';
-      const automodRules = {
-        phishingDetection: {
+      const automodRules = [
+        {
+          name: 'phishingDetection',
           check: async()=>await __PRIVATE__.phishingDetection(message),
           action: async()=>{
             automodded = true;
@@ -32,7 +33,8 @@ export default class MessageCreate {
             await Automoderator.repeatedMessages(client, message, 'softban', 60000, 3, 'phish', '15m', 'Phishing scam link');
           }
         },
-        prohibitedWords: {
+        {
+          name: 'prohibitedWords',
           check: async()=>await client.prohibitedWords.findWord(Automoderator.scanMsg(message)),
           action: async()=>{
             automodded = true;
@@ -41,7 +43,8 @@ export default class MessageCreate {
             await Automoderator.repeatedMessages(client, message, 'mute', 30000, 3, 'bw', '30m', 'Prohibited word spam');
           }
         },
-        discordInvite: {
+        {
+          name: 'discordInvite',
           check: ()=>message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
             const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.includes('discord.gg/'))).catch(()=>null);
@@ -53,14 +56,15 @@ export default class MessageCreate {
             }
           }
         },
-        imageOnly: {
+        {
+          name: 'imageOnly',
           check: ()=>!MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>await Automoderator.imageOnly(message)
         }
-      };
+      ];
 
-      for (const rule of Object.values(automodRules)) {
-        if (!automodded && await rule.check()) {
+      for (const rule of automodRules) {
+        if (!automodded && rule.name && await rule.check()) {
           await rule.action();
           break;
         }
