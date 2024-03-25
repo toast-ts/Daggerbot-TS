@@ -454,11 +454,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sequelize/core@npm:7.0.0-alpha.38":
-  version: 7.0.0-alpha.38
-  resolution: "@sequelize/core@npm:7.0.0-alpha.38"
+"@sequelize/core@npm:7.0.0-alpha.39":
+  version: 7.0.0-alpha.39
+  resolution: "@sequelize/core@npm:7.0.0-alpha.39"
   dependencies:
-    "@sequelize/utils": "npm:7.0.0-alpha.38"
+    "@sequelize/utils": "npm:7.0.0-alpha.39"
     "@types/debug": "npm:^4.1.7"
     "@types/validator": "npm:^13.7.5"
     bnf-parser: "npm:3.1.6"
@@ -474,7 +474,7 @@ __metadata:
     semver: "npm:^7.3.7"
     sequelize-pool: "npm:^8.0.0"
     toposort-class: "npm:^1.0.1"
-    type-fest: "npm:^3.0.0"
+    type-fest: "npm:^4.12.0"
     uuid: "npm:^9.0.0"
     validator: "npm:^13.7.0"
     wkx: "npm:^0.5.0"
@@ -495,17 +495,17 @@ __metadata:
       optional: true
     tedious:
       optional: true
-  checksum: 10/e0469c08aa27060e01470bae42e6a3cf8e31d4bec324d763676a839a30a3e58adcb31462a0df49f49a74678746f178068d923fe4981d7cda275b4626999820a4
+  checksum: 10/855a13bbe569d01ec633efb401d5374151c16686df2983da6cc758736fc589dca2b154185d686c724bea586e1a51f8ffe0b0ce70134423b378724c62940053ba
   languageName: node
   linkType: hard
 
-"@sequelize/utils@npm:7.0.0-alpha.38":
-  version: 7.0.0-alpha.38
-  resolution: "@sequelize/utils@npm:7.0.0-alpha.38"
+"@sequelize/utils@npm:7.0.0-alpha.39":
+  version: 7.0.0-alpha.39
+  resolution: "@sequelize/utils@npm:7.0.0-alpha.39"
   dependencies:
     "@types/lodash": "npm:4.17.0"
     lodash: "npm:4.17.21"
-  checksum: 10/93eb5eb72c0559bbf658bee613cf3d595cd17548fcedec1564ae3a6442e2a1ad6c4bf7d399e316ab03f7388d9deb6c865648832b3e4e1924150f70ccd5f765a6
+  checksum: 10/7a698ab7c54323087ce1025402af62c67a7759830c9f50d4fa32a876d82d68145a1a3bc3a152802d09d7b934a451d6886d3946949461ead6bed82235e13496d5
   languageName: node
   linkType: hard
 
@@ -657,7 +657,7 @@ __metadata:
   dependencies:
     "@napi-rs/canvas": "npm:0.1.51"
     "@octokit/rest": "npm:20.0.2"
-    "@sequelize/core": "npm:7.0.0-alpha.38"
+    "@sequelize/core": "npm:7.0.0-alpha.39"
     "@toast/tokenservice-client": "npm:1.1.2"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.11.30"
@@ -1314,10 +1314,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^3.0.0":
-  version: 3.13.1
-  resolution: "type-fest@npm:3.13.1"
-  checksum: 10/9a8a2359ada34c9b3affcaf3a8f73ee14c52779e89950db337ce66fb74c3399776c697c99f2532e9b16e10e61cfdba3b1c19daffb93b338b742f0acd0117ce12
+"type-fest@npm:^4.12.0":
+  version: 4.14.0
+  resolution: "type-fest@npm:4.14.0"
+  checksum: 10/fcf3b62fed194a3fc3d22bf287af3b1e1e93d4b5cb9723c093b694998d1588f27cc78dc4942ff4d319bb94ec60cb4afe5d1cd3d50ef144e47e327acbc34a5234
   languageName: node
   linkType: hard
 
