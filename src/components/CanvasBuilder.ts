@@ -29,6 +29,7 @@ export default class CanvasBuilder {
     const origin = [15, 65];
     const size = [1300, 630];
     const nodeWidth = size[0] / (data.length - 1);
+    this.ctx.globalAlpha = 1;
     this.ctx.fillStyle = this.palette.background;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
