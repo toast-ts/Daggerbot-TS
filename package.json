@@ -29,7 +29,7 @@
   "dependencies": {
     "@napi-rs/canvas": "0.1.51",
     "@octokit/rest": "20.0.2",
-    "@sequelize/core": "7.0.0-alpha.38",
+    "@sequelize/core": "7.0.0-alpha.39",
     "@toast/tokenservice-client": "1.1.2",
     "ansi-colors": "4.1.3",
     "dayjs": "1.11.10",
