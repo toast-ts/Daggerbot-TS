@@ -29,10 +29,10 @@ export default class CanvasBuilder {
     const origin = [15, 65];
     const size = [1300, 630];
     const nodeWidth = size[0] / (data.length - 1);
-    this.ctx.globalAlpha = 0;
+    if (type === 'leaderboard') this.ctx.globalAlpha = 0;
     this.ctx.fillStyle = this.palette.background;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.globalAlpha = 1;
+    if (type === 'leaderboard') this.ctx.globalAlpha = 1;
 
     // Grey horizontal lines
     this.ctx.lineWidth = 5;
