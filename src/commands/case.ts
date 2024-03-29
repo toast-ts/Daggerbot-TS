@@ -59,6 +59,24 @@ export default class Case {
         if (!userPunishment.length) return interaction.reply(`**${user.username}** has a clean record.`)
         const pageNum = interaction.options.getInteger('page') ?? 1;
         return interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).setTitle(`${user.username}'s punishment history`).setDescription(`**ID:** \`${user.id}\``).setFooter({text: `${userPunishment.length} total punishments. Viewing page ${pageNum} out of ${Math.ceil(userPunishment.length/6)}.`}).addFields(userPunishment.slice((pageNum - 1) * 6, pageNum * 6))]});
+      },
+      statistics: async()=>{
+        const cases = await client.punishments.getAllCases();
+        const case_counts = {};
+
+        for (const case_ of cases) {
+          const type = case_.dataValues.type;
+          if (!case_counts[type]) case_counts[type] = 0;
+          case_counts[type]++;
+        }
+
+        const preparedFields = Object.entries(case_counts).map(([type, count])=>({name: type[0].toUpperCase()+type.slice(1)+'s', value: count.toString(), inline: true}));
+        await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor)
+          .setDescription(MessageTool.concatMessage(
+            `There are **${cases.length}** total cases created and`,
+            `**${(await interaction.guild.bans.fetch()).size}** total bans in this server. (Fetched from bans page)`
+          )).addFields(...preparedFields)
+        ]});
       }
     } as any)[interaction.options.getSubcommand()]();
 	}
@@ -93,4 +111,7 @@ export default class Case {
         .setName('reason')
         .setDescription('New reason for the case')
         .setRequired(true)))
+    .addSubcommand(x=>x
+      .setName('statistics')
+      .setDescription('How many cases has been made so far and etc'))
 }
