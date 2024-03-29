@@ -509,12 +509,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@toast/tokenservice-client@npm:1.1.2::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.1.2%2Ftokenservice-client-1.1.2.tgz"
+"@toast/tokenservice-client@npm:1.2.1":
+  version: 1.2.1
+  resolution: "@toast/tokenservice-client@npm:1.2.1::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.1%2Ftokenservice-client-1.2.1.tgz"
   dependencies:
-    undici: "npm:6.9.0"
-  checksum: 10/5eecc94447defe366e72b94e3dd9ba0220ad2a53d4c7dfb030de568e1b2a6666348b4e8087ab99d9d25f6da288ce5851ec0ef567fd295728fa6fc8f41cfc34c9
+    undici: "npm:6.10.2"
+  checksum: 10/5a3ea8b0c4678f574ffe595cecae05c8b94f4d5800662dfd73f97260a324f9a2e0f54433faae6620d3822e83d2380404a52fb7f1daf6dd1a8b4083f52c2519c9
   languageName: node
   linkType: hard
 
@@ -658,7 +658,7 @@ __metadata:
     "@napi-rs/canvas": "npm:0.1.51"
     "@octokit/rest": "npm:20.0.2"
     "@sequelize/core": "npm:7.0.0-alpha.39"
-    "@toast/tokenservice-client": "npm:1.1.2"
+    "@toast/tokenservice-client": "npm:1.2.1"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.11.30"
     "@types/node-cron": "npm:3.0.11"
@@ -674,10 +674,10 @@ __metadata:
     pg-hstore: "npm:2.3.4"
     postgres-array: "npm:3.0.2"
     redis: "npm:4.6.13"
-    simple-git: "npm:3.23.0"
+    simple-git: "npm:3.24.0"
     systeminformation: "npm:5.22.6"
     typescript: "npm:5.4.3"
-    undici: "npm:6.10.1"
+    undici: "npm:6.10.2"
   languageName: unknown
   linkType: soft
 
@@ -1242,14 +1242,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:3.23.0":
-  version: 3.23.0
-  resolution: "simple-git@npm:3.23.0"
+"simple-git@npm:3.24.0":
+  version: 3.24.0
+  resolution: "simple-git@npm:3.24.0"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
     debug: "npm:^4.3.4"
-  checksum: 10/08ddfcbc310bfeaba066ef7b0d178967d9984aa1bc5e29f0360d166b0ccf820a3e5bb67d02036fca40fde6cdfc998f2b5fb2db9a8bbbad29b4feb4c1391f39e0
+  checksum: 10/be1b93c799cbb1daa6ceb0c9b8a5a501026c7add69cadf50b10e74fd03bdc801a582c45ff7f69f998c736defd495cc5c5840e95d069e0fb4ed5014e8af0abaf6
   languageName: node
   linkType: hard
 
@@ -1371,17 +1371,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.10.1":
-  version: 6.10.1
-  resolution: "undici@npm:6.10.1"
-  checksum: 10/42bf07ff5c652e1ed609827c5a02b25adacf69b8845c787a3e919c1f13ea5e5ebed1cdd0e82c5ca92aa5d895561db9cad0a442a15d72ed7f20a66730f71aedcd
-  languageName: node
-  linkType: hard
-
-"undici@npm:6.9.0":
-  version: 6.9.0
-  resolution: "undici@npm:6.9.0"
-  checksum: 10/ee227517586f96b73db3b7a24387f101d191df6a6395ec0199688d6e56195dbe8c9d3456be2fa4a70af30fb1a9a905142826f9bf89c328dec842f00b55e9e5c2
+"undici@npm:6.10.2":
+  version: 6.10.2
+  resolution: "undici@npm:6.10.2"
+  checksum: 10/796dc80a0f8c98ed0676c18a24bb51f9e8b42810c1225dc7db151b018da5f986ef7997e8bcc077ebe25ab1539e2861d0db542b2d17bbb030c25905e1b4a4e0e3
   languageName: node
   linkType: hard
 
