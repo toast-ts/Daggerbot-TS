@@ -1,3 +1,4 @@
+import ansi from 'ansi-colors';
 import Discord from 'discord.js';
 import TClient from '../client.js';
 import Logger from '../helpers/Logger.js';
@@ -105,8 +106,8 @@ export default class MP {
         else {
           const getLongestName = Object.entries(PalletLibrary(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
           await interaction.reply(MessageTool.concatMessage(
-            `There are currently **${filter.length}** pallets on the server. Here\'s the breakdown:\`\`\``,
-            Object.entries(PalletLibrary(DSS)).map(([name, count])=>`${name.padEnd(getLongestName+3)}${count}`).join('\n'),
+            `There are currently **${filter.length}** pallets on the server. Here\'s the breakdown:\`\`\`ansi`,
+            Object.entries(PalletLibrary(DSS)).map(([name, count])=>`${ansi.blue(name.padEnd(getLongestName+3))}${ansi.yellow(count.toString())}`).join('\n'),
             '```'
           ))
         }
