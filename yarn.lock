@@ -431,12 +431,12 @@ __metadata:
   linkType: hard
 
 "@sapphire/shapeshift@npm:^3.9.3":
-  version: 3.9.6
-  resolution: "@sapphire/shapeshift@npm:3.9.6"
+  version: 3.9.7
+  resolution: "@sapphire/shapeshift@npm:3.9.7"
   dependencies:
     fast-deep-equal: "npm:^3.1.3"
     lodash: "npm:^4.17.21"
-  checksum: 10/9d7ab3b3341514363598e48666ec32ec631e0f3b408eb851d4397e479f93c70a471610949d30b9450beaf212df721ffa7c4da3ed3d0fbaffebcb1dfe73ab3f4c
+  checksum: 10/f90f8e25920fe953a5231aa65f24829e1f2ecb26dcac7a09ff1a1f3cb988f174e27b3ac82fc4f6368891edff8ad6f90ee78cf5c0cab3038fd2714d02eba4eb0c
   languageName: node
   linkType: hard
 
@@ -548,16 +548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 20.11.30
-  resolution: "@types/node@npm:20.11.30"
-  dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10/78515bc768d2b878e2e06a1c20eb4f5840072b79b8d28ff3dd0a7feaaf48fd3a2ac03cfa5bc7564da82db5906b43e9ba0e5df9f43d870b7aae2942306e208815
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:20.12.2":
+"@types/node@npm:*, @types/node@npm:20.12.2":
   version: 20.12.2
   resolution: "@types/node@npm:20.12.2"
   dependencies:
@@ -980,14 +971,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-connection-string@npm:^2.5.0":
-  version: 2.6.2
-  resolution: "pg-connection-string@npm:2.6.2"
-  checksum: 10/22265882c3b6f2320785378d0760b051294a684989163d5a1cde4009e64e84448d7bf67d9a7b9e7f69440c3ee9e2212f9aa10dd17ad6773f6143c6020cebbcb5
-  languageName: node
-  linkType: hard
-
-"pg-connection-string@npm:^2.6.3":
+"pg-connection-string@npm:^2.5.0, pg-connection-string@npm:^2.6.3":
   version: 2.6.3
   resolution: "pg-connection-string@npm:2.6.3"
   checksum: 10/2684742c563f113b9b976c2d2d6af0de67179910ac9490b4ffb9e5291d2e5ab6ac9fca23954b8f49ae42bc1ab886102162fb3abb4a78fad49d03921e80cb6356
@@ -1026,14 +1010,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-protocol@npm:*":
-  version: 1.6.0
-  resolution: "pg-protocol@npm:1.6.0"
-  checksum: 10/995864cc2a8517368b84697c753caff769a4db292eda66f96d9eec46e3aa84737cd0b0fe171aca9d7d4b4a4c46bb25bd399713cb1027a5bf8f38adea0b4284f4
-  languageName: node
-  linkType: hard
-
-"pg-protocol@npm:^1.6.1":
+"pg-protocol@npm:*, pg-protocol@npm:^1.6.1":
   version: 1.6.1
   resolution: "pg-protocol@npm:1.6.1"
   checksum: 10/9af672208adae8214f55f5b4597c4699ab9946205a99863d3e2bb8d024fdab16711457b539bc366cc29040218aa87508cf61294b76d288f48881b973d9117bd6
