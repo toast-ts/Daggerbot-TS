@@ -64,9 +64,13 @@ export default class MessageCreate {
       ];
 
       for (const rule of automodRules) {
-        if (!automodded && rule.name && await rule.check()) {
-          await rule.action();
-          break;
+        try {
+          if (!automodded && rule.name) {
+            const result = await rule.check();
+            if (result) await rule.action();
+          }
+        } catch(y) {
+          Logger.console('error', 'Automod', y);
         }
       }
     };
