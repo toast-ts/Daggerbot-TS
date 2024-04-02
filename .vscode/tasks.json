@@ -6,7 +6,7 @@
       "script": "dev",
       "problemMatcher": [],
       "label": "npm: yarn dev",
-      "detail": "yarn tsc && yarn node . src/DB-Beta.config.json"
+      "detail": "yarn tsc && yarn node . src/DB-Beta.config.json daggerbotbeta true"
     }
   ]
 }
