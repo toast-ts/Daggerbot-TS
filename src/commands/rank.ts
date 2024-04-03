@@ -33,7 +33,7 @@ export default class Rank {
         if (data.length < 2) return interaction.reply('Not enough data to generate graph.');
 
         const graph = await CanvasBuilder.generateGraph(data, 'leaderboard');
-			  interaction.reply({
+			  await interaction.reply({
           embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Leaderboard')
           .setDescription(MessageTool.concatMessage(
             `Level System was created **${Math.floor((Date.now()-client.config.LRSstart)/1000/60/60/24)}** days ago.`,
