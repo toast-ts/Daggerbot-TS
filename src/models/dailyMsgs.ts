@@ -32,7 +32,7 @@ export class DailyMsgsSvc {
     })
     this.model.sync();
   }
-  nukeDays = async()=>await this.model.destroy();
+  nukeDays = async()=>await this.model.truncate();
   fetchDays = async()=>await this.model.findAll();
   async newDay(formattedDate:number, total:number) {
     const [instance, created] = await this.model.findOrCreate({where: {day: formattedDate}, defaults: {total}});
