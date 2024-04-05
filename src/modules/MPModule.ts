@@ -149,12 +149,11 @@ export async function requestServerData(client:TClient, server:IServerExt):Promi
         } else if (data.status === 404) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (404), API is disabled or mismatched code`);
         else if (data.status === 400) Logger.console('log', loggingPrefix, `(${i+1}/${maxRetries}) ${server.serverName} responded with an error (400), bad endpoint or ratelimited`); // Seems to be taking L's left and right hourly...
       } catch(err) {
+        if (typeof server.failureCount !== 'number') server.failureCount = 0;
+
         Logger.console('log', loggingPrefix, `Couldn't get data for ${server.serverName}: ${err.message}`);
         server.failureCount++;
-        if (server.failureCount >= 6 && server.isActive) {
-          Logger.console('log', loggingPrefix, `Maximum failed requests (${server.failureCount}) reached for ${server.serverName}, silenced server for 10 minutes`);
-          silenceServer(client, server, 600000);
-        }
+        if (server.failureCount >= 4 && server.isActive) silenceServer(client, server);
         return null;
       }
       await new Promise(resolve=>setTimeout(resolve, delay));
@@ -208,8 +207,9 @@ function convertPlayerUptime(playTime:number) {
   return (Days > 0 ? Days+' d ':'')+(Hours > 0 ? Hours+' h ':'')+(Minutes > 0 ? Minutes+' m':'')
 }
 
-function silenceServer(client:TClient, server:IServerExt, time:number):void {
+function silenceServer(client:TClient, server:IServerExt):void {
+  Logger.console('log', loggingPrefix, `Maximum failed requests (${server.failureCount}) reached for ${server.serverName}, silenced server for 20 minutes`);
   client.MPServer.toggleServerUsability(server.serverName, false);
-  setTimeout(()=>client.MPServer.toggleServerUsability(server.serverName, true), time)
+  setTimeout(()=>client.MPServer.toggleServerUsability(server.serverName, true), 1200000);
   server.failureCount = 0;
 }
