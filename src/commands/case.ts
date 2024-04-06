@@ -74,7 +74,7 @@ export default class Case {
         await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor)
           .setDescription(MessageTool.concatMessage(
             `There are **${cases.length}** total cases created and`,
-            `**${(await interaction.guild.bans.fetch()).size}** total bans in this server. (Fetched from bans page)`
+            `**${(await interaction.guild.bans.fetch()).size}** total bans in this server.`
           )).addFields(...preparedFields)
         ]});
       }
