@@ -34,7 +34,6 @@ export default class Response {
   protected static outgoingArrays(message:Discord.Message) {
     const currDate = new Date();
     const PersonnyMcPerson = `**${message.member.displayName}**`;
-    // const responseCreator =(id:Discord.Snowflake)=>`\n╰*Response made by <@${id}>*`;
 
     const respArrays = {
       morning: [
@@ -47,25 +46,33 @@ export default class Response {
         'Gooooood morning to you!', `Good morning to you! You know what else is good? A segue to our sponsor, breakfast!\nGet started with getting out of the bed and have some breakfast!`,
         `## Morning ${PersonnyMcPerson}!`, '### Have a wonderful day ahead of you!', `Here, have some pancakes for breakfast, ${PersonnyMcPerson}`, 'Is it Friday yet? This week is getting boring already!',
         `You have reached ${Formatters.DayOfTheYear(Math.floor(dayjs().diff(dayjs().startOf('year'), 'day', true))+1)} day of the year, also good morning to you as well!`,
-        'Good morning! Have a cookie to start your day with. :cookie:', 'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440'
+        'Good morning! Have a cookie to start your day with. :cookie:', 'https://tenor.com/view/rambo-family-rambo-rise-and-shine-wake-up-gif-22012440',
+        `Rise and shine, sleepyhead ${PersonnyMcPerson}! Ready to start your day?`, `Wake up and smell the delicious pancakes, ${PersonnyMcPerson}! It's a brand new day with many possibilities!`,
+        '# *DID YOU HAVE A GREAT SLEEP LAST NIGHT?*'
       ],
       afternoon: [
         `Afternoon ${PersonnyMcPerson}!`, `What a nice day outside, ${PersonnyMcPerson}`, `Good afternoon ${PersonnyMcPerson}`,
         'Hope you had a good day so far.', `Did you enjoy your day yet, ${PersonnyMcPerson}?`, 'Weather doesn\'t look too bad outside right?',
         `How's the trip outside, ${PersonnyMcPerson}?`, `~~Morning~~ Afternoon ${PersonnyMcPerson}!`, 'Afternoon already? Jeez, time go brrrr!',
-        'We\'re halfway through the day, aren\'t we?', `Ready to enjoy your delicious lunch, ${PersonnyMcPerson}?`, '### Quite a wonderful weather today!'
+        'We\'re halfway through the day, aren\'t we?', `Ready to enjoy your delicious lunch, ${PersonnyMcPerson}?`, '### Quite a wonderful weather today!',
+        `Hi there, adventurer ${PersonnyMcPerson}! What's on your agenda for the rest of today?`, `Afternoon ${PersonnyMcPerson}, back from your trip outside?`,
+        'Did you have a wonderful and productive day so far?', `How are you doing today, ${PersonnyMcPerson}?`, `Good afternoon ${PersonnyMcPerson}, I hope you're having a fanastic day than a poor particular penguin in Antarctica that just slipped!`,
+        `Afternoon ${PersonnyMcPerson}! What's the current progress on your todo list? Did you finish them?`, `Good afternoon ${PersonnyMcPerson}! Hope your day is going better than a penguin in a snowstorm in Antarctica!`,
+        `Afternoon ${PersonnyMcPerson}! How's the quest for the perfect snack coming along?\nRemember, it's all about the journey, not the destination... *unless the destination is the... fridge.*`
       ],
       evening: [
         'I can\'t believe the time flies so quickly!', `Evening ${PersonnyMcPerson}!`, `Hope you enjoyed the dinner, ${PersonnyMcPerson}!`,
         `Good evening ${PersonnyMcPerson}!`, 'You look tired, ready to go to sleep yet?', 'Being outside was an exhausting task isn\'t it?',
         'Did you have a good day so far?', 'May I suggest sleep?', `You heard me! ${PersonnyMcPerson}, it's almost dinner time!`,
-        `How's your day going, ${PersonnyMcPerson}?`, `${PersonnyMcPerson}, may I suggest... *sleep?*`, 'Today is almost over, you deserve some rest!'
+        `How's your day going, ${PersonnyMcPerson}?`, `${PersonnyMcPerson}, may I suggest... *sleep?*`, 'Today is almost over, you deserve some rest!',
+        `Good evening ${PersonnyMcPerson}! Just remember, the absolute best part of the day is yet to come... **bedtime!** Who's with me? <a:MichaelSurprised:1016297232263286825>`
       ],
       night: [
         `Good night ${PersonnyMcPerson}!`, `Night ${PersonnyMcPerson}!`, `Sweet dreams, ${PersonnyMcPerson}.`, `Don't fall out of sky in your dreamworld, ${PersonnyMcPerson}!`,
         'Nighty night!', `I hope tomorrow is a good day for you, ${PersonnyMcPerson}!`, `Have a good sleep, ${PersonnyMcPerson}!`, `I :b:et you a cookie if you actually slept through the night! ${PersonnyMcPerson}`,
         `Sleep well ${PersonnyMcPerson}.`, `Gn ${PersonnyMcPerson}.`, `Close your eyelids and sleep, ${PersonnyMcPerson}.`, `Good night ${PersonnyMcPerson} and hope your pillow is nice and cold!`,
-        `# Night ${PersonnyMcPerson}!`, `You should try maintaining your sleep schedule if you're really that tired, ${PersonnyMcPerson}.`
+        `# Night ${PersonnyMcPerson}!`, `You should try maintaining your sleep schedule if you're really that tired, ${PersonnyMcPerson}.`, `Goodnight ${PersonnyMcPerson}, time to recharge your social batteries for tomorrow!`,
+        `Have a good night ${PersonnyMcPerson}, don't let the bed bugs bite!`, `Sweet dreams, ${PersonnyMcPerson}! Hope your dreams are as wild as unpredictable as a Netflix algorithm!`
       ]
     };
 
