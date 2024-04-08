@@ -95,18 +95,24 @@ export default class MP {
         DSS.server ? await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
           {name: 'Name', value: DSS.server?.name?.length < 1 ? '*`Offline`*' : `\`${DSS?.server?.name}\``},
           {name: 'Players', value: `${DSS?.slots.used}/${DSS?.slots.capacity}`},
-          {name: 'Map', value: DSS?.server.mapName}
+          {name: 'Map', value: DSS?.server.mapName ?? 'Unavailable'}
         ).setFooter({text: `Version: ${DSS?.server?.version} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]}) : null
       },
       pallets: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - pallets');
         const filter = DSS?.vehicles.filter(x=>x.category === 'PALLETS');
+        const rules = {
+          one: 'single pallet',
+          two: 'pallets',
+          few: 'pallets',
+          other: 'pallets'
+        }[new Intl.PluralRules('en', {type: 'ordinal'}).select(filter.length)];
         if (filter.length < 1) return interaction.reply('No pallets found on the server.');
         else {
           const getLongestName = Object.entries(PalletLibrary(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
           await interaction.reply(MessageTool.concatMessage(
-            `There are currently **${filter.length}** pallets on the server. Here\'s the breakdown:\`\`\`ansi`,
+            `There are currently **${filter.length}** ${rules} on the server. Here\'s the breakdown:\`\`\`ansi`,
             Object.entries(PalletLibrary(DSS)).map(([name, count])=>`${ansi.blue(name.padEnd(getLongestName+3))}${ansi.yellow(count.toString())}`).join('\n'),
             '```'
           ))
