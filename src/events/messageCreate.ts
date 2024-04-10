@@ -44,6 +44,17 @@ export default class MessageCreate {
           }
         },
         {
+          name: 'messageSpam',
+          check: ()=>Automoderator.isSpam(client, message, 4) && !MessageTool.isStaff(message.member as Discord.GuildMember),
+          action: async()=>{
+            automodded = true;
+            message.delete().catch(()=>Logger.console('log', `${automodLog}MessageSpam`, automodFailReason));
+            message.channel.send('Spamming is not cool, slow down!').then(x=>setTimeout(()=>x.delete(), 15000));
+            await Automoderator.repeatedMessages(client, message, 'mute', 30000, 4, 'spam', '30m', 'Message spam');
+            delete client.repeatedMessages[message.author.id];
+          }
+        },
+        {
           name: 'discordInvite',
           check: ()=>message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
