@@ -101,7 +101,7 @@ export default class MP {
       pallets: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - pallets');
-        const filter = DSS?.vehicles.filter(x=>x.category === 'PALLETS');
+        const filter = DSS?.vehicles.filter(x=>['PALLETS', 'BIGBAGPALLETS'].includes(x.category));
         const rules = {
           one: 'single pallet',
           two: 'pallets',
