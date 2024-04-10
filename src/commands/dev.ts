@@ -81,7 +81,7 @@ export default class Developer {
           if (interaction.replied) interaction.followUp(update_success);
           else interaction.reply(update_success);
         };
-        exec('git pull', {windowsHide:true}, (err:Error, stdout)=>{
+        exec('git pull --rebase', {windowsHide:true}, (err:Error, stdout)=>{
           if (err) hammondYouIdiot.edit(`\`\`\`${UsernameHelper(err.message)}\`\`\``);
           else if (stdout.includes('Already up to date')) hammondYouIdiot.edit('Repository is currently up to date.');
           else hammondYouIdiot.edit('Running `yarn tsc`...').then(()=>exec('yarn tsc', {windowsHide:true}, (err:Error)=>{
