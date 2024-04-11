@@ -13,7 +13,7 @@ export default ()=>{
     'traffic light', 'bridge',
     'fountain', 'dumpster',
     'mailbox', 'parking meter',
-    'bus', 'truck'
+    'bus', 'truck', 'glass door'
   ] as string[];
   return ranIntoSomething[Math.floor(Math.random()*ranIntoSomething.length)];
 }
