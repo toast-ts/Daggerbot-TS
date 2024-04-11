@@ -57,6 +57,7 @@ export class MPServerSvc {
   }
   async fetchPlayerData(serverName:string) {
     const server = await this.model.findOne({where: {serverName}});
+    if (!server) return [];
     return server.dataValues.playerData ??= [];
   }
   async addServer(serverName:string, ip:string, code:string) {

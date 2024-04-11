@@ -93,10 +93,10 @@ export default class MP {
         if (!DSS) return console.log('Endpoint failed - status');
 
         DSS.server ? await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
-          {name: 'Name', value: DSS.server?.name?.length < 1 ? '*`Offline`*' : `\`${DSS?.server?.name}\``},
+          {name: 'Name', value: `\`${DSS.server?.name.length > 0 ? DSS.server.name : 'Offline'}\``},
           {name: 'Players', value: `${DSS?.slots.used}/${DSS?.slots.capacity}`},
-          {name: 'Map', value: DSS?.server.mapName ?? 'Unavailable'}
-        ).setFooter({text: `Version: ${DSS?.server?.version} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]}) : null
+          {name: 'Map', value: DSS.server?.mapName.length > 0 ? DSS.server.mapName : 'No map'}
+        ).setFooter({text: `Version: ${DSS?.server?.version.length > 0 ? DSS?.server?.version : '0.0.0.0'} | Time: ${`${('0'+Math.floor((DSS?.server.dayTime/3600/1000))).slice(-2)}:${('0'+Math.floor((DSS?.server.dayTime/60/1000)%60)).slice(-2)}`}`})]}) : null
       },
       pallets: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
