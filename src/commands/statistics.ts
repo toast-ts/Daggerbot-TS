@@ -12,8 +12,8 @@ export default class Statistics {
     const initialMsg = await interaction.reply({content: '<a:sakjdfsajkfhsdjhjfsa:1065342869428252743>', fetchReply:true});
     const repoData = await GitHub.LocalRepository();
     const embed = new client.embed().setColor(client.config.embedColor).setTitle('Statistics').setDescription(MessageTool.concatMessage(
-      'This is a list of commands ordered by their names and how many times they had been used in this session.',
-      'Underneath is a list of main dependencies and their versions as well as the bot/host statistics.'
+      'This is a list of commands ordered by their uses in the current bot uptime.',
+      'Underneath is a list of main dependencies as well as the bot/host information.'
     ));
     const systemInfo = {
       cpu: await si.cpu(),
