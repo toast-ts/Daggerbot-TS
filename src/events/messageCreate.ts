@@ -45,7 +45,7 @@ export default class MessageCreate {
         },
         {
           name: 'messageSpam',
-          check: ()=>Automoderator.isSpam(client, message, 4) && !MessageTool.isStaff(message.member as Discord.GuildMember),
+          check: ()=>Automoderator.isSpam(client, message, 6) && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
             automodded = true;
             message.delete().catch(()=>Logger.console('log', `${automodLog}MessageSpam`, automodFailReason));
