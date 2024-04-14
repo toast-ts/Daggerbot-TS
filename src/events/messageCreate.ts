@@ -50,7 +50,7 @@ export default class MessageCreate {
             automodded = true;
             message.delete().catch(()=>Logger.console('log', `${automodLog}MessageSpam`, automodFailReason));
             message.channel.send('Spamming is not cool, slow down!').then(x=>setTimeout(()=>x.delete(), 15000));
-            await Automoderator.repeatedMessages(client, message, 'mute', 30000, 6, 'spam', '30m', 'Message spam');
+            await Automoderator.repeatedMessages(client, message, 'mute', 5000, 2 'spam', '30m', 'Message spam');
             delete client.repeatedMessages[message.author.id];
           }
         },
