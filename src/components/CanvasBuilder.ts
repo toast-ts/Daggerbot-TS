@@ -120,10 +120,7 @@ export default class CanvasBuilder {
     this.ctx.fillStyle = this.palette.textColor;
 
     // Highest value
-    this.ctx.fillText(type === 'leaderboard'
-      ? prevY[1].toLocaleString('en-US')
-      : prevY.at(-1).toLocaleString('en-US'), origin[0] + size[0] + textSize / 2, origin[1] + (textSize / 3)
-    )
+    this.ctx.fillText(prevY.at(-1).toLocaleString('en-US'), origin[0] + size[0] + textSize / 2, origin[1] + (textSize / 3));
 
     // Lowest value
     this.ctx.fillText(type === 'leaderboard' ? '0 msgs' : '0', origin[0] + size[0] + textSize / 2, origin[1] + size[1] + (textSize / 3));
