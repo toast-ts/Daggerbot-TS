@@ -55,7 +55,6 @@ export default class Statistics {
         `**TypeScript:** ${ts.version}`,
         `**TokenService:** ${pkg.dependencies['@toast/tokenservice-client']}`,
         `**Sequelize:** ${pkg.dependencies['@sequelize/core']}`,
-        `**Postgres:** ${pkg.dependencies.pg}`,
         `**Redis:** ${pkg.dependencies.redis}`
       )},
       {name: '🔹 *Host*', value: MessageTool.concatMessage(
