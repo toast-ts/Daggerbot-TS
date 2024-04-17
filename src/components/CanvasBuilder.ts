@@ -126,7 +126,7 @@ export default class CanvasBuilder {
     this.ctx.fillText(type === 'leaderboard' ? '0 msgs' : '0', origin[0] + size[0] + textSize / 2, origin[1] + size[1] + (textSize / 3));
 
     // 30 day (minute for /mp players)
-    this.ctx.fillText(type === 'leaderboard' ? '30 days ago' : '30 mins ago', lastStart, origin[1] - (textSize / 2));
+    this.ctx.fillText(type === 'players' ? '30 mins ago' : '', lastStart, origin[1] - (textSize / 2));
 
     // Time
     this.ctx.fillText('time ->', origin[0] + (textSize / 2), origin[1] + size[1] + (textSize));
