@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from './client.js';
 const client = new TClient;
 client.init();
+import cron from 'node-cron';
 import Logger from './helpers/Logger.js';
 import YTModule from './modules/YTModule.js';
 import CacheServer from './components/CacheServer.js';
@@ -25,8 +26,8 @@ if ((typeof process.argv[4] === 'string' && process.argv[4] === 'true') ?? null)
 
 // Interval timers for modules
 setInterval(async()=>await MPModule(client), refreshTimerSecs);
-setInterval(()=>YTModule(client), 180000); // 3 minutes
-setInterval(async()=>{
+cron.schedule('0-5 * * * *', ()=>YTModule(client)); // Every minute from 0 through 5
+cron.schedule('5-25 * * * *', async()=>{// Every minute from 5 through 25
   const forum = client.guilds.cache.get(client.config.dcServer.id).channels.cache.get(client.config.dcServer.channels.help_forum) as Discord.ForumChannel;
   await forum.threads.fetch();
 
@@ -37,7 +38,7 @@ setInterval(async()=>{
       Logger.console('log', 'ThreadTimer', `"#${thread.name}" has been deleted due to inactivity for 18 days`);
     }
   }
-}, 1200000); // 20 minutes
+});
 
 // Event loop for punishments and daily msgs
 setInterval(async()=>{
