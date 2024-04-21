@@ -38,7 +38,7 @@ export default async(client:TClient)=>{
       return new client.embed().setColor(client.config.embedColorRed).setTitle(unavailableStatus).setFooter({text: 'Last updated'}).setTimestamp();
     };
     const {dss, csg} = serverData;
-    if (dss === null ?? csg === null ?? !dss ?? !csg ?? !dss.slots ?? !csg.slotSystem) return new client.embed().setColor(client.config.embedColorRed).setTitle(`${server.serverName} did not respond`).setFooter({text: 'Last updated'}).setTimestamp();
+    if (dss === null || csg === null || !dss || !csg || !dss.slots || !csg.slotSystem) return new client.embed().setColor(client.config.embedColorRed).setTitle(`${server.serverName} sent partial response`).setFooter({text: 'Last updated'}).setTimestamp();
     // Skip the server if the parts of the data is missing.
 
     const formatTimescale =(number:number, digits:number, icon:string)=>Intl.NumberFormat(undefined, {minimumFractionDigits: digits}).format(number)+icon;
