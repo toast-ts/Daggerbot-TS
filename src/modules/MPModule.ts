@@ -170,7 +170,7 @@ export async function requestServerData(client:TClient, server:IServerExt):Promi
     ]);
     const dss = DSSR.status === 'fulfilled' && DSSR.value && DSSR.value.server ? DSSR.value : null;
     const csg = CSGR.status === 'fulfilled' && CSGR.value && CSGR.value.slotSystem ? CSGR.value : null;
-    if (dss && csg) return {dss, csg};
+    if (dss || csg) return {dss, csg};
     else return null;
   } catch(err) {
     Logger.console('log', loggingPrefix, `Couldn't request ${server.serverName} for data: ${err.message}`);
