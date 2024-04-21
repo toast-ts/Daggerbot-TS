@@ -11,12 +11,13 @@ import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat, MPC
 
 async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
   try {
+    await interaction.deferReply();
     const db = await client.MPServer.findInCache();
     const data = await requestServerData(client, db.find(x=>x.serverName === serverName));
     return data.dss as FSData;
   } catch {
     Logger.console('error', 'MPDB', 'Function failed - fetchData');
-    return interaction.reply('Ran into a '+RanIntoHumor()+' while trying to retrieve server data, please try again later.');
+    await interaction.editReply(`Ran into a ${RanIntoHumor()} while trying to retrieve server data, please try again later.`);
   }
 }
 
@@ -58,7 +59,7 @@ export default class MP {
           for (const player of DSS.slots.players.filter(x=>x.isUsed)) players.push(playtimeStat(player))
           let attachmentName:string = 'MPModule.jpg';
 
-          await interaction.reply({embeds:[new client.embed()
+          await interaction.editReply({embeds:[new client.embed()
             .setTitle(DSS.server?.name.length > 0 ? DSS.server.name : 'Offline')
             .setColor(embedColor)
             .setDescription(DSS?.slots?.used < 1 ? '*Nobody is playing*' : players.join('\n\n'))
@@ -71,6 +72,7 @@ export default class MP {
       details: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - details');
+
         const db = await client.MPServer.findInCache();
         const server = db.find(x=>x.serverName === choiceSelector);
         if (!server) return;
@@ -86,13 +88,13 @@ export default class MP {
           `Please see <#${MPChannels.serverInfo}> for more additional information and rules.`
         ));
         if (DSS.server?.name.length < 1) dEmbed.setFooter({text: 'Server is currently offline'});
-        DSS.server ? await interaction.reply({embeds: [dEmbed]}) : null;
+        DSS.server ? await interaction.editReply({embeds: [dEmbed]}) : null;
       },
       status: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - status');
 
-        DSS.server ? await interaction.reply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
+        DSS.server ? await interaction.editReply({embeds: [new client.embed().setColor(client.config.embedColor).addFields(
           {name: 'Name', value: `\`${DSS.server?.name.length > 0 ? DSS.server.name : 'Offline'}\``},
           {name: 'Players', value: `${DSS?.slots.used}/${DSS?.slots.capacity}`},
           {name: 'Map', value: DSS.server?.mapName.length > 0 ? DSS.server.mapName : 'No map'}
@@ -108,10 +110,10 @@ export default class MP {
           few: 'pallets',
           other: 'pallets'
         }[new Intl.PluralRules('en', {type: 'ordinal'}).select(filter.length)];
-        if (filter.length < 1) return interaction.reply('No pallets found on the server.');
+        if (filter.length < 1) return interaction.editReply('No pallets found on the server.');
         else {
           const getLongestName = Object.entries(PalletLibrary(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
-          await interaction.reply(MessageTool.concatMessage(
+          await interaction.editReply(MessageTool.concatMessage(
             `There are currently **${filter.length}** ${rules} on the server. Here\'s the breakdown:\`\`\`ansi`,
             Object.entries(PalletLibrary(DSS)).map(([name, count])=>`${ansi.blue(name.padEnd(getLongestName+3))}${ansi.yellow(count.toString())}`).join('\n'),
             '```'
@@ -196,7 +198,7 @@ export default class MP {
             code: stripURL[1]
           };
 
-          Logger.console('log', logPrefix, `Updating the IP for "${choiceSelector}" to ${stripped.ip}`)
+          Logger.console('log', logPrefix, `Updating the IP to ${stripped.ip} for "${choiceSelector}"`)
           await client.MPServer.addServer(choiceSelector, stripped.ip, stripped.code);
           await interaction.reply(`**${choiceSelector}**'s entry has been successfully created!`);
         }
@@ -206,7 +208,7 @@ export default class MP {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         try {
-          Logger.console('log', logPrefix, `Removing "${choiceSelector}" from database`)
+          Logger.console('log', logPrefix, `Removing "${choiceSelector}" from the database`)
           await client.MPServer.removeServer(choiceSelector);
           await interaction.reply(`**${choiceSelector}**'s entry has been successfully removed!`);
         } catch {
@@ -219,7 +221,7 @@ export default class MP {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmanager) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmanager');
         }
         const toggleFlag = interaction.options.getBoolean('is_active');
-        Logger.console('log', logPrefix, `Toggling isActive flag for "${choiceSelector}" to ${toggleFlag}`);
+        Logger.console('log', logPrefix, `Setting isActive flag to ${toggleFlag} for "${choiceSelector}"`);
         await client.MPServer.toggleServerUsability(choiceSelector, toggleFlag).then(async()=>await interaction.reply(`**${choiceSelector}** is now ${toggleFlag ? 'visible to' : 'hidden from'} public`));
       }
     })[interaction.options.getSubcommand() ?? interaction.options.getSubcommandGroup()]();
