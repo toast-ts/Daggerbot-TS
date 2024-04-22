@@ -27,7 +27,7 @@
   "engineStrict": true,
   "packageManager": "yarn@4.1.1+sha256.f3cc0eda8e5560e529c7147565b30faa43b4e472d90e8634d7134a37c7f59781",
   "dependencies": {
-    "@napi-rs/canvas": "0.1.51",
+    "@napi-rs/canvas": "0.1.52",
     "@octokit/rest": "20.1.0",
     "@sequelize/core": "7.0.0-alpha.40",
     "@sequelize/postgres": "7.0.0-alpha.40",
