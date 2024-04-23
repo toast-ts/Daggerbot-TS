@@ -110,9 +110,10 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
     genericBools: { 'false': 'Off', 'true': 'On' },
     growthMode: { '1': 'Yes', '2': 'No', '3': 'Growth paused' },
     fuelUsage: { '1': 'Low', '2': 'Normal', '3': 'High' },
-    dirtInterval: { '1': 'Off', '2': 'Slow', '3': 'Normal', '4': 'Fast' }
+    dirtInterval: { '1': 'Off', '2': 'Slow', '3': 'Normal', '4': 'Fast' },
+    economicDifficulty: { '1': 'Easy', '2': 'Normal', '3': 'Hard' }
   };
-  const getMappedValue =<T>(map:Record<string, T>, key:string, fallback:T):T=>map[key] ?? fallback;
+  const getMappedValue =<T>(map:Record<string, T>, key:string, fallback:T):T=>map[key] ??= fallback;
   const data = await requestServerData(client, server);
   if (!data) return Logger.console('log', loggingPrefix, `Couldn't get data for webhook (${server.serverName})`);
   const {csg} = data;// :tutelBRUH: (https://cdn.discordapp.com/emojis/1155276126176956486.webp)
@@ -123,6 +124,7 @@ async function multifarmWebhook(client:TClient, server:IServer, webhookId:string
     {name: 'Stones', value: getMappedValue(txtMapping.genericBools, csg?.settings.stonesEnabled, dataUnavailable), inline: true},
     {name: 'Lime', value: getMappedValue(txtMapping.genericBools, csg?.settings.limeRequired, dataUnavailable), inline: true},
     {name: 'Weeds', value: getMappedValue(txtMapping.genericBools, csg?.settings.weedsEnabled, dataUnavailable), inline: true},
+    {name: 'Economic Difficulty', value: getMappedValue(txtMapping.economicDifficulty, csg?.settings.economicDifficulty, dataUnavailable), inline: true},
     {name: 'Fuel Usage', value: getMappedValue(txtMapping.fuelUsage, csg?.settings.fuelUsage, dataUnavailable), inline: true},
     {name: 'Dirt Interval', value: getMappedValue(txtMapping.dirtInterval, csg?.settings.dirtInterval, dataUnavailable), inline: true}
   ];
