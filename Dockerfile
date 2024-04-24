@@ -1,4 +1,4 @@
-FROM node:21.7.2-alpine3.19
+FROM node:21.7.3-alpine3.19
 ENV YARN_VERSION 4.1.1
 ENV TZ Australia/Sydney
 RUN yarn policies set-version $YARN_VERSION
