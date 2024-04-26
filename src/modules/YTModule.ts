@@ -30,7 +30,8 @@ export default async(client:TClient)=>{
       }).then(async resp=>Data = await resp.body.json());
       YTChannelName = Data.items[0].snippet.channelTitle;
     } catch (err) {
-      Logger.console('log', 'YTModule', `Failed to get video data for "${YTChannelID}" from YouTube API: ${err}`);
+      Logger.console('error', 'YTModule', `Failed to get video data for "${YTChannelID}" from YouTube API: ${err}`);
+      Logger.debug('YTModule', `Debug data: ${Data}`);
     }
     if (!Data) return;
 
