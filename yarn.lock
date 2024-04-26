@@ -524,12 +524,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.2.6":
-  version: 1.2.6
-  resolution: "@toast/tokenservice-client@npm:1.2.6::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.6%2Ftokenservice-client-1.2.6.tgz"
+"@toast/tokenservice-client@npm:1.2.7":
+  version: 1.2.7
+  resolution: "@toast/tokenservice-client@npm:1.2.7::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.7%2Ftokenservice-client-1.2.7.tgz"
   dependencies:
     undici: "npm:6.14.1"
-  checksum: 10/eabaacd8982d936e2d0b50ddc7bb5d19859c5fe345b86cb130e032f3d5e159b0d7760f7fea034b9a00dc202de0494e57bab228738a7240a13b501d207509db00
+  checksum: 10/e46cb44500acf96366aed1deeea76a1c66ff7184ec32b8b2f9b92f417f67f3542f4c1a478d036ce09fb7fb33286361869f60c44c19dca55d21c2e11239de3d5c
   languageName: node
   linkType: hard
 
@@ -702,7 +702,7 @@ __metadata:
     "@octokit/rest": "npm:20.1.0"
     "@sequelize/core": "npm:7.0.0-alpha.40"
     "@sequelize/postgres": "npm:7.0.0-alpha.40"
-    "@toast/tokenservice-client": "npm:1.2.6"
+    "@toast/tokenservice-client": "npm:1.2.7"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.12.7"
     "@types/node-cron": "npm:3.0.11"

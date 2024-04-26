@@ -6,6 +6,7 @@ import UsernameHelper from '../helpers/UsernameHelper.js';
 import Formatters from '../helpers/Formatters.js';
 import GitHub from '../helpers/GitHub.js';
 import TClient from '../client.js';
+import cron from 'node-cron';
 import util from 'node:util';
 import fs from 'node:fs';
 export default class Developer {
@@ -14,6 +15,7 @@ export default class Developer {
     ({
       eval: async()=>{
         fs;
+        cron;
         DatabaseServer;
 
         const code = interaction.options.getString('code') as string;
