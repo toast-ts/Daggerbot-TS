@@ -27,13 +27,13 @@ if ((typeof process.argv[4] === 'string' && process.argv[4] === 'true') ?? null)
 // Interval timers for modules
 setInterval(async()=>await MPModule(client), refreshTimerSecs);
 cron.schedule('0-5 * * * *', ()=>YTModule(client)); // Every minute from 0 through 5
-cron.schedule('5-25 * * * *', async()=>{// Every minute from 5 through 25
+cron.schedule('5-12 * * * *', async()=>{// Every minute from 5 through 12
   const forum = client.guilds.cache.get(client.config.dcServer.id).channels.cache.get(client.config.dcServer.channels.help_forum) as Discord.ForumChannel;
   await forum.threads.fetch();
 
   for await (const thread of forum.threads.cache.values()) {
     await thread.messages.fetch();
-    if (!thread.archived && thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
+    if ((!thread.locked || !thread.archived) && thread.lastMessage.createdTimestamp <= Date.now() - 1555200000) {// check if thread is inactive for over 18 days
       await thread.delete();
       Logger.console('log', 'ThreadTimer', `"#${thread.name}" has been deleted due to inactivity for 18 days`);
     }
