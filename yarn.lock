@@ -5,7 +5,7 @@ __metadata:
   version: 8
   cacheKey: 10
 
-"@babel/runtime@npm:^7.24.0":
+"@babel/runtime@npm:^7.24.4":
   version: 7.24.4
   resolution: "@babel/runtime@npm:7.24.4"
   dependencies:
@@ -524,12 +524,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@toast/tokenservice-client@npm:1.2.3::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.3%2Ftokenservice-client-1.2.3.tgz"
+"@toast/tokenservice-client@npm:1.2.6":
+  version: 1.2.6
+  resolution: "@toast/tokenservice-client@npm:1.2.6::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.6%2Ftokenservice-client-1.2.6.tgz"
   dependencies:
-    undici: "npm:6.11.1"
-  checksum: 10/c6c5764117bf3ae5df494eb42e528ba558b4eab3ca7f88105869894f1c9570bee12bfcddd282dc26b838bc43baca450292059dfd4f40e24e82783d702912c5bf
+    undici: "npm:6.14.1"
+  checksum: 10/eabaacd8982d936e2d0b50ddc7bb5d19859c5fe345b86cb130e032f3d5e159b0d7760f7fea034b9a00dc202de0494e57bab228738a7240a13b501d207509db00
   languageName: node
   linkType: hard
 
@@ -702,7 +702,7 @@ __metadata:
     "@octokit/rest": "npm:20.1.0"
     "@sequelize/core": "npm:7.0.0-alpha.40"
     "@sequelize/postgres": "npm:7.0.0-alpha.40"
-    "@toast/tokenservice-client": "npm:1.2.3"
+    "@toast/tokenservice-client": "npm:1.2.6"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.12.7"
     "@types/node-cron": "npm:3.0.11"
@@ -710,7 +710,7 @@ __metadata:
     dayjs: "npm:1.11.10"
     discord.js: "npm:14.14.1"
     fast-xml-parser: "npm:4.3.6"
-    mathjs: "npm:12.4.1"
+    mathjs: "npm:12.4.2"
     ms: "npm:2.1.3"
     node-cron: "npm:3.0.3"
     redis: "npm:4.6.13"
@@ -943,11 +943,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:12.4.1":
-  version: 12.4.1
-  resolution: "mathjs@npm:12.4.1"
+"mathjs@npm:12.4.2":
+  version: 12.4.2
+  resolution: "mathjs@npm:12.4.2"
   dependencies:
-    "@babel/runtime": "npm:^7.24.0"
+    "@babel/runtime": "npm:^7.24.4"
     complex.js: "npm:^2.1.1"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
@@ -958,7 +958,7 @@ __metadata:
     typed-function: "npm:^4.1.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10/171cdf4b6ad4786f902d112d4208a2e5b02381cd08a2b974d957b56d0102808064ddfcc7b953bef6022ad0302f3181b7f6146b3be6b54a240579a36b90c463ff
+  checksum: 10/4b88ac1b137d00b8f3d66f4d1662d3670399390b59623ecf3ab7d587ba18be7b97ce9c5b07e953029ac75f48567d675c99323889ae231eb071ddd84db5dd699c
   languageName: node
   linkType: hard
 
@@ -1415,13 +1415,6 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10/2bf96b102fb84568fb235bdf6e1e352e5d2bf99566b243cd1b13b41578bf9dd5c7c3d3d82192b20a3fec61fe7a528f9d80cd5b4555ce65405c06c69b023013de
-  languageName: node
-  linkType: hard
-
-"undici@npm:6.11.1":
-  version: 6.11.1
-  resolution: "undici@npm:6.11.1"
-  checksum: 10/129480684630e5723b7f4a946c1d9f8120f9b5697cb2032d791d1e3d2898a90eed0ed63c6ef5641502569dca0112759948564354a932c8172fc96845aaf2dd28
   languageName: node
   linkType: hard
 
