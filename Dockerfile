@@ -1,4 +1,4 @@
-FROM node:21.7.3-alpine3.19
+FROM node:22.0.0-alpine3.19
 ENV YARN_VERSION 4.1.1
 ENV TZ Australia/Sydney
 RUN yarn policies set-version $YARN_VERSION
@@ -9,4 +9,4 @@ RUN git config --global --add safe.directory /Daggerbot
 COPY tsconfig.json package.json yarn.lock .yarnrc.yml ./
 RUN yarn
 
-CMD [ "yarn", "node", "." ]
+CMD yarn node .
