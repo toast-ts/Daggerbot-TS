@@ -524,12 +524,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@toast/tokenservice-client@npm:1.2.3::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.3%2Ftokenservice-client-1.2.3.tgz"
+"@toast/tokenservice-client@npm:1.2.7":
+  version: 1.2.7
+  resolution: "@toast/tokenservice-client@npm:1.2.7::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.7%2Ftokenservice-client-1.2.7.tgz"
   dependencies:
-    undici: "npm:6.11.1"
-  checksum: 10/c6c5764117bf3ae5df494eb42e528ba558b4eab3ca7f88105869894f1c9570bee12bfcddd282dc26b838bc43baca450292059dfd4f40e24e82783d702912c5bf
+    undici: "npm:6.14.1"
+  checksum: 10/e46cb44500acf96366aed1deeea76a1c66ff7184ec32b8b2f9b92f417f67f3542f4c1a478d036ce09fb7fb33286361869f60c44c19dca55d21c2e11239de3d5c
   languageName: node
   linkType: hard
 
@@ -702,7 +702,7 @@ __metadata:
     "@octokit/rest": "npm:20.1.0"
     "@sequelize/core": "npm:7.0.0-alpha.40"
     "@sequelize/postgres": "npm:7.0.0-alpha.40"
-    "@toast/tokenservice-client": "npm:1.2.3"
+    "@toast/tokenservice-client": "npm:1.2.7"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.12.7"
     "@types/node-cron": "npm:3.0.11"
@@ -1418,17 +1418,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.11.1":
-  version: 6.11.1
-  resolution: "undici@npm:6.11.1"
-  checksum: 10/129480684630e5723b7f4a946c1d9f8120f9b5697cb2032d791d1e3d2898a90eed0ed63c6ef5641502569dca0112759948564354a932c8172fc96845aaf2dd28
-  languageName: node
-  linkType: hard
-
 "undici@npm:6.13.0":
   version: 6.13.0
   resolution: "undici@npm:6.13.0"
   checksum: 10/4ec2038e95779d4f1114a5dcf5bc74ec59c7fc76f6287f8a6bea6d69113f0190e6d41cc6e14409b5d912b0a92ce910b33bfa05808f40b6bf2b802b58b427f2cf
+  languageName: node
+  linkType: hard
+
+"undici@npm:6.14.1":
+  version: 6.14.1
+  resolution: "undici@npm:6.14.1"
+  checksum: 10/cb39b097b5093a3fdeb74bf86375d8164e49a5753fcee70d2240e74e257a1c79dcbb08b971785b70a5d665a630b4dbc9f8c460cbe3a8a833c085895feb9bdaa7
   languageName: node
   linkType: hard
 
