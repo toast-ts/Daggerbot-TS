@@ -21,6 +21,8 @@ export default async(client:TClient, interaction: Discord.ChatInputCommandIntera
   if (!GuildMember && !['unban', 'ban'].includes(type)) return interaction.reply(`You cannot ${type} someone who is not in the server.`);
   if (User.bot) return interaction.reply(`You cannot ${type} a bot!`);
 
-  await interaction.deferReply({ephemeral: isInBKL});
-  await client.punishments.punishmentAdd(type, {time, interaction}, interaction.user.id, reason, User, GuildMember);
+  await Promise.all([
+    interaction.deferReply({ephemeral: isInBKL}),
+    client.punishments.punishmentAdd(type, {time, interaction}, interaction.user.id, reason, User, GuildMember)
+  ]);
 }
