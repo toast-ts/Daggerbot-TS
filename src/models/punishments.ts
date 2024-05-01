@@ -162,10 +162,10 @@ export class PunishmentsSvc {
     if (type === 'mute') millisecondTime = time ? ms(time) : 2419200000; // Timeouts have a maximum duration of 4 weeks (28 days)
     else millisecondTime = time ? ms(time) : null;
 
-    const durText = millisecondTime ? ` for ${Formatters.timeFormat(millisecondTime, 4, {longNames: true, commas: true})}` : '';
+    const durText = millisecondTime ? Formatters.timeFormat(millisecondTime, 4, {longNames: true, commas: true}) : '';
     if (time) embed.addFields({name: 'Duration', value: durText});
 
-    if (guildUser) await guildUser.send(`You've been ${this.getPastTense(type)} ${inOrFromBoolean} **${guild.name}**${durText}\n\`${reason}\` (Case #${punishment.case_id})`).catch(()=>embed.setFooter({text: 'Unable to DM a member'}));
+    if (guildUser) await guildUser.send(`You've been ${this.getPastTense(type)} ${inOrFromBoolean} **${guild.name}** for ${durText}\n\`${reason}\` (Case #${punishment.case_id})`).catch(()=>embed.setFooter({text: 'Unable to DM a member'}));
 
     switch (type) {
       case 'ban':
@@ -238,10 +238,11 @@ export class PunishmentsSvc {
         removePunishmentResult = await guild.bans.remove(punishment.member, auditLogReason).catch((err:Error)=>err.message);
         break;
       case 'mute':
-        if (guildUser) {
+        if (!guildUser) this.model.update({expired: true}, {where: {case_id: caseId}});
+        else {
           removePunishmentResult = await guildUser.timeout(null, auditLogReason).catch((err:Error)=>err.message);
-          guildUser.send(`You've been unmuted in **${guild.name}**.`).catch(()=>null);
-        } else this.model.update({expired: true}, {where: {case_id: caseId}});
+          guildUser.send(`You've been unmuted in **${guild.name}**.\n\`${reason}\` (Case #${removePunishmentData.case_id})`).catch(()=>null);
+        }
         break;
       default:
         removePunishmentData.type = 'punishmentOverride';
