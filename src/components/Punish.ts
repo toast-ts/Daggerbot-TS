@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import TClient from '../client.js';
 import MessageTool from '../helpers/MessageTool.js';
 import Logger from '../helpers/Logger.js';
+import ms from 'ms';
 export default async(client:TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>, type: 'ban'|'softban'|'kick'|'mute'|'warn'|'remind')=>{
   if (!MessageTool.isModerator(interaction.member)) return MessageTool.youNeedRole(interaction, 'dcmod');
 
@@ -11,6 +12,7 @@ export default async(client:TClient, interaction: Discord.ChatInputCommandIntera
   const GuildMember = interaction.options.getMember('member') ?? undefined;
   const User = interaction.options.getUser('member', true);
   if (reason.length > 1020) return interaction.reply({content: 'Reason cannot be longer than 1020 characters due to Discord\'s limit.', ephemeral: true});
+  if (type.includes('mute') && ms(time) > 2419200000) return interaction.reply({content: 'Duration cannot exceed 4 weeks, try again!', ephemeral: true});
 
   const punishLog = `\`${GuildMember?.user?.username ?? User?.username ?? 'No user data'}\` ${time ? ['warn', 'kick'].includes(type) ? 'and no duration set' : `and \`${time}\` (duration)` : ''} was used in \`/${interaction.commandName}\` for \`${reason}\``;
   Logger.console('log', 'PunishmentLog', punishLog);
