@@ -9,7 +9,7 @@ export default class RoleInfo {
       {name: '🔹 Color', value: `\`${role.hexColor}\``, inline: true},
       {name: '🔹 Creation Date', value: `<t:${Math.round(role.createdTimestamp/1000)}>\n<t:${Math.round(role.createdTimestamp/1000)}:R>`, inline: true},
       {name: '🔹 Misc', value: `Hoist: \`${role.hoist}\`\nMentionable: \`${role.mentionable}\`\nPosition: \`${role.position}\` from bottom\nMembers: \`${role.members.size}\`\n${role.members.size < 21 ? role.members.map((e:Discord.GuildMember)=>`**${e.user.username}**`).join('\n') || '' : ''}`, inline: true},
-      {name: '🔹 Permissions', value: `${permissions.includes('Administrator') ? ['Administrator'] : permissions.join(', ').replace(/([a-z])([A-Z])/g, '$1 $2') || 'No permissions'}`, inline: true}
+      {name: '🔹 Permissions', value: `${permissions.includes('Administrator') ? ['Administrator'] : permissions.join(', ').replace(/([a-z])([A-Z])|([A-Z])([A-Z][a-z])/g, '$1$3 $2$4') || 'No permissions'}`, inline: true}
     )]})
   }
   static data = new Discord.SlashCommandBuilder()
