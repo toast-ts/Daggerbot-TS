@@ -14,7 +14,7 @@ export default class Mute {
       .setRequired(true))
     .addStringOption(x=>x
       .setName('time')
-      .setDescription('Mute duration'))
+      .setDescription('How long the mute last?'))
     .addStringOption(x=>x
       .setName('reason')
       .setDescription('Reason for the mute'))

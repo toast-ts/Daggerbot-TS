@@ -14,7 +14,7 @@ export default class Ban {
       .setRequired(true))
     .addStringOption(x=>x
       .setName('time')
-      .setDescription('How long the ban will be?'))
+      .setDescription('How long the ban last?'))
     .addStringOption(x=>x
       .setName('reason')
       .setDescription('Reason for the ban'))
