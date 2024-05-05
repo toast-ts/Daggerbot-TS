@@ -99,7 +99,7 @@ export default class MessageCreate {
       const times_of_day = ['morning', 'afternoon', 'evening', 'night'];
       for (let i = 0; i < times_of_day.length; i++) Response.create(message, GeneralChatID, times_of_day[i]);
 
-      CmdTrigger.registerCmds(client, message, 'register');
+      CmdTrigger.registerCmds(client, message, 'deploy');
       CmdTrigger.MFPwTrigger(message, 'farmpw');
 
       let picStorage = {
