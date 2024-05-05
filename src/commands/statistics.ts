@@ -17,9 +17,10 @@ export default class Statistics {
     ));
     const systemInfo = {
       cpu: await si.cpu(),
+      cpuTemp: await si.cpuTemperature(),
       mem: await si.mem(),
       osInfo: await si.osInfo(),
-      currLoad: await si.currentLoad()
+      currLoad: await si.currentLoad(),
     };
 
     const col = ['Command', 'Uses'];
@@ -58,8 +59,8 @@ export default class Statistics {
         `**Redis:** ${pkg.dependencies.redis}`
       )},
       {name: '🔹 *Host*', value: MessageTool.concatMessage(
-        `>>> **OS:** ${systemInfo.osInfo.distro} ${systemInfo.osInfo.release}`,
-        `**CPU:** ${systemInfo.cpu.manufacturer} ${systemInfo.cpu.brand} ${this.isHostVirtualized() ? '' : `∙ ${systemInfo.cpu.speed} GHz`}`,
+        `>>> **OS:** ${systemInfo.osInfo.distro} ${systemInfo.osInfo.release} ∙ ${this.isDockerized() ? 'Docker' : 'Host'}`,
+        `**CPU:** ${systemInfo.cpu.manufacturer} ${systemInfo.cpu.brand} ${this.isHostVirtualized() ? '' : `∙ ${systemInfo.cpu.speed} GHz ∙ ${systemInfo.cpuTemp.main}°C`}`,
         '**RAM**',
         `╰ **Host:** ${this.progressBar(systemInfo.mem.used, systemInfo.mem.total)} (${Formatters.byteFormat(systemInfo.mem.used)}/${Formatters.byteFormat(systemInfo.mem.total)})`,
         `╰ **Bot:** ${this.progressBar(process.memoryUsage().heapUsed, process.memoryUsage().heapTotal)} (${Formatters.byteFormat(process.memoryUsage().heapUsed)}/${Formatters.byteFormat(process.memoryUsage().heapTotal)})`,
@@ -80,7 +81,11 @@ export default class Statistics {
     return `${bar} ${Math.round(percent*100)}%`;
   }
   private static isHostVirtualized():boolean {
-    if (existsSync('/sys/firmware/qemu_fw_cfg') ?? existsSync('/sys/module/qemu_fw_cfg')) return true
+    if (os.platform() === 'linux' && existsSync('/proc/cpuinfo') && readFileSync('/proc/cpuinfo', 'utf8').includes('hypervisor')) return true
+    return false;
+  }
+  private static isDockerized():boolean {
+    if (existsSync('/.dockerenv')) return true
     return false;
   }
   static data = new Discord.SlashCommandBuilder()
