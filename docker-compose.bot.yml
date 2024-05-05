@@ -7,3 +7,4 @@ services:
       - ./.git:/Daggerbot/.git:rw
       - ./src/:/Daggerbot/src/:rw
       - ./dist/:/Daggerbot/dist/:rw
+      - ./build_cache/:/Daggerbot/build_cache:rw
