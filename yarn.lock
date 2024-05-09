@@ -494,12 +494,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@toast/tokenservice-client@npm:1.2.7":
-  version: 1.2.7
-  resolution: "@toast/tokenservice-client@npm:1.2.7::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.7%2Ftokenservice-client-1.2.7.tgz"
+"@toast/tokenservice-client@npm:1.2.8":
+  version: 1.2.8
+  resolution: "@toast/tokenservice-client@npm:1.2.8::__archiveUrl=https%3A%2F%2Fgit.toast-server.net%2Fapi%2Fpackages%2Ftoast%2Fnpm%2F%2540toast%252Ftokenservice-client%2F-%2F1.2.8%2Ftokenservice-client-1.2.8.tgz"
   dependencies:
-    undici: "npm:6.14.1"
-  checksum: 10/e46cb44500acf96366aed1deeea76a1c66ff7184ec32b8b2f9b92f417f67f3542f4c1a478d036ce09fb7fb33286361869f60c44c19dca55d21c2e11239de3d5c
+    undici: "npm:^6.15.0"
+  checksum: 10/0d9615d1c89fb7263ccd54f7fec89195aa3c80d5a8c7c77dbdca7874166009cabf75ef11f42d6c66fe6f2c41687f8379be9794d031f3642dba4a44fcf2dee4ab
   languageName: node
   linkType: hard
 
@@ -533,12 +533,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.12.8":
-  version: 20.12.8
-  resolution: "@types/node@npm:20.12.8"
+"@types/node@npm:*, @types/node@npm:20.12.11":
+  version: 20.12.11
+  resolution: "@types/node@npm:20.12.11"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10/1feab4c8cb08588eea10811ed4d02485a5cde47fdf92e7b3193fc9f8ee39ea556f6e3124dc6d5378354466ed5f7e5fbe5e20f625908de40ea37560368a50f72c
+  checksum: 10/c6afe7c2c4504a4f488814d7b306ebad16bf42cbb43bf9db9fe1aed8c5fb99235593c3be5088979a64526b106cf022256688e2f002811be8273d87dc2e0d484f
   languageName: node
   linkType: hard
 
@@ -663,9 +663,9 @@ __metadata:
     "@octokit/rest": "npm:20.1.1"
     "@sequelize/core": "npm:7.0.0-alpha.40"
     "@sequelize/postgres": "npm:7.0.0-alpha.40"
-    "@toast/tokenservice-client": "npm:1.2.7"
+    "@toast/tokenservice-client": "npm:1.2.8"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:20.12.8"
+    "@types/node": "npm:20.12.11"
     "@types/node-cron": "npm:3.0.11"
     ansi-colors: "npm:4.1.3"
     dayjs: "npm:1.11.11"
@@ -678,7 +678,7 @@ __metadata:
     simple-git: "npm:3.24.0"
     systeminformation: "npm:5.22.8"
     typescript: "npm:5.4.5"
-    undici: "npm:6.15.0"
+    undici: "npm:6.16.0"
   languageName: unknown
   linkType: soft
 
@@ -883,15 +883,6 @@ __metadata:
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
-  languageName: node
-  linkType: hard
-
-"lru-cache@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "lru-cache@npm:6.0.0"
-  dependencies:
-    yallist: "npm:^4.0.0"
-  checksum: 10/fc1fe2ee205f7c8855fa0f34c1ab0bcf14b6229e35579ec1fd1079f31d6fc8ef8eb6fd17f2f4d99788d7e339f50e047555551ebd5e434dda503696e7c6591825
   languageName: node
   linkType: hard
 
@@ -1222,13 +1213,11 @@ __metadata:
   linkType: hard
 
 "semver@npm:^7.3, semver@npm:^7.6.0":
-  version: 7.6.0
-  resolution: "semver@npm:7.6.0"
-  dependencies:
-    lru-cache: "npm:^6.0.0"
+  version: 7.6.1
+  resolution: "semver@npm:7.6.1"
   bin:
     semver: bin/semver.js
-  checksum: 10/1b41018df2d8aca5a1db4729985e8e20428c650daea60fcd16e926e9383217d00f574fab92d79612771884a98d2ee2a1973f49d630829a8d54d6570defe62535
+  checksum: 10/a05a641ebaa65f4a35970bb587c4178dc50931e15261ca60c9d531b4fc2b70a2d24b3f300a3bf6c37f37ce9d007b0071abca2f87c0f947f09a253ecfb0df4026
   languageName: node
   linkType: hard
 
@@ -1321,9 +1310,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.14.0":
-  version: 4.18.1
-  resolution: "type-fest@npm:4.18.1"
-  checksum: 10/ff76e19cb969854161fea2de854073f346e159f5efff05906ece93cbde8a7161b9374121aca53782b44f754152cbacc70264c90ca1acc81ca917723acce5054f
+  version: 4.18.2
+  resolution: "type-fest@npm:4.18.2"
+  checksum: 10/2c176de28384a247fac1503165774e874c15ac39434a775f32ecda3aef5a0cefcfa2f5fb670c3da1f81cf773c355999154078c8d9657db19b65de78334b27933
   languageName: node
   linkType: hard
 
@@ -1375,17 +1364,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.14.1":
-  version: 6.14.1
-  resolution: "undici@npm:6.14.1"
-  checksum: 10/cb39b097b5093a3fdeb74bf86375d8164e49a5753fcee70d2240e74e257a1c79dcbb08b971785b70a5d665a630b4dbc9f8c460cbe3a8a833c085895feb9bdaa7
-  languageName: node
-  linkType: hard
-
-"undici@npm:6.15.0":
-  version: 6.15.0
-  resolution: "undici@npm:6.15.0"
-  checksum: 10/18584ea43a282fc157a7d8e4609075e8f92264e4f86c8b2c7e778a910d5630548294d355eabbacf2382a37102b6eebe4c49eff4b773a293fbadd7dab312f2fb7
+"undici@npm:6.16.0, undici@npm:^6.15.0":
+  version: 6.16.0
+  resolution: "undici@npm:6.16.0"
+  checksum: 10/c9a794e83c9f49d510601389bdc1cdbd6448896de8b402562c99924d5bc0c0688dda5168e2a0c9df5b2ffe683a5af3906bd61524f230231500b42443ba82bf94
   languageName: node
   linkType: hard
 
@@ -1415,9 +1397,9 @@ __metadata:
   linkType: hard
 
 "validator@npm:^13.11.0":
-  version: 13.11.0
-  resolution: "validator@npm:13.11.0"
-  checksum: 10/4bf094641eb71729c06a42d669840e7189597ba655a8264adabac9bf03f95cd6fde5fbc894b0a13ee861bd4a852f56d2afdc9391aeaeb3fc0f9633a974140e12
+  version: 13.12.0
+  resolution: "validator@npm:13.12.0"
+  checksum: 10/db6eb0725e2b67d60d30073ae8573982713b5903195d031dc3c7db7e82df8b74e8c13baef8e2106d146d979599fd61a06cde1fec5c148e4abd53d52817ff0fd9
   languageName: node
   linkType: hard
 
@@ -1459,7 +1441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yallist@npm:4.0.0, yallist@npm:^4.0.0":
+"yallist@npm:4.0.0":
   version: 4.0.0
   resolution: "yallist@npm:4.0.0"
   checksum: 10/4cb02b42b8a93b5cf50caf5d8e9beb409400a8a4d85e83bb0685c1457e9ac0b7a00819e9f5991ac25ffabb56a78e2f017c1acc010b3a1babfe6de690ba531abd
