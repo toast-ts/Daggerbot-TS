@@ -42,7 +42,7 @@
     "redis": "4.6.13",
     "simple-git": "3.24.0",
     "systeminformation": "5.22.8",
-    "undici": "6.16.0"
+    "undici": "6.16.1"
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
