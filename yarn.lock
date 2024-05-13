@@ -554,9 +554,9 @@ __metadata:
   linkType: hard
 
 "@types/validator@npm:^13.11.9":
-  version: 13.11.9
-  resolution: "@types/validator@npm:13.11.9"
-  checksum: 10/2d397c69293cc726e0cf1b4c74c563ca4e459b00f216f3ff0ac184c9648103be27169e8c67f85be9c6e7a3fcbb149c6add66a2547b185a1b25aa79e4b61261bd
+  version: 13.11.10
+  resolution: "@types/validator@npm:13.11.10"
+  checksum: 10/5f074f7d0bb92ba035ebac28692599755d7285c6961aff2092e6c13e11b6a3f50101e602197bc15a3b1eb7f40d5d5efc485790e79c58e30042c7f915e74c85c5
   languageName: node
   linkType: hard
 
@@ -678,7 +678,7 @@ __metadata:
     simple-git: "npm:3.24.0"
     systeminformation: "npm:5.22.8"
     typescript: "npm:5.4.5"
-    undici: "npm:6.16.0"
+    undici: "npm:6.16.1"
   languageName: unknown
   linkType: soft
 
@@ -1213,11 +1213,11 @@ __metadata:
   linkType: hard
 
 "semver@npm:^7.3, semver@npm:^7.6.0":
-  version: 7.6.1
-  resolution: "semver@npm:7.6.1"
+  version: 7.6.2
+  resolution: "semver@npm:7.6.2"
   bin:
     semver: bin/semver.js
-  checksum: 10/a05a641ebaa65f4a35970bb587c4178dc50931e15261ca60c9d531b4fc2b70a2d24b3f300a3bf6c37f37ce9d007b0071abca2f87c0f947f09a253ecfb0df4026
+  checksum: 10/296b17d027f57a87ef645e9c725bff4865a38dfc9caf29b26aa084b85820972fbe7372caea1ba6857162fa990702c6d9c1d82297cecb72d56c78ab29070d2ca2
   languageName: node
   linkType: hard
 
@@ -1364,10 +1364,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.16.0, undici@npm:^6.15.0":
-  version: 6.16.0
-  resolution: "undici@npm:6.16.0"
-  checksum: 10/c9a794e83c9f49d510601389bdc1cdbd6448896de8b402562c99924d5bc0c0688dda5168e2a0c9df5b2ffe683a5af3906bd61524f230231500b42443ba82bf94
+"undici@npm:6.16.1, undici@npm:^6.15.0":
+  version: 6.16.1
+  resolution: "undici@npm:6.16.1"
+  checksum: 10/07dc67ec7a81323952effcbdb4aa674dd4f23aa872a03bdd4773d4e3b0b2aed268d116c8cfb012ecf272d2d1a0399055bf6ed134dd79b6a0920bab83ca483fcb
   languageName: node
   linkType: hard
 
