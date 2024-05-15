@@ -10,7 +10,7 @@ export default class FAQHelper {
     else return interaction.reply(message).catch(err=>interaction.reply(this.errorMsg+'\n'+err))
   }
   public static CDN=(filename:string)=>'https://cdn.toast-server.net/daggerwin/'+filename+'.png';
-  public static youCanGetRole=(role:string, roleEmoji:string)=>`You can get the ${MessageTool.formatMention(config.dcServer.roles[role], 'role')} role from <#802283932430106624> by clicking :${roleEmoji}: button on a webhook's message.`;
+  public static youCanGetRole=(role:string, roleEmoji:string)=>`You can get the ${MessageTool.formatMention(config.dcServer.roles[role], 'role')} role from <#802283932430106624> by clicking :${roleEmoji}: on a webhook's message.`;
   public static readonly verifyGameFiles = this.ansiCodeblock(
     '[34m[1mSteam[0m (Top panel)',
     '1. Go to your game library and right click on Farming Simulator 22',
@@ -25,6 +25,7 @@ export default class FAQHelper {
   )
   public static readonly linkMapping = {
     ballyspring: 'https://www.farming-simulator.com/mod.php?mod_id=270745',
-    staffTicket: 'https://discord.com/channels/468835415093411861/942173932339986472/1054129985788596385',
+    discordModTicket: 'https://discord.com/channels/468835415093411861/942173932339986472/1054129985788596385',
+    vtcPaintjob: 'https://discord.com/channels/468835415093411861/801975222609641472/1165673285460164739'
   }
 }
