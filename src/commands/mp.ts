@@ -5,7 +5,6 @@ import Logger from '../helpers/Logger.js';
 import CanvasBuilder from '../components/CanvasBuilder.js';
 import RanIntoHumor from '../helpers/RanIntoHumor.js';
 import MessageTool from '../helpers/MessageTool.js';
-import PalletLibrary from '../helpers/PalletLibrary.js';
 import {FSData} from 'src/interfaces';
 import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat, MPChannels} from '../modules/MPModule.js';
 
@@ -23,6 +22,7 @@ async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInt
 
 const logPrefix = 'MPDB';
 const MAP_POOL_HOOKMSG = '1141293129673232435';
+const PALLET_FILTER = ['PALLETS', 'BIGBAGPALLETS'];
 
 export default class MP {
   static async autocomplete(client:TClient, interaction:Discord.AutocompleteInteraction<'cached'>) {
@@ -103,7 +103,7 @@ export default class MP {
       pallets: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - pallets');
-        const filter = DSS?.vehicles.filter(x=>['PALLETS', 'BIGBAGPALLETS'].includes(x.category));
+        const filter = DSS?.vehicles.filter(x=>PALLET_FILTER.includes(x.category));
         const rules = {
           one: 'single pallet',
           two: 'pallets',
@@ -112,10 +112,10 @@ export default class MP {
         }[new Intl.PluralRules('en', {type: 'ordinal'}).select(filter.length)];
         if (filter.length < 1) return interaction.editReply('No pallets found on the server.');
         else {
-          const getLongestName = Object.entries(PalletLibrary(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
+          const getLongestName = Object.entries(this.getPalletCounts(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
           await interaction.editReply(MessageTool.concatMessage(
             `There are currently **${filter.length}** ${rules} on the server. Here\'s the breakdown:\`\`\`ansi`,
-            Object.entries(PalletLibrary(DSS)).map(([name, count])=>`${ansi.blue(name.padEnd(getLongestName+3))}${ansi.yellow(count.toString())}`).join('\n'),
+            Object.entries(this.getPalletCounts(DSS)).map(([name, count])=>`${ansi.blue(name.padEnd(getLongestName+3))}${ansi.yellow(count.toString())}`).join('\n'),
             '```'
           ))
         }
@@ -229,6 +229,14 @@ export default class MP {
   private static async reactionSystem(message:Discord.Message, length:number) {
     const numbersArr = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
     await Promise.all(numbersArr.slice(0, length).map(emote=>message.react(emote)));
+  }
+  private static getPalletCounts(data:FSData) {
+    const pallets = data.vehicles.filter(x=>PALLET_FILTER.includes(x.category));
+    const counts = pallets.reduce((acc, name)=>{
+      acc[name.name] = (acc[name.name] ?? 0) + 1;
+      return acc;
+    }, {} as {[key:string]:number});
+    return counts;
   }
   static data = new Discord.SlashCommandBuilder()
     .setName('mp')
