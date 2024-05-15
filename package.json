@@ -41,12 +41,12 @@
     "node-cron": "3.0.3",
     "redis": "4.6.13",
     "simple-git": "3.24.0",
-    "systeminformation": "5.22.8",
+    "systeminformation": "5.22.9",
     "undici": "6.16.1"
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.12.11",
+    "@types/node": "20.12.12",
     "@types/node-cron": "3.0.11",
     "typescript": "5.4.5"
   }
