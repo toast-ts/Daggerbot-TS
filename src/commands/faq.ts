@@ -5,10 +5,10 @@ export default class FAQ {
   static run(_client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     ({
       srp: ()=>FAQHelper.reply(interaction, null, `[Ballyspring](<${FAQHelper.linkMapping.ballyspring}>) is the map that is used in Survival Roleplay S4.\n\n> ℹ️ __Note__\n> The map won't look closely like the one in SRP as it is privately edited version of the public map.`, null, false),
-      vtcR: ()=>interaction.reply(FAQHelper.youCanGetRole('vtcmember', 'truck')+'\n*VTC skin can also be found in <#801975222609641472> as well.*'),
+      vtcR: ()=>interaction.reply(FAQHelper.youCanGetRole('vtcmember', 'truck')+`\n*VTC skin can also be found in the [VTC announcements channel](<${FAQHelper.linkMapping.vtcPaintjob}>).*`),
       mpR: ()=>interaction.reply(FAQHelper.youCanGetRole('mpplayer', 'tractor')),
       ytscam: ()=>FAQHelper.reply(interaction, 'Scammers in YouTube comments section', 'If you ever see a comment mentioning a giveaway or anything else, **it\'s a scam!**\nYou should report it to YouTube and move on or ignore it.\nP.S: They\'re on every channel and not just Daggerwin.', FAQHelper.CDN('YTScam'), true),
-      steamscam: ()=>FAQHelper.reply(interaction, 'Steam account report scam', `If you received a DM about this, please report it to Discord Moderators or open a [ticket](${FAQHelper.linkMapping.staffTicket})`, FAQHelper.CDN('SteamScam'), true),
+      steamscam: ()=>FAQHelper.reply(interaction, 'Steam account report scam', `If you received a DM about this, please report it to Discord Moderators or open a [ticket](${FAQHelper.linkMapping.discordModTicket})`, FAQHelper.CDN('SteamScam'), true),
       fsVerifyGame: ()=>FAQHelper.reply(interaction, 'Verifying your game files', `You can verify your game files if you experience any issues with your game.\n${FAQHelper.verifyGameFiles}`, FAQHelper.CDN('Steam-Epic-VerifyGamesLocation'), true),
       fsShader: ()=>FAQHelper.reply(interaction, 'Clearing your shader cache folder', 'If your game keeps crashing shortly after opening your game, then the shaders might be an issue.\nTo resolve this, you can go to `Documents/My Games/FarmingSimulator2022` and delete the folder called `shader_cache`', FAQHelper.CDN('shader_cache-Location'), true),
       fsLogfile: ()=>FAQHelper.reply(interaction, 'Uploading your log file', 'You can find `log.txt` in `Documents/My Games/FarmingSimulator2022` and upload it into <#596989522395398144> along with your issue, so people can assist you further and help you resolve.', FAQHelper.CDN('log_txt-Location'), true),
