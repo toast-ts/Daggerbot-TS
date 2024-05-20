@@ -21,6 +21,7 @@ export const MPChannels = {
   announcements: '1084864116776251463',
   mainMpChat: '468835769092669461',
   serverInfo: '543494084363288637',
+  modChat: '1141293129673232435'
 }
 
 interface IServerExt extends IServer {

@@ -21,7 +21,6 @@ async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInt
 }
 
 const logPrefix = 'MPDB';
-const MAP_POOL_HOOKMSG = '1141293129673232435';
 const PALLET_FILTER = ['PALLETS', 'BIGBAGPALLETS'];
 
 export default class MP {
@@ -166,7 +165,7 @@ export default class MP {
 
         (client.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).send({files: [new client.attachment(
           Buffer.from(JSON.stringify({
-            map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3)),
+            map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3).replace(/\*\*/g, '')),
             votes: msg.reactions.cache.map(x=>x.count)
           }, null, 2)), {name: `pollResults-${msg.id}.json`})
         ]});
@@ -178,7 +177,7 @@ export default class MP {
         if (client.config.dcServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
-        const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch(MAP_POOL_HOOKMSG);
+        const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch(MPChannels.modChat);
         interaction.reply({embeds: [suggestionPool.embeds[0]]});
       }, // Server management group
       create_server: async()=>{
