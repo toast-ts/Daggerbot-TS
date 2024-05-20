@@ -466,6 +466,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sequelize/core@npm:7.0.0-alpha.41":
+  version: 7.0.0-alpha.41
+  resolution: "@sequelize/core@npm:7.0.0-alpha.41"
+  dependencies:
+    "@sequelize/utils": "npm:7.0.0-alpha.41"
+    "@types/debug": "npm:^4.1.12"
+    "@types/validator": "npm:^13.11.9"
+    bnf-parser: "npm:^3.1.6"
+    chalk: "npm:^4.1.2"
+    dayjs: "npm:^1.11.10"
+    debug: "npm:^4.3.4"
+    dottie: "npm:^2.0.6"
+    fast-glob: "npm:^3.3.2"
+    inflection: "npm:^3.0.0"
+    lodash: "npm:^4.17.21"
+    retry-as-promised: "npm:^7.0.4"
+    semver: "npm:^7.3"
+    sequelize-pool: "npm:^8.0.0"
+    toposort-class: "npm:^1.0.1"
+    type-fest: "npm:^4.14.0"
+    uuid: "npm:^9.0.1"
+    validator: "npm:^13.11.0"
+  checksum: 10/d788b452e2ed068e879e1eca45790ab855128d3980ce64049a8833b6157cd3a5ac1505cf5f168fe3f54fab40c4a7a6a93c72859f8891220d65e2b04173029b44
+  languageName: node
+  linkType: hard
+
 "@sequelize/postgres@npm:7.0.0-alpha.40":
   version: 7.0.0-alpha.40
   resolution: "@sequelize/postgres@npm:7.0.0-alpha.40"
@@ -491,6 +517,16 @@ __metadata:
     "@types/lodash": "npm:^4.17.0"
     lodash: "npm:^4.17.21"
   checksum: 10/09de9eecb3f014465725c9e2bb7afb269ab5de5d6cb1229079133d009044e6f2ddf3b70822f0bf44dc51f01389ae6566e3a280e20946f74ae4173cd0a4546db2
+  languageName: node
+  linkType: hard
+
+"@sequelize/utils@npm:7.0.0-alpha.41":
+  version: 7.0.0-alpha.41
+  resolution: "@sequelize/utils@npm:7.0.0-alpha.41"
+  dependencies:
+    "@types/lodash": "npm:^4.17.0"
+    lodash: "npm:^4.17.21"
+  checksum: 10/3f6796b19d53f8e68892f85de3495cc2663d0af163d56a5edd2af76c7d341529ccc4ac556ad4a299c53a804520133d8574cfc1c951b376e4b596d611aa687417
   languageName: node
   linkType: hard
 
@@ -661,7 +697,7 @@ __metadata:
   dependencies:
     "@napi-rs/canvas": "npm:0.1.52"
     "@octokit/rest": "npm:20.1.1"
-    "@sequelize/core": "npm:7.0.0-alpha.40"
+    "@sequelize/core": "npm:7.0.0-alpha.41"
     "@sequelize/postgres": "npm:7.0.0-alpha.40"
     "@toast/tokenservice-client": "npm:1.2.8"
     "@types/ms": "npm:0.7.34"
