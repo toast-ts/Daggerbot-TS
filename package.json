@@ -29,7 +29,7 @@
   "dependencies": {
     "@napi-rs/canvas": "0.1.52",
     "@octokit/rest": "20.1.1",
-    "@sequelize/core": "7.0.0-alpha.40",
+    "@sequelize/core": "7.0.0-alpha.41",
     "@sequelize/postgres": "7.0.0-alpha.40",
     "@toast/tokenservice-client": "1.2.8",
     "ansi-colors": "4.1.3",
