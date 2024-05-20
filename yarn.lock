@@ -440,32 +440,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sequelize/core@npm:7.0.0-alpha.40":
-  version: 7.0.0-alpha.40
-  resolution: "@sequelize/core@npm:7.0.0-alpha.40"
-  dependencies:
-    "@sequelize/utils": "npm:7.0.0-alpha.40"
-    "@types/debug": "npm:^4.1.12"
-    "@types/validator": "npm:^13.11.9"
-    bnf-parser: "npm:^3.1.6"
-    chalk: "npm:^4.1.2"
-    dayjs: "npm:^1.11.10"
-    debug: "npm:^4.3.4"
-    dottie: "npm:^2.0.6"
-    fast-glob: "npm:^3.3.2"
-    inflection: "npm:^3.0.0"
-    lodash: "npm:^4.17.21"
-    retry-as-promised: "npm:^7.0.4"
-    semver: "npm:^7.3"
-    sequelize-pool: "npm:^8.0.0"
-    toposort-class: "npm:^1.0.1"
-    type-fest: "npm:^4.14.0"
-    uuid: "npm:^9.0.1"
-    validator: "npm:^13.11.0"
-  checksum: 10/8695cd2a71ba15ae27cb2fb0cec2ddca0a936e64e704eff0e3e3d49538f72fa69baf40cfc9ca9e2e3197a3a986a1b7890bd862cf3c92b305314122e7888024ce
-  languageName: node
-  linkType: hard
-
 "@sequelize/core@npm:7.0.0-alpha.41":
   version: 7.0.0-alpha.41
   resolution: "@sequelize/core@npm:7.0.0-alpha.41"
@@ -492,12 +466,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sequelize/postgres@npm:7.0.0-alpha.40":
-  version: 7.0.0-alpha.40
-  resolution: "@sequelize/postgres@npm:7.0.0-alpha.40"
+"@sequelize/postgres@npm:7.0.0-alpha.41":
+  version: 7.0.0-alpha.41
+  resolution: "@sequelize/postgres@npm:7.0.0-alpha.41"
   dependencies:
-    "@sequelize/core": "npm:7.0.0-alpha.40"
-    "@sequelize/utils": "npm:7.0.0-alpha.40"
+    "@sequelize/core": "npm:7.0.0-alpha.41"
+    "@sequelize/utils": "npm:7.0.0-alpha.41"
     "@types/pg": "npm:^8.11.4"
     lodash: "npm:^4.17.21"
     pg: "npm:^8.11.3"
@@ -506,17 +480,7 @@ __metadata:
     postgres-array: "npm:^3.0.2"
     semver: "npm:^7.6.0"
     wkx: "npm:^0.5.0"
-  checksum: 10/7661c42cd42b8033f9589bc27f1747a9501c80b0a683d6f1fc9f8919a4acbaa8597f2d58a04557e8f4a923282a251e7376f09935d766808e17039f674458b423
-  languageName: node
-  linkType: hard
-
-"@sequelize/utils@npm:7.0.0-alpha.40":
-  version: 7.0.0-alpha.40
-  resolution: "@sequelize/utils@npm:7.0.0-alpha.40"
-  dependencies:
-    "@types/lodash": "npm:^4.17.0"
-    lodash: "npm:^4.17.21"
-  checksum: 10/09de9eecb3f014465725c9e2bb7afb269ab5de5d6cb1229079133d009044e6f2ddf3b70822f0bf44dc51f01389ae6566e3a280e20946f74ae4173cd0a4546db2
+  checksum: 10/a30115a4a432a0bd04e2ccf090fb22daedd630ffaac3f285658fad978b243b18366639e967a0f9ba7b32164d4711a85ca2d83afed410109a480a96f370e723af
   languageName: node
   linkType: hard
 
@@ -698,7 +662,7 @@ __metadata:
     "@napi-rs/canvas": "npm:0.1.52"
     "@octokit/rest": "npm:20.1.1"
     "@sequelize/core": "npm:7.0.0-alpha.41"
-    "@sequelize/postgres": "npm:7.0.0-alpha.40"
+    "@sequelize/postgres": "npm:7.0.0-alpha.41"
     "@toast/tokenservice-client": "npm:1.2.8"
     "@types/ms": "npm:0.7.34"
     "@types/node": "npm:20.12.12"
