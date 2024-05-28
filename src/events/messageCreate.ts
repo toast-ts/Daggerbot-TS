@@ -43,7 +43,7 @@ export default class MessageCreate {
             await Automoderator.repeatedMessages(client, message, 'mute', 30000, 3, 'bw', '30m', 'Prohibited word spam');
           }
         },
-        {
+        /*{
           name: 'messageSpam',
           check: ()=>Automoderator.isSpam(client, message, 6) && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
@@ -53,12 +53,12 @@ export default class MessageCreate {
             await Automoderator.repeatedMessages(client, message, 'mute', 5000, 2, 'spam', '30m', 'Message spam');
             delete client.repeatedMessages[message.author.id];
           }
-        },
+        },*/
         {
           name: 'discordInvite',
-          check: ()=>message.content.toLowerCase().includes('discord.gg/') && !MessageTool.isStaff(message.member as Discord.GuildMember),
+          check: ()=>message.content.toLowerCase().match(/discord\.(gg|com\/invite)\//ig) && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
-            const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.includes('discord.gg/'))).catch(()=>null);
+            const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.match(/discord\.(gg|com\/invite)\//ig))).catch(()=>null);
             if (validInvite && validInvite.guild?.id !== client.config.dcServer.id) {
               automodded = true;
               message.delete().catch(()=>Logger.console('log', `${automodLog}Advertisement`, automodFailReason));

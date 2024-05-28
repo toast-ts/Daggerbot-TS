@@ -36,7 +36,7 @@ export default class Automoderator {
       clearTimeout(data.timeout);
       data.timeout = setTimeout(()=>delete client.repeatedMessages[message.author.id], thresholdTime);
     }
-  }
+  }/*
   static isSpam(client:TClient, message:Discord.Message, threshold:number): boolean {
     const now = Date.now();
     const time = 30000;
@@ -55,7 +55,7 @@ export default class Automoderator {
       data.timeout = setTimeout(()=>delete client.repeatedMessages[message.author.id], time);
     }
     return false;
-  }
+  }*/
   static async imageOnly(message:Discord.Message) {
     const io_channels = ['468896467688620032'];
     let deleteReason:string = 'This is an image-only channel and your message did not contain any images.';

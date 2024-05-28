@@ -5,20 +5,18 @@ import MessageTool from '../helpers/MessageTool.js';
 export default class ProhibitedWords {
   static async run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     if (!MessageTool.isModerator(interaction.member) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'admin');
-    const word = interaction.options.getString('word');
-    const wordExists = await client.prohibitedWords.findWord(word);
     ({
       view: async()=>{
         const pwList = await client.prohibitedWords.getAllWords();
         interaction.reply({
           ephemeral: true,
           content: `There are currently **${pwList.length}** words in the list`,
-          files: [
-            new client.attachment(Buffer.from(JSON.stringify(pwList.map(x=>x.dataValues.word), null, 2)), {name: 'pwDump.json'})
-          ]
+          files: [new client.attachment(Buffer.from(JSON.stringify(pwList.map(x=>x.dataValues.word), null, 2)), {name: 'pwDump.json'})]
         })
       },
       add: async()=>{
+        const word = interaction.options.getString('word');
+        const wordExists = await client.prohibitedWords.findWord(word);
         if (wordExists) return interaction.reply({ephemeral: true, content: `\`${word}\` already exists in the list`});
         else {
           await client.prohibitedWords.insertWord(word);
@@ -34,6 +32,8 @@ export default class ProhibitedWords {
         }
       },
       remove: async()=>{
+        const word = interaction.options.getString('word');
+        const wordExists = await client.prohibitedWords.findWord(word);
         if (!wordExists) return interaction.reply({ephemeral: true, content: `\`${word}\` does not exist in the list`});
         else {
           await client.prohibitedWords.removeWord(word);
