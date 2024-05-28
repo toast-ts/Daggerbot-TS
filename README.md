@@ -24,10 +24,11 @@ This is a revision history of how far we come in development cycle;
 |----------|----------|---------|----------|
 | V1      | JavaScript | Discord.JS v13 | Message commands |
 | V2-V3   | TypeScript | Discord.JS v14 | Slash/message commands |
+| V4 (Private) | Rust | Serenity v0.12.1 | Slash commands |
 
 ## CLI arguments (`process.argv[..]`)
 `yarn dev` - Starts the development bot with predefined args.  
-The args in question is;  
+The args in question is;
 | Argument | Usage |
 |----------|-------|
 | `src/DB-Beta.config.json` | Location of config file - [2] |

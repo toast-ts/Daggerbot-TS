@@ -112,7 +112,7 @@ export class UserLevelsSvc {
       const performCountBeforeReset = await this.model.count();
       const topMembers = await this.model.findAll({order: [['messages', 'DESC']], limit: 5});
       Logger.console('log', 'Cron:resetAllData', `Counted ${performCountBeforeReset.toLocaleString()} members before reset`);
-      
+
       try {
         await this.client.dailyMsgs.nukeDays();
         await this.model.truncate();

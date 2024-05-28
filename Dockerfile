@@ -1,4 +1,4 @@
-FROM node:22.1.0-alpine3.19
+FROM node:22.2.0-alpine3.20
 ENV YARN_VERSION 4.2.2
 ENV TZ Australia/Sydney
 ENV NODE_COMPILE_CACHE /Daggerbot/build_cache
