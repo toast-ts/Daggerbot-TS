@@ -6,11 +6,11 @@ __metadata:
   cacheKey: 10
 
 "@babel/runtime@npm:^7.24.4":
-  version: 7.24.5
-  resolution: "@babel/runtime@npm:7.24.5"
+  version: 7.24.6
+  resolution: "@babel/runtime@npm:7.24.6"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
-  checksum: 10/e0f4f4d4503f7338749d1dd92361ad132d683bde64e6b61d6c855e100dcd01592295fcfdcc960c946b85ef7908dc2f501080da58447c05812cf3cd80c599bb62
+  checksum: 10/6c4e12731cd9206a883c19d48fa04f6aaaf7ee83f049b22631e6521b866edc20832b4d5db30aa86d8ae799c4dcf57761fe8a4af2bf7e233245c079c1dafb5668
   languageName: node
   linkType: hard
 
@@ -606,12 +606,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"braces@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "braces@npm:3.0.2"
+"braces@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "braces@npm:3.0.3"
   dependencies:
-    fill-range: "npm:^7.0.1"
-  checksum: 10/966b1fb48d193b9d155f810e5efd1790962f2c4e0829f8440b8ad236ba009222c501f70185ef732fef17a4c490bb33a03b90dab0631feafbdf447da91e8165b1
+    fill-range: "npm:^7.1.1"
+  checksum: 10/fad11a0d4697a27162840b02b1fad249c1683cbc510cd5bf1a471f2f8085c046d41094308c577a50a03a579dd99d5a6b3724c4b5e8b14df2c4443844cfcda2c6
   languageName: node
   linkType: hard
 
@@ -678,7 +678,7 @@ __metadata:
     simple-git: "npm:3.24.0"
     systeminformation: "npm:5.22.9"
     typescript: "npm:5.4.5"
-    undici: "npm:6.17.0"
+    undici: "npm:6.18.1"
   languageName: unknown
   linkType: soft
 
@@ -796,12 +796,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fill-range@npm:^7.0.1":
-  version: 7.0.1
-  resolution: "fill-range@npm:7.0.1"
+"fill-range@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "fill-range@npm:7.1.1"
   dependencies:
     to-regex-range: "npm:^5.0.1"
-  checksum: 10/e260f7592fd196b4421504d3597cc76f4a1ca7a9488260d533b611fc3cefd61e9a9be1417cb82d3b01ad9f9c0ff2dbf258e1026d2445e26b0cf5148ff4250429
+  checksum: 10/a7095cb39e5bc32fada2aa7c7249d3f6b01bd1ce461a61b0adabacccabd9198500c6fb1f68a7c851a657e273fce2233ba869638897f3d7ed2e87a2d89b4436ea
   languageName: node
   linkType: hard
 
@@ -920,12 +920,12 @@ __metadata:
   linkType: hard
 
 "micromatch@npm:^4.0.4":
-  version: 4.0.5
-  resolution: "micromatch@npm:4.0.5"
+  version: 4.0.7
+  resolution: "micromatch@npm:4.0.7"
   dependencies:
-    braces: "npm:^3.0.2"
+    braces: "npm:^3.0.3"
     picomatch: "npm:^2.3.1"
-  checksum: 10/a749888789fc15cac0e03273844dbd749f9f8e8d64e70c564bcf06a033129554c789bb9e30d7566d7ff6596611a08e58ac12cf2a05f6e3c9c47c50c4c7e12fa2
+  checksum: 10/a11ed1cb67dcbbe9a5fc02c4062cf8bb0157d73bf86956003af8dcfdf9b287f9e15ec0f6d6925ff6b8b5b496202335e497b01de4d95ef6cf06411bc5e5c474a0
   languageName: node
   linkType: hard
 
@@ -1310,9 +1310,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.14.0":
-  version: 4.18.2
-  resolution: "type-fest@npm:4.18.2"
-  checksum: 10/2c176de28384a247fac1503165774e874c15ac39434a775f32ecda3aef5a0cefcfa2f5fb670c3da1f81cf773c355999154078c8d9657db19b65de78334b27933
+  version: 4.18.3
+  resolution: "type-fest@npm:4.18.3"
+  checksum: 10/eb750920d0ef3639177f581edd6489d972c5c5827abb602a9c9662889aad148a7d558257e36c563f1beb81a2e417faec52ecec9799b28531d8335856f91e6dff
   languageName: node
   linkType: hard
 
@@ -1364,10 +1364,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.17.0, undici@npm:^6.15.0":
-  version: 6.17.0
-  resolution: "undici@npm:6.17.0"
-  checksum: 10/e54ae88f9ce4e923f2d1e209ad42d028e7d2b207ba81e6c1f3af9533b4aa33863120f61bc58fb5f7d4dd6a90c2bc8c96d892dbb8bf5be80e0cd422f31d15a9ef
+"undici@npm:6.18.1, undici@npm:^6.15.0":
+  version: 6.18.1
+  resolution: "undici@npm:6.18.1"
+  checksum: 10/212b636a108bd0dd9c23cd06c802af3811897dc22c95d371636b58ba16d7864c92b663f0e5ec389a2ab197923dfae6d8fdee8e3b5caa789057e4c659845ab561
   languageName: node
   linkType: hard
 
