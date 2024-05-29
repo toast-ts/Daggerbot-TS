@@ -56,9 +56,9 @@ export default class MessageCreate {
         },*/
         {
           name: 'discordInvite',
-          check: ()=>message.content.toLowerCase().match(/discord\.(gg|com\/invite)\//ig) && !MessageTool.isStaff(message.member as Discord.GuildMember),
+          check: ()=>message.content.toLowerCase().match(/(https?:\/\/)?(.*?@)?(www\.)?(discord\.(gg)|discord(app)?\.com\/invite)\/(?<code>[\w-]+)/ui) && !MessageTool.isStaff(message.member as Discord.GuildMember),
           action: async()=>{
-            const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.match(/discord\.(gg|com\/invite)\//ig))).catch(()=>null);
+            const validInvite = await client.fetchInvite(message.content.split(' ').find(x=>x.match(/(https?:\/\/)?(.*?@)?(www\.)?(discord\.(gg)|discord(app)?\.com\/invite)\/(?<code>[\w-]+)/ui))).catch(()=>null);
             if (validInvite && validInvite.guild?.id !== client.config.dcServer.id) {
               automodded = true;
               message.delete().catch(()=>Logger.console('log', `${automodLog}Advertisement`, automodFailReason));
