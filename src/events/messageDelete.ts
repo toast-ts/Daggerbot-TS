@@ -14,7 +14,7 @@ export default class MessageDelete {
       {name: 'Sent at', value: `<t:${Math.round(msg.createdTimestamp/1000)}>\n<t:${Math.round(msg.createdTimestamp/1000)}:R>`}
     )
     const attachments:string[] = [];
-    msg.attachments.forEach(x=>attachments.push(x.url));
-    (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [embed], files: attachments})
+    for (const attachment of msg.attachments.values()) attachments.push(attachment.proxyURL);
+    (client.channels.cache.get(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [embed], files: attachments});
   }
 }
