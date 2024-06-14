@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import TClient from '../client.js';
-import Response from '../modules/ResponseModule.js';
+// import Response from '../modules/ResponseModule.js';
 import CmdTrigger from '../modules/CmdModule.js';
 import Logger from '../helpers/Logger.js';
 import {MPChannels} from '../modules/MPModule.js';
@@ -96,8 +96,8 @@ export default class MessageCreate {
       }
       const GeneralChatID = ConfigHelper.isDevMode() ? '929807948748832801' : '468835415093411863';
 
-      const times_of_day = ['morning', 'afternoon', 'evening', 'night'];
-      for (let i = 0; i < times_of_day.length; i++) Response.create(message, GeneralChatID, times_of_day[i]);
+      /* const times_of_day = ['morning', 'afternoon', 'evening', 'night'];
+      for (let i = 0; i < times_of_day.length; i++) Response.create(message, GeneralChatID, times_of_day[i]); */
 
       CmdTrigger.registerCmds(client, message, 'deploy');
       CmdTrigger.MFPwTrigger(message, 'farmpw');
