@@ -144,7 +144,7 @@ export async function requestServerData(client:TClient, server:IServerExt):Promi
 
     for (let i = 0; i < maxRetries; i++) {
       try {
-        const data = await Undici.fetch(url, {keepalive: true, signal: AbortSignal.timeout(12000), headers: {'User-Agent': `${client.user.username} - MPModule/undici`}});
+        const data = await Undici.fetch(url, {keepalive: true, signal: AbortSignal.timeout(22000), headers: {'User-Agent': `${client.user.username} - MPModule/undici`}});
         if (data.status === 200 ?? 204) {
           server.failureCount = 0;
           delay = 500;
