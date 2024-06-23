@@ -17,17 +17,11 @@ export default class CacheServer {
       .on('error', (err:ErrorReply)=>Logger.console('error', this.prefix, `Encountered an error in Redis: ${err.message}`))
   }
   public static async get(key:any, jsonMode:boolean):Promise<any> {
-    let cachedResult:any;
-    if (jsonMode) cachedResult = await RedisClient.json.get(key);
-    else {
-      cachedResult = await RedisClient.get(key);
-      if (cachedResult) cachedResult = JSON.parse(cachedResult);
-    }
-    return cachedResult;
+    const cachedResult = jsonMode ? await RedisClient.json.get(key) : await RedisClient.get(key);
+    return jsonMode ? cachedResult : cachedResult ? JSON.parse(String(cachedResult)) : null;
   }
   public static async set(key:any, value:any, jsonMode:boolean):Promise<any> {
-    if (jsonMode) return await RedisClient.json.set(key, '.', value);
-    else return await RedisClient.set(key, JSON.stringify(value));
+    return jsonMode ? await RedisClient.json.set(key, '.', value) : await RedisClient.set(key, JSON.stringify(value));
   }
   /** @param time Cache expiration in seconds */
   public static expiry = async(key:any, time:number)=>await RedisClient.expire(key, time); // NOTE: time is in seconds, not milliseconds -- you know what you did wrong
