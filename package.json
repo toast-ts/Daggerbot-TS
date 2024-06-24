@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@types/ms": "0.7.34",
-    "@types/node": "20.14.2",
+    "@types/node": "20.14.8",
     "@types/node-cron": "3.0.11",
     "typescript": "5.4.5"
   }
