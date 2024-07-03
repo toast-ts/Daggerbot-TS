@@ -1,0 +1,13 @@
+diff --git a/src/structures/BaseInteraction.js b/src/structures/BaseInteraction.js
+index 8a25f6f6ac324f2596cc1891aa4b0ef5146abbab..914a125b7ccb59e779607a12dc3678e77870eafc 100644
+--- a/src/structures/BaseInteraction.js
++++ b/src/structures/BaseInteraction.js
+@@ -103,7 +103,7 @@ class BaseInteraction extends Base {
+      * The entitlements for the invoking user, representing access to premium SKUs
+      * @type {Collection<Snowflake, Entitlement>}
+      */
+-    this.entitlements = data.entitlements.reduce(
++    this.entitlements = (data.entitlements ?? []).reduce(
+       (coll, entitlement) => coll.set(entitlement.id, this.client.application.entitlements._add(entitlement)),
+       new Collection(),
+     );

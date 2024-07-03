@@ -7,6 +7,7 @@ RUN apk update && apk upgrade && apk add --no-cache git fontconfig ttf-dejavu
 WORKDIR /Daggerbot
 RUN npm install -g typescript
 RUN git config --global --add safe.directory /Daggerbot
+COPY .yarn/patches .yarn/patches
 COPY tsconfig.json package.json yarn.lock .yarnrc.yml ./
 RUN yarn
 

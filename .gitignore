@@ -1,7 +1,8 @@
 .env
-.yarn
+.yarn/*
 .pnp.*
 dist
 build_cache
 src/private
 src/*.json
+!.yarn/patches
