@@ -10,7 +10,7 @@ import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
 import {Punishment, RawGatewayPacket, RawMessageDelete, RawMessageUpdate} from 'src/interfaces';
 import {readFileSync} from 'node:fs';
-export const disabledChannels = ['548032776830582794', '541677709487505408', '949380187668242483'];
+export const disabledChannels = ['548032776830582794', '541677709487505408', '949380187668242483', '924057392143036516', '924057498447659008'];
 
 // Error handler
 function _(error:Error, type:string) {
