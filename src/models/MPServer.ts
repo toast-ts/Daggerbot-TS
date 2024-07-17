@@ -85,10 +85,10 @@ export class MPServerSvc {
   async incrementPlayerCount(serverName:string, playerCount:number) {
     const server = await this.model.findOne({where: {serverName}});
     if (server) {
-      let PD = server.dataValues.playerData;
-      if (PD.length > 1920) PD = []; //Selfnote: 86400/45 = 1920, where 86400 is seconds in a day and 45 is the MPModule's refresh interval.
-      PD.push(playerCount);
-      await this.model.update({playerData: PD}, {where: {serverName}});
+      let playerData = server.dataValues.playerData;
+      if (playerData.length > 1920) playerData = []; //Selfnote: 86400/45 = 1920, where 86400 is seconds in a day and 45 is the MPModule's refresh interval.
+      playerData.push(playerCount);
+      await this.model.update({playerData}, {where: {serverName}});
       return true;
     }
     return false;

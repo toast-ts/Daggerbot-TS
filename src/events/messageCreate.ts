@@ -43,17 +43,6 @@ export default class MessageCreate {
             await Automoderator.repeatedMessages(client, message, 'mute', 30000, 3, 'bw', '30m', 'Prohibited word spam');
           }
         },
-        /*{
-          name: 'messageSpam',
-          check: ()=>Automoderator.isSpam(client, message, 6) && !MessageTool.isStaff(message.member as Discord.GuildMember),
-          action: async()=>{
-            automodded = true;
-            message.delete().catch(()=>Logger.console('log', `${automodLog}MessageSpam`, automodFailReason));
-            message.channel.send('Spamming is not cool, slow down!').then(x=>setTimeout(()=>x.delete(), 15000));
-            await Automoderator.repeatedMessages(client, message, 'mute', 5000, 2, 'spam', '30m', 'Message spam');
-            delete client.repeatedMessages[message.author.id];
-          }
-        },*/
         {
           name: 'discordInvite',
           check: ()=>message.content.toLowerCase().match(/(https?:\/\/)?(.*?@)?(www\.)?(discord\.(gg)|discord(app)?\.com\/invite)\/(?<code>[\w-]+)/ui) && !MessageTool.isStaff(message.member as Discord.GuildMember),
@@ -79,9 +68,6 @@ export default class MessageCreate {
       }
     };
     if (message.guildId === client.config.dcServer.id && !automodded) client.userLevels.messageIncremental(message.author.id);
-    // Mop gifs from banned channels without admins having to mop them.
-    // const bannedChannels = []
-    // if (['tenor.com/view', 'giphy.com/gifs', 'giphy.com/media'].some(e=>message.content.toLowerCase().includes(e)) && bannedChannels.includes(message.channelId)) message.reply('Gifs are not allowed in this channel.').then(()=>message.delete())
 
     // Autoresponse:tm:
     if (client.config.botSwitches.autores && !automodded) {
