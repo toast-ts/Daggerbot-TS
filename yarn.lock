@@ -5,7 +5,7 @@ __metadata:
   version: 8
   cacheKey: 10
 
-"@babel/runtime@npm:^7.24.7":
+"@babel/runtime@npm:^7.24.8":
   version: 7.24.8
   resolution: "@babel/runtime@npm:7.24.8"
   dependencies:
@@ -666,24 +666,24 @@ __metadata:
     "@types/node": "npm:20.14.11"
     "@types/node-cron": "npm:3.0.11"
     ansi-colors: "npm:4.1.3"
-    dayjs: "npm:1.11.11"
+    dayjs: "npm:1.11.12"
     discord.js: "patch:discord.js@npm%3A14.15.3#~/.yarn/patches/discord.js-npm-14.15.3-0c74284e59.patch"
     fast-xml-parser: "npm:4.4.0"
-    mathjs: "npm:13.0.2"
+    mathjs: "npm:13.0.3"
     ms: "npm:2.1.3"
     node-cron: "npm:3.0.3"
     redis: "npm:4.6.15"
     simple-git: "npm:3.25.0"
     systeminformation: "npm:5.22.11"
     typescript: "npm:5.4.5"
-    undici: "npm:6.19.2"
+    undici: "npm:6.19.4"
   languageName: unknown
   linkType: soft
 
-"dayjs@npm:1.11.11, dayjs@npm:^1.11.10":
-  version: 1.11.11
-  resolution: "dayjs@npm:1.11.11"
-  checksum: 10/f03948b172fbeed229837965988d1d5bac99c72a31c28731a457303259439f2f36289186489ae140adbeb10f591a926908c8de5d81eb449a2edbf5cbd6e9e30c
+"dayjs@npm:1.11.12, dayjs@npm:^1.11.10":
+  version: 1.11.12
+  resolution: "dayjs@npm:1.11.12"
+  checksum: 10/8ee7c1e14961fd08d40b788d0c0e930dc6288b3d32911bb911b2fb31bb703c262788164fbe678ee9e50e2a35268d667b8c8ba43fd1806771c1f404c300a2b428
   languageName: node
   linkType: hard
 
@@ -904,11 +904,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:13.0.2":
-  version: 13.0.2
-  resolution: "mathjs@npm:13.0.2"
+"mathjs@npm:13.0.3":
+  version: 13.0.3
+  resolution: "mathjs@npm:13.0.3"
   dependencies:
-    "@babel/runtime": "npm:^7.24.7"
+    "@babel/runtime": "npm:^7.24.8"
     complex.js: "npm:^2.1.1"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
@@ -919,7 +919,7 @@ __metadata:
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10/1481dfdd969d09ee3c4f7e16aea409fcdbfa2f14e4ce9d873e7e6d1470c121c271ecaf87a7a0da3f1e6ce883dcaef63a569332199f4b6a5c169a3e67d4396750
+  checksum: 10/6ef013f853be73b8efc8fab26522a6c76712ef9b73861a7cb88fee0be5b7638bcebafad10dc964f00455d1fa8715206adb300e6c2872d863e97c24ba1c9cd4d7
   languageName: node
   linkType: hard
 
@@ -1319,9 +1319,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.14.0":
-  version: 4.22.0
-  resolution: "type-fest@npm:4.22.0"
-  checksum: 10/f5e1471829166641cc52dd826839f40c43525a66c3fcd76bba8635bc2c42c339c7198b0f17395d23a91205da913be8294c58ab8d52cc03ef227386d24099f525
+  version: 4.23.0
+  resolution: "type-fest@npm:4.23.0"
+  checksum: 10/c411dea83262f9a4453e09ff82e3ac729dd26afc2e68b7a9fe93dd633b1a2bf7bf2bf3e041676497ae8b8411266019b3add91d4fe34b926a82ba09eb41e9e52b
   languageName: node
   linkType: hard
 
@@ -1373,10 +1373,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.19.2, undici@npm:^6.15.0":
-  version: 6.19.2
-  resolution: "undici@npm:6.19.2"
-  checksum: 10/f4895c0c1e2fcde18076ac98965c231875811b8e14ceab1a7b19e940ed1a2fce69e0864e1186bfdc9347dffe0f39a00daf6dd5e7c0169b2b33de59a859dc2f1d
+"undici@npm:6.19.4, undici@npm:^6.15.0":
+  version: 6.19.4
+  resolution: "undici@npm:6.19.4"
+  checksum: 10/90e1a1ba12245e9928b8ed233bbef1e77c02b48b966f0a29b0f9b004499d92e183e516b6bba2707261d1845e629e504b0ddcec557ef557fa37335c5d59a5a712
   languageName: node
   linkType: hard
 
