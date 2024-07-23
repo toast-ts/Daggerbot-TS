@@ -157,20 +157,34 @@ export default class MP {
         }
         const msg_id = interaction.options.getString('message_id', true);
         const stripUrl = msg_id.replace(/https:\/\/discord.com\/channels\/\d+\/\d+\/(\d+)/, '$1');
-        const msg = await (interaction.guild.channels.cache.get(MPChannels.announcements) as Discord.TextChannel).messages.fetch(stripUrl).catch(()=>null);
+        const msg: Discord.Message = await (interaction.guild.channels.cache.get(MPChannels.announcements) as Discord.TextChannel).messages.fetch(stripUrl).catch(()=>null);
         if (!msg) return interaction.reply('Message not found, please make sure you have the correct message ID.');
 
         if (msg.embeds[0].title !== 'Vote for next map!') return interaction.reply('This message is not a poll!');
         if (msg.embeds[0].footer?.text?.startsWith('Poll ended by')) return interaction.reply('This poll has already ended!');
 
+        const validEmojis = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+        const filterByDigits = msg.reactions.cache.filter(x=>validEmojis.includes(x.emoji.name));
+
         (client.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).send({files: [new client.attachment(
           Buffer.from(JSON.stringify({
-            map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3).replace(/\*\*/g, '')),
-            votes: msg.reactions.cache.map(x=>x.count)
+            map_names: msg.embeds[0].description.split('\n').map(x=>x.slice(3).replace(/\*\*/g, '').trim()),
+            votes: filterByDigits.map(x=>x.count)
           }, null, 2)), {name: `pollResults-${msg.id}.json`})
         ]});
 
-        msg.edit({content: null, embeds: [new client.embed().setColor(client.config.embedColor).setTitle('Voting has ended!').setDescription('The next map will be '+msg.embeds[0].description.split('\n')[msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)))].slice(3)).setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})]}).then(()=>msg.reactions.removeAll());
+        const map_index = msg.reactions.cache.map(x=>x.count).indexOf(Math.max(...msg.reactions.cache.map(x=>x.count)));
+        const next_map = msg.embeds[0].description.split('\n')[map_index].slice(3);
+
+        msg.edit({
+          content: null,
+          embeds: [new client.embed()
+            .setColor(client.config.embedColor)
+            .setTitle('Voting has ended!')
+            .setDescription(`The next map will be ${next_map}`)
+            .setFooter({text: `Poll ended by ${interaction.user.tag}`, iconURL: interaction.member.displayAvatarURL({extension: 'webp', size: 1024})})
+          ]
+        }).then(()=>msg.reactions.removeAll());
         await interaction.reply(`Successfully ended the [poll](<https://discord.com/channels/${interaction.guildId}/${MPChannels.announcements}/${msg.id}>) in <#${MPChannels.announcements}>`)
       },
       maps: async()=>{
