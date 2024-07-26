@@ -86,7 +86,7 @@ export default class MessageCreate {
       for (let i = 0; i < times_of_day.length; i++) Response.create(message, GeneralChatID, times_of_day[i]); */
 
       CmdTrigger.registerCmds(client, message, 'deploy');
-      CmdTrigger.MFPwTrigger(message, 'farmpw');
+      // CmdTrigger.MFPwTrigger(message, 'farmpw');
 
       let picStorage = {
         cantRead: 'https://tenor.com/view/aristocats-george-pen-cap-meticulous-gif-5330931',
