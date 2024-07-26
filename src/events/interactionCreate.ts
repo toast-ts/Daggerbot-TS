@@ -52,8 +52,8 @@ export default class InteractionCreate {
       const timeDiff = time - isRatelimited;
       if (timeDiff < 5000) return interaction.reply({content: 'You are on **__cooldown__**, please avoid spam-clicking next time.\n\n*This system is put in place due to selfbots.. I\'m sorry!*', ephemeral: true});
 
-      const MFFarm1 = '1149139369433776269';
-      const MFFarm2 = '1149139583729160325';
+      const MFFarm1 = '1266225167194001469';
+      const MFFarm2 = '1266225291232280707';
 
       if (interaction.member.roles.cache.has(RoleID)) interaction.member.roles.remove(RoleID, 'Button Role').then(()=>interaction.reply({content: `You have been removed from <@&${RoleID}>`, ephemeral: true}));
       else interaction.member.roles.add(RoleID, 'Button Role').then(async()=>{
