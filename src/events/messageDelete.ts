@@ -5,7 +5,7 @@ import {disabledChannels} from '../index.js';
 export default class MessageDelete {
   static run(client:TClient, msg:Discord.Message|Discord.PartialMessage){
     if (!client.config.botSwitches.logs) return;
-    if (msg.guild?.id != client.config.dcServer.id || msg.partial || msg.author.bot || disabledChannels.includes(msg.channelId)) return;
+    if (msg.guild?.id != client.config.dcServer.id || msg.partial || msg.type === Discord.MessageType.ChannelPinnedMessage || msg.author.bot || disabledChannels.includes(msg.channelId)) return;
     if (Discord.DiscordAPIError.name === '10008') return Logger.console('log', 'MsgDelete', 'Caught an unexpected error returned by Discord API. (Unknown Message)');
     const embed = new client.embed().setColor(client.config.embedColorRed).setTimestamp().setAuthor({name: `Author: ${msg.author.username} (${msg.author.id})`, iconURL: `${msg.author.displayAvatarURL()}`}).setTitle('Message deleted');
     if (msg.content.length != 0) embed.addFields({name: 'Content', value: `\`\`\`\n${Discord.escapeCodeBlock(msg.content.slice(0,1000))}\n\`\`\``});
