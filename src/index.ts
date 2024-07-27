@@ -75,14 +75,17 @@ setInterval(async()=>{
       Logger.console('log', 'DailyMsgs', `Pushed [${formattedDate}, ${total}]`)
 
       // Send notification to #bot-log that the data has been pushed to database.
-      const commands = await client.guilds.cache.get(client.config.dcServer.id)?.commands.fetch();
-      if (commands) (client.channels.resolve(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [
-        new client.embed().setDescription(`Pushed the following\ndata to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`).setFields(
-          {name: 'Day', value: formattedDate.toString(), inline: true},
-          {name: 'Messages', value: Intl.NumberFormat('en-us').format(total).toString(), inline: true}
-        ).setColor(client.config.embedColor)
-      ]});
-      else Logger.console('log', 'DailyMsgs', 'Rank command not found, cannot send notification in channel')
+      try {
+        const commands = await client.guilds.cache.get(client.config.dcServer.id)?.commands.fetch();
+        if (commands) (client.channels.cache.get(client.config.dcServer.channels.bot_log) as Discord.TextChannel).send({embeds: [
+          new client.embed().setDescription(`Pushed the following\ndata to </rank leaderboard:${commands.find(x=>x.name === 'rank').id}>`).setFields(
+            {name: 'Day', value: formattedDate.toString(), inline: true},
+            {name: 'Messages', value: Intl.NumberFormat('en-us').format(total).toString(), inline: true}
+          ).setColor(client.config.embedColor)
+        ]});
+      } catch {
+        Logger.console('log', 'DailyMsgs', 'Rank command not found, cannot send notification in channel');
+      }
     }
   }
 }, 5000)
@@ -104,18 +107,20 @@ if (!client.config.botSwitches.logs) {
 };
 client.on('raw', async (packet:RawGatewayPacket<RawMessageUpdate>)=>{
   if (rawSwitches[packet.t] || packet.t !== 'MESSAGE_UPDATE') return;
-  if (packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id) || typeof packet.d.content === 'undefined') return;
+  if (packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id) || typeof packet.d.content === undefined) return;
 
-  const channel = client.channels.cache.get(packet.d.channel_id) as Discord.TextBasedChannel;
+  const channel: Discord.TextBasedChannel = client.channels.cache.get(packet.d.channel_id) as Discord.TextChannel;
 
   // Switched to console.log to prevent useless embed creation that has same content as the original message.
-  if (!rawSwitches.MESSAGE_UPDATE && !packet.d.author.bot) return Logger.console('log', 'RawEvent:Edit', `Message was edited in #${(channel as Discord.TextChannel).name}`);
+  if (!rawSwitches.MESSAGE_UPDATE && !packet.d.author.bot) return Logger.console('log', 'RawEvent:Edit', `Message was edited in #${channel.name}`);
 });
 
 client.on('raw', async (packet:RawGatewayPacket<RawMessageDelete>)=>{
   if (rawSwitches[packet.t]) return;
   if (packet.t !== 'MESSAGE_DELETE' || packet.d.guild_id != client.config.dcServer.id || disabledChannels.includes(packet.d.channel_id)) return;
 
-  Logger.console('log', 'RawEvent:Del', `Message was deleted in #${(client.channels.resolve(packet.d.channel_id) as Discord.TextChannel).name}`);
+  const channel: Discord.TextBasedChannel = client.channels.cache.get(packet.d.channel_id) as Discord.TextChannel;
+
+  Logger.console('log', 'RawEvent:Del', `Message was deleted in #${channel.name}`);
   rawSwitches[packet.t] = true;
 });
