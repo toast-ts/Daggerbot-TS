@@ -6,11 +6,11 @@ __metadata:
   cacheKey: 10
 
 "@babel/runtime@npm:^7.24.8":
-  version: 7.24.8
-  resolution: "@babel/runtime@npm:7.24.8"
+  version: 7.25.0
+  resolution: "@babel/runtime@npm:7.25.0"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
-  checksum: 10/e6f335e472a8a337379effc15815dd0eddf6a7d0c00b50deb4f9e9585819b45431d0ff3c2d3d0fa58c227a9b04dcc4a85e7245fb57493adb2863b5208c769cbd
+  checksum: 10/6870e9e0e9125075b3aeba49a266f442b10820bfc693019eb6c1785c5a0edbe927e98b8238662cdcdba17842107c040386c3b69f39a0a3b217f9d00ffe685b27
   languageName: node
   linkType: hard
 
@@ -367,14 +367,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redis/client@npm:1.5.17":
-  version: 1.5.17
-  resolution: "@redis/client@npm:1.5.17"
+"@redis/client@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@redis/client@npm:1.6.0"
   dependencies:
     cluster-key-slot: "npm:1.1.2"
     generic-pool: "npm:3.9.0"
     yallist: "npm:4.0.0"
-  checksum: 10/f7c3b978829b7151363545c81844cf75ecdb7bddf667f60d3bc4598e4fb3e957ebae6f2ed6b4bfb54038be6342bbe1789fd40e8193f6d49ac8861af279fecec8
+  checksum: 10/ad375bd685dc34163304872e611ad31dc09a20f4dc8416e5dd588e8a9d2a42a6882f5c8f83d6388ba04ada71513c461b211c3146bcd8ab4da20b3f7edf08fb63
   languageName: node
   linkType: hard
 
@@ -387,37 +387,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redis/json@npm:1.0.6":
-  version: 1.0.6
-  resolution: "@redis/json@npm:1.0.6"
+"@redis/json@npm:1.0.7":
+  version: 1.0.7
+  resolution: "@redis/json@npm:1.0.7"
   peerDependencies:
     "@redis/client": ^1.0.0
-  checksum: 10/bedd8b6fd152ed480f993c6372288f210a9c0e60bb39c02861d5ce2cb5452119229435572cd94886cdbde5fbae014471fc179dff1dbc86f045782e0358af1b0f
+  checksum: 10/df0ac5035608d2e82289237d1adbf541af3743a86692df9958a2c89281bce024eeecfc031db51774d8a46639c5ec34ce9f8b71ebec7bce21865920e36ca3db57
   languageName: node
   linkType: hard
 
-"@redis/search@npm:1.1.6":
-  version: 1.1.6
-  resolution: "@redis/search@npm:1.1.6"
+"@redis/search@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@redis/search@npm:1.2.0"
   peerDependencies:
     "@redis/client": ^1.0.0
-  checksum: 10/7a2543012fc2c88ff4c6a6c9c1b537b472d5af340c2717f968562ef2ead713b02dd22cfadc5d5e16c0d32279a4c04bee974e0f20de416a3561a1221b3dccc790
+  checksum: 10/25bba222c0fb1ec1f2db08fe157d30d56a8ffe234214c72d3a7a991daefe77f18c5e6440ab3aa297aef88bafd5448b04ac9fcd84671f2dadc8989712c06b63b4
   languageName: node
   linkType: hard
 
-"@redis/time-series@npm:1.0.5":
-  version: 1.0.5
-  resolution: "@redis/time-series@npm:1.0.5"
+"@redis/time-series@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@redis/time-series@npm:1.1.0"
   peerDependencies:
     "@redis/client": ^1.0.0
-  checksum: 10/be735fe7497b157ef8291fed157342a9a5017884488fa519b271745cfb9500a498d6f8e4bee6d34b58892d65f8ef7a3f4c458d083fb19892b4d3633d0d6c7db6
+  checksum: 10/e1d000eef7f37645f7f4ff94f32dd998384360b12fed1e4d614d828c065b72d7627e27444fab781fac4fdfe301c45f893417550fb1011d3b75237566ff0954e0
   languageName: node
   linkType: hard
 
 "@sapphire/async-queue@npm:^1.5.2":
-  version: 1.5.2
-  resolution: "@sapphire/async-queue@npm:1.5.2"
-  checksum: 10/55e0785997ec34479509c134a3ffc5e9dc0c183b56b1cb95b0505539972a538b0bff8922c1d051ebeee227b000f79f1f499f1897229a117644833375093aa7b3
+  version: 1.5.3
+  resolution: "@sapphire/async-queue@npm:1.5.3"
+  checksum: 10/6a9fdeeaa3e4591c057cb67b5aae86d9c94326dcb0ea9e8e3b8eba8cbcfee2a0f672d837a51e3da2c838f9861a6117fced2b0ac8e1b719bc5caf1bbbee781fb3
   languageName: node
   linkType: hard
 
@@ -531,12 +531,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.14.12":
-  version: 20.14.12
-  resolution: "@types/node@npm:20.14.12"
+"@types/node@npm:*, @types/node@npm:22.2.0":
+  version: 22.2.0
+  resolution: "@types/node@npm:22.2.0"
   dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10/9205bf46ef6a99d99cdde9efeb8218cd15803cc407249c2336557cd630b006380dad68c03ee574934414639f8e450044f45530c92788a8e82078bae45ee40f93
+    undici-types: "npm:~6.13.0"
+  checksum: 10/2957c5c81f1a07a1210f28382adae65c11070c301e395fa819448516f1a2a710054b29e0ec7d8e28624afbcd90dae810403a497109545dea835b554fc76edf6c
   languageName: node
   linkType: hard
 
@@ -559,18 +559,18 @@ __metadata:
   linkType: hard
 
 "@types/ws@npm:^8.5.10":
-  version: 8.5.11
-  resolution: "@types/ws@npm:8.5.11"
+  version: 8.5.12
+  resolution: "@types/ws@npm:8.5.12"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/950d13b762fc7c092a0fc1450c41229a1d41abb93cb72251068885bd46fa4bbcf461c00df2e77de3f7a547371998b650a720ed90417562af0772b14a8a009dec
+  checksum: 10/d8a3ddfb5ff8fea992a043113579d61ac1ea21e8464415af9e2b01b205ed19d817821ad64ca1b3a90062d1df1c23b0f586d8351d25ca6728844df99a74e8f76d
   languageName: node
   linkType: hard
 
 "@vladfrangu/async_event_emitter@npm:^2.2.4":
-  version: 2.4.4
-  resolution: "@vladfrangu/async_event_emitter@npm:2.4.4"
-  checksum: 10/634c2d656fb3a3b47584865b5bf2b92f06f19a0018324340c29f2215a82fc96b4997dc2a78c6aeefcb29b6b2f8c03e8f06234b45965b706f7bde5b997b7d8be2
+  version: 2.4.5
+  resolution: "@vladfrangu/async_event_emitter@npm:2.4.5"
+  checksum: 10/eab0aa5af96fc57b633774314e20948dced85ecd33bde60cd7c048c3f54d033638ada623a8363482a0942cc414883e991e1f7d0005f1cce26e273346b3720d29
   languageName: node
   linkType: hard
 
@@ -663,7 +663,7 @@ __metadata:
     "@sequelize/postgres": "npm:7.0.0-alpha.41"
     "@toast/tokenservice-client": "npm:1.2.8"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:20.14.12"
+    "@types/node": "npm:22.2.0"
     "@types/node-cron": "npm:3.0.11"
     ansi-colors: "npm:4.1.3"
     dayjs: "npm:1.11.12"
@@ -672,11 +672,11 @@ __metadata:
     mathjs: "npm:13.0.3"
     ms: "npm:2.1.3"
     node-cron: "npm:3.0.3"
-    redis: "npm:4.6.15"
+    redis: "npm:4.7.0"
     simple-git: "npm:3.25.0"
-    systeminformation: "npm:5.22.11"
+    systeminformation: "npm:5.23.4"
     typescript: "npm:5.4.5"
-    undici: "npm:6.19.4"
+    undici: "npm:6.19.7"
   languageName: unknown
   linkType: soft
 
@@ -688,14 +688,14 @@ __metadata:
   linkType: hard
 
 "debug@npm:^4.1.1, debug@npm:^4.3.4, debug@npm:^4.3.5":
-  version: 4.3.5
-  resolution: "debug@npm:4.3.5"
+  version: 4.3.6
+  resolution: "debug@npm:4.3.6"
   dependencies:
     ms: "npm:2.1.2"
   peerDependenciesMeta:
     supports-color:
       optional: true
-  checksum: 10/cb6eab424c410e07813ca1392888589972ce9a32b8829c6508f5e1f25f3c3e70a76731610ae55b4bbe58d1a2fffa1424b30e97fa8d394e49cd2656a9643aedd2
+  checksum: 10/d3adb9af7d57a9e809a68f404490cf776122acca16e6359a2702c0f462e510e91f9765c07f707b8ab0d91e03bad57328f3256f5082631cefb5393d0394d50fb7
   languageName: node
   linkType: hard
 
@@ -1163,17 +1163,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis@npm:4.6.15":
-  version: 4.6.15
-  resolution: "redis@npm:4.6.15"
+"redis@npm:4.7.0":
+  version: 4.7.0
+  resolution: "redis@npm:4.7.0"
   dependencies:
     "@redis/bloom": "npm:1.2.0"
-    "@redis/client": "npm:1.5.17"
+    "@redis/client": "npm:1.6.0"
     "@redis/graph": "npm:1.1.1"
-    "@redis/json": "npm:1.0.6"
-    "@redis/search": "npm:1.1.6"
-    "@redis/time-series": "npm:1.0.5"
-  checksum: 10/72f74fc80c89a8251e997b2c55bd05f5556191adeafe806ea17842ece5d2f80be31a76e161a9f0badcc5c35924044d642de66d3fc27215525f7332e9862e56d3
+    "@redis/json": "npm:1.0.7"
+    "@redis/search": "npm:1.2.0"
+    "@redis/time-series": "npm:1.1.0"
+  checksum: 10/d927a0b1516e2845b7eab67b1466b6f2d0d0695be7a3d4a0a1ffa2f2c60dace98fb9ad01ec0db07519fb9d4d078b99d95b6809508c2a72afe6f814fc8f693188
   languageName: node
   linkType: hard
 
@@ -1264,12 +1264,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.22.11":
-  version: 5.22.11
-  resolution: "systeminformation@npm:5.22.11"
+"systeminformation@npm:5.23.4":
+  version: 5.23.4
+  resolution: "systeminformation@npm:5.23.4"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/315cd3f2cc2aefbee9201fac043521d073e8c94a77f8900617dad67fdb798116fd2963a365d4d3da81dbca6da360d1f7008c61e1fe33ef9f8f3b77aa4f506014
+  checksum: 10/ab2c51d9755ba9a9ece3cc67fedf7079860345b6c6e687c10d5b18d5ff48602675ef8b330accf2a1a16cef434f84caeaab00b804e451fd7e3c17868252cd3749
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -1319,9 +1319,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.14.0":
-  version: 4.23.0
-  resolution: "type-fest@npm:4.23.0"
-  checksum: 10/c411dea83262f9a4453e09ff82e3ac729dd26afc2e68b7a9fe93dd633b1a2bf7bf2bf3e041676497ae8b8411266019b3add91d4fe34b926a82ba09eb41e9e52b
+  version: 4.24.0
+  resolution: "type-fest@npm:4.24.0"
+  checksum: 10/60efd6ec71f5113ef0a0fcabe61fc722bb2520ea082bc23e4b4dfb44204234dc691560a5e837f939160d7c18b410ed8fae32ddb752d57bed009248e0f61dce6b
   languageName: node
   linkType: hard
 
@@ -1353,16 +1353,16 @@ __metadata:
   linkType: hard
 
 "underscore@npm:^1.13.1":
-  version: 1.13.6
-  resolution: "underscore@npm:1.13.6"
-  checksum: 10/58cf5dc42cb0ac99c146ae4064792c0a2cc84f3a3c4ad88f5082e79057dfdff3371d896d1ec20379e9ece2450d94fa78f2ef5bfefc199ba320653e32c009bd66
+  version: 1.13.7
+  resolution: "underscore@npm:1.13.7"
+  checksum: 10/1ce3368dbe73d1e99678fa5d341a9682bd27316032ad2de7883901918f0f5d50e80320ccc543f53c1862ab057a818abc560462b5f83578afe2dd8dd7f779766c
   languageName: node
   linkType: hard
 
-"undici-types@npm:~5.26.4":
-  version: 5.26.5
-  resolution: "undici-types@npm:5.26.5"
-  checksum: 10/0097779d94bc0fd26f0418b3a05472410408877279141ded2bd449167be1aed7ea5b76f756562cb3586a07f251b90799bab22d9019ceba49c037c76445f7cddd
+"undici-types@npm:~6.13.0":
+  version: 6.13.0
+  resolution: "undici-types@npm:6.13.0"
+  checksum: 10/da52e37cbc6da3a75da86fa08dd795ca8924430deb91005eb884b840e46e19013ccd4c1c289f70018e8cf0c338add24a500e7c3acfcd49b1ffb27ff9f91e38b9
   languageName: node
   linkType: hard
 
@@ -1373,10 +1373,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.19.4, undici@npm:^6.15.0":
-  version: 6.19.4
-  resolution: "undici@npm:6.19.4"
-  checksum: 10/90e1a1ba12245e9928b8ed233bbef1e77c02b48b966f0a29b0f9b004499d92e183e516b6bba2707261d1845e629e504b0ddcec557ef557fa37335c5d59a5a712
+"undici@npm:6.19.7, undici@npm:^6.15.0":
+  version: 6.19.7
+  resolution: "undici@npm:6.19.7"
+  checksum: 10/77fb8b0377388f6dba8244b015841318d621031211b4f3c2273d809304b77ec44adeba4b89dfd6708bdc044190e18f068e5b231882ef15d057d4624e46f544e3
   languageName: node
   linkType: hard
 
