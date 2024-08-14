@@ -191,7 +191,7 @@ export default class MP {
         if (client.config.dcServer.id === interaction.guildId) {
           if (!interaction.member.roles.cache.has(client.config.dcServer.roles.mpmod) && !client.config.whitelist.includes(interaction.member.id)) return MessageTool.youNeedRole(interaction, 'mpmod');
         }
-        const suggestionPool = await (interaction.guild.channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch(MPChannels.modChat);
+        const suggestionPool = await (client.guilds.cache.get(client.config.dcServer.id).channels.cache.get(client.config.dcServer.channels.mpmod_chat) as Discord.TextChannel).messages.fetch(MPChannels.modChat);
         interaction.reply({embeds: [suggestionPool.embeds[0]]});
       }, // Server management group
       create_server: async()=>{

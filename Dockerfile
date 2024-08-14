@@ -11,4 +11,4 @@ COPY .yarn/patches .yarn/patches
 COPY tsconfig.json package.json yarn.lock .yarnrc.yml ./
 RUN yarn
 
-CMD yarn node .
+CMD [ "yarn", "node", "." ]
