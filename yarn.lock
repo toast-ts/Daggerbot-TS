@@ -531,12 +531,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:22.4.1":
+"@types/node@npm:*":
   version: 22.4.1
   resolution: "@types/node@npm:22.4.1"
   dependencies:
     undici-types: "npm:~6.19.2"
   checksum: 10/cce9221aea24688bccc3d7c25afd26d95c1bdab73a32ee5c43bb456e070116abf6ba537a9ff19c728bc06fe054e69a2c7ec8e5d818e34a3bf9567eae2cb20059
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:22.5.0":
+  version: 22.5.0
+  resolution: "@types/node@npm:22.5.0"
+  dependencies:
+    undici-types: "npm:~6.19.2"
+  checksum: 10/89af3bd217b1559b645a9ed16d4ae3add75749814cbd8eefddd1b96003d1973afb1c8a2b23d69f3a8cc6c532e3aa185eaf5cc29a6e7c42c311a2aad4c99430ae
   languageName: node
   linkType: hard
 
@@ -663,7 +672,7 @@ __metadata:
     "@sequelize/postgres": "npm:7.0.0-alpha.41"
     "@toast/tokenservice-client": "npm:1.3.0"
     "@types/ms": "npm:0.7.34"
-    "@types/node": "npm:22.4.1"
+    "@types/node": "npm:22.5.0"
     "@types/node-cron": "npm:3.0.11"
     ansi-colors: "npm:4.1.3"
     dayjs: "npm:1.11.12"
