@@ -1,5 +1,5 @@
-FROM node:22.4-alpine3.20
-ENV YARN_VERSION="4.4.0"
+FROM node:22.7-alpine3.20
+ENV YARN_VERSION="4.4.1"
 ENV TZ="Australia/Sydney"
 ENV NODE_COMPILE_CACHE="/Daggerbot/build_cache"
 RUN yarn policies set-version $YARN_VERSION
