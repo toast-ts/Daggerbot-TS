@@ -438,32 +438,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sequelize/core@npm:7.0.0-alpha.41":
-  version: 7.0.0-alpha.41
-  resolution: "@sequelize/core@npm:7.0.0-alpha.41"
-  dependencies:
-    "@sequelize/utils": "npm:7.0.0-alpha.41"
-    "@types/debug": "npm:^4.1.12"
-    "@types/validator": "npm:^13.11.9"
-    bnf-parser: "npm:^3.1.6"
-    chalk: "npm:^4.1.2"
-    dayjs: "npm:^1.11.10"
-    debug: "npm:^4.3.4"
-    dottie: "npm:^2.0.6"
-    fast-glob: "npm:^3.3.2"
-    inflection: "npm:^3.0.0"
-    lodash: "npm:^4.17.21"
-    retry-as-promised: "npm:^7.0.4"
-    semver: "npm:^7.3"
-    sequelize-pool: "npm:^8.0.0"
-    toposort-class: "npm:^1.0.1"
-    type-fest: "npm:^4.14.0"
-    uuid: "npm:^9.0.1"
-    validator: "npm:^13.11.0"
-  checksum: 10/d788b452e2ed068e879e1eca45790ab855128d3980ce64049a8833b6157cd3a5ac1505cf5f168fe3f54fab40c4a7a6a93c72859f8891220d65e2b04173029b44
-  languageName: node
-  linkType: hard
-
 "@sequelize/core@npm:7.0.0-alpha.42":
   version: 7.0.0-alpha.42
   resolution: "@sequelize/core@npm:7.0.0-alpha.42"
@@ -505,16 +479,6 @@ __metadata:
     semver: "npm:^7.6.0"
     wkx: "npm:^0.5.0"
   checksum: 10/78c1a72aad313f8bf21b86f082466dbe0c2d6bee27b4f6697cfe16158795d821df066320373fae2879c69ef6b68967ea268cd178967e59801eb7ea2bad2ab4c5
-  languageName: node
-  linkType: hard
-
-"@sequelize/utils@npm:7.0.0-alpha.41":
-  version: 7.0.0-alpha.41
-  resolution: "@sequelize/utils@npm:7.0.0-alpha.41"
-  dependencies:
-    "@types/lodash": "npm:^4.17.0"
-    lodash: "npm:^4.17.21"
-  checksum: 10/3f6796b19d53f8e68892f85de3495cc2663d0af163d56a5edd2af76c7d341529ccc4ac556ad4a299c53a804520133d8574cfc1c951b376e4b596d611aa687417
   languageName: node
   linkType: hard
 
@@ -626,15 +590,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-styles@npm:^4.1.0":
-  version: 4.3.0
-  resolution: "ansi-styles@npm:4.3.0"
-  dependencies:
-    color-convert: "npm:^2.0.1"
-  checksum: 10/b4494dfbfc7e4591b4711a396bd27e540f8153914123dccb4cdbbcb514015ada63a3809f362b9d8d4f6b17a706f1d7bea3c6f974b15fa5ae76b5b502070889ff
-  languageName: node
-  linkType: hard
-
 "ansis@npm:^3.2.0":
   version: 3.3.2
   resolution: "ansis@npm:3.3.2"
@@ -665,36 +620,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.1.2":
-  version: 4.1.2
-  resolution: "chalk@npm:4.1.2"
-  dependencies:
-    ansi-styles: "npm:^4.1.0"
-    supports-color: "npm:^7.1.0"
-  checksum: 10/cb3f3e594913d63b1814d7ca7c9bafbf895f75fbf93b92991980610dfd7b48500af4e3a5d4e3a8f337990a96b168d7eb84ee55efdce965e2ee8efc20f8c8f139
-  languageName: node
-  linkType: hard
-
 "cluster-key-slot@npm:1.1.2":
   version: 1.1.2
   resolution: "cluster-key-slot@npm:1.1.2"
   checksum: 10/516ed8b5e1a14d9c3a9c96c72ef6de2d70dfcdbaa0ec3a90bc7b9216c5457e39c09a5775750c272369070308542e671146120153062ab5f2f481bed5de2c925f
-  languageName: node
-  linkType: hard
-
-"color-convert@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "color-convert@npm:2.0.1"
-  dependencies:
-    color-name: "npm:~1.1.4"
-  checksum: 10/fa00c91b4332b294de06b443923246bccebe9fab1b253f7fe1772d37b06a2269b4039a85e309abe1fe11b267b11c08d1d0473fda3badd6167f57313af2887a64
-  languageName: node
-  linkType: hard
-
-"color-name@npm:~1.1.4":
-  version: 1.1.4
-  resolution: "color-name@npm:1.1.4"
-  checksum: 10/b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
   languageName: node
   linkType: hard
 
@@ -711,7 +640,7 @@ __metadata:
   dependencies:
     "@napi-rs/canvas": "npm:0.1.55"
     "@octokit/rest": "npm:21.0.2"
-    "@sequelize/core": "npm:7.0.0-alpha.41"
+    "@sequelize/core": "npm:7.0.0-alpha.42"
     "@sequelize/postgres": "npm:7.0.0-alpha.42"
     "@toast/tokenservice-client": "npm:1.3.0"
     "@types/ms": "npm:0.7.34"
@@ -875,13 +804,6 @@ __metadata:
   dependencies:
     is-glob: "npm:^4.0.1"
   checksum: 10/32cd106ce8c0d83731966d31517adb766d02c3812de49c30cfe0675c7c0ae6630c11214c54a5ae67aca882cf738d27fd7768f21aa19118b9245950554be07247
-  languageName: node
-  linkType: hard
-
-"has-flag@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "has-flag@npm:4.0.0"
-  checksum: 10/261a1357037ead75e338156b1f9452c016a37dcd3283a972a30d9e4a87441ba372c8b81f818cd0fbcd9c0354b4ae7e18b9e1afa1971164aef6d18c2b6095a8ad
   languageName: node
   linkType: hard
 
@@ -1287,15 +1209,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^7.1.0":
-  version: 7.2.0
-  resolution: "supports-color@npm:7.2.0"
-  dependencies:
-    has-flag: "npm:^4.0.0"
-  checksum: 10/c8bb7afd564e3b26b50ca6ee47572c217526a1389fe018d00345856d4a9b08ffbd61fadaf283a87368d94c3dcdb8f5ffe2650a5a65863e21ad2730ca0f05210a
-  languageName: node
-  linkType: hard
-
 "systeminformation@npm:5.23.5":
   version: 5.23.5
   resolution: "systeminformation@npm:5.23.5"
@@ -1420,15 +1333,6 @@ __metadata:
   bin:
     uuid: dist/bin/uuid
   checksum: 10/35aa60614811a201ff90f8ca5e9ecb7076a75c3821e17f0f5ff72d44e36c2d35fcbc2ceee9c4ac7317f4cc41895da30e74f3885e30313bee48fda6338f250538
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "uuid@npm:9.0.1"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 10/9d0b6adb72b736e36f2b1b53da0d559125ba3e39d913b6072f6f033e0c87835b414f0836b45bcfaf2bdf698f92297fea1c3cc19b0b258bc182c9c43cc0fab9f2
   languageName: node
   linkType: hard
 
