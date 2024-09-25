@@ -8,11 +8,51 @@ import MessageTool from '../helpers/MessageTool.js';
 import {FSData} from 'src/interfaces';
 import {requestServerData, mpModuleDisabled, refreshTimerSecs, playtimeStat, MPChannels} from '../modules/MPModule.js';
 
+// I asked Copilot lol, yes I said "wtf is that" when it suggested it to me.
+// Works wonders, I'm surprised.
+function levenshtein(a: string, b: string): number {
+  const matrix = Array.from({length: a.length+1}, ()=>Array(b.length+1).fill(0));
+
+  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i-1] === b[j-1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i-1][j] + 1, // Deletion
+        matrix[i][j-1] + 1, // Insertion
+        matrix[i-1][j-1] + cost // Substitution
+      );
+    }
+  }
+
+  return matrix[a.length][b.length];
+}
+
+function normalizeString(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
 async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInteraction, serverName:string):Promise<FSData|Discord.InteractionResponse> {
   try {
     await interaction.deferReply();
     const db = await client.MPServer.findInCache();
-    const data = await requestServerData(client, db.find(x=>x.serverName === serverName));
+    const server = db.find(x=>x.serverName === serverName);
+    if (!server) {
+      const normalizedServerName = normalizeString(serverName);
+      const servers = db.filter(x=>x.isActive).map(x=>x.serverName);
+      const closestMatch = servers.reduce((closest, current)=>{
+        const currentSimilarity = levenshtein(normalizeString(current), normalizedServerName);
+        const closestSimilarity = levenshtein(normalizeString(closest), normalizedServerName);
+        return currentSimilarity < closestSimilarity ? current : closest;
+      }, servers[0]);
+
+      await interaction.editReply(`**${serverName}** does not exist in database, closest server is **${closestMatch}**.`);
+      return;
+    }
+
+    const data = await requestServerData(client, server);
     return data.dss as FSData;
   } catch {
     Logger.console('error', 'MPDB', 'Function failed - fetchData');
@@ -21,7 +61,7 @@ async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInt
 }
 
 const logPrefix = 'MPDB';
-const PALLET_FILTER = ['PALLETS', 'BIGBAGPALLETS'];
+const CATEGORY_FILTER = ['PALLETS', 'BIGBAGS', 'BIGBAGPALLETS'];
 
 export default class MP {
   static async autocomplete(client:TClient, interaction:Discord.AutocompleteInteraction<'cached'>) {
@@ -102,7 +142,7 @@ export default class MP {
       pallets: async()=>{
         const DSS = await fetchData(client, interaction, choiceSelector) as FSData;
         if (!DSS) return console.log('Endpoint failed - pallets');
-        const filter = DSS?.vehicles.filter(x=>PALLET_FILTER.includes(x.category));
+        const filter = DSS?.vehicles.filter(x=>CATEGORY_FILTER.includes(x.category));
         const rules = {
           one: 'single pallet',
           two: 'pallets',
@@ -114,7 +154,7 @@ export default class MP {
           const getLongestName = Object.entries(this.getPalletCounts(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
           await interaction.editReply(MessageTool.concatMessage(
             `There are currently **${filter.length}** ${rules} on the server. Here\'s the breakdown:\`\`\`ansi`,
-            Object.entries(this.getPalletCounts(DSS)).map(([name, count])=>`${ansi.blue(name.padEnd(getLongestName+3))}${ansi.yellow(count.toString())}`).join('\n'),
+            Object.entries(this.getPalletCounts(DSS)).map(([name, count])=>`${ansi.bold(ansi.blue(name.padEnd(getLongestName+3)))}${ansi.bold(ansi.yellow(count.toString()))}`).join('\n'),
             '```'
           ))
         }
@@ -244,7 +284,7 @@ export default class MP {
     await Promise.all(numbersArr.slice(0, length).map(emote=>message.react(emote)));
   }
   private static getPalletCounts(data:FSData) {
-    const pallets = data.vehicles.filter(x=>PALLET_FILTER.includes(x.category));
+    const pallets = data.vehicles.filter(x=>CATEGORY_FILTER.includes(x.category));
     const counts = pallets.reduce((acc, name)=>{
       acc[name.name] = (acc[name.name] ?? 0) + 1;
       return acc;
@@ -328,7 +368,7 @@ export default class MP {
         .setName('reason')
         .setDescription('The message to send to the channel after toggling')
         .setRequired(true)))
-    .addSubcommandGroup(x=>x
+    /* .addSubcommandGroup(x=>x
       .setName('poll')
       .setDescription('Create or end a map poll in #mp-announcements channel')
       .addSubcommand(x=>x
@@ -347,5 +387,5 @@ export default class MP {
           .setRequired(true)))
       .addSubcommand(x=>x
         .setName('maps')
-        .setDescription('Fetch the list of maps currently in the suggestion pool')))
+        .setDescription('Fetch the list of maps currently in the suggestion pool'))) */
 }
