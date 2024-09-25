@@ -16,13 +16,8 @@ export interface Punishment {
 export interface FSData {
   server: {
     dayTime: number,
-    game: string,
     mapName: string,
-    mapSize: number,
-    mapOverviewFilename: string,
-    money: number,
     name: string,
-    server: string,
     version: string
   },
   slots: {
@@ -34,17 +29,7 @@ export interface FSData {
 }
 interface FSVehicle {
   name: string,
-  category: string,
-  type: string,
-  x: number,
-  y: number,
-  z: number,
-  fills: FSVehicleFill[],
-  controller: string
-}
-interface FSVehicleFill {
-  type: string,
-  level: number
+  category: string
 }
 export interface FSPlayer {
   isUsed?: boolean,
@@ -54,54 +39,18 @@ export interface FSPlayer {
 }
 export interface FSCareerSavegame {
   settings: {
-    savegameName: string,
-    creationDate: string,
-    mapId: string,
     mapTitle: string,
-    saveDataFormatted: string,
-    saveDate: string,
-    resetVehicles: string,
-    trafficeEnabled: string,
-    stopAndGoBraking: string,
-    trailerFillLimit: string,
-    automaticMotorStartEnabled: string,
     growthMode: string,
-    fixedSeasonalVisuals: string,
-    plannedDaysPerPeriod: string,
     fruitDestruction: string,
     plowingRequiredEnabled: string,
     stonesEnabled: string,
     weedsEnabled: string,
     limeRequired: string,
-    isSnowEnabled: string,
     fuelUsage: string,
-    helperBuyFuel: string,
-    helperBuySeeds: string,
-    helperSlurrySource: string,
-    helperManureSource: string,
-    densityMapRevision: string,
-    terrainTextureRevision: string,
-    terrainLodTextureRevision: string,
-    splitShapesRevision: string,
-    tipCollisionRevision: string,
-    placementCollisionRevision: string,
-    navigationCollisionRevision: string,
-    mapDensityMapRevision: string,
-    mapTerrainTextureRevision: string,
-    mapTerrainLodTextureRevision: string,
-    mapSplitShapesRevision: string,
-    mapTipCollisionRevision: string,
-    mapPlacementCollisionRevision: string,
-    mapNavigationCollisionRevision: string,
-    difficulty: string,
     economicDifficulty: string,
     dirtInterval: string,
     timeScale: string,
     autoSaveInterval: string
-  },
-  statistics: {
-    money: string,
-    playTime: string
   },
   slotSystem: {
     slotUsage: string
