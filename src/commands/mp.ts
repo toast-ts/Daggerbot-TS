@@ -56,7 +56,11 @@ async function fetchData(client:TClient, interaction:Discord.ChatInputCommandInt
     return data.dss as FSData;
   } catch {
     Logger.console('error', 'MPDB', 'Function failed - fetchData');
-    await interaction.editReply(`Ran into a ${RanIntoHumor()} while trying to retrieve server data, please try again later.`);
+    Logger.console('error', 'MPDB', `Interaction data received: ${interaction}`);
+
+    let msg = `Ran into a ${RanIntoHumor()} while trying to retrieve server data, please try again later.`;
+    if (interaction.replied || interaction.deferred) await interaction.editReply(msg);
+    else await interaction.reply(msg);
   }
 }
 
