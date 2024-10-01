@@ -149,11 +149,9 @@ export default class MP {
         const filter = DSS?.vehicles.filter(x=>CATEGORY_FILTER.includes(x.category));
         const rules = {
           one: 'single pallet',
-          two: 'pallets',
-          few: 'pallets',
           other: 'pallets'
         }[new Intl.PluralRules('en', {type: 'ordinal'}).select(filter.length)];
-        if (filter.length < 1) return interaction.editReply('No pallets found on the server.');
+        if (filter.length === 0) return interaction.editReply('No pallets found on the server.');
         else {
           const getLongestName = Object.entries(this.getPalletCounts(DSS)).map(([name, _])=>name.length).sort((a,b)=>b-a)[0];
           await interaction.editReply(MessageTool.concatMessage(
