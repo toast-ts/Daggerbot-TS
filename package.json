@@ -31,7 +31,7 @@
     "@octokit/rest": "21.0.2",
     "@sequelize/core": "7.0.0-alpha.42",
     "@sequelize/postgres": "7.0.0-alpha.42",
-    "@toast/tokenservice-client": "1.3.0",
+    "@toast/tokenservice-client": "1.3.1",
     "ansi-colors": "4.1.3",
     "dayjs": "1.11.13",
     "discord.js": "14.16.3",
