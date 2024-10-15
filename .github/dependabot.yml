@@ -23,5 +23,8 @@ updates:
     - "dependencies"
     open-pull-requests-limit: 8
     rebase-strategy: auto
+    ignore:
+      - dependency-name: "typescript"
+        versions: ["^5.5.4"]
     registries:
     - toast
