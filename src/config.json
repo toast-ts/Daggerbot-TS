@@ -16,7 +16,7 @@
   "botSwitches": {
     "registerCommands": false,
     "commands": true,
-    "logs": true,
+    "logs": false,
     "mpSys": false,
     "dailyMsgs": true,
     "buttonRoles": true,
