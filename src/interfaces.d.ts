@@ -68,11 +68,11 @@ export interface Config {
   LRSstart: number,
   whitelistedServers: string[],
   botSwitches: {
-    dailyMsgsBackup: boolean,
     registerCommands: boolean,
     commands: boolean,
     logs: boolean,
     mpSys: boolean,
+    dailyMsgs: boolean,
     buttonRoles: boolean,
     automod: boolean,
     autores: boolean

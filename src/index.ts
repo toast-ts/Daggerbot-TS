@@ -63,7 +63,7 @@ setInterval(async()=>{
 
   const formattedDate = Math.floor((now - client.config.LRSstart)/1000/60/60/24);
   const dailyMsgs = await client.dailyMsgs.fetchDays();
-  if (client.config.botSwitches.dailyMsgsBackup && !dailyMsgs.some(x=>x[0] === formattedDate)) {
+  if (client.config.botSwitches.dailyMsgs && !dailyMsgs.some(x=>x[0] === formattedDate)) {
     if (!dailyMsgs.find(x=>x.dataValues.day === formattedDate)) {
       let total = (await client.userLevels.fetchEveryone()).reduce((a,b)=>a + b.messages, 0); // Sum of all users
       const yesterday = dailyMsgs.find(x=>x.day === formattedDate - 1)
@@ -90,11 +90,11 @@ setInterval(async()=>{
   }
 }, 5000)
 
-if (client.config.botSwitches.dailyMsgsBackup) {
+// Cronjob tasks
+if (client.config.botSwitches.dailyMsgs) {
   client.userLevels.initSelfdestruct();
   client.userLevels.dataSweeper();
 }
-// Cronjob tasks
 
 // Raw gateway event receivers
 export let rawSwitches = {

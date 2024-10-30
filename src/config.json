@@ -14,11 +14,11 @@
     "468835415093411861"
   ],
   "botSwitches": {
-    "dailyMsgsBackup": true,
     "registerCommands": false,
     "commands": true,
     "logs": true,
-    "mpSys": true,
+    "mpSys": false,
+    "dailyMsgs": true,
     "buttonRoles": true,
     "automod": true,
     "autores": true
