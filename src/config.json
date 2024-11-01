@@ -1,6 +1,6 @@
 {
   "configName": "Daggerbot",
-  "embedColor": "#ff69b4",
+  "embedColor": "#0052cf",
   "embedColorBackup": "#0052cf",
   "embedColorGreen": "#57f287",
   "embedColorYellow": "#ffea00",
@@ -26,8 +26,8 @@
   "botPresence": {
     "activities": [
       {
-        "name": "Spooky spooky!",
-        "url": "https://youtube.com/watch?v=hgo7_M7Qwy0",
+        "name": "Ready for FS25??",
+        "url": "https://youtube.com/watch?v=YQdGJMwjePk",
         "type": 1
       }
     ],
