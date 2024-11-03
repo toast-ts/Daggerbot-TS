@@ -6,7 +6,7 @@ import cron from 'node-cron';
 import Logger from './helpers/Logger.js';
 //import YTModule from './modules/YTModule.js';
 import CacheServer from './components/CacheServer.js';
-import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
+// import MPModule, {refreshTimerSecs} from './modules/MPModule.js';
 import UsernameHelper from './helpers/UsernameHelper.js';
 import {Punishment, RawGatewayPacket, RawMessageDelete, RawMessageUpdate} from 'src/interfaces';
 import {readFileSync} from 'node:fs';
@@ -25,7 +25,7 @@ client.on('error', (error: Error)=>_(error, 'clientError'));
 if ((typeof process.argv[4] === 'string' && process.argv[4] === 'true') ?? null) client.on('debug', console.log);
 
 // Interval timers for modules
-setInterval(async()=>await MPModule(client), refreshTimerSecs);
+// setInterval(async()=>await MPModule(client), refreshTimerSecs);
 //cron.schedule('0-5 * * * *', ()=>YTModule(client)); // Every minute from 0 through 5
 cron.schedule('5-12 * * * *', async()=>{// Every minute from 5 through 12
   const forum = client.guilds.cache.get(client.config.dcServer.id).channels.cache.get(client.config.dcServer.channels.help_forum) as Discord.ForumChannel;
