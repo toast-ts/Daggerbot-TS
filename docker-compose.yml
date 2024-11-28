@@ -7,7 +7,7 @@ services:
       - 6379:6379/tcp
   db:
     container_name: daggerbot-postgres
-    image: postgres:16.4-alpine3.20
+    image: postgres:16.6-alpine3.20
     restart: unless-stopped
     ports:
       - 5432:5432/tcp
