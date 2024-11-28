@@ -7,7 +7,7 @@ import * as math from 'mathjs';// I hate this, but it doesn't provide a default 
 export default class Calculator {
   static run(client: TClient, interaction: Discord.ChatInputCommandInteraction<'cached'>){
     const now = Date.now();
-    const exp = interaction.options.getString('expression', true).replace(/[^-()\d/*+.]/g, '');
+    const exp = interaction.options.getString('expression', true).replace(/[^-()\d/*+.^]/g, '');
     try {
       let result:math.EvalFunction;
       switch (exp) {
