@@ -674,7 +674,7 @@ __metadata:
     simple-git: "npm:3.27.0"
     systeminformation: "npm:5.23.5"
     typescript: "npm:5.5.4"
-    undici: "npm:6.21.0"
+    undici: "npm:7.1.0"
   languageName: unknown
   linkType: soft
 
@@ -1342,7 +1342,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.21.0, undici@npm:^6.20.0":
+"undici@npm:7.1.0":
+  version: 7.1.0
+  resolution: "undici@npm:7.1.0"
+  checksum: 10/2197a002cac6ac5720c7b16d0264f838308331908cde60817269fff808f57f746b74578ae56879f62ec8491b6c8001dd8560e746275636efdd6889791d63a321
+  languageName: node
+  linkType: hard
+
+"undici@npm:^6.20.0":
   version: 6.21.0
   resolution: "undici@npm:6.21.0"
   checksum: 10/c8ff80dcadfcf613e7fe697c37519fca070fcf1cfccc69ffb6a7080a22e225eb79d232e9f70e32b099b3e67ac4216e8fd615e188cfb792e09df9233471ec17e0
