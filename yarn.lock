@@ -663,7 +663,7 @@ __metadata:
     node-cron: "npm:3.0.3"
     redis: "npm:4.7.0"
     simple-git: "npm:3.27.0"
-    systeminformation: "npm:5.23.8"
+    systeminformation: "npm:5.23.16"
     typescript: "npm:5.5.4"
     undici: "npm:7.1.0"
   languageName: unknown
@@ -1224,12 +1224,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.23.8":
-  version: 5.23.8
-  resolution: "systeminformation@npm:5.23.8"
+"systeminformation@npm:5.23.16":
+  version: 5.23.16
+  resolution: "systeminformation@npm:5.23.16"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/a722b50a2740a4f880901ccbeb854d12d6abe33c3777c5db040eeee4282a1bf52d73d9f41d63d69e897b2cab083c993f1c8f7217c386989456eb920cb2b6b3b7
+  checksum: 10/860362fe88cff754394ee0c2f542b75eab029de8b7e7213f75372a9290febf0e850ee3594342ae50d9fa47d3f7ed8034e985c1e677d4ba9c0ef1e1806c1468d1
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard

@@ -41,7 +41,7 @@
     "node-cron": "3.0.3",
     "redis": "4.7.0",
     "simple-git": "3.27.0",
-    "systeminformation": "5.23.8",
+    "systeminformation": "5.23.16",
     "undici": "7.1.0"
   },
   "devDependencies": {
