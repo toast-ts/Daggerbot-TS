@@ -548,16 +548,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 22.10.1
-  resolution: "@types/node@npm:22.10.1"
-  dependencies:
-    undici-types: "npm:~6.20.0"
-  checksum: 10/c802a526da2f3fa3ccefd00a71244e7cb825329951719e79e8fec62b1dbc2855388c830489770611584665ce10be23c05ed585982038b24924e1ba2c2cce03fd
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:22.10.2":
+"@types/node@npm:*, @types/node@npm:22.10.2":
   version: 22.10.2
   resolution: "@types/node@npm:22.10.2"
   dependencies:
@@ -608,9 +599,9 @@ __metadata:
   linkType: hard
 
 "ansis@npm:^3.2.0":
-  version: 3.3.2
-  resolution: "ansis@npm:3.3.2"
-  checksum: 10/e6c7b93a4f7b1e22c2d11ba53736af7f56c2952f6497ea109757573738fa0e7317066377577d9896a3e1db7ce2bd622ab2eabc7f6cdab6c0e0f9b25eebb5d2af
+  version: 3.4.0
+  resolution: "ansis@npm:3.4.0"
+  checksum: 10/828ad5a8235ff9e745b9b16e7f8f42efc86943cd2ca8fd253a5a18497a573bb2a5d2abdce8c86805c94b67b9a29d9802a27d5299f04e97775d948ba9363ddd78
   languageName: node
   linkType: hard
 
@@ -666,13 +657,13 @@ __metadata:
     ansi-colors: "npm:4.1.3"
     dayjs: "npm:1.11.13"
     discord.js: "npm:14.16.3"
-    fast-xml-parser: "npm:4.5.0"
-    mathjs: "npm:14.0.0"
+    fast-xml-parser: "npm:4.5.1"
+    mathjs: "npm:14.0.1"
     ms: "npm:2.1.3"
     node-cron: "npm:3.0.3"
     redis: "npm:4.7.0"
     simple-git: "npm:3.27.0"
-    systeminformation: "npm:5.23.8"
+    systeminformation: "npm:5.23.21"
     typescript: "npm:5.5.4"
     undici: "npm:7.2.0"
   languageName: unknown
@@ -779,23 +770,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:4.5.0":
-  version: 4.5.0
-  resolution: "fast-xml-parser@npm:4.5.0"
+"fast-xml-parser@npm:4.5.1":
+  version: 4.5.1
+  resolution: "fast-xml-parser@npm:4.5.1"
   dependencies:
     strnum: "npm:^1.0.5"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10/dc9571c10e7b57b5be54bcd2d92f50c446eb42ea5df347d253e94dd14eb99b5300a6d172e840f151e0721933ca2406165a8d9b316a6d777bf0596dc4fe1df756
+  checksum: 10/17ce5908e798de1b6d12a39d26f04ac3b582ea9ce28f3a6e3b9c401edcb74790f28df84d75377608af53308ff8caad2b244ba1283cc4b5b4cf4cc7bd532a9983
   languageName: node
   linkType: hard
 
 "fastq@npm:^1.6.0":
-  version: 1.17.1
-  resolution: "fastq@npm:1.17.1"
+  version: 1.18.0
+  resolution: "fastq@npm:1.18.0"
   dependencies:
     reusify: "npm:^1.0.4"
-  checksum: 10/a443180068b527dd7b3a63dc7f2a47ceca2f3e97b9c00a1efe5538757e6cc4056a3526df94308075d7727561baf09ebaa5b67da8dcbddb913a021c5ae69d1f69
+  checksum: 10/c5b501333dc8f5d188d828ea162aad03ff5a81aed185b6d4a5078aaeae0a42babc34296d7af13ebce86401cccd93c9b7b3cbf61280821c5f20af233378b42fbb
   languageName: node
   linkType: hard
 
@@ -889,9 +880,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:14.0.0":
-  version: 14.0.0
-  resolution: "mathjs@npm:14.0.0"
+"mathjs@npm:14.0.1":
+  version: 14.0.1
+  resolution: "mathjs@npm:14.0.1"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
     complex.js: "npm:^2.2.5"
@@ -904,7 +895,7 @@ __metadata:
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10/6cc115917ad853abf22d97bf649a6cf4a54d9d184067ef95e4e5011fc3b120e31740ab68348929a67b94f0704e96f6bab9ce2353e83234674ad4a1cfccb8aad3
+  checksum: 10/a3eed2f2b8834b5232678efc9ebc158ecd16fb6ff1c63cf4d6dc62768f66cd9ad73199dda19c4fde5af71fe66085fd32fa50f323d568de6d77167e7114e6a3e6
   languageName: node
   linkType: hard
 
@@ -1233,12 +1224,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"systeminformation@npm:5.23.8":
-  version: 5.23.8
-  resolution: "systeminformation@npm:5.23.8"
+"systeminformation@npm:5.23.21":
+  version: 5.23.21
+  resolution: "systeminformation@npm:5.23.21"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/a722b50a2740a4f880901ccbeb854d12d6abe33c3777c5db040eeee4282a1bf52d73d9f41d63d69e897b2cab083c993f1c8f7217c386989456eb920cb2b6b3b7
+  checksum: 10/63156b9a9fe2074bdca0dec2d9f9f66632d0b907e4cb0edf5f3c970832a899519f4d5acb2d433ff5432e258b9d112d1a70e671589fbf1681b66624de75244393
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -1281,9 +1272,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.14.0":
-  version: 4.30.0
-  resolution: "type-fest@npm:4.30.0"
-  checksum: 10/46c733df4feb87dfd281fba4fa3913dc38b45136be35adffbcef95e13414105a4669476c1f8686680b9c98e59ed5dc85efe42caf67adbaa04f48dfc41f8330fa
+  version: 4.30.2
+  resolution: "type-fest@npm:4.30.2"
+  checksum: 10/c5168b159c366e4fd5b74c7f7b786bed9248c03f67e6e07d52dd5d51354447468fa7c92b9f2142c7fe9279814031f783959370242c3520de848931b65ddb48bb
   languageName: node
   linkType: hard
 
