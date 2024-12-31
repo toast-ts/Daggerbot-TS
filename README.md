@@ -3,6 +3,10 @@
   <h1 align="center">Daggerbot V3 Description</h1>
 </p>
 
+## THIS REPOSITORY IS NOW READ-ONLY!
+This repository is no longer being maintained and as a result, the Docker container running this code will not be in operation after **12/01/2025**.
+
+## Revision 3 description
 This is a repository for V3 revision that has been transitioned and rewritten from V2 bot to be more robust and reliable with today's standards.
 
 This revision took **4 months** (Late September to Mid December) working on and off to do literally everything that needed a rewrite so badly that it cannot be done in V2.
@@ -24,4 +28,4 @@ This is a revision history of how far we come in development cycle;
 |----------|----------|---------|----------|
 | V1      | JavaScript | Discord.JS v13 | Message commands |
 | V2-V3   | TypeScript | Discord.JS v14 | Slash/message commands |
-| V4 (Private) | Rust/Lua | Serenity v0.12 | Slash/context/message commands |
+| V4 (Private) | Rust/Lua | Serenity v0.12+ | Slash/context/message commands |
